@@ -1,7 +1,8 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Form, Input, Checkbox, Button } from 'antd';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import Router from 'next/router';
 import { signupAction } from '../reducers/user'
 
 
@@ -34,6 +35,16 @@ const Signup = () => {
     const [passwordError, setPasswordError] = useState(false);
     const [termError, setTermError] = useState(false);
     const dispatch = useDispatch();
+    const { isSigningUp, me } = useSelector( state => state.user );
+
+    useEffect( () => {
+        console.log('cke 999999999999')
+        if(me){
+            alert('로그인 했으니 메인페이지로 이동합니다 ')
+            Router.push('/');
+        }
+    }, [me && me.id]);
+
 
 
     const onSubmit = useCallback( (e) => {
@@ -99,7 +110,7 @@ const Signup = () => {
                 {termError && <div style={{ color: 'red'}}>약관에 동의하셔야 합니다.</div>}
             </div>
             <div style={{ marginTop: 10 }} >
-                <Button type="primary" htmlType="submit">가압하기</Button>
+                <Button type="primary" htmlType="submit" loading={isSigningUp}>가압하기</Button>
             </div>
 
         </Form>

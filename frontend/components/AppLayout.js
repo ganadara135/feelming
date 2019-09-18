@@ -30,7 +30,7 @@ const AppLayout = ({ children }) => {
                     {children}
                 </Col>
                 <Col xs={24} md={6}>
-                    <Link href='https://kcod.tistory.com'><a target="_blank">Made by kcod</a></Link>
+                    <a target="_blank">Made by kcod</a>
                 </Col>
             </Row>
         </div>
