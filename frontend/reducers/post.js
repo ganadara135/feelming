@@ -1,26 +1,42 @@
 export const initialState = {
     mainPosts: [{
+        id: 1,
         User: {
             id: 1,
             nickname: "코드",
         },
         content: "첫 번째 게시글",
-        img: "https://blog.yena.io/assets/post-img/171123-nachoi-300.jpg"
+        img: "https://blog.yena.io/assets/post-img/171123-nachoi-300.jpg",
+        Comments: [],
     }],                 // 화면에 보일 포스트들
     imagePaths: [],     // 미리보기 이미지 경로
-    addPostErrorReason: false,  // 포스트 업로드 실패 사유
+    addPostErrorReason:'',  // 포스트 업로드 실패 사유
     isAddingPost: false,        // 포스트 업로드 중
-    postAdded: false,           // 포스트 업로드 성공
+    postAdded: false,           // 포스트 업로드 성공,
+    isAddingComment:false,
+    addCommentErrorReason: '',
+    commentAdded: false,
 };
 
 const dummyPost = {
+    id: 2,
     User: {
         id: 1,
         nickname: '코드',
     },
     content: '나는 더미입니다',
+    Comments: [],
 }
 
+const dummyComment = {
+    id: 1,
+    User: {
+        id: 1,
+        nickname: 2,
+    },
+    createdAt: new Date(),
+    content: '더미 댓글입니다',
+}
 
 export const LOAD_MAIN_POSTS_REQUEST = 'LOAD_MAIN_POSTS_REQUEST';
 export const LOAD_MAIN_POSTS_SUCCESS = 'LOAD_MAIN_POSTS_SUCCESS';
@@ -43,6 +59,10 @@ export const REMOVE_IMAGE = 'REMOVE_IMAGE';
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
 export const ADD_POST_FAILURE = 'ADD_POST_FAILURE';
+
+export const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST';
+export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
+export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
 
 export const LIKE_POST_REQUEST = 'LIKE_POST_REQUEST';
 export const LIKE_POST_SUCCESS = 'LIKE_POST_SUCCESS';
@@ -72,6 +92,7 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 isAddingPost: false,
                 addPostErrorReason: '',
+                postAdded: false,
             };
         }
         case ADD_POST_SUCCESS: {
@@ -88,6 +109,49 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 isAddingPost: false,
                 addPostErrorReason: action.error,
+            };
+        }
+        case ADD_COMMENT_REQUEST: {
+            return {
+                ...state,
+                isAddingComment: true,
+                addCommentErrorReason: '',
+                commentAdded: false,
+            };
+        }
+        case ADD_COMMENT_SUCCESS: {
+            const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
+            const post = state.mainPosts[postIndex];
+            const Comments = [...post.Comments, dummyComment];
+            const mainPosts = [...state.mainPosts];
+            mainPosts[postIndex] = { ...post, Comments };
+            return {
+                ...state,
+                isAddingComment: false,
+                mainPosts,
+                commentAdded: true,
+            };
+            // const postIndex = state.mainPosts.findIndex( v => v.id === action.data.postId);
+            // const post = state.mainPosts[postIndex];
+            // const Comments = [...post.Comments, dummyComment];
+            // const mainPosts = [...state.mainPosts];
+            // mainPosts[postIndex] = { ...post, Comments};
+            
+            // console.log("mainPosts: ", mainPosts[postIndex]);
+
+            // return {
+            //     ...state,
+            //     isAddingComment: false,
+            //     //mainPosts: [dummyPost, ...state.mainPosts],
+            //     mainPosts,
+            //     commentAdded: true,
+            // };
+        }
+        case ADD_COMMENT_FAILURE: {
+            return {
+                ...state,
+                isAddingComment: false,
+                addCommentErrorReason: action.error,
             };
         }
         default: {

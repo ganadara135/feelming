@@ -52,13 +52,13 @@ export const REMOVE_FOLLOWER_FAILURE = 'REMOVE_FOLLOWER_FAILURE';
 export const ADD_POST_TO_ME = 'ADD_POST_TO_ME';
 
 
-export const loginAction = {
-    type: LOG_IN_REQUEST,
-};
+// export const loginAction = {
+//     type: LOG_IN_REQUEST,
+// };
 
-export const logoutAction = {
-    type: LOG_OUT_REQUEST,
-}
+// export const logoutAction = {
+//     type: LOG_OUT_REQUEST,
+// }
 
 export const signupAction = (data) => ({
     type: SIGN_UP_REQUEST,

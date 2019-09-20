@@ -28,7 +28,7 @@ function* login() {
 
 function* watchLogin() {
     while(true){
-        yield take(LOG_IN_REQUEST)    // take 안에 gernerater.next() 기능이 있음
+        yield take(LOG_IN_REQUEST, login)    // take 안에 gernerater.next() 기능이 있음
         yield put( {            // put 은 redux 에 dispatch 와 동일
             type: LOG_IN_SUCCESS,
         });

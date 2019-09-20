@@ -1699,7 +1699,7 @@ const Signup = () => {
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Checkbox"], {
     name: "user-term",
-    value: term,
+    checked: term,
     onChange: onChangeTerm,
     __source: {
       fileName: _jsxFileName,
@@ -1768,7 +1768,7 @@ const rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"]
 /*!**************************!*\
   !*** ./reducers/post.js ***!
   \**************************/
-/*! exports provided: initialState, LOAD_MAIN_POSTS_REQUEST, LOAD_MAIN_POSTS_SUCCESS, LOAD_MAIN_POSTS_FAILURE, LOAD_HASHTAG_POSTS_REQUEST, LOAD_HASHTAG_POSTS_SUCCESS, LOAD_HASHTAG_POSTS_FAILURE, LOAD_USER_POSTS_REQUEST, LOAD_USER_POSTS_SUCCESS, LOAD_USER_POSTS_FAILURE, UPLOAD_IMAGES_REQUEST, UPLOAD_IMAGES_SUCCESS, UPLOAD_IMAGES_FAILURE, REMOVE_IMAGE, ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE, LIKE_POST_REQUEST, LIKE_POST_SUCCESS, LIKE_POST_FAILURE, UNLIKE_POST_REQUEST, UNLIKE_POST_SUCCESS, UNLIKE_POST_FAILURE, LOAD_COMMENTS_REQUEST, LOAD_COMMENTS_SUCCESS, LOAD_COMMENTS_FAILURE, RETWEET_REQUEST, RETWEET_SUCCESS, RETWEET_FAILURE, REMOVE_POST_REQUEST, REMOVE_POST_SUCCESS, REMOVE_POST_FAILURE, default */
+/*! exports provided: initialState, LOAD_MAIN_POSTS_REQUEST, LOAD_MAIN_POSTS_SUCCESS, LOAD_MAIN_POSTS_FAILURE, LOAD_HASHTAG_POSTS_REQUEST, LOAD_HASHTAG_POSTS_SUCCESS, LOAD_HASHTAG_POSTS_FAILURE, LOAD_USER_POSTS_REQUEST, LOAD_USER_POSTS_SUCCESS, LOAD_USER_POSTS_FAILURE, UPLOAD_IMAGES_REQUEST, UPLOAD_IMAGES_SUCCESS, UPLOAD_IMAGES_FAILURE, REMOVE_IMAGE, ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE, ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, ADD_COMMENT_FAILURE, LIKE_POST_REQUEST, LIKE_POST_SUCCESS, LIKE_POST_FAILURE, UNLIKE_POST_REQUEST, UNLIKE_POST_SUCCESS, UNLIKE_POST_FAILURE, LOAD_COMMENTS_REQUEST, LOAD_COMMENTS_SUCCESS, LOAD_COMMENTS_FAILURE, RETWEET_REQUEST, RETWEET_SUCCESS, RETWEET_FAILURE, REMOVE_POST_REQUEST, REMOVE_POST_SUCCESS, REMOVE_POST_FAILURE, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1790,6 +1790,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_POST_REQUEST", function() { return ADD_POST_REQUEST; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_POST_SUCCESS", function() { return ADD_POST_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_POST_FAILURE", function() { return ADD_POST_FAILURE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_COMMENT_REQUEST", function() { return ADD_COMMENT_REQUEST; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_COMMENT_SUCCESS", function() { return ADD_COMMENT_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_COMMENT_FAILURE", function() { return ADD_COMMENT_FAILURE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LIKE_POST_REQUEST", function() { return LIKE_POST_REQUEST; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LIKE_POST_SUCCESS", function() { return LIKE_POST_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LIKE_POST_FAILURE", function() { return LIKE_POST_FAILURE; });
@@ -1809,29 +1812,45 @@ __webpack_require__.r(__webpack_exports__);
 
 const initialState = {
   mainPosts: [{
+    id: 1,
     User: {
       id: 1,
       nickname: "코드"
     },
     content: "첫 번째 게시글",
-    img: "https://blog.yena.io/assets/post-img/171123-nachoi-300.jpg"
+    img: "https://blog.yena.io/assets/post-img/171123-nachoi-300.jpg",
+    Comments: []
   }],
   // 화면에 보일 포스트들
   imagePaths: [],
   // 미리보기 이미지 경로
-  addPostErrorReason: false,
+  addPostErrorReason: '',
   // 포스트 업로드 실패 사유
   isAddingPost: false,
   // 포스트 업로드 중
-  postAdded: false // 포스트 업로드 성공
-
+  postAdded: false,
+  // 포스트 업로드 성공,
+  isAddingComment: false,
+  addCommentErrorReason: '',
+  commentAdded: false
 };
 const dummyPost = {
+  id: 2,
   User: {
     id: 1,
     nickname: '코드'
   },
-  content: '나는 더미입니다'
+  content: '나는 더미입니다',
+  Comments: []
+};
+const dummyComment = {
+  id: 1,
+  User: {
+    id: 1,
+    nickname: 2
+  },
+  createdAt: new Date(),
+  content: '더미 댓글입니다'
 };
 const LOAD_MAIN_POSTS_REQUEST = 'LOAD_MAIN_POSTS_REQUEST';
 const LOAD_MAIN_POSTS_SUCCESS = 'LOAD_MAIN_POSTS_SUCCESS';
@@ -1849,6 +1868,9 @@ const REMOVE_IMAGE = 'REMOVE_IMAGE';
 const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
 const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
 const ADD_POST_FAILURE = 'ADD_POST_FAILURE';
+const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST';
+const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
+const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
 const LIKE_POST_REQUEST = 'LIKE_POST_REQUEST';
 const LIKE_POST_SUCCESS = 'LIKE_POST_SUCCESS';
 const LIKE_POST_FAILURE = 'LIKE_POST_FAILURE';
@@ -1871,7 +1893,8 @@ const reducer = (state = initialState, action) => {
       {
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
           isAddingPost: false,
-          addPostErrorReason: ''
+          addPostErrorReason: '',
+          postAdded: false
         });
       }
 
@@ -1893,6 +1916,51 @@ const reducer = (state = initialState, action) => {
         });
       }
 
+    case ADD_COMMENT_REQUEST:
+      {
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
+          isAddingComment: true,
+          addCommentErrorReason: '',
+          commentAdded: false
+        });
+      }
+
+    case ADD_COMMENT_SUCCESS:
+      {
+        const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
+        const post = state.mainPosts[postIndex];
+        const Comments = [...post.Comments, dummyComment];
+        const mainPosts = [...state.mainPosts];
+        mainPosts[postIndex] = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, post, {
+          Comments
+        });
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
+          isAddingComment: false,
+          mainPosts,
+          commentAdded: true
+        }); // const postIndex = state.mainPosts.findIndex( v => v.id === action.data.postId);
+        // const post = state.mainPosts[postIndex];
+        // const Comments = [...post.Comments, dummyComment];
+        // const mainPosts = [...state.mainPosts];
+        // mainPosts[postIndex] = { ...post, Comments};
+        // console.log("mainPosts: ", mainPosts[postIndex]);
+        // return {
+        //     ...state,
+        //     isAddingComment: false,
+        //     //mainPosts: [dummyPost, ...state.mainPosts],
+        //     mainPosts,
+        //     commentAdded: true,
+        // };
+      }
+
+    case ADD_COMMENT_FAILURE:
+      {
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
+          isAddingComment: false,
+          addCommentErrorReason: action.error
+        });
+      }
+
     default:
       {
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
@@ -1908,7 +1976,7 @@ const reducer = (state = initialState, action) => {
 /*!**************************!*\
   !*** ./reducers/user.js ***!
   \**************************/
-/*! exports provided: initialState, SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE, LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE, LOG_OUT_REQUEST, LOG_OUT_SUCCESS, LOG_OUT_FAILURE, LOAD_FOLLOW_REQUEST, LOAD_FOLLOW_SUCCESS, LOAD_FOLLOW_FAILURE, FOLLOW_USER_REQUEST, FOLLOW_USER_SUCCESS, FOLLOW_USER_FAILURE, UNFOLLOW_USER_REQUEST, UNFOLLOW_USER_SUCCESS, UNFOLLOW_USER_FAILURE, REMOVE_FOLLOWER_REQUEST, REMOVE_FOLLOWER_SUCCESS, REMOVE_FOLLOWER_FAILURE, ADD_POST_TO_ME, loginAction, logoutAction, signupAction, default */
+/*! exports provided: initialState, SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE, LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE, LOG_OUT_REQUEST, LOG_OUT_SUCCESS, LOG_OUT_FAILURE, LOAD_FOLLOW_REQUEST, LOAD_FOLLOW_SUCCESS, LOAD_FOLLOW_FAILURE, FOLLOW_USER_REQUEST, FOLLOW_USER_SUCCESS, FOLLOW_USER_FAILURE, UNFOLLOW_USER_REQUEST, UNFOLLOW_USER_SUCCESS, UNFOLLOW_USER_FAILURE, REMOVE_FOLLOWER_REQUEST, REMOVE_FOLLOWER_SUCCESS, REMOVE_FOLLOWER_FAILURE, ADD_POST_TO_ME, signupAction, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1936,8 +2004,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_FOLLOWER_SUCCESS", function() { return REMOVE_FOLLOWER_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_FOLLOWER_FAILURE", function() { return REMOVE_FOLLOWER_FAILURE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_POST_TO_ME", function() { return ADD_POST_TO_ME; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loginAction", function() { return loginAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logoutAction", function() { return logoutAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "signupAction", function() { return signupAction; });
 /* harmony import */ var _babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/objectSpread */ "./node_modules/@babel/runtime-corejs2/helpers/esm/objectSpread.js");
 
@@ -1991,13 +2057,13 @@ const UNFOLLOW_USER_FAILURE = 'UNFOLLOW_USER_FAILURE';
 const REMOVE_FOLLOWER_REQUEST = 'REMOVE_FOLLOWER_REQUEST';
 const REMOVE_FOLLOWER_SUCCESS = 'REMOVE_FOLLOWER_SUCCESS';
 const REMOVE_FOLLOWER_FAILURE = 'REMOVE_FOLLOWER_FAILURE';
-const ADD_POST_TO_ME = 'ADD_POST_TO_ME';
-const loginAction = {
-  type: LOG_IN_REQUEST
-};
-const logoutAction = {
-  type: LOG_OUT_REQUEST
-};
+const ADD_POST_TO_ME = 'ADD_POST_TO_ME'; // export const loginAction = {
+//     type: LOG_IN_REQUEST,
+// };
+// export const logoutAction = {
+//     type: LOG_OUT_REQUEST,
+// }
+
 const signupAction = data => ({
   type: SIGN_UP_REQUEST,
   data: data
@@ -2121,6 +2187,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+function addPostAPI() {}
+
 function* addPost() {
   try {
     yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["delay"])(2000);
@@ -2139,10 +2207,32 @@ function* watchAddPost() {
   yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(_reducers_post__WEBPACK_IMPORTED_MODULE_1__["ADD_POST_REQUEST"], addPost);
 }
 
+function addCommentAPI() {}
+
+function* addComment(action) {
+  try {
+    yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["delay"])(2000);
+    yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])({
+      type: _reducers_post__WEBPACK_IMPORTED_MODULE_1__["ADD_COMMENT_SUCCESS"],
+      data: {
+        postId: action.data.postId
+      }
+    });
+  } catch (e) {
+    yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])({
+      type: _reducers_post__WEBPACK_IMPORTED_MODULE_1__["ADD_COMMENT_FAILURE"],
+      error: e
+    });
+  }
+}
+
+function* watchAddComment() {
+  yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(_reducers_post__WEBPACK_IMPORTED_MODULE_1__["ADD_COMMENT_REQUEST"], addComment);
+}
+
 function* postSaga() {
-  yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["fork"])(watchAddPost) // 이벤트 리스너로 이해, 순서 의미 없음
-  // fork(watchSignUp),
-  ]);
+  yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["all"])([Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["fork"])(watchAddPost), // 이벤트 리스너로 이해, 순서 의미 없음
+  Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["fork"])(watchAddComment)]);
 }
 
 /***/ }),
@@ -2192,7 +2282,7 @@ function* login() {
 
 function* watchLogin() {
   while (true) {
-    yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["take"])(_reducers_user__WEBPACK_IMPORTED_MODULE_1__["LOG_IN_REQUEST"]); // take 안에 gernerater.next() 기능이 있음
+    yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["take"])(_reducers_user__WEBPACK_IMPORTED_MODULE_1__["LOG_IN_REQUEST"], login); // take 안에 gernerater.next() 기능이 있음
 
     yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])({
       // put 은 redux 에 dispatch 와 동일
