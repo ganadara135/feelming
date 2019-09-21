@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "fixunit",
-    "database": "database_development",
+    "database": "fixunit",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "operatorsAliases": false
@@ -10,7 +10,7 @@
   "test": {
     "username": "root",
     "password": "fixunit",
-    "database": "database_test",
+    "database": "fixunit",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "operatorsAliases": false
@@ -18,7 +18,7 @@
   "production": {
     "username": "root",
     "password": "fixunit",
-    "database": "database_production",
+    "database": "fixunit",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "operatorsAliases": false

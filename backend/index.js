@@ -8,8 +8,11 @@ const postsAPIRouter = require('./routes/posts');
 const app = express();
 db.sequelize.sync();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));    // req.body 처리 부분
 
-app.use( '/api/user', userAPIRouter);
+
+app.use('/api/user', userAPIRouter);
 app.use('/api/post', postAPIRouter);
 app.use('/api/posts', postsAPIRouter);
 

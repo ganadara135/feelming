@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
         },
     }, {
         charset: 'utf8',             // 한글 
-        collate: 'utr8_general_ci',    // 한글이 저장됨
+        collate: 'utf8_general_ci',    // 한글이 저장됨
         tableName: 'Image',    // 이렇게 해야 테이블명이 위 정의한 이름과 같아짐
     });
 
