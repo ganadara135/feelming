@@ -1518,12 +1518,15 @@ const Signup = () => {
       return setTermError(true);
     }
 
-    dispatch(Object(_reducers_user__WEBPACK_IMPORTED_MODULE_5__["signupAction"])({
-      id,
-      password,
-      nick
-    }));
-  }, [password, passwordCheck, term]);
+    dispatch({
+      type: _reducers_user__WEBPACK_IMPORTED_MODULE_5__["SIGN_UP_REQUEST"],
+      data: {
+        userId: id,
+        password,
+        nickname: nick
+      }
+    });
+  }, [id, nick, password, passwordCheck, term]);
 
   const onChangeId = e => {
     setId(e.target.value);
@@ -1554,33 +1557,33 @@ const Signup = () => {
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 85
+      lineNumber: 88
     },
     __self: undefined
   }, __jsx(TextInput, {
     value: "123",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 86
+      lineNumber: 89
     },
     __self: undefined
   }), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 87
+      lineNumber: 90
     },
     __self: undefined
   }, __jsx("label", {
     htmlFor: "user-id",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 88
+      lineNumber: 91
     },
     __self: undefined
   }, "\uC544\uC774\uB514"), __jsx("br", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 89
+      lineNumber: 92
     },
     __self: undefined
   }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Input"], {
@@ -1590,26 +1593,26 @@ const Signup = () => {
     onChange: onChangeId,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 90
+      lineNumber: 93
     },
     __self: undefined
   })), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 92
+      lineNumber: 95
     },
     __self: undefined
   }, __jsx("label", {
     htmlFor: "user-nick",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 93
+      lineNumber: 96
     },
     __self: undefined
   }, "\uB2C9\uB124\uC784"), __jsx("br", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 94
+      lineNumber: 97
     },
     __self: undefined
   }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Input"], {
@@ -1619,26 +1622,26 @@ const Signup = () => {
     onChange: onChangeNick,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 95
+      lineNumber: 98
     },
     __self: undefined
   })), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 97
+      lineNumber: 100
     },
     __self: undefined
   }, __jsx("label", {
     htmlFor: "user-password",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 98
+      lineNumber: 101
     },
     __self: undefined
   }, "\uBE44\uBC00\uBC88\uD638"), __jsx("br", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 99
+      lineNumber: 102
     },
     __self: undefined
   }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Input"], {
@@ -1649,26 +1652,26 @@ const Signup = () => {
     onChange: onChangePassword,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 100
+      lineNumber: 103
     },
     __self: undefined
   })), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 102
+      lineNumber: 105
     },
     __self: undefined
   }, __jsx("label", {
     htmlFor: "user-password-check",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 103
+      lineNumber: 106
     },
     __self: undefined
   }, "\uBE44\uBC00\uBC88\uD638\uCCB4\uD06C"), __jsx("br", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 104
+      lineNumber: 107
     },
     __self: undefined
   }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Input"], {
@@ -1679,7 +1682,7 @@ const Signup = () => {
     onChange: onChangePasswordChk,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 105
+      lineNumber: 108
     },
     __self: undefined
   }), passwordError && __jsx("div", {
@@ -1688,13 +1691,13 @@ const Signup = () => {
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 106
+      lineNumber: 109
     },
     __self: undefined
   }, "\uBE44\uBC00\uBC88\uD638\uAC00 \uC77C\uCE58\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4.")), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 108
+      lineNumber: 111
     },
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Checkbox"], {
@@ -1703,7 +1706,7 @@ const Signup = () => {
     onChange: onChangeTerm,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 109
+      lineNumber: 112
     },
     __self: undefined
   }, "\uC57D\uAD00\uC5D0 \uB3D9\uC758\uD569\uB2C8\uB2E4."), termError && __jsx("div", {
@@ -1712,7 +1715,7 @@ const Signup = () => {
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 110
+      lineNumber: 113
     },
     __self: undefined
   }, "\uC57D\uAD00\uC5D0 \uB3D9\uC758\uD558\uC154\uC57C \uD569\uB2C8\uB2E4.")), __jsx("div", {
@@ -1721,7 +1724,7 @@ const Signup = () => {
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 112
+      lineNumber: 115
     },
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
@@ -1730,7 +1733,7 @@ const Signup = () => {
     loading: isSigningUp,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 113
+      lineNumber: 116
     },
     __self: undefined
   }, "\uAC00\uC555\uD558\uAE30"))));
@@ -2291,17 +2294,18 @@ function* watchLogin() {
   }
 }
 
-function signUpAPI() {
+function signUpAPI(signUpData) {
   // 서버에 요청 보내는 부분
-  return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/signUp');
+  return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('http://localhost:3065/api/user/', signUpData);
 }
 
-function* signUp() {
+function* signUp(action) {
   try {
     // yield fork(logger);    // 로그 기록하는 기능 예제
     //yield call(signUpAPI);       // call 동기 호출
-    yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["delay"])(2000);
-    throw new Error('에러 발생');
+    //yield delay(2000);
+    yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["call"])(signUpAPI, action.data); //throw new Error('에러 발생');
+
     yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])({
       // put 은 dispatch 와 동일
       type: _reducers_user__WEBPACK_IMPORTED_MODULE_1__["SIGN_UP_SUCCESS"]

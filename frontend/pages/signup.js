@@ -3,7 +3,7 @@ import { Form, Input, Checkbox, Button } from 'antd';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import Router from 'next/router';
-import { signupAction } from '../reducers/user'
+import { SIGN_UP_REQUEST } from '../reducers/user'
 
 
 const TextInput = ({ value }) => {
@@ -55,12 +55,15 @@ const Signup = () => {
         if (!term) {
             return setTermError(true);
         }
-        dispatch(signupAction({
-            id,
-            password,
-            nick,
-        }))
-    }, [password, passwordCheck, term]);
+        dispatch({
+            type: SIGN_UP_REQUEST,
+            data: {
+                userId: id,
+                password,
+                nickname: nick,
+            },
+        })
+    }, [id, nick, password, passwordCheck, term]);
 
     const onChangeId = (e) => {
         setId(e.target.value);

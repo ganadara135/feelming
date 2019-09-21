@@ -35,17 +35,18 @@ function* watchLogin() {
     }
 }
 
-function signUpAPI() {
+function signUpAPI(signUpData) {
     // 서버에 요청 보내는 부분
-    return axios.post('/signUp');
+    return axios.post('http://localhost:3065/api/user/', signUpData);
 }
 
-function* signUp() {
+function* signUp(action) {
     try {
         // yield fork(logger);    // 로그 기록하는 기능 예제
         //yield call(signUpAPI);       // call 동기 호출
-        yield delay(2000);
-        throw new Error('에러 발생');
+        //yield delay(2000);
+        yield call(signUpAPI, action.data);
+        //throw new Error('에러 발생');
 
         yield put( {            // put 은 dispatch 와 동일
             type: SIGN_UP_SUCCESS,
