@@ -1,17 +1,20 @@
 const express = require('express');
 
 const db = require('./models');
+const userAPIRouter = require('./routes/user');
+const postAPIRouter = require('./routes/post');
+const postsAPIRouter = require('./routes/posts');
 
 const app = express();
 db.sequelize.sync();
 
-app.get('/', (req, res) => {
-    res.send("Hello, Server");
-})
 
-app.get('/about', (req, res) => {
-    res.send("Hello, about");
-})
+app.use( '/api/user', userAPIRouter);
+app.use('/api/post', postAPIRouter);
+app.use('/api/posts', postsAPIRouter);
+
+
+
 
 
 app.listen(3065, () => {
