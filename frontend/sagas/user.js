@@ -1,26 +1,25 @@
 import { all, fork, takeLatest, takeEvery, call, put, take, delay, } from 'redux-saga/effects';
-import { LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE, SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE } from '../reducers/user'
+import { LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE, 
+    SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE,
+    LOG_OUT_REQUEST, LOG_OUT_SUCCESS, LOG_OUT_FAILURE,
+    LOAD_USER_REQUEST, LOAD_USER_SUCCESS, LOAD_USER_FAILURE } from '../reducers/user'
 import axios from 'axios';
-
 // const HELLO_SAGA = 'HELLO_SAGA';
 
-axios.defaults.baseURL = 'http://localhost:3065/api'
 
-function loginAPI(loginData) {
-
-    console.log("chk loginData : ", loginData);
+function logInAPI(logInData) {
 // 서버에 요청 보내는 부분
-    return axios.post('/user/login', loginData, {
+    return axios.post('/user/login', logInData, {
         withCredentials: true,      //  쿠키 교환 with backend 
     });
 }
 
-function* login(action) {
+function* logIn(action) {
     try {
         // yield fork(logger);    // 로그 기록하는 기능 예제
         // yield call(loginAPI);       // call 동기 호출
         //yield delay( 2000);
-        const result = yield call(loginAPI, action.data);
+        const result = yield call(logInAPI, action.data);
         yield put( {            // put 은 dispatch 와 동일
             type: LOG_IN_SUCCESS,
             data: result.data,
@@ -34,8 +33,8 @@ function* login(action) {
     }
 }
 
-function* watchLogin() {
-    yield takeEvery(LOG_IN_REQUEST, login);
+function* watchLogIn() {
+    yield takeEvery(LOG_IN_REQUEST, logIn);
     // while(true){
     //     yield take(LOG_IN_REQUEST, login)    // take 안에 gernerater.next() 기능이 있음
     //     yield put( {            // put 은 redux 에 dispatch 와 동일
@@ -72,29 +71,64 @@ function* watchSignUp() {
     yield takeEvery(SIGN_UP_REQUEST, signUp);
 }
 
-function* helloSaga() {
-    //yield take(HELLO_SAGA);
-    //yield takeLatest(HELLO_SAGA, hello);
-    console.log("Before Saga");
-    while(true) {
-        yield take(HELLO_SAGA);
-    console.log("Hello Saga");
+function logOutAPI() {
+    // 서버에 요청 보내는 부분
+    return axios.post('/user/logout', {}, {
+        withCredentials: true,
+    });
+}
+
+function* logOut(action) {
+    try {
+        yield call(logOutAPI);
+        yield put( {            // put 은 dispatch 와 동일
+            type: LOG_OUT_SUCCESS,
+        });
+    } catch (e) {
+        console.error(e);
+        yield put( {
+            type: LOG_OUT_FAILURE,
+        });
     }
 }
 
-function* watchHello() {
-    yield takeLatest(HELLO_SAGA, function*() {
-        yield delay( 1000 );
-        yield put({
-            type: 'BYE_SAGA'
-        });
+function* watchLogOut() {
+    yield takeEvery(LOG_OUT_REQUEST, logOut);
+}
+
+function loadUserAPI() {
+    
+    return axios.get('/user/', {
+        withCredentials: true,
     });
+}
+
+function* loadUser() {
+    try {
+        const result = yield call(loadUserAPI);
+        yield put( {            // put 은 dispatch 와 동일
+            type: LOAD_USER_SUCCESS,
+            data: result.data,
+        });
+    } catch (e) {
+        console.error(e);
+        yield put( {
+            type: LOAD_USER_FAILURE,
+        });
+    }
+}
+
+function* watchLoadUser() {
+    yield takeEvery(LOAD_USER_REQUEST, loadUser);
 }
 
 export default function* userSaga() {
     yield all([
-        fork(watchLogin),       // 이벤트 리스너로 이해, 순서 의미 없음
+        fork(watchLogIn),       // 이벤트 리스너로 이해, 순서 의미 없음
         fork(watchSignUp),
+        fork(watchLogOut),
+        fork(watchLoadUser),
+
         // call()   // 동기 호출
         // fork()   // 비동기 호출
         // watchHello(),
@@ -120,3 +154,23 @@ export default function* userSaga() {
 //     console.log("Hello Saga");
 //     }
 // }
+
+
+function* helloSaga() {
+    //yield take(HELLO_SAGA);
+    //yield takeLatest(HELLO_SAGA, hello);
+    console.log("Before Saga");
+    while(true) {
+        yield take(HELLO_SAGA);
+    console.log("Hello Saga");
+    }
+}
+
+function* watchHello() {
+    yield takeLatest(HELLO_SAGA, function*() {
+        yield delay( 1000 );
+        yield put({
+            type: 'BYE_SAGA'
+        });
+    });
+}

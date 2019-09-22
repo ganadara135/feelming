@@ -36,8 +36,9 @@ app.use(expressSesion( {
         httpOnly: true,         // 쿠키 접근 차잔
         secure: false,          // https 를 사용할 때 true  
     },
-    name: 'ThisIsNotCookie'     // 세션이름, 나중에 쿠키값인줄 모르게 이름 변경 필요, 
+    name: 'ThisIsNotCookie',     // 세션이름, 나중에 쿠키값인줄 모르게 이름 변경 필요, 
                                 // defaults : connect.sid
+    //memory: redisMemory       // 차후 캐시서버용       
 }));
 app.use(passport.initialize());     // 위 app.use(expressSesion( 이후 수행
 app.use(passport.session());

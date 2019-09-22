@@ -9,6 +9,7 @@ console.log("config : ", config)
 const  sequelize = new Sequelize(config.database, config.username, config.password, config);
 
 
+// 테이블 선언
 db.Comment = require('./comment')(sequelize, Sequelize);
 db.Hashtag = require('./hashtag')(sequelize, Sequelize);
 db.Image = require('./image')(sequelize, Sequelize);

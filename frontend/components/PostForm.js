@@ -8,7 +8,7 @@ import { ADD_POST_SUCCESS, ADD_POST_REQUEST } from '../reducers/post';
 const PostForm = () => {
     //const { imagePaths } = useSelector( state => state.post);
     const dispatch = useDispatch();
-    const [text, setText ] = useState('');
+    const [ text, setText ] = useState('');
     const { imagePaths, isAddingPost, postAdded } = useSelector( state => state.post );
 
     useEffect( () => {
@@ -20,13 +20,18 @@ const PostForm = () => {
     
     const onSubmitForm = useCallback( (e) => {
         e.preventDefault();   ///  안 넣으면 새 페이지로 넘어감
+        if (!text && !text.trim()) {
+            return alert('게시글을 작성하세요');
+        }
         dispatch({
             type: ADD_POST_REQUEST,
-            data: {
-                text,
+           
+             data: {
+                content: text.trim(),
             },
         });
-    }, []);
+        console.log('onSubmitForm() text : ', text);
+    }, [text]);
 
     //const [id, setId ] = useState('');
     const onChangeText = useCallback( (e) => {

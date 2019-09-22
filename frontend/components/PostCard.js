@@ -54,10 +54,10 @@ const PostCard = ({ post }) => {
             extra={<Button>팔로우</Button>} 
         >
             <Card.Meta
-                avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
-                title={post.User.nickname}
-                description={post.content}
-            />
+          avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
+          title={post.User.nickname}
+          description={post.content}
+                />
         </Card>
         { commentFormOpened && (
             <>
@@ -77,7 +77,7 @@ const PostCard = ({ post }) => {
                                 author={item.User.nickname}
                                 avatar={<Avatar>{item.User.nickname[0]}</Avatar>}
                                 content={item.content}
-                                datatime={item.createdAt}
+                                //datatime={item.createdAt}
                             />
                         </li>
                     )}
