@@ -8,6 +8,7 @@ import axios from 'axios';
 
 
 function logInAPI(logInData) {
+    console.log("called logInAPI() ")
 // 서버에 요청 보내는 부분
     return axios.post('/user/login', logInData, {
         withCredentials: true,      //  쿠키 교환 with backend 
@@ -19,6 +20,7 @@ function* logIn(action) {
         // yield fork(logger);    // 로그 기록하는 기능 예제
         // yield call(loginAPI);       // call 동기 호출
         //yield delay( 2000);
+        console.log("before logInAPI() in Saga")
         const result = yield call(logInAPI, action.data);
         yield put( {            // put 은 dispatch 와 동일
             type: LOG_IN_SUCCESS,
@@ -96,24 +98,26 @@ function* watchLogOut() {
     yield takeEvery(LOG_OUT_REQUEST, logOut);
 }
 
-function loadUserAPI() {
+function loadUserAPI(userId) {
     
-    return axios.get('/user/', {
+    return axios.get( userId ? `/user/${userId}` : '/user/',  {
         withCredentials: true,
     });
 }
 
-function* loadUser() {
+function* loadUser(action) {
     try {
-        const result = yield call(loadUserAPI);
+        const result = yield call(loadUserAPI, action.data);
         yield put( {            // put 은 dispatch 와 동일
             type: LOAD_USER_SUCCESS,
             data: result.data,
+            me: !action.data,
         });
     } catch (e) {
         console.error(e);
         yield put( {
             type: LOAD_USER_FAILURE,
+            error: e,
         });
     }
 }

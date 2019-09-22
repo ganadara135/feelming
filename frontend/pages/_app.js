@@ -12,19 +12,35 @@ import { initialState } from '../reducers/user';
 import { composeWithDevTools } from 'remote-redux-devtools';
 
 
-const NodeBird = ({ Component, store }) => {
+const Feelming = ({ Component, store, pageProps }) => {
     return (
         <Provider store={store} >
             <Head>
-                <title>NodeBird</title>
+                <title>Feelming</title>
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/antd/3.23.2/antd.css" />
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/antd/3.23.2/antd" />
             </Head>
             <AppLayout>
-                <Component />
+                <Component {...pageProps} />
             </AppLayout>
         </Provider>
     );
+};
+
+Feelming.propTypes = {
+    Component: PropTypes.elementType.isRequired,
+    store: PropTypes.object.isRequired,
+    pageProps: PropTypes.object.isRequired,
+};
+
+Feelming.getInitialProps = async (context) => {
+    console.log(context);
+    const { ctx } = context;
+    let pageProps = {};
+    if (context.Component.getInitialProps) {
+        pageProps = await context.Component.getInitialProps(ctx);
+    }
+    return { pageProps };
 };
 
 export default withRedux((initialState, options ) => {
@@ -41,7 +57,7 @@ export default withRedux((initialState, options ) => {
     sagaMiddleware.run(rootSaga);
 
     return store;
-})(NodeBird);
+})(Feelming);
 
 
  // _document.js      html, head, body
