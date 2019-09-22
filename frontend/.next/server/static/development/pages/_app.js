@@ -299,8 +299,8 @@ const LoginForm = () => {
     e.preventDefault();
     dispatch({
       type: _reducers_user__WEBPACK_IMPORTED_MODULE_5__["LOG_IN_REQUEST"],
-      dataA: {
-        id,
+      data: {
+        userId: id,
         password
       }
     });
@@ -309,26 +309,26 @@ const LoginForm = () => {
     onSubmit: onSubmitForm,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 27
+      lineNumber: 28
     },
     __self: undefined
   }, __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 28
+      lineNumber: 29
     },
     __self: undefined
   }, __jsx("label", {
     htmlFor: "user-id",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 29
+      lineNumber: 30
     },
     __self: undefined
   }, "\uC544\uC774\uB514"), __jsx("br", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 30
+      lineNumber: 31
     },
     __self: undefined
   }), __jsx("input", {
@@ -338,26 +338,26 @@ const LoginForm = () => {
     required: true,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 31
+      lineNumber: 32
     },
     __self: undefined
   })), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 33
+      lineNumber: 34
     },
     __self: undefined
   }, __jsx("label", {
     htmlFor: "user-password",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 34
+      lineNumber: 35
     },
     __self: undefined
   }, "\uBE44\uBC00\uBC88\uD638"), __jsx("br", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 35
+      lineNumber: 36
     },
     __self: undefined
   }), __jsx("input", {
@@ -368,13 +368,13 @@ const LoginForm = () => {
     required: true,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 36
+      lineNumber: 37
     },
     __self: undefined
   })), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 38
+      lineNumber: 39
     },
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
@@ -383,26 +383,26 @@ const LoginForm = () => {
     loading: isLoggingIn,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 39
+      lineNumber: 40
     },
     __self: undefined
   }, "\uB85C\uADF8\uC778"), __jsx(next_link__WEBPACK_IMPORTED_MODULE_2___default.a, {
     href: "/signup",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 40
+      lineNumber: 41
     },
     __self: undefined
   }, __jsx("a", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 40
+      lineNumber: 41
     },
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 40
+      lineNumber: 41
     },
     __self: undefined
   }, "\uD68C\uC6D0\uAC00\uC785")))));
@@ -446,66 +446,16 @@ const UserProfile = () => {
     });
   }, []);
   return __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"], {
-    actions: [__jsx("div", {
-      key: "twit",
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 19
-      },
-      __self: undefined
-    }, "\uD2B8\uC704", __jsx("br", {
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 19
-      },
-      __self: undefined
-    }), " ", me.Post.length), __jsx("div", {
-      key: "followings",
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 20
-      },
-      __self: undefined
-    }, "\uD314\uB85C\uC789", __jsx("br", {
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 20
-      },
-      __self: undefined
-    }), " ", me.Followings.length), __jsx("div", {
-      key: "followers",
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 21
-      },
-      __self: undefined
-    }, "\uD314\uB85C\uC6CC", __jsx("br", {
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 21
-      },
-      __self: undefined
-    }), " ", me.Followers.length)],
+    actions: [// <div key="twit">트위<br/> {me.Post.length}</div>,
+      // <div key="followings">팔로잉<br/> {me.Followings.length}</div>,
+      // <div key="followers">팔로워<br/> {me.Followers.length}</div>,
+    ],
     __source: {
       fileName: _jsxFileName,
       lineNumber: 17
     },
     __self: undefined
-  }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"].Meta, {
-    avatar: __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Avatar"], {
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 25
-      },
-      __self: undefined
-    }, me.nickname[0]),
-    title: me.nickname,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 24
-    },
-    __self: undefined
-  }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
+  }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
     onClick: onLogout,
     __source: {
       fileName: _jsxFileName,
@@ -2091,7 +2041,8 @@ const reducer = (state = initialState, action) => {
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
           isLoggingIn: false,
           isLoggedIn: true,
-          me: dummyUser,
+          //me: dummyUser,
+          me: action.data,
           isLoading: false
         });
       }
@@ -2257,22 +2208,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 
 
+ // const HELLO_SAGA = 'HELLO_SAGA';
 
-const HELLO_SAGA = 'HELLO_SAGA';
+axios__WEBPACK_IMPORTED_MODULE_2___default.a.defaults.baseURL = 'http://localhost:3065/api';
 
-function loginAPI() {
-  // 서버에 요청 보내는 부분
-  return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/login');
+function loginAPI(loginData) {
+  console.log("chk loginData : ", loginData); // 서버에 요청 보내는 부분
+
+  return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/user/login', loginData, {
+    withCredentials: true //  쿠키 교환 with backend 
+
+  });
 }
 
-function* login() {
+function* login(action) {
   try {
     // yield fork(logger);    // 로그 기록하는 기능 예제
     // yield call(loginAPI);       // call 동기 호출
-    yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["delay"])(2000);
+    //yield delay( 2000);
+    const result = yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["call"])(loginAPI, action.data);
     yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])({
       // put 은 dispatch 와 동일
-      type: _reducers_user__WEBPACK_IMPORTED_MODULE_1__["LOG_IN_SUCCESS"]
+      type: _reducers_user__WEBPACK_IMPORTED_MODULE_1__["LOG_IN_SUCCESS"],
+      data: result.data
     });
   } catch (e) {
     console.error(e);
@@ -2284,19 +2242,17 @@ function* login() {
 }
 
 function* watchLogin() {
-  while (true) {
-    yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["take"])(_reducers_user__WEBPACK_IMPORTED_MODULE_1__["LOG_IN_REQUEST"], login); // take 안에 gernerater.next() 기능이 있음
-
-    yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])({
-      // put 은 redux 에 dispatch 와 동일
-      type: _reducers_user__WEBPACK_IMPORTED_MODULE_1__["LOG_IN_SUCCESS"]
-    });
-  }
+  yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeEvery"])(_reducers_user__WEBPACK_IMPORTED_MODULE_1__["LOG_IN_REQUEST"], login); // while(true){
+  //     yield take(LOG_IN_REQUEST, login)    // take 안에 gernerater.next() 기능이 있음
+  //     yield put( {            // put 은 redux 에 dispatch 와 동일
+  //         type: LOG_IN_SUCCESS,
+  //     });
+  // }
 }
 
 function signUpAPI(signUpData) {
   // 서버에 요청 보내는 부분
-  return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('http://localhost:3065/api/user/', signUpData);
+  return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/user/', signUpData);
 }
 
 function* signUp(action) {

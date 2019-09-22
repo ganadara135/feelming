@@ -2,20 +2,28 @@ import { all, fork, takeLatest, takeEvery, call, put, take, delay, } from 'redux
 import { LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE, SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE } from '../reducers/user'
 import axios from 'axios';
 
-const HELLO_SAGA = 'HELLO_SAGA';
+// const HELLO_SAGA = 'HELLO_SAGA';
 
-function loginAPI() {
+axios.defaults.baseURL = 'http://localhost:3065/api'
+
+function loginAPI(loginData) {
+
+    console.log("chk loginData : ", loginData);
 // 서버에 요청 보내는 부분
-    return axios.post('/login');
+    return axios.post('/user/login', loginData, {
+        withCredentials: true,      //  쿠키 교환 with backend 
+    });
 }
 
-function* login() {
+function* login(action) {
     try {
         // yield fork(logger);    // 로그 기록하는 기능 예제
         // yield call(loginAPI);       // call 동기 호출
-        yield delay( 2000);
+        //yield delay( 2000);
+        const result = yield call(loginAPI, action.data);
         yield put( {            // put 은 dispatch 와 동일
             type: LOG_IN_SUCCESS,
+            data: result.data,
         });
     } catch (e) {
         console.error(e);
@@ -27,17 +35,18 @@ function* login() {
 }
 
 function* watchLogin() {
-    while(true){
-        yield take(LOG_IN_REQUEST, login)    // take 안에 gernerater.next() 기능이 있음
-        yield put( {            // put 은 redux 에 dispatch 와 동일
-            type: LOG_IN_SUCCESS,
-        });
-    }
+    yield takeEvery(LOG_IN_REQUEST, login);
+    // while(true){
+    //     yield take(LOG_IN_REQUEST, login)    // take 안에 gernerater.next() 기능이 있음
+    //     yield put( {            // put 은 redux 에 dispatch 와 동일
+    //         type: LOG_IN_SUCCESS,
+    //     });
+    // }
 }
 
 function signUpAPI(signUpData) {
     // 서버에 요청 보내는 부분
-    return axios.post('http://localhost:3065/api/user/', signUpData);
+    return axios.post('/user/', signUpData);
 }
 
 function* signUp(action) {

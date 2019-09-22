@@ -23,7 +23,10 @@ app.use(morgan('dev'));
 app.use(express.json());
 // form 형식에 데이터 처리
 app.use(express.urlencoded({ extended: true }));    // req.body 처리 부분
-app.use(cors());
+app.use(cors( {
+    origin: true,    // 쿠키 교환 설정 with frontend
+    credentials: true,
+}));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(expressSesion( {
     resave: false,          // 매번 세션 강제 저장
@@ -32,7 +35,9 @@ app.use(expressSesion( {
     cookie: {
         httpOnly: true,         // 쿠키 접근 차잔
         secure: false,          // https 를 사용할 때 true  
-    }
+    },
+    name: 'ThisIsNotCookie'     // 세션이름, 나중에 쿠키값인줄 모르게 이름 변경 필요, 
+                                // defaults : connect.sid
 }));
 app.use(passport.initialize());     // 위 app.use(expressSesion( 이후 수행
 app.use(passport.session());

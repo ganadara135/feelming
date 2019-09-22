@@ -17,8 +17,9 @@ const LoginForm = () => {
         e.preventDefault();
         dispatch({
             type: LOG_IN_REQUEST,
-            dataA: {
-                id, password,
+            data: {
+                userId : id,
+                password,
             },
         });
     }, [id, password] );
