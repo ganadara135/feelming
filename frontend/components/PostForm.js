@@ -25,8 +25,7 @@ const PostForm = () => {
         }
         dispatch({
             type: ADD_POST_REQUEST,
-           
-             data: {
+            data: {
                 content: text.trim(),
             },
         });

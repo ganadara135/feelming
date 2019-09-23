@@ -1,42 +1,54 @@
+// export const initialState = {
+//     mainPosts: [{
+//         // id: 1,
+//         // User: {
+//         //     id: 1,
+//         //     nickname: "코드",
+//         // },
+//         // content: "첫 번째 게시글",
+//         // img: "https://blog.yena.io/assets/post-img/171123-nachoi-300.jpg",
+//         // Comments: [],
+//     }],                 // 화면에 보일 포스트들
+//     imagePaths: [],     // 미리보기 이미지 경로
+//     addPostErrorReason:'',  // 포스트 업로드 실패 사유
+//     isAddingPost: false,        // 포스트 업로드 중
+//     postAdded: false,           // 포스트 업로드 성공,
+//     isAddingComment:false,
+//     addCommentErrorReason: '',
+//     commentAdded: false,
+// };
+
+// const dummyPost = {
+//     id: 2,
+//     User: {
+//         id: 1,
+//         nickname: '코드',
+//     },
+//     content: '나는 더미입니다',
+//     Comments: [],
+// }
+
+// const dummyComment = {
+//     id: 1,
+//     User: {
+//         id: 1,
+//         nickname: 2,
+//     },
+//     createdAt: new Date(),
+//     content: '더미 댓글입니다',
+// }
+
 export const initialState = {
-    mainPosts: [{
-        id: 1,
-        User: {
-            id: 1,
-            nickname: "코드",
-        },
-        content: "첫 번째 게시글",
-        img: "https://blog.yena.io/assets/post-img/171123-nachoi-300.jpg",
-        Comments: [],
-    }],                 // 화면에 보일 포스트들
-    imagePaths: [],     // 미리보기 이미지 경로
-    addPostErrorReason:'',  // 포스트 업로드 실패 사유
-    isAddingPost: false,        // 포스트 업로드 중
-    postAdded: false,           // 포스트 업로드 성공,
-    isAddingComment:false,
+    mainPosts: [], // 화면에 보일 포스트들
+    imagePaths: [], // 미리보기 이미지 경로
+    addPostErrorReason: '', // 포스트 업로드 실패 사유
+    isAddingPost: false, // 포스트 업로드 중
+    postAdded: false, // 포스트 업로드 성공
+    isAddingComment: false,
     addCommentErrorReason: '',
     commentAdded: false,
-};
-
-const dummyPost = {
-    id: 2,
-    User: {
-        id: 1,
-        nickname: '코드',
-    },
-    content: '나는 더미입니다',
-    Comments: [],
-}
-
-const dummyComment = {
-    id: 1,
-    User: {
-        id: 1,
-        nickname: 2,
-    },
-    createdAt: new Date(),
-    content: '더미 댓글입니다',
-}
+    singlePost: null,
+  };
 
 export const LOAD_MAIN_POSTS_REQUEST = 'LOAD_MAIN_POSTS_REQUEST';
 export const LOAD_MAIN_POSTS_SUCCESS = 'LOAD_MAIN_POSTS_SUCCESS';
@@ -112,20 +124,23 @@ const reducer = (state = initialState, action) => {
             };
         }
         case ADD_POST_REQUEST: {
+            //console.log(" in Reducuer ADD_POST_REQUEST : ", action)
             return {
                 ...state,
-                isAddingPost: false,
+                isAddingPost: true,
                 addPostErrorReason: '',
                 postAdded: false,
             };
         }
         case ADD_POST_SUCCESS: {
+            //console.log(" in Reducuer ADD_POST_SUCCESS : ", action)
             return {
                 ...state,
                 isAddingPost: false,
                 //mainPosts: [dummyPost, ...state.mainPosts],
                 mainPosts: [action.data, ...state.mainPosts],
                 postAdded: true,
+                imagePaths: [],
             };
         }
         case ADD_POST_FAILURE: {
@@ -136,6 +151,7 @@ const reducer = (state = initialState, action) => {
             };
         }
         case ADD_COMMENT_REQUEST: {
+            console.log(" in Reducuer ADD_COMMENT_REQUEST :  ", action)
             return {
                 ...state,
                 isAddingComment: true,
@@ -144,34 +160,38 @@ const reducer = (state = initialState, action) => {
             };
         }
         case ADD_COMMENT_SUCCESS: {
-            const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
-            const post = state.mainPosts[postIndex];
-            const Comments = [...post.Comments, dummyComment];
-            const mainPosts = [...state.mainPosts];
-            mainPosts[postIndex] = { ...post, Comments };
+            console.log(" in Reducuer ADD_COMMENT_SUCCESS :  ", action)
+            console.log(" chk state : ", state)
+            console.log(" state.mainPosts[0] : ", state.mainPosts[0]);
+
+            try {   
+                const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
+                console.log('postIndex : ', postIndex);
+                const post = state.mainPosts[postIndex];
+                console.log('post : ', post);
+                //const Comments = [...post.Comments, dummyComment];
+                //const Comments = [...post.Comments, action.data.comment];
+                const Comments = [action.data.comment]
+                console.log('Comments : ', Comments);
+                const mainPosts = [...state.mainPosts];
+                console.log('mainPosts : ', mainPosts)
+                mainPosts[postIndex] = {...post, Comments };
+                console.log('mainPosts[postIndex] : ', mainPosts[postIndex]);
+
+            } catch (e) {
+                console.log("reducer error : ", e);
+            }
+            
             return {
                 ...state,
                 isAddingComment: false,
-                mainPosts,
+                //mainPosts,
+                mainPosts : mainPosts,
                 commentAdded: true,
             };
-            // const postIndex = state.mainPosts.findIndex( v => v.id === action.data.postId);
-            // const post = state.mainPosts[postIndex];
-            // const Comments = [...post.Comments, dummyComment];
-            // const mainPosts = [...state.mainPosts];
-            // mainPosts[postIndex] = { ...post, Comments};
-            
-            // console.log("mainPosts: ", mainPosts[postIndex]);
-
-            // return {
-            //     ...state,
-            //     isAddingComment: false,
-            //     //mainPosts: [dummyPost, ...state.mainPosts],
-            //     mainPosts,
-            //     commentAdded: true,
-            // };
         }
         case ADD_COMMENT_FAILURE: {
+            console.log(" in Reducuer ADD_COMMENT_FAILURE :  ", action)
             return {
                 ...state,
                 isAddingComment: false,
@@ -179,11 +199,16 @@ const reducer = (state = initialState, action) => {
             };
         }
         case LOAD_COMMENTS_SUCCESS: {
-            const postIndex = state.mainPosts.findIndex( v=> v.id === action.data.postId);
-            const post = state.mainPosts[postIndex];
-            const Comments = action.data.comments;
-            const mainPosts = [...state.mainPosts];
-            mainPosts[postIndex] = { ...post, Comments};
+           try {
+                const postIndex = state.mainPosts.findIndex( v=> v.id === action.data.postId);
+                const post = state.mainPosts[postIndex];
+                const Comments = action.data.comments;
+                const mainPosts = [...state.mainPosts];
+                mainPosts[postIndex] = { ...post, Comments};
+            } catch (e){
+                console.log("reducer error : ", e);
+            }
+            
             return {
                 ...state,
                 mainPosts,

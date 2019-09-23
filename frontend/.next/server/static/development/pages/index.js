@@ -272,7 +272,7 @@ const PostCard = ({
         lineNumber: 71
       },
       __self: undefined
-    }, postData.split(/(#[^\s]+)/g).map(v => {
+    }, post.content.split(/(#[^\s]+)/g).map(v => {
       if (v.match(/#[^\s]+/)) {
         return __jsx(next_link__WEBPACK_IMPORTED_MODULE_5___default.a, {
           href: {
@@ -388,8 +388,8 @@ PostCard.propTypes = {
   post: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.shape({
     User: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.object,
     content: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,
-    img: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,
-    createdAt: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.object
+    img: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string //createdAt: PropTypes.string,
+
   })
 };
 /* harmony default export */ __webpack_exports__["default"] = (PostCard);
@@ -464,7 +464,7 @@ const PostForm = () => {
     onSubmit: onSubmitForm,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 43
+      lineNumber: 42
     },
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Input"].TextArea, {
@@ -474,13 +474,13 @@ const PostForm = () => {
     onChange: onChangeText,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 44
+      lineNumber: 43
     },
     __self: undefined
   }), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 45
+      lineNumber: 44
     },
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Input"], {
@@ -489,13 +489,13 @@ const PostForm = () => {
     hidden: true,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 46
+      lineNumber: 45
     },
     __self: undefined
   }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 47
+      lineNumber: 46
     },
     __self: undefined
   }, " \uC774\uBBF8\uC9C0 \uC5C5\uB85C\uB4DC"), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
@@ -507,13 +507,13 @@ const PostForm = () => {
     isLoading: isAddingPost,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 48
+      lineNumber: 47
     },
     __self: undefined
   }, "\uC0C9\uC0C9")), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 50
+      lineNumber: 49
     },
     __self: undefined
   }, imagePaths.map((v, i) => __jsx("div", {
@@ -523,7 +523,7 @@ const PostForm = () => {
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 53
+      lineNumber: 52
     },
     __self: undefined
   }, __jsx("img", {
@@ -535,19 +535,19 @@ const PostForm = () => {
     alt: v,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 54
+      lineNumber: 53
     },
     __self: undefined
   }), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 55
+      lineNumber: 54
     },
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 56
+      lineNumber: 55
     },
     __self: undefined
   }, "\uC81C\uAC70"))))));
@@ -1441,17 +1441,45 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_POST_FAILURE", function() { return REMOVE_POST_FAILURE; });
 /* harmony import */ var _babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/objectSpread */ "./node_modules/@babel/runtime-corejs2/helpers/esm/objectSpread.js");
 
+// export const initialState = {
+//     mainPosts: [{
+//         // id: 1,
+//         // User: {
+//         //     id: 1,
+//         //     nickname: "코드",
+//         // },
+//         // content: "첫 번째 게시글",
+//         // img: "https://blog.yena.io/assets/post-img/171123-nachoi-300.jpg",
+//         // Comments: [],
+//     }],                 // 화면에 보일 포스트들
+//     imagePaths: [],     // 미리보기 이미지 경로
+//     addPostErrorReason:'',  // 포스트 업로드 실패 사유
+//     isAddingPost: false,        // 포스트 업로드 중
+//     postAdded: false,           // 포스트 업로드 성공,
+//     isAddingComment:false,
+//     addCommentErrorReason: '',
+//     commentAdded: false,
+// };
+// const dummyPost = {
+//     id: 2,
+//     User: {
+//         id: 1,
+//         nickname: '코드',
+//     },
+//     content: '나는 더미입니다',
+//     Comments: [],
+// }
+// const dummyComment = {
+//     id: 1,
+//     User: {
+//         id: 1,
+//         nickname: 2,
+//     },
+//     createdAt: new Date(),
+//     content: '더미 댓글입니다',
+// }
 const initialState = {
-  mainPosts: [{
-    id: 1,
-    User: {
-      id: 1,
-      nickname: "코드"
-    },
-    content: "첫 번째 게시글",
-    img: "https://blog.yena.io/assets/post-img/171123-nachoi-300.jpg",
-    Comments: []
-  }],
+  mainPosts: [],
   // 화면에 보일 포스트들
   imagePaths: [],
   // 미리보기 이미지 경로
@@ -1460,28 +1488,11 @@ const initialState = {
   isAddingPost: false,
   // 포스트 업로드 중
   postAdded: false,
-  // 포스트 업로드 성공,
+  // 포스트 업로드 성공
   isAddingComment: false,
   addCommentErrorReason: '',
-  commentAdded: false
-};
-const dummyPost = {
-  id: 2,
-  User: {
-    id: 1,
-    nickname: '코드'
-  },
-  content: '나는 더미입니다',
-  Comments: []
-};
-const dummyComment = {
-  id: 1,
-  User: {
-    id: 1,
-    nickname: 2
-  },
-  createdAt: new Date(),
-  content: '더미 댓글입니다'
+  commentAdded: false,
+  singlePost: null
 };
 const LOAD_MAIN_POSTS_REQUEST = 'LOAD_MAIN_POSTS_REQUEST';
 const LOAD_MAIN_POSTS_SUCCESS = 'LOAD_MAIN_POSTS_SUCCESS';
@@ -1547,8 +1558,9 @@ const reducer = (state = initialState, action) => {
 
     case ADD_POST_REQUEST:
       {
+        //console.log(" in Reducuer ADD_POST_REQUEST : ", action)
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          isAddingPost: false,
+          isAddingPost: true,
           addPostErrorReason: '',
           postAdded: false
         });
@@ -1556,11 +1568,13 @@ const reducer = (state = initialState, action) => {
 
     case ADD_POST_SUCCESS:
       {
+        //console.log(" in Reducuer ADD_POST_SUCCESS : ", action)
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
           isAddingPost: false,
           //mainPosts: [dummyPost, ...state.mainPosts],
           mainPosts: [action.data, ...state.mainPosts],
-          postAdded: true
+          postAdded: true,
+          imagePaths: []
         });
       }
 
@@ -1574,6 +1588,7 @@ const reducer = (state = initialState, action) => {
 
     case ADD_COMMENT_REQUEST:
       {
+        console.log(" in Reducuer ADD_COMMENT_REQUEST :  ", action);
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
           isAddingComment: true,
           addCommentErrorReason: '',
@@ -1583,34 +1598,40 @@ const reducer = (state = initialState, action) => {
 
     case ADD_COMMENT_SUCCESS:
       {
-        const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
-        const post = state.mainPosts[postIndex];
-        const Comments = [...post.Comments, dummyComment];
-        const mainPosts = [...state.mainPosts];
-        mainPosts[postIndex] = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, post, {
-          Comments
-        });
+        console.log(" in Reducuer ADD_COMMENT_SUCCESS :  ", action);
+        console.log(" chk state : ", state);
+        console.log(" state.mainPosts[0] : ", state.mainPosts[0]);
+
+        try {
+          const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
+          console.log('postIndex : ', postIndex);
+          const post = state.mainPosts[postIndex];
+          console.log('post : ', post); //const Comments = [...post.Comments, dummyComment];
+          //const Comments = [...post.Comments, action.data.comment];
+
+          const Comments = [action.data.comment];
+          console.log('Comments : ', Comments);
+          const mainPosts = [...state.mainPosts];
+          console.log('mainPosts : ', mainPosts);
+          mainPosts[postIndex] = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, post, {
+            Comments
+          });
+          console.log('mainPosts[postIndex] : ', mainPosts[postIndex]);
+        } catch (e) {
+          console.log("reducer error : ", e);
+        }
+
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
           isAddingComment: false,
-          mainPosts,
+          //mainPosts,
+          mainPosts: mainPosts,
           commentAdded: true
-        }); // const postIndex = state.mainPosts.findIndex( v => v.id === action.data.postId);
-        // const post = state.mainPosts[postIndex];
-        // const Comments = [...post.Comments, dummyComment];
-        // const mainPosts = [...state.mainPosts];
-        // mainPosts[postIndex] = { ...post, Comments};
-        // console.log("mainPosts: ", mainPosts[postIndex]);
-        // return {
-        //     ...state,
-        //     isAddingComment: false,
-        //     //mainPosts: [dummyPost, ...state.mainPosts],
-        //     mainPosts,
-        //     commentAdded: true,
-        // };
+        });
       }
 
     case ADD_COMMENT_FAILURE:
       {
+        console.log(" in Reducuer ADD_COMMENT_FAILURE :  ", action);
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
           isAddingComment: false,
           addCommentErrorReason: action.error
@@ -1619,13 +1640,18 @@ const reducer = (state = initialState, action) => {
 
     case LOAD_COMMENTS_SUCCESS:
       {
-        const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
-        const post = state.mainPosts[postIndex];
-        const Comments = action.data.comments;
-        const mainPosts = [...state.mainPosts];
-        mainPosts[postIndex] = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, post, {
-          Comments
-        });
+        try {
+          const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
+          const post = state.mainPosts[postIndex];
+          const Comments = action.data.comments;
+          const mainPosts = [...state.mainPosts];
+          mainPosts[postIndex] = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, post, {
+            Comments
+          });
+        } catch (e) {
+          console.log("reducer error : ", e);
+        }
+
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
           mainPosts
         });

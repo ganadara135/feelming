@@ -69,7 +69,7 @@ const PostCard = ({ post }) => {
           title={post.User.nickname}
           description={(
           <div>
-            {postData.split(/(#[^\s]+)/g).map((v) => {
+            {post.content.split(/(#[^\s]+)/g).map((v) => {
               if (v.match(/#[^\s]+/)) {
                 return (
                   <Link
@@ -122,7 +122,7 @@ PostCard.propTypes = {
         User: PropTypes.object,
         content: PropTypes.string,
         img: PropTypes.string,
-        createdAt: PropTypes.object,
+        //createdAt: PropTypes.string,
     })
 }
 
