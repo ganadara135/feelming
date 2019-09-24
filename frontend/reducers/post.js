@@ -99,9 +99,11 @@ export const REMOVE_POST_FAILURE = 'REMOVE_POST_FAILURE';
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case LOAD_COMMENTS_REQUEST:
         case LOAD_HASHTAG_POSTS_REQUEST:
         case LOAD_USER_POSTS_REQUEST:
         case LOAD_MAIN_POSTS_REQUEST: {
+            console.log("LOAD_  _REQUEST : ", action)
             return {
                 ...state,
                 mainPosts: [],
@@ -113,12 +115,13 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,     
                 mainPosts: action.data,
- 
             };
         }
+        case LOAD_COMMENTS_FAILURE:
         case LOAD_HASHTAG_POSTS_FAILURE:
         case LOAD_USER_POSTS_FAILURE:
         case LOAD_MAIN_POSTS_FAILURE: {
+            console.log("LOAD_   _FAILURE : ", action)
             return {
                 ...state,
             };
@@ -151,7 +154,7 @@ const reducer = (state = initialState, action) => {
             };
         }
         case ADD_COMMENT_REQUEST: {
-            console.log(" in Reducuer ADD_COMMENT_REQUEST :  ", action)
+           // console.log(" in Reducuer ADD_COMMENT_REQUEST :  ", action)
             return {
                 ...state,
                 isAddingComment: true,
@@ -160,33 +163,25 @@ const reducer = (state = initialState, action) => {
             };
         }
         case ADD_COMMENT_SUCCESS: {
-            console.log(" in Reducuer ADD_COMMENT_SUCCESS :  ", action)
-            console.log(" chk state : ", state)
-            console.log(" state.mainPosts[0] : ", state.mainPosts[0]);
+            // console.log(" in Reducuer ADD_COMMENT_SUCCESS :  ", action)
+            // console.log(" chk state : ", state)
+            // console.log(" state.mainPosts[0] : ", state.mainPosts[0]);
 
-            try {   
+           // try {   
                 const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
-                console.log('postIndex : ', postIndex);
                 const post = state.mainPosts[postIndex];
-                console.log('post : ', post);
-                //const Comments = [...post.Comments, dummyComment];
-                //const Comments = [...post.Comments, action.data.comment];
-                const Comments = [action.data.comment]
-                console.log('Comments : ', Comments);
+                const Comments = [...post.Comments, action.data.comment];
                 const mainPosts = [...state.mainPosts];
-                console.log('mainPosts : ', mainPosts)
                 mainPosts[postIndex] = {...post, Comments };
-                console.log('mainPosts[postIndex] : ', mainPosts[postIndex]);
-
-            } catch (e) {
-                console.log("reducer error : ", e);
-            }
+            // } catch (e) {
+            //     console.log("reducer error : ", e);
+            // }
             
             return {
                 ...state,
                 isAddingComment: false,
-                //mainPosts,
-                mainPosts : mainPosts,
+                mainPosts,
+                //mainPosts : mainPosts,
                 commentAdded: true,
             };
         }
@@ -199,20 +194,22 @@ const reducer = (state = initialState, action) => {
             };
         }
         case LOAD_COMMENTS_SUCCESS: {
-           try {
+          // try {
                 const postIndex = state.mainPosts.findIndex( v=> v.id === action.data.postId);
                 const post = state.mainPosts[postIndex];
                 const Comments = action.data.comments;
                 const mainPosts = [...state.mainPosts];
                 mainPosts[postIndex] = { ...post, Comments};
-            } catch (e){
-                console.log("reducer error : ", e);
-            }
-            
+            // } catch (e){
+            //     console.log("reducer error : ", e);
+            // }
+            console.log('LOAD_COMMENTS_SUCCESS state : ', state)
+            //console.log('LOAD_COMMENTS_SUCCESS ...state : ', ...state)
             return {
                 ...state,
                 mainPosts,
-            }
+                //mainPosts : mainPosts,
+            };
         }
         default: {
             return {

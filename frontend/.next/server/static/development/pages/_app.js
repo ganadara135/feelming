@@ -467,7 +467,13 @@ const UserProfile = () => {
       lineNumber: 17
     },
     __self: undefined
-  }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
+  }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"].Meta, {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 24
+    },
+    __self: undefined
+  }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
     onClick: onLogout,
     __source: {
       fileName: _jsxFileName,
@@ -1923,10 +1929,12 @@ const REMOVE_POST_FAILURE = 'REMOVE_POST_FAILURE';
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case LOAD_COMMENTS_REQUEST:
     case LOAD_HASHTAG_POSTS_REQUEST:
     case LOAD_USER_POSTS_REQUEST:
     case LOAD_MAIN_POSTS_REQUEST:
       {
+        console.log("LOAD_  _REQUEST : ", action);
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
           mainPosts: []
         });
@@ -1941,10 +1949,12 @@ const reducer = (state = initialState, action) => {
         });
       }
 
+    case LOAD_COMMENTS_FAILURE:
     case LOAD_HASHTAG_POSTS_FAILURE:
     case LOAD_USER_POSTS_FAILURE:
     case LOAD_MAIN_POSTS_FAILURE:
       {
+        console.log("LOAD_   _FAILURE : ", action);
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
       }
 
@@ -1980,7 +1990,7 @@ const reducer = (state = initialState, action) => {
 
     case ADD_COMMENT_REQUEST:
       {
-        console.log(" in Reducuer ADD_COMMENT_REQUEST :  ", action);
+        // console.log(" in Reducuer ADD_COMMENT_REQUEST :  ", action)
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
           isAddingComment: true,
           addCommentErrorReason: '',
@@ -1990,33 +2000,24 @@ const reducer = (state = initialState, action) => {
 
     case ADD_COMMENT_SUCCESS:
       {
-        console.log(" in Reducuer ADD_COMMENT_SUCCESS :  ", action);
-        console.log(" chk state : ", state);
-        console.log(" state.mainPosts[0] : ", state.mainPosts[0]);
-
-        try {
-          const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
-          console.log('postIndex : ', postIndex);
-          const post = state.mainPosts[postIndex];
-          console.log('post : ', post); //const Comments = [...post.Comments, dummyComment];
-          //const Comments = [...post.Comments, action.data.comment];
-
-          const Comments = [action.data.comment];
-          console.log('Comments : ', Comments);
-          const mainPosts = [...state.mainPosts];
-          console.log('mainPosts : ', mainPosts);
-          mainPosts[postIndex] = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, post, {
-            Comments
-          });
-          console.log('mainPosts[postIndex] : ', mainPosts[postIndex]);
-        } catch (e) {
-          console.log("reducer error : ", e);
-        }
+        // console.log(" in Reducuer ADD_COMMENT_SUCCESS :  ", action)
+        // console.log(" chk state : ", state)
+        // console.log(" state.mainPosts[0] : ", state.mainPosts[0]);
+        // try {   
+        const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
+        const post = state.mainPosts[postIndex];
+        const Comments = [...post.Comments, action.data.comment];
+        const mainPosts = [...state.mainPosts];
+        mainPosts[postIndex] = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, post, {
+          Comments
+        }); // } catch (e) {
+        //     console.log("reducer error : ", e);
+        // }
 
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
           isAddingComment: false,
-          //mainPosts,
-          mainPosts: mainPosts,
+          mainPosts,
+          //mainPosts : mainPosts,
           commentAdded: true
         });
       }
@@ -2032,20 +2033,22 @@ const reducer = (state = initialState, action) => {
 
     case LOAD_COMMENTS_SUCCESS:
       {
-        try {
-          const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
-          const post = state.mainPosts[postIndex];
-          const Comments = action.data.comments;
-          const mainPosts = [...state.mainPosts];
-          mainPosts[postIndex] = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, post, {
-            Comments
-          });
-        } catch (e) {
-          console.log("reducer error : ", e);
-        }
+        // try {
+        const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
+        const post = state.mainPosts[postIndex];
+        const Comments = action.data.comments;
+        const mainPosts = [...state.mainPosts];
+        mainPosts[postIndex] = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, post, {
+          Comments
+        }); // } catch (e){
+        //     console.log("reducer error : ", e);
+        // }
+
+        console.log('LOAD_COMMENTS_SUCCESS state : ', state); //console.log('LOAD_COMMENTS_SUCCESS ...state : ', ...state)
 
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          mainPosts
+          mainPosts //mainPosts : mainPosts,
+
         });
       }
 
@@ -2321,7 +2324,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function addPostAPI(postData) {
-  console.log(" addPostAPI() : ", postData);
   return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/post', postData, {
     withCredentials: true
   });
@@ -2330,9 +2332,7 @@ function addPostAPI(postData) {
 function* addPost(action) {
   try {
     //yield delay(2000);
-    console.log('in addPost Saga : ', action);
     const result = yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["call"])(addPostAPI, action.data);
-    console.log("chk result : ", result);
     yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])({
       type: _reducers_post__WEBPACK_IMPORTED_MODULE_1__["ADD_POST_SUCCESS"],
       data: result.data
@@ -2350,10 +2350,12 @@ function* watchAddPost() {
 }
 
 function loadMainPostsAPI() {
+  //console.log('in loadMainPosts Saga ');
   return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/posts');
 }
 
 function* loadMainPosts() {
+  //console.log('in loadMainPosts Saga ');
   try {
     const result = yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["call"])(loadMainPostsAPI);
     yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])({
@@ -2372,7 +2374,7 @@ function* watchLoadMainPosts() {
   yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(_reducers_post__WEBPACK_IMPORTED_MODULE_1__["LOAD_MAIN_POSTS_REQUEST"], loadMainPosts);
 }
 
-function loadHashtagPostsAPI() {
+function loadHashtagPostsAPI(tag) {
   return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(`/hashtag/${tag}`);
 }
 
@@ -2419,7 +2421,7 @@ function* watchLoadUserPosts() {
 }
 
 function addCommentAPI(data) {
-  console.log("addCommentAPI() in sagas : ", data);
+  //console.log("addCommentAPI() in sagas : ",data)
   return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post(`/post/${data.postId}/comment`, {
     content: data.content
   }, {
@@ -2429,9 +2431,9 @@ function addCommentAPI(data) {
 
 function* addComment(action) {
   try {
-    console.log("addComment() in sagas : ", action);
-    const result = yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["call"])(addCommentAPI, action.data);
-    console.log("addComment() in sagas result : ", result);
+    //console.log("addComment() in sagas : ", action)
+    const result = yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["call"])(addCommentAPI, action.data); //console.log("addComment() in sagas result : ", result)
+
     yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])({
       type: _reducers_post__WEBPACK_IMPORTED_MODULE_1__["ADD_COMMENT_SUCCESS"],
       data: {
@@ -2452,12 +2454,14 @@ function* watchAddComment() {
 }
 
 function loadCommentsAPI(postId) {
+  console.log('loadCommentsAPI()  postId : ', postId);
   return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(`/post/${postId}/comments`);
 }
 
 function* loadComments(action) {
   try {
     const result = yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["call"])(loadCommentsAPI, action.data);
+    console.log('loadComments() result.data : ', result.data);
     yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])({
       type: _reducers_post__WEBPACK_IMPORTED_MODULE_1__["LOAD_COMMENTS_SUCCESS"],
       data: {
@@ -2466,6 +2470,7 @@ function* loadComments(action) {
       }
     });
   } catch (e) {
+    //console.log('loadComments FAILURE : ', e);
     yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])({
       type: _reducers_post__WEBPACK_IMPORTED_MODULE_1__["LOAD_COMMENTS_FAILURE"],
       error: e

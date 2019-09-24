@@ -50,7 +50,7 @@ const PostForm = () => {
                 {imagePaths.map( (v, i) => (
                     
                         <div key={v} style={{ display: 'inline-block'}}>
-                            <img src={`http://localhsot:3065/${v}` } style={{ width: '100px', height: '100px' }} alt={v} />
+                            <img src={`http://localhsot:3065/${v}` } style={{ width: '200px', height: '100px' }} alt={v} />
                             <div>
                                 <Button>제거</Button>
                             </div>

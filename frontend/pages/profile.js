@@ -14,7 +14,7 @@ const Profile = () => {
             size="small"
             header={<div> 팔로워 목록 </div> }
             loadMore={<Button style={{ width: '100%' }}> 더 보기 </Button>}
-            dataSource={['제로초', '바보', '노드버드오피설']}
+            dataSource={['코드', '뭐냐', '오피설']}
             renderItem={item => (
                 <List.Item style={{ marginTop: '20px' }}>
                     <Card actions={[<Icon key='icon' type="stop" />]}><Card.Meta description={item} /></Card>

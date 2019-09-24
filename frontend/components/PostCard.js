@@ -23,7 +23,7 @@ const PostCard = ({ post }) => {
                 data: post.id,
             })
         }
-    }, []);
+    }, [ ]);
 
     const onSubmitComment = useCallback( (e) => {
         e.preventDefault();
@@ -47,6 +47,7 @@ const PostCard = ({ post }) => {
         setCommentText(e.target.value);
     }, []);
 
+    //console.log("post.createdAt  : ", post.createdAt)
     return (
         <div>
         <Card
@@ -103,11 +104,20 @@ const PostCard = ({ post }) => {
                         <li>
                             <Comment
                                 author={item.User.nickname}
+                                avatar={(
+                                    <Link href={{ pathname: '/user', query: { id: item.User.id } }} as={`/user/${item.User.id}`}>
+                                    <a><Avatar>{item.User.nickname[0]}</Avatar></a>
+                                    </Link>
+                                )}
+                                content={item.content}
+                            />
+                            {/* <Comment
+                                author={item.User.nickname}
                                 // 아래 링크는 SPA 처리 안되는 방식임
                                 avatar={<Link href={`/user/${item.User.id}`} ><a><Avatar>{item.User.nickname[0]}</Avatar></a></Link>}
                                 content={item.content}
                                 //datatime={item.createdAt}
-                            />
+                            /> */}
                         </li>
                     )}
                 />

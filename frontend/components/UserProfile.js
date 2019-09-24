@@ -21,10 +21,10 @@ const UserProfile = () => {
                 // <div key="followers">팔로워<br/> {me.Followers.length}</div>,
             ]}
         >
-            {/* <Card.Meta
-                avatar={<Avatar>{me.nickname[0]}</Avatar>}
-                title={me.nickname}
-            /> */}
+            <Card.Meta
+                // avatar={<Avatar>{me.nickname[0]}</Avatar>}
+                // title={me.nickname}
+            />
             <Button onClick={onLogout}>로그아웃</Button>
         </Card>
     );
