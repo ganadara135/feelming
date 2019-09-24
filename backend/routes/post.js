@@ -6,9 +6,22 @@ const path = require('path');
 const { isLoggedIn } = require( './middleware');
 const router = express.Router();
 
+const upload = multer( {
+    storage: multer.diskStorage( {
+        destination(req, file, done) {      // 파일 저장 위치
+            done(null, 'uploads');  // uplaods 는 파일을 저장할 서버측 폴더명, 
+        },
+        filename(req, file, done) {           // 파일명
+            const ext = path.extname(file.originalname);
+            const basename = path.basename(file.originalname, ext); //제로초.png  ext===.png,  basename===제로초
+            done(null, basename + new Date().valueOf() + ext );
+        },
+    }),
+    limits: { fileSize: 20 * 1024 * 1024 },
+});  
 
-router.post('/', isLoggedIn, async (req, res, next) => {  // POST /api/post
-    console.log("router.post_/_", req.body )
+router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {  // POST /api/post
+   // console.log("router.post_/_", req.body )
     try {
         const hashtags = req.body.content.match(/#[^\s]+/g);
         const newPost = await db.Post.create({
@@ -23,6 +36,21 @@ router.post('/', isLoggedIn, async (req, res, next) => {  // POST /api/post
             // .addHashtags()  는 sequelize 가 자동으로 만들어준 함수임.
             await newPost.addHashtags(result.map( r => r[0]));
         }
+
+        console.log("req.body.image : ",req.body.image)
+        if (req.body.image) {       // 이미지 주소를 여러개 올리면 image: [주소1, 주소2]
+            console.log("array check : ", Array.isArray(req.body.image))
+            if (Array.isArray(req.body.image)) {
+                const images = await Promise.all(req.body.image.map((v) => {
+                    console.log("images chk : ", v);
+                    return db.Image.create({ src: v });
+                }));
+                await newPost.addImages(images);
+            } else {                // 이미지 하나만 올리면 image: 주소1
+                const image = await db.Image.create({ src: req.body.image });
+                await newPost.addImage(image); 
+            }
+        }
         // const User = await newPost.getUser();
         // newPost.User = User;
         // res.json(newPost);
@@ -30,7 +58,7 @@ router.post('/', isLoggedIn, async (req, res, next) => {  // POST /api/post
             where: { id: newPost.id },
             include: [{
                 model: db.User,
-            }],
+            }, ]
         })
         res.json(fullPost);
     } catch (e) {
@@ -39,19 +67,7 @@ router.post('/', isLoggedIn, async (req, res, next) => {  // POST /api/post
     }
 })
 
-const upload = multer( {
-    storage: multer.diskStorage( {
-        destination(req, file, done) {      // 파일 저장 위치
-            done(null, 'uploads');  // uplaods 는 파일을 저장할 서버측 폴더명, 
-        },
-        filename(req, file, done) {           // 파일명
-            const ext = path.extname(file.originalname);
-            const basename = path.basename(file.originalname, ext); //제로초.png  ext===.png,  basename===제로초
-            done(null, basename + new Date().valueOf() + ext );
-        },
-    }),
-    limits: { fileSize: 20 * 1024 * 1024 },
-});  
+
 
             // uplaod.array() 는 미들웨어, image 는 전달해 주는 곳의 명칭과 같게
 router.post('/images', upload.array('image'), (req, res) => {

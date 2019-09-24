@@ -19,9 +19,9 @@ const Home = () => {
     return (
         <div>
             {me && <PostForm /> }
-            {mainPosts.map( (c) => {
+            {mainPosts.map( (c,index) => {
                 return (
-                    <PostCard key={c} post={c} />
+                    <PostCard key={index} post={c} />
                 );
             })}
         </div>

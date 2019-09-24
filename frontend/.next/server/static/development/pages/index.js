@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -456,11 +456,8 @@ const PostForm = () => {
     formData.append('content', text);
     dispatch({
       type: _reducers_post__WEBPACK_IMPORTED_MODULE_3__["ADD_POST_REQUEST"],
-      data: {
-        content: text.trim()
-      }
+      data: formData
     });
-    console.log('onSubmitForm() text : ', text);
   }, [text, imagePaths]); //const [id, setId ] = useState('');
 
   const onChangeText = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(e => {
@@ -482,6 +479,12 @@ const PostForm = () => {
     console.log("imageInput.current : ", imageInput.current);
     imageInput.current.click();
   }, [imageInput.current]);
+  const onRemoveImage = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(index => () => {
+    dispatch({
+      type: _reducers_post__WEBPACK_IMPORTED_MODULE_3__["REMOVE_IMAGE"],
+      index
+    });
+  }, []);
   return __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Form"], {
     style: {
       margin: '10px 0 20px'
@@ -490,7 +493,7 @@ const PostForm = () => {
     onSubmit: onSubmitForm,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 68
+      lineNumber: 70
     },
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Input"].TextArea, {
@@ -500,13 +503,13 @@ const PostForm = () => {
     onChange: onChangeText,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 69
+      lineNumber: 71
     },
     __self: undefined
   }), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 70
+      lineNumber: 72
     },
     __self: undefined
   }, __jsx("input", {
@@ -517,14 +520,14 @@ const PostForm = () => {
     onChange: onChangeImages,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 71
+      lineNumber: 73
     },
     __self: undefined
   }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
     onClick: onClickImageUpload,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 72
+      lineNumber: 74
     },
     __self: undefined
   }, " \uC774\uBBF8\uC9C0 \uC5C5\uB85C\uB4DC"), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
@@ -536,23 +539,23 @@ const PostForm = () => {
     isLoading: isAddingPost,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 73
+      lineNumber: 75
     },
     __self: undefined
   }, "\uC0C9\uC0C9")), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 75
+      lineNumber: 77
     },
     __self: undefined
-  }, imagePaths.map(v => __jsx("div", {
+  }, imagePaths.map((v, i) => __jsx("div", {
     key: v,
     style: {
       display: 'inline-block'
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 77
+      lineNumber: 79
     },
     __self: undefined
   }, __jsx("img", {
@@ -563,19 +566,20 @@ const PostForm = () => {
     alt: v,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 78
+      lineNumber: 80
     },
     __self: undefined
   }), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 79
+      lineNumber: 81
     },
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
+    onClick: onRemoveImage(i),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 80
+      lineNumber: 82
     },
     __self: undefined
   }, "\uC81C\uAC70"))))));
@@ -1394,9 +1398,9 @@ const Home = () => {
       lineNumber: 21
     },
     __self: undefined
-  }), mainPosts.map(c => {
+  }), mainPosts.map((c, index) => {
     return __jsx(_components_PostCard__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      key: c,
+      key: index,
       post: c,
       __source: {
         fileName: _jsxFileName,
@@ -1707,6 +1711,13 @@ const reducer = (state = initialState, action) => {
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
       }
 
+    case REMOVE_IMAGE:
+      {
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
+          imagePaths: state.imagePaths.filter((v, i) => i !== action.index)
+        });
+      }
+
     default:
       {
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
@@ -1718,7 +1729,7 @@ const reducer = (state = initialState, action) => {
 
 /***/ }),
 
-/***/ 4:
+/***/ 3:
 /*!******************************!*\
   !*** multi ./pages/index.js ***!
   \******************************/

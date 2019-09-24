@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect, useRef} from 'react';
 import { Form, Input, Button} from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
-import { ADD_POST_SUCCESS, ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST } from '../reducers/post';
+import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST, REMOVE_IMAGE } from '../reducers/post';
 
 
 
@@ -27,17 +27,13 @@ const PostForm = () => {
 
         const formData = new FormData();
         imagePaths.forEach((i) => {
-        formData.append('image', i);
+            formData.append('image', i);
         });
         formData.append('content', text);
-
         dispatch({
             type: ADD_POST_REQUEST,
-            data: {
-                content: text.trim(),
-            },
+            data: formData,
         });
-        console.log('onSubmitForm() text : ', text);
     }, [text, imagePaths]);
 
     //const [id, setId ] = useState('');
@@ -63,6 +59,12 @@ const PostForm = () => {
         imageInput.current.click();
     }, [imageInput.current]);
 
+    const onRemoveImage = useCallback( (index) => () => {
+        dispatch({
+            type : REMOVE_IMAGE,
+            index,
+        });
+    }, []);
 
     return (
         <Form style={{ margin: '10px 0 20px'  }} encType="multipart/form-data" onSubmit={onSubmitForm}>
@@ -73,11 +75,11 @@ const PostForm = () => {
                 <Button type="primary" style={{ float: 'right'}} htmlType="submit" isLoading={isAddingPost}>색색</Button>
             </div>
             <div>
-                {imagePaths.map( v => (
+                {imagePaths.map( (v, i) => (
                         <div key={v} style={{ display: 'inline-block'}}>
                             <img src={`http://localhost:3065/${v}` } style={{ width: '200px' }} alt={v} />
                             <div>
-                                <Button>제거</Button>
+                                <Button onClick={onRemoveImage(i)}>제거</Button>
                             </div>
                         </div>
                     )

@@ -240,6 +240,12 @@ const reducer = (state = initialState, action) => {
                 ...state,
             };
         }
+        case REMOVE_IMAGE: {
+            return {
+                ...state,
+                imagePaths: state.imagePaths.filter((v,i) => i !== action.index),
+            }
+        }
         default: {
             return {
                 ...state,
