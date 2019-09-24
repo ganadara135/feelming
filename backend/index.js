@@ -20,6 +20,7 @@ passportConfig();
 
 
 app.use(morgan('dev'));
+app.use('/', express.static('uploads'));    // uploads 폴더를 루트폴더에 접근하는 것처럼 처리해주는 미들웨어
 // json 형식에 데이터 처리
 app.use(express.json());
 // form 형식에 데이터 처리

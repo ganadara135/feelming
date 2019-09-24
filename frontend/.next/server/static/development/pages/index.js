@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -436,6 +436,7 @@ const PostForm = () => {
     isAddingPost,
     postAdded
   } = Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["useSelector"])(state => state.post);
+  const imageInput = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
     if (postAdded) {
       setText('');
@@ -448,6 +449,11 @@ const PostForm = () => {
       return alert('게시글을 작성하세요');
     }
 
+    const formData = new FormData();
+    imagePaths.forEach(i => {
+      formData.append('image', i);
+    });
+    formData.append('content', text);
     dispatch({
       type: _reducers_post__WEBPACK_IMPORTED_MODULE_3__["ADD_POST_REQUEST"],
       data: {
@@ -455,12 +461,27 @@ const PostForm = () => {
       }
     });
     console.log('onSubmitForm() text : ', text);
-  }, [text]); //const [id, setId ] = useState('');
+  }, [text, imagePaths]); //const [id, setId ] = useState('');
 
   const onChangeText = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(e => {
     // e.preventDefault();
     setText(e.target.value);
   }, []);
+  const onChangeImages = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(e => {
+    console.log(e.target.files);
+    const imageFormData = new FormData();
+    [].forEach.call(e.target.files, f => {
+      imageFormData.append('image', f);
+    });
+    dispatch({
+      type: _reducers_post__WEBPACK_IMPORTED_MODULE_3__["UPLOAD_IMAGES_REQUEST"],
+      data: imageFormData
+    });
+  }, []);
+  const onClickImageUpload = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(() => {
+    console.log("imageInput.current : ", imageInput.current);
+    imageInput.current.click();
+  }, [imageInput.current]);
   return __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Form"], {
     style: {
       margin: '10px 0 20px'
@@ -469,7 +490,7 @@ const PostForm = () => {
     onSubmit: onSubmitForm,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 42
+      lineNumber: 68
     },
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Input"].TextArea, {
@@ -479,28 +500,31 @@ const PostForm = () => {
     onChange: onChangeText,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 43
+      lineNumber: 69
     },
     __self: undefined
   }), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 44
+      lineNumber: 70
     },
     __self: undefined
-  }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Input"], {
+  }, __jsx("input", {
     type: "file",
     multiple: true,
     hidden: true,
+    ref: imageInput,
+    onChange: onChangeImages,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 45
+      lineNumber: 71
     },
     __self: undefined
   }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
+    onClick: onClickImageUpload,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 46
+      lineNumber: 72
     },
     __self: undefined
   }, " \uC774\uBBF8\uC9C0 \uC5C5\uB85C\uB4DC"), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
@@ -512,47 +536,46 @@ const PostForm = () => {
     isLoading: isAddingPost,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 47
+      lineNumber: 73
     },
     __self: undefined
   }, "\uC0C9\uC0C9")), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 49
+      lineNumber: 75
     },
     __self: undefined
-  }, imagePaths.map((v, i) => __jsx("div", {
+  }, imagePaths.map(v => __jsx("div", {
     key: v,
     style: {
       display: 'inline-block'
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 52
+      lineNumber: 77
     },
     __self: undefined
   }, __jsx("img", {
-    src: `http://localhsot:3065/${v}`,
+    src: `http://localhost:3065/${v}`,
     style: {
-      width: '200px',
-      height: '100px'
+      width: '200px'
     },
     alt: v,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 53
+      lineNumber: 78
     },
     __self: undefined
   }), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 54
+      lineNumber: 79
     },
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 55
+      lineNumber: 80
     },
     __self: undefined
   }, "\uC81C\uAC70"))))));
@@ -1667,6 +1690,23 @@ const reducer = (state = initialState, action) => {
         }
       }
 
+    case UPLOAD_IMAGES_REQUEST:
+      {
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
+      }
+
+    case UPLOAD_IMAGES_SUCCESS:
+      {
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
+          imagePaths: [...state.imagePaths, ...action.data]
+        });
+      }
+
+    case UPLOAD_IMAGES_FAILURE:
+      {
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
+      }
+
     default:
       {
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
@@ -1678,7 +1718,7 @@ const reducer = (state = initialState, action) => {
 
 /***/ }),
 
-/***/ 3:
+/***/ 4:
 /*!******************************!*\
   !*** multi ./pages/index.js ***!
   \******************************/

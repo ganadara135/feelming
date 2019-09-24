@@ -1,5 +1,8 @@
 const express = require('express');
 const db = require('../models');
+const multer = require('multer');
+const path = require('path');
+
 const { isLoggedIn } = require( './middleware');
 const router = express.Router();
 
@@ -36,9 +39,26 @@ router.post('/', isLoggedIn, async (req, res, next) => {  // POST /api/post
     }
 })
 
-router.post('/images', (req, res) => {
-    
-})
+const upload = multer( {
+    storage: multer.diskStorage( {
+        destination(req, file, done) {      // 파일 저장 위치
+            done(null, 'uploads');  // uplaods 는 파일을 저장할 서버측 폴더명, 
+        },
+        filename(req, file, done) {           // 파일명
+            const ext = path.extname(file.originalname);
+            const basename = path.basename(file.originalname, ext); //제로초.png  ext===.png,  basename===제로초
+            done(null, basename + new Date().valueOf() + ext );
+        },
+    }),
+    limits: { fileSize: 20 * 1024 * 1024 },
+});  
+
+            // uplaod.array() 는 미들웨어, image 는 전달해 주는 곳의 명칭과 같게
+router.post('/images', upload.array('image'), (req, res) => {
+    console.log(req.files);
+    res.json(req.files.map( v => v.filename));
+
+});
 
 router.get('/:id/comments', async (req, res, next) => {
     try {
