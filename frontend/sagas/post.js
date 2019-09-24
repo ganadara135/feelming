@@ -107,7 +107,7 @@ function* watchLoadUserPosts() {
 }
 
 function addCommentAPI(data) {
-    //console.log("addCommentAPI() in sagas : ",data)
+    console.log("addCommentAPI() in sagas : ",data)
     return axios.post( `/post/${data.postId}/comment`, {content: data.content}, {
         withCredentials: true,
     });
@@ -115,9 +115,9 @@ function addCommentAPI(data) {
 
 function* addComment(action) {
     try{
-        //console.log("addComment() in sagas : ", action)
+        console.log("addComment() in sagas : ", action)
         const result = yield call(addCommentAPI, action.data);
-        //console.log("addComment() in sagas result : ", result)
+        console.log("addComment() in sagas result : ", result)
         yield put({
             type: ADD_COMMENT_SUCCESS,
             data: {
@@ -143,14 +143,16 @@ function loadCommentsAPI(postId) {
 }
 
 function* loadComments(action) {
+    console.log('loadComment action : ', action)
     try{
         const result = yield call(loadCommentsAPI, action.data);
         console.log('loadComments() result.data : ', result.data);
+        console.log('loadComments() action.data : ', action.data);
 
         yield put({
             type: LOAD_COMMENTS_SUCCESS,
             data: {
-                postId: action.data.postId,
+                postId: action.data,
                 comments: result.data,
             },
         });

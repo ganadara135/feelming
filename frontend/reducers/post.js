@@ -99,7 +99,7 @@ export const REMOVE_POST_FAILURE = 'REMOVE_POST_FAILURE';
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case LOAD_COMMENTS_REQUEST:
+        //case LOAD_COMMENTS_REQUEST:
         case LOAD_HASHTAG_POSTS_REQUEST:
         case LOAD_USER_POSTS_REQUEST:
         case LOAD_MAIN_POSTS_REQUEST: {
@@ -117,7 +117,7 @@ const reducer = (state = initialState, action) => {
                 mainPosts: action.data,
             };
         }
-        case LOAD_COMMENTS_FAILURE:
+        //case LOAD_COMMENTS_FAILURE:
         case LOAD_HASHTAG_POSTS_FAILURE:
         case LOAD_USER_POSTS_FAILURE:
         case LOAD_MAIN_POSTS_FAILURE: {
@@ -169,10 +169,17 @@ const reducer = (state = initialState, action) => {
 
            // try {   
                 const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
+                console.log("postIndex : ", postIndex);
                 const post = state.mainPosts[postIndex];
+                console.log("post : ", post);
+                console.log("post.Comments : ", post.Comments)
+                console.log("action.data.comment : ", action.data.comment)
                 const Comments = [...post.Comments, action.data.comment];
+                console.log("Comments : ", Comments);
                 const mainPosts = [...state.mainPosts];
+                console.log("mainPosts : ", mainPosts);
                 mainPosts[postIndex] = {...post, Comments };
+                console.log("mainPosts[postIndex] : ", mainPosts[postIndex]);
             // } catch (e) {
             //     console.log("reducer error : ", e);
             // }
@@ -194,22 +201,28 @@ const reducer = (state = initialState, action) => {
             };
         }
         case LOAD_COMMENTS_SUCCESS: {
-          // try {
+
+            console.log('LOAD_COMMENTS_SUCCESS action : ', action.data)
+            console.log('LOAD_COMMENTS_SUCCESS state : ', state)
+
+            if (action.data.postId !== undefined ) {
                 const postIndex = state.mainPosts.findIndex( v=> v.id === action.data.postId);
                 const post = state.mainPosts[postIndex];
                 const Comments = action.data.comments;
                 const mainPosts = [...state.mainPosts];
                 mainPosts[postIndex] = { ...post, Comments};
-            // } catch (e){
-            //     console.log("reducer error : ", e);
-            // }
-            console.log('LOAD_COMMENTS_SUCCESS state : ', state)
-            //console.log('LOAD_COMMENTS_SUCCESS ...state : ', ...state)
-            return {
-                ...state,
-                mainPosts,
-                //mainPosts : mainPosts,
-            };
+
+                return {
+                    ...state,
+                    mainPosts,
+                    //mainPosts : mainPosts,
+                };
+            } else {
+                return {
+                    ...state,
+                }
+            }
+            
         }
         default: {
             return {
