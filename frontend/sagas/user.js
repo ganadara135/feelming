@@ -55,11 +55,12 @@ function* signUp(action) {
         // yield fork(logger);    // 로그 기록하는 기능 예제
         //yield call(signUpAPI);       // call 동기 호출
         //yield delay(2000);
-        yield call(signUpAPI, action.data);
+        const result = yield call(signUpAPI, action.data);
         //throw new Error('에러 발생');
-
+        console.log("result : ", result);
         yield put( {            // put 은 dispatch 와 동일
             type: SIGN_UP_SUCCESS,
+            data: result.data,
         });
     } catch (e) {
         console.error(e);

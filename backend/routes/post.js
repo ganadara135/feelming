@@ -14,7 +14,7 @@ router.post('/', isLoggedIn, async (req, res, next) => {  // POST /api/post
         });
         if (hashtags) {
             const result = await Promise.all(hashtags.map(tag => db.Hashtag.findOrCreate( {
-                where: { tag: tag.slice(1).toLowerCase() },
+                where: { name: tag.slice(1).toLowerCase() },
             })));
             console.log("해시태그 결과 result : ", hashtags);
             // .addHashtags()  는 sequelize 가 자동으로 만들어준 함수임.

@@ -125,10 +125,19 @@ const reducer = (state = initialState, action ) => {
             }
         }
         case SIGN_UP_SUCCESS: {
+            console.log(" result in reducers of SIGN_UP_SUCCESS : ", action.data)
             return {
                 ...state,
                 isSigningUp: false,
                 isSignedUp: true,
+                me : {
+                    nickname: action.nickname,
+                    // Post: [],
+                    // Followings: [],
+                    // Followers: [],
+                    id: action.id,
+                    userId: action.userId, 
+                }
             };
         }
         case SIGN_UP_FAILURE: {
