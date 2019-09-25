@@ -28,6 +28,7 @@ const Home = () => {
     );
 };
 
+
 // function mapStateToProps(state) {
 //     return {
 //         user: state.user,
@@ -43,3 +44,37 @@ const Home = () => {
 // export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
 export default Home;
+
+
+
+/*
+ Docker 실행 명령어
+ docker mysql 실행
+ docker run --name mysql -e MYSQL_ROOT_PASSWORD=mypass -d -p 3306:3306 mysql
+
+
+ mysql 컨테이너에 접속하기
+ docker exec -it mysql /bin/bash
+
+ mysql 데이터베이스에 접근하기
+ mysql -u root -p password
+
+
+
+
+ Nodejs 서버 + mysql 연결하여  실행 
+ docker run -it -p 3060:3060 -p 3065:3065 --volume=$(pwd):/app/  --name web --link mysql-db  -d node  
+
+ NodeJs 컨테이너에 접속하기 
+ docker exec -it web /bin/bash
+
+ mysql 컨테이너 접속 아이피 찾기
+ docker inspect bridge
+
+ 찾은 아이피를 백엔드 db 설정 파일에 적는다
+ /backend/config/config.js
+
+ 백엔드와 프런트 서버를 각각 가동한다.
+ 
+
+*/

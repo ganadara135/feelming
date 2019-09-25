@@ -7,7 +7,7 @@ module.exports = {
     "username": "root",
     "password": process.env.DB_PASSWORD,
     "database": "fixunit",
-    "host": "127.0.0.1",
+    "host": "172.17.0.2",
     "dialect": "mysql",
     "operatorsAliases": false
   },

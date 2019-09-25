@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -110,7 +110,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(antd__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var react_slick__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-slick */ "react-slick");
 /* harmony import */ var react_slick__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_slick__WEBPACK_IMPORTED_MODULE_3__);
-var _jsxFileName = "/Users/mac/work/feelming/frontend/components/ImagesZoom.js";
+var _jsxFileName = "/app/frontend/components/ImagesZoom.js";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
@@ -291,7 +291,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! next/link */ "./node_modules/next/link.js");
 /* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(next_link__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _PostImages__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./PostImages */ "./components/PostImages.js");
-var _jsxFileName = "/Users/mac/work/feelming/frontend/components/PostCard.js";
+var _jsxFileName = "/app/frontend/components/PostCard.js";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
@@ -593,7 +593,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "react-redux");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _reducers_post__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../reducers/post */ "./reducers/post.js");
-var _jsxFileName = "/Users/mac/work/feelming/frontend/components/PostForm.js";
+var _jsxFileName = "/app/frontend/components/PostForm.js";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
@@ -781,7 +781,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! antd */ "antd");
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(antd__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _ImagesZoom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ImagesZoom */ "./components/ImagesZoom.js");
-var _jsxFileName = "/Users/mac/work/feelming/frontend/components/PostImages.js";
+var _jsxFileName = "/app/frontend/components/PostImages.js";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
@@ -1695,7 +1695,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "react-redux");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _reducers_post__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../reducers/post */ "./reducers/post.js");
-var _jsxFileName = "/Users/mac/work/feelming/frontend/pages/index.js";
+var _jsxFileName = "/app/frontend/pages/index.js";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
@@ -1754,6 +1754,37 @@ const Home = () => {
 
 
 /* harmony default export */ __webpack_exports__["default"] = (Home);
+/*
+ Docker 실행 명령어
+ docker mysql 실행
+ docker run --name mysql -e MYSQL_ROOT_PASSWORD=mypass -d -p 3306:3306 mysql
+
+
+ mysql 컨테이너에 접속하기
+ docker exec -it mysql /bin/bash
+
+ mysql 데이터베이스에 접근하기
+ mysql -u root -p password
+
+
+
+
+ Nodejs 서버 + mysql 연결하여  실행 
+ docker run -it -p 3060:3060 -p 3065:3065 --volume=$(pwd):/app/  --name web --link mysql-db  -d node  
+
+ NodeJs 컨테이너에 접속하기 
+ docker exec -it web /bin/bash
+
+ mysql 컨테이너 접속 아이피 찾기
+ docker inspect bridge
+
+ 찾은 아이피를 백엔드 db 설정 파일에 적는다
+ /backend/config/config.js
+
+ 백엔드와 프런트 서버를 각각 가동한다.
+ 
+
+*/
 
 /***/ }),
 
@@ -2059,14 +2090,14 @@ const reducer = (state = initialState, action) => {
 
 /***/ }),
 
-/***/ 4:
+/***/ 3:
 /*!******************************!*\
   !*** multi ./pages/index.js ***!
   \******************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/mac/work/feelming/frontend/pages/index.js */"./pages/index.js");
+module.exports = __webpack_require__(/*! /app/frontend/pages/index.js */"./pages/index.js");
 
 
 /***/ }),

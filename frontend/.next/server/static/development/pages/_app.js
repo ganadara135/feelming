@@ -115,7 +115,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-redux */ "react-redux");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _reducers_user__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../reducers/user */ "./reducers/user.js");
-var _jsxFileName = "/Users/mac/work/feelming/frontend/components/AppLayout.js";
+var _jsxFileName = "/app/frontend/components/AppLayout.js";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
@@ -291,7 +291,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _pages_signup__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../pages/signup */ "./pages/signup.js");
 /* harmony import */ var _reducers_user__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../reducers/user */ "./reducers/user.js");
-var _jsxFileName = "/Users/mac/work/feelming/frontend/components/LoginForm.js";
+var _jsxFileName = "/app/frontend/components/LoginForm.js";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
@@ -440,7 +440,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "react-redux");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _reducers_user__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../reducers/user */ "./reducers/user.js");
-var _jsxFileName = "/Users/mac/work/feelming/frontend/components/UserProfile.js";
+var _jsxFileName = "/app/frontend/components/UserProfile.js";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
@@ -457,27 +457,75 @@ const UserProfile = () => {
       type: _reducers_user__WEBPACK_IMPORTED_MODULE_3__["LOG_OUT_REQUEST"]
     });
   }, []);
+  console.log(" UserProfile me : ", me);
+  console.log(" UserProfile me.Posts.length : ", me.Posts.length);
+  console.log(" UserProfile me.Followers.length : ", me.Followers.length);
+  console.log(" UserProfile me.Followings.length : ", me.Followings.length);
   return __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"], {
-    actions: [// <div key="twit">트위<br/> {me.Posts.length}</div>,
-      // <div key="followings">팔로잉<br/> {me.Followings.length}</div>,
-      // <div key="followers">팔로워<br/> {me.Followers.length}</div>,
-    ],
+    actions: [__jsx("div", {
+      key: "twit",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 24
+      },
+      __self: undefined
+    }, "\uD3EC\uC2A4\uD2B8", __jsx("br", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 24
+      },
+      __self: undefined
+    }), " ", me.Posts.length), __jsx("div", {
+      key: "followings",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 25
+      },
+      __self: undefined
+    }, "\uD314\uB85C\uC789", __jsx("br", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 25
+      },
+      __self: undefined
+    }), " ", me.Followings.length), __jsx("div", {
+      key: "followers",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 26
+      },
+      __self: undefined
+    }, "\uD314\uB85C\uC6CC", __jsx("br", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 26
+      },
+      __self: undefined
+    }), " ", me.Followers.length)],
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 17
+      lineNumber: 22
     },
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"].Meta, {
+    avatar: __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Avatar"], {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 30
+      },
+      __self: undefined
+    }, me.nickname[0]),
+    title: me.nickname,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 24
+      lineNumber: 29
     },
     __self: undefined
   }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
     onClick: onLogout,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 28
+      lineNumber: 33
     },
     __self: undefined
   }, "\uB85C\uADF8\uC544\uC6C3"));
@@ -1311,7 +1359,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var remote_redux_devtools__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! remote-redux-devtools */ "remote-redux-devtools");
 /* harmony import */ var remote_redux_devtools__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(remote_redux_devtools__WEBPACK_IMPORTED_MODULE_12__);
 
-var _jsxFileName = "/Users/mac/work/feelming/frontend/pages/_app.js";
+var _jsxFileName = "/app/frontend/pages/_app.js";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement;
 
 
@@ -1368,7 +1416,7 @@ const Feelming = ({
   }), __jsx("link", {
     rel: "stylesheet",
     type: "text/css",
-    charset: "UTF-8",
+    charSet: "UTF-8",
     href: "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css",
     __source: {
       fileName: _jsxFileName,
@@ -1406,7 +1454,7 @@ Feelming.propTypes = {
 };
 
 Feelming.getInitialProps = async context => {
-  console.log(context);
+  //console.log(context);
   const {
     ctx
   } = context;
@@ -1475,7 +1523,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! next/router */ "next/router");
 /* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _reducers_user__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../reducers/user */ "./reducers/user.js");
-var _jsxFileName = "/Users/mac/work/feelming/frontend/pages/signup.js";
+var _jsxFileName = "/app/frontend/pages/signup.js";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
