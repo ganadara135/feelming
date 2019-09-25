@@ -9,7 +9,6 @@ import axios from 'axios';
 
 
 function logInAPI(logInData) {
-    console.log("called logInAPI() ")
 // 서버에 요청 보내는 부분
     return axios.post('/user/login', logInData, {
         withCredentials: true,      //  쿠키 교환 with backend 

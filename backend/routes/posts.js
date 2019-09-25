@@ -11,6 +11,11 @@ router.get('/', async (req, res, next) => {
                 attributes: ['id', 'nickname'],     // 비밀번호 가져오지 않기
             }, {
                 model: db.Image
+            }, {
+                model: db.User,
+                through: 'Like',
+                as: 'Likers',
+                attributes: ['id'],
             }],
             //order: [['createdAt', 'DESC'], ['updateAt', 'ASC']]
             order: [['createdAt', 'DESC'], ]

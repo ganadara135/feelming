@@ -320,6 +320,7 @@ const PostCard = ({
     isAddingComment
   } = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["useSelector"])(state => state.post);
   const dispatch = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["useDispatch"])();
+  const liked = me && post.Likers && post.Likers.find(v => v.id === me.id);
   const onToggleComment = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(() => {
     setCommentFormOpened(prev => !prev);
 
@@ -350,12 +351,31 @@ const PostCard = ({
   }, [commentAdded === true]);
   const onChangeCommentText = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(e => {
     setCommentText(e.target.value);
-  }, []); //console.log("post.createdAt  : ", post.createdAt)
+  }, []);
+  const onToggleLike = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(() => {
+    if (!me) {
+      return alert('로그인이 필요합니다');
+    }
+
+    if (liked) {
+      // 좋아요 누른 상태
+      dispatch({
+        type: _reducers_post__WEBPACK_IMPORTED_MODULE_4__["UNLIKE_POST_REQUEST"],
+        data: post.id
+      });
+    } else {
+      // 좋아요 안 누른 상태
+      dispatch({
+        type: _reducers_post__WEBPACK_IMPORTED_MODULE_4__["LIKE_POST_REQUEST"],
+        data: post.id
+      });
+    }
+  }, [me && me.id, post && post.id, liked]); //console.log("post.createdAt  : ", post.createdAt)
 
   return __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 52
+      lineNumber: 71
     },
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"], {
@@ -365,7 +385,7 @@ const PostCard = ({
       images: post.Images,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 56
+        lineNumber: 75
       },
       __self: undefined
     }),
@@ -374,15 +394,18 @@ const PostCard = ({
       key: "retweet",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 58
+        lineNumber: 77
       },
       __self: undefined
     }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Icon"], {
       type: "heart",
       key: "heart",
+      theme: liked ? 'twoTone' : 'outlined',
+      twoToneColor: "#eb2f96",
+      onClick: onToggleLike,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 59
+        lineNumber: 78
       },
       __self: undefined
     }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Icon"], {
@@ -391,7 +414,7 @@ const PostCard = ({
       onClick: onToggleComment,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 60
+        lineNumber: 79
       },
       __self: undefined
     }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Icon"], {
@@ -399,20 +422,20 @@ const PostCard = ({
       key: "ellipsis",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 61
+        lineNumber: 80
       },
       __self: undefined
     })],
     extra: __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 63
+        lineNumber: 82
       },
       __self: undefined
     }, "\uD314\uB85C\uC6B0"),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 53
+      lineNumber: 72
     },
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"].Meta, {
@@ -426,19 +449,19 @@ const PostCard = ({
       as: `/user/${post.User.id}`,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 67
+        lineNumber: 86
       },
       __self: undefined
     }, __jsx("a", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 68
+        lineNumber: 87
       },
       __self: undefined
     }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Avatar"], {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 68
+        lineNumber: 87
       },
       __self: undefined
     }, post.User.nickname[0]))),
@@ -446,7 +469,7 @@ const PostCard = ({
     description: __jsx("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 73
+        lineNumber: 92
       },
       __self: undefined
     }, post.content.split(/(#[^\s]+)/g).map(v => {
@@ -462,13 +485,13 @@ const PostCard = ({
           key: v,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 77
+            lineNumber: 96
           },
           __self: undefined
         }, __jsx("a", {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 82
+            lineNumber: 101
           },
           __self: undefined
         }, v));
@@ -478,20 +501,20 @@ const PostCard = ({
     })),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 65
+      lineNumber: 84
     },
     __self: undefined
   })), commentFormOpened && __jsx(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Form"], {
     onSubmit: onSubmitComment,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 94
+      lineNumber: 113
     },
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Form"].Item, {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 95
+      lineNumber: 114
     },
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Input"].TextArea, {
@@ -500,7 +523,7 @@ const PostCard = ({
     onChange: onChangeCommentText,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 96
+      lineNumber: 115
     },
     __self: undefined
   })), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
@@ -509,7 +532,7 @@ const PostCard = ({
     loading: isAddingComment,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 98
+      lineNumber: 117
     },
     __self: undefined
   }, " \uC090\uC57D ")), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["List"], {
@@ -519,7 +542,7 @@ const PostCard = ({
     renderItem: item => __jsx("li", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 105
+        lineNumber: 124
       },
       __self: undefined
     }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Comment"], {
@@ -534,32 +557,32 @@ const PostCard = ({
         as: `/user/${item.User.id}`,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 109
+          lineNumber: 128
         },
         __self: undefined
       }, __jsx("a", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 110
+          lineNumber: 129
         },
         __self: undefined
       }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Avatar"], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 110
+          lineNumber: 129
         },
         __self: undefined
       }, item.User.nickname[0]))),
       content: item.content,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 106
+        lineNumber: 125
       },
       __self: undefined
     })),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 100
+      lineNumber: 119
     },
     __self: undefined
   })));
@@ -2077,6 +2100,60 @@ const reducer = (state = initialState, action) => {
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
           imagePaths: state.imagePaths.filter((v, i) => i !== action.index)
         });
+      }
+
+    case LIKE_POST_REQUEST:
+      {
+        //console.log(" in Reducuer ADD_POST_REQUEST : ", action)
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
+      }
+
+    case LIKE_POST_SUCCESS:
+      {
+        //console.log(" in Reducuer ADD_POST_SUCCESS : ", action)
+        const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
+        const post = state.mainPosts[postIndex];
+        const Likers = [{
+          id: action.data.userId
+        }, ...post.Likers];
+        const mainPosts = [...state.mainPosts];
+        mainPosts[postIndex] = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, post, {
+          Likers
+        });
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
+          mainPosts
+        });
+      }
+
+    case LIKE_POST_FAILURE:
+      {
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
+      }
+
+    case UNLIKE_POST_REQUEST:
+      {
+        //console.log(" in Reducuer ADD_POST_REQUEST : ", action)
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
+      }
+
+    case UNLIKE_POST_SUCCESS:
+      {
+        //console.log(" in Reducuer ADD_POST_SUCCESS : ", action)
+        const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
+        const post = state.mainPosts[postIndex];
+        const Likers = post.Likers.filter(v => v.id !== action.data.userId);
+        const mainPosts = [...state.mainPosts];
+        mainPosts[postIndex] = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, post, {
+          Likers
+        });
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
+          mainPosts
+        });
+      }
+
+    case UNLIKE_POST_FAILURE:
+      {
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
       }
 
     default:
