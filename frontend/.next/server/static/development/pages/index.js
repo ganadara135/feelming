@@ -291,8 +291,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! next/link */ "./node_modules/next/link.js");
 /* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(next_link__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _PostImages__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./PostImages */ "./components/PostImages.js");
+/* harmony import */ var _PostCardContent__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./PostCardContent */ "./components/PostCardContent.js");
 var _jsxFileName = "/app/frontend/components/PostCard.js";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
+
 
 
 
@@ -370,12 +372,21 @@ const PostCard = ({
         data: post.id
       });
     }
-  }, [me && me.id, post && post.id, liked]); //console.log("post.createdAt  : ", post.createdAt)
+  }, [me && me.id, post && post.id, liked]);
+  const onRetweet = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(() => {
+    if (!me) {
+      return alert('로그인이 필요합니다');
+    }
 
+    return dispatch({
+      type: _reducers_post__WEBPACK_IMPORTED_MODULE_4__["RETWEET_REQUEST"],
+      data: post.id
+    });
+  }, [me && me.id, post && post.id]);
   return __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 71
+      lineNumber: 81
     },
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"], {
@@ -385,16 +396,17 @@ const PostCard = ({
       images: post.Images,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 75
+        lineNumber: 85
       },
       __self: undefined
     }),
     actions: [__jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Icon"], {
       type: "retweet",
       key: "retweet",
+      onClick: onRetweet,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 77
+        lineNumber: 87
       },
       __self: undefined
     }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Icon"], {
@@ -405,7 +417,7 @@ const PostCard = ({
       onClick: onToggleLike,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 78
+        lineNumber: 88
       },
       __self: undefined
     }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Icon"], {
@@ -414,7 +426,7 @@ const PostCard = ({
       onClick: onToggleComment,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 79
+        lineNumber: 89
       },
       __self: undefined
     }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Icon"], {
@@ -422,20 +434,35 @@ const PostCard = ({
       key: "ellipsis",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 80
+        lineNumber: 90
       },
       __self: undefined
     })],
+    title: post.RetweetId ? `${post.User.nickname}님이 리트윗했습니다` : null,
     extra: __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 82
+        lineNumber: 93
       },
       __self: undefined
     }, "\uD314\uB85C\uC6B0"),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 72
+      lineNumber: 82
+    },
+    __self: undefined
+  }, post.RetweetId && post.Retweet ? __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"], {
+    cover: post.Retweet.Images[0] && __jsx(_PostImages__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      images: post.Retweet.Images,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 98
+      },
+      __self: undefined
+    }),
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 97
     },
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"].Meta, {
@@ -449,72 +476,88 @@ const PostCard = ({
       as: `/user/${post.User.id}`,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 86
+        lineNumber: 102
       },
       __self: undefined
     }, __jsx("a", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 87
+        lineNumber: 103
       },
       __self: undefined
     }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Avatar"], {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 87
+        lineNumber: 103
       },
       __self: undefined
     }, post.User.nickname[0]))),
     title: post.User.nickname,
-    description: __jsx("div", {
+    description: __jsx(_PostCardContent__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      postData: post.Retweet.content,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 92
+        lineNumber: 107
       },
       __self: undefined
-    }, post.content.split(/(#[^\s]+)/g).map(v => {
-      if (v.match(/#[^\s]+/)) {
-        return __jsx(next_link__WEBPACK_IMPORTED_MODULE_5___default.a, {
-          href: {
-            pathname: '/hashtag',
-            query: {
-              tag: v.slice(1)
-            }
-          },
-          as: `/hashtag/${v.slice(1)}`,
-          key: v,
-          __source: {
-            fileName: _jsxFileName,
-            lineNumber: 96
-          },
-          __self: undefined
-        }, __jsx("a", {
-          __source: {
-            fileName: _jsxFileName,
-            lineNumber: 101
-          },
-          __self: undefined
-        }, v));
-      }
-
-      return v;
-    })),
+    }),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 84
+      lineNumber: 100
+    },
+    __self: undefined
+  })) : __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"].Meta, {
+    avatar: __jsx(next_link__WEBPACK_IMPORTED_MODULE_5___default.a, {
+      href: {
+        pathname: '/user',
+        query: {
+          id: post.User.id
+        }
+      },
+      as: `/user/${post.User.id}`,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 114
+      },
+      __self: undefined
+    }, __jsx("a", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 115
+      },
+      __self: undefined
+    }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Avatar"], {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 115
+      },
+      __self: undefined
+    }, post.User.nickname[0]))),
+    title: post.User.nickname,
+    description: __jsx(_PostCardContent__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      postData: post.content,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 119
+      },
+      __self: undefined
+    }),
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 112
     },
     __self: undefined
   })), commentFormOpened && __jsx(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Form"], {
     onSubmit: onSubmitComment,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 113
+      lineNumber: 125
     },
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Form"].Item, {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 114
+      lineNumber: 126
     },
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Input"].TextArea, {
@@ -523,7 +566,7 @@ const PostCard = ({
     onChange: onChangeCommentText,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 115
+      lineNumber: 127
     },
     __self: undefined
   })), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
@@ -532,7 +575,7 @@ const PostCard = ({
     loading: isAddingComment,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 117
+      lineNumber: 129
     },
     __self: undefined
   }, " \uC090\uC57D ")), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["List"], {
@@ -542,7 +585,7 @@ const PostCard = ({
     renderItem: item => __jsx("li", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 124
+        lineNumber: 136
       },
       __self: undefined
     }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Comment"], {
@@ -557,32 +600,32 @@ const PostCard = ({
         as: `/user/${item.User.id}`,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 128
+          lineNumber: 140
         },
         __self: undefined
       }, __jsx("a", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 129
+          lineNumber: 141
         },
         __self: undefined
       }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Avatar"], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 129
+          lineNumber: 141
         },
         __self: undefined
       }, item.User.nickname[0]))),
       content: item.content,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 125
+        lineNumber: 137
       },
       __self: undefined
     })),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 119
+      lineNumber: 131
     },
     __self: undefined
   })));
@@ -597,6 +640,72 @@ PostCard.propTypes = {
   })
 };
 /* harmony default export */ __webpack_exports__["default"] = (PostCard);
+
+/***/ }),
+
+/***/ "./components/PostCardContent.js":
+/*!***************************************!*\
+  !*** ./components/PostCardContent.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! next/link */ "./node_modules/next/link.js");
+/* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(next_link__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "prop-types");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
+var _jsxFileName = "/app/frontend/components/PostCardContent.js";
+var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
+
+
+
+
+const PostCardContent = ({
+  postData
+}) => {
+  return __jsx("div", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 7
+    },
+    __self: undefined
+  }, postData.split(/(#[^\s]+)/g).map(v => {
+    if (v.match(/#[^\s]+/)) {
+      return __jsx(next_link__WEBPACK_IMPORTED_MODULE_1___default.a, {
+        href: {
+          pathname: '/hashtag',
+          query: {
+            tag: v.slice(1)
+          }
+        },
+        as: `/hashtag/${v.slice(1)}`,
+        key: v,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 11
+        },
+        __self: undefined
+      }, __jsx("a", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 16
+        },
+        __self: undefined
+      }, v));
+    }
+
+    return v;
+  }));
+};
+
+PostCardContent.propTypes = {
+  postData: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string.isRequired
+};
+/* harmony default export */ __webpack_exports__["default"] = (PostCardContent);
 
 /***/ }),
 
@@ -2152,6 +2261,23 @@ const reducer = (state = initialState, action) => {
       }
 
     case UNLIKE_POST_FAILURE:
+      {
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
+      }
+
+    case RETWEET_REQUEST:
+      {
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
+      }
+
+    case RETWEET_SUCCESS:
+      {
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
+          mainPosts: [action.data, ...state.mainPosts]
+        });
+      }
+
+    case RETWEET_FAILURE:
       {
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
       }

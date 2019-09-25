@@ -61,7 +61,7 @@ User.propTyps = {
 }
 
 User.getInitialProps = async (context) => {
-    User.log('hashtag getInitialProps', context.query.tag);
+    console.log('hashtag getInitialProps', context.query.tag);
     return { id: parseInt(context.query.id, 10) }
 };
 
