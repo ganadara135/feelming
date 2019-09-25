@@ -299,6 +299,7 @@ const reducer = (state = initialState, action) => {
             };
         }
         case RETWEET_SUCCESS: {
+            console.log('RETWEET_SUCCESS in reducers ', action.data)
             return {
                 ...state,
                 mainPosts: [action.data, ...state.mainPosts],

@@ -48,6 +48,15 @@ export default Home;
 
 
 /*
+
+ // Docker 재실행 방법
+ docker ps          // 과거 실행 내역 조사 
+ docker restart 이름,
+ docker exec -it web(이름) /bin/bash
+ npm run dev  // 백엔드 프런트엔드 각각 위치에서 실행 
+
+ 
+ // Docker 초기 실행 방법
  Docker 실행 명령어
  docker mysql 실행
  docker run --name mysql -e MYSQL_ROOT_PASSWORD=mypass -d -p 3306:3306 mysql

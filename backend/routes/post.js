@@ -32,17 +32,17 @@ router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {  // POST
             const result = await Promise.all(hashtags.map(tag => db.Hashtag.findOrCreate( {
                 where: { name: tag.slice(1).toLowerCase() },
             })));
-            console.log("해시태그 결과 result : ", hashtags);
+            //console.log("해시태그 결과 result : ", hashtags);
             // .addHashtags()  는 sequelize 가 자동으로 만들어준 함수임.
             await newPost.addHashtags(result.map( r => r[0]));
         }
 
-        console.log("req.body.image : ",req.body.image)
+        //console.log("req.body.image : ",req.body.image)
         if (req.body.image) {       // 이미지 주소를 여러개 올리면 image: [주소1, 주소2]
-            console.log("array check : ", Array.isArray(req.body.image))
+            //console.log("array check : ", Array.isArray(req.body.image))
             if (Array.isArray(req.body.image)) {
                 const images = await Promise.all(req.body.image.map((v) => {
-                    console.log("images chk : ", v);
+                    // console.log("images chk : ", v);
                     return db.Image.create({ src: v });
                 }));
                 await newPost.addImages(images);
@@ -57,9 +57,16 @@ router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {  // POST
         const fullPost = await db.Post.findOne({
             where: { id: newPost.id },
             include: [{
-                model: db.User,
-            }, ]
-        })
+              model: db.User,
+              attributes: ['id', 'nickname'],
+            }, {
+              model: db.Image,
+            }, {
+              model: db.User,
+              as: 'Likers',
+              attributes: ['id'],
+            }],
+          });
         res.json(fullPost);
     } catch (e) {
         console.error(e);

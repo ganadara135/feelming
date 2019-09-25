@@ -118,63 +118,44 @@ router.post('/login', (req, res, next) => { // POST /api/user/login
     })(req, res, next);
 });
 
-// router.post('/login', (req, res, next) => {
-//     passport.authenticate('local', (err, user, info) => {
-//         if(err) {
-//             console.error(err);
-//             return next(err);
-//         }
-//         if (info) {
-//             return res.status(401).send(info.reason);
-//         }
-//         return req.login(user, async (loginErr) => {
-//             try{
-//                 if (loginErr) {
-//                     return next(loginErr);
-//                 }
-//                 const fullUser = await db.User.findOne({
-//                     where: { id: user.id },
-//                     include: [{
-//                         model: db.Post,
-//                         as: 'Posts',
-//                         attributes: ['id'],
-//                     }, {
-//                         model: db.User,
-//                         as: 'Followings',
-//                         attributes: ['id'],
-//                     }, {
-//                         model: db.User,
-//                         as: 'Followers',
-//                         attributes: ['id'],
-//                     }],
-//                     attributes: ['id', 'nickname', 'userId'],
-//                 }) 
-//                 // const filteredUser = Object.assign({}, user.toJSON());
-//                 // delete filteredUser.password;
-//                 return res.json(filteredUser);
-//               //  })
-//             } catch (e) {
-//                 next(e);
-//             }
-            
-//     })(req, res, next);
-// });
 
 router.get('/:id/follow', (req, res) => {
 
 });
 
-router.post('/:id/follow', (req, res) => {
-    
-});
-
-router.delete('/:id/follow', (req, res) => {
-    
-});
-
 router.delete('/:id/follower', (req, res) => {
     
 });
+
+
+router.post('/:id/follow', isLoggedIn, async (req, res, next ) => {
+    try {
+        const me = await db.User.findOne({
+            where: { id: req.user.id },
+
+        });
+        await me.addFollowing(req.params.id);
+        res.send(req.params.id);
+    } catch (e) {
+        console.error(e);
+        next(e);
+    }
+});
+
+router.delete('/:id/follow', isLoggedIn, async (req, res, next) => {
+    try {
+      const me = await db.User.findOne({
+        where: { id: req.user.id },
+      });
+      await me.removeFollowing(req.params.id);
+      res.send(req.params.id);
+    } catch (e) {
+      console.error(e);
+      next(e);
+    }
+  });
+
+
 
 router.get('/:id/posts', async (req, res, next) => {
     try {

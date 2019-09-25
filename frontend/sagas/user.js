@@ -3,6 +3,8 @@ import { LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE,
     SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE,
     LOG_OUT_REQUEST, LOG_OUT_SUCCESS, LOG_OUT_FAILURE,
     LOAD_USER_REQUEST, LOAD_USER_SUCCESS, LOAD_USER_FAILURE,
+    FOLLOW_USER_REQUEST, FOLLOW_USER_SUCCESS, FOLLOW_USER_FAILURE,
+    UNFOLLOW_USER_REQUEST, UNFOLLOW_USER_SUCCESS, UNFOLLOW_USER_FAILURE,
 } from '../reducers/user'
 import axios from 'axios';
 // const HELLO_SAGA = 'HELLO_SAGA';
@@ -127,12 +129,68 @@ function* watchLoadUser() {
     yield takeEvery(LOAD_USER_REQUEST, loadUser);
 }
 
+function followAPI(userId) {
+    
+    return axios.post( `/user/${userId}/follow`, {}, {
+        withCredentials: true,
+    });
+}
+
+function* follow(action) {
+    try {
+        const result = yield call(followAPI, action.data);
+        yield put( {            // put 은 dispatch 와 동일
+            type: FOLLOW_USER_SUCCESS,
+            data: result.data,
+        });
+    } catch (e) {
+        console.error(e);
+        yield put( {
+            type: FOLLOW_USER_FAILURE,
+            error: e,
+        });
+    }
+}
+
+function* watchFollow() {
+    yield takeEvery(FOLLOW_USER_REQUEST, follow);
+}
+
+function unfollowAPI(userId) {
+    
+    return axios.delete( `/user/${userId}/follow`, {}, {
+        withCredentials: true,
+    });
+}
+
+function* unfollow(action) {
+    try {
+        const result = yield call(unfollowAPI, action.data);
+        yield put( {            // put 은 dispatch 와 동일
+            type: UNFOLLOW_USER_SUCCESS,
+            data: result.data,
+        });
+    } catch (e) {
+        console.error(e);
+        yield put( {
+            type: UNFOLLOW_USER_FAILURE,
+            error: e,
+        });
+    }
+}
+
+function* watchUnfollow() {
+    yield takeEvery(UNFOLLOW_USER_REQUEST, unfollow);
+}
+
 export default function* userSaga() {
     yield all([
         fork(watchLogIn),       // 이벤트 리스너로 이해, 순서 의미 없음
         fork(watchSignUp),
         fork(watchLogOut),
         fork(watchLoadUser),
+        fork(watchFollow),
+        fork(watchUnfollow),
 
         // call()   // 동기 호출
         // fork()   // 비동기 호출

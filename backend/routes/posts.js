@@ -29,7 +29,7 @@ router.get('/', async (req, res, next) => {
             //order: [['createdAt', 'DESC'], ['updateAt', 'ASC']]
             order: [['createdAt', 'DESC'], ]
         });
-        console.log('posts : ', posts)
+        //console.log('posts : ', posts)
         res.json(posts);
     } catch (e) {
         console.error(e);
