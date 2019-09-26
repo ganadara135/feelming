@@ -1,8 +1,10 @@
 exports.isLoggedIn = (req, res, next) => {
+    //console.log('isLoggedIn : ', req.body);
     //if (req.user) {
     if (req.isAuthenticated()) {
         next();     // 다음 미들웨어 넘어감
     } else {
+        //console.log(" 여기서 에러 발생 ")
         res.status(401).send('로그인이 필요합니다');
     }
 }

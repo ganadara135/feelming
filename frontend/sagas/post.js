@@ -12,6 +12,8 @@ import { ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE,
  } from '../reducers/post';
 import axios from 'axios';
 
+import { ADD_POST_TO_ME } from '../reducers/user';
+
 
 function addPostAPI(postData) {
     return axios.post('/post', postData, {
@@ -24,9 +26,13 @@ function* addPost(action) {
         //yield delay(2000);
         
         const result = yield call(addPostAPI, action.data);
-        yield put({
+        yield put({                 // post reducer 의 데이터 수정
             type: ADD_POST_SUCCESS,
             data: result.data,
+        });
+        yield put ( {               // user reducer 의 데이터 수정
+            type: ADD_POST_TO_ME,
+            data: result.data.id,
         });
     }catch (e) {
         yield put({
@@ -88,7 +94,7 @@ function* watchLoadHashtagPosts() {
     yield takeLatest(LOAD_HASHTAG_POSTS_REQUEST, loadHashtagPosts);
 }
 
-function loadUserPostsAPI() {
+function loadUserPostsAPI(id) {
     return axios.get(`/user/${id}/posts`);
 }
 
