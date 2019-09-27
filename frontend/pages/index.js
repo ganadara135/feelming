@@ -10,11 +10,11 @@ const Home = () => {
     const { me } = useSelector( state => state.user );
     const { mainPosts } = useSelector( state => state.post );
 
-    useEffect( () => {
-        dispatch({
-            type: LOAD_MAIN_POSTS_REQUEST,
-        });
-    }, []);
+    // useEffect( () => {
+    //     dispatch({
+            
+    //     });
+    // }, []);
 
     return (
         <div>
@@ -28,6 +28,13 @@ const Home = () => {
     );
 };
 
+Home.getInitialProps = async (context) => {
+    context.store.dispatch({
+        type: LOAD_MAIN_POSTS_REQUEST,
+    })
+};
+
+export default Home;
 
 // function mapStateToProps(state) {
 //     return {
@@ -42,9 +49,6 @@ const Home = () => {
 //     };
 // }
 // export default connect(mapStateToProps, mapDispatchToProps)(Home);
-
-export default Home;
-
 
 
 /*

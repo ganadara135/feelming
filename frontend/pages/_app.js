@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import AppLayout from '../components/AppLayout';
 import reducer from '../reducers';
 import withRedux from 'next-redux-wrapper';
+import withReduxSaga from 'next-redux-saga';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from '../sagas';
 import { Provider } from 'react-redux';
@@ -45,7 +46,7 @@ Feelming.getInitialProps = async (context) => {
     return { pageProps };
 };
 
-export default withRedux((initialState, options ) => {
+const configureStore = (initialState, options ) => {
     const sagaMiddleware = createSagaMiddleware();
     const middlewares = [sagaMiddleware];
     const enhancer = process.env.NODE_DEV === 'production'
@@ -56,11 +57,12 @@ export default withRedux((initialState, options ) => {
         );
 
     const store = createStore(reducer, initialState, enhancer);
-    sagaMiddleware.run(rootSaga);
-
+    //sagaMiddleware.run(rootSaga);
+    store.sagaTask = sagaMiddleware.run(rootSaga);
     return store;
-})(Feelming);
+};
 
+export default withRedux(configureStore)(withReduxSaga(Feelming));
 
  // _document.js      html, head, body
  // _app.js           root

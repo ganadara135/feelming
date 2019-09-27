@@ -1870,12 +1870,11 @@ const Home = () => {
   } = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["useSelector"])(state => state.user);
   const {
     mainPosts
-  } = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["useSelector"])(state => state.post);
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
-    dispatch({
-      type: _reducers_post__WEBPACK_IMPORTED_MODULE_4__["LOAD_MAIN_POSTS_REQUEST"]
-    });
-  }, []);
+  } = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["useSelector"])(state => state.post); // useEffect( () => {
+  //     dispatch({
+  //     });
+  // }, []);
+
   return __jsx("div", {
     __source: {
       fileName: _jsxFileName,
@@ -1899,7 +1898,15 @@ const Home = () => {
       __self: undefined
     });
   }));
-}; // function mapStateToProps(state) {
+};
+
+Home.getInitialProps = async context => {
+  context.store.dispatch({
+    type: _reducers_post__WEBPACK_IMPORTED_MODULE_4__["LOAD_MAIN_POSTS_REQUEST"]
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Home); // function mapStateToProps(state) {
 //     return {
 //         user: state.user,
 //     };
@@ -1912,8 +1919,6 @@ const Home = () => {
 // }
 // export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
-
-/* harmony default export */ __webpack_exports__["default"] = (Home);
 /*
 
  // Docker 재실행 방법
