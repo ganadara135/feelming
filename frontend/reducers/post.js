@@ -106,6 +106,7 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 mainPosts: action.lastId === 0 ? [] : state.mainPosts,
+                hasMorePost: action.lastId ? state.hasMorePost : true,
             };
         }
         case LOAD_USER_POSTS_SUCCESS:
@@ -114,6 +115,7 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,     
                 mainPosts: state.mainPosts.concat(action.data),
+                hasMorePost: action.data.length === 10,
             };
         }
         //case LOAD_COMMENTS_FAILURE:

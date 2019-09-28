@@ -2044,7 +2044,8 @@ const reducer = (state = initialState, action) => {
     case LOAD_MAIN_POSTS_REQUEST:
       {
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          mainPosts: action.lastId === 0 ? [] : state.mainPosts
+          mainPosts: action.lastId === 0 ? [] : state.mainPosts,
+          hasMorePost: action.lastId ? state.hasMorePost : true
         });
       }
 
@@ -2053,7 +2054,8 @@ const reducer = (state = initialState, action) => {
     case LOAD_MAIN_POSTS_SUCCESS:
       {
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          mainPosts: state.mainPosts.concat(action.data)
+          mainPosts: state.mainPosts.concat(action.data),
+          hasMorePost: action.data.length === 10
         });
       }
     //case LOAD_COMMENTS_FAILURE:
@@ -2789,7 +2791,8 @@ function* loadMainPosts(action) {
 }
 
 function* watchLoadMainPosts() {
-  yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(_reducers_post__WEBPACK_IMPORTED_MODULE_1__["LOAD_MAIN_POSTS_REQUEST"], loadMainPosts);
+  //yield takeLatest(LOAD_MAIN_POSTS_REQUEST, loadMainPosts);
+  yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["throttle"])(2000, _reducers_post__WEBPACK_IMPORTED_MODULE_1__["LOAD_MAIN_POSTS_REQUEST"], loadMainPosts);
 }
 
 function loadHashtagPostsAPI(tag, lastId) {
@@ -2812,7 +2815,8 @@ function* loadHashtagPosts(action) {
 }
 
 function* watchLoadHashtagPosts() {
-  yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(_reducers_post__WEBPACK_IMPORTED_MODULE_1__["LOAD_HASHTAG_POSTS_REQUEST"], loadHashtagPosts);
+  //yield takeLatest(LOAD_HASHTAG_POSTS_REQUEST, loadHashtagPosts);
+  yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["throttle"])(2000, _reducers_post__WEBPACK_IMPORTED_MODULE_1__["LOAD_HASHTAG_POSTS_REQUEST"], loadHashtagPosts);
 }
 
 function loadUserPostsAPI(id) {

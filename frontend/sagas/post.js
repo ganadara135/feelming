@@ -1,4 +1,4 @@
-import { all, fork, takeLatest, takeEvery, call, put, take, delay,} from 'redux-saga/effects';
+import { all, fork, takeLatest, throttle, takeEvery, call, put, take, delay,} from 'redux-saga/effects';
 import { ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE,
     ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, ADD_COMMENT_FAILURE,
     LOAD_MAIN_POSTS_REQUEST, LOAD_MAIN_POSTS_SUCCESS, LOAD_MAIN_POSTS_FAILURE,
@@ -72,7 +72,8 @@ function* loadMainPosts(action) {
 }
 
 function* watchLoadMainPosts() {
-    yield takeLatest(LOAD_MAIN_POSTS_REQUEST, loadMainPosts);
+    //yield takeLatest(LOAD_MAIN_POSTS_REQUEST, loadMainPosts);
+    yield throttle(2000, LOAD_MAIN_POSTS_REQUEST, loadMainPosts);
 }
 
 function loadHashtagPostsAPI(tag, lastId) {
@@ -95,7 +96,8 @@ function* loadHashtagPosts(action) {
 }
 
 function* watchLoadHashtagPosts() {
-    yield takeLatest(LOAD_HASHTAG_POSTS_REQUEST, loadHashtagPosts);
+    //yield takeLatest(LOAD_HASHTAG_POSTS_REQUEST, loadHashtagPosts);
+    yield throttle(2000, LOAD_HASHTAG_POSTS_REQUEST, loadHashtagPosts);
 }
 
 function loadUserPostsAPI(id) {
