@@ -5,7 +5,16 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => {
     try {
+        let where = {};
+        if (parseInt(req.query.lastId, 10)) {
+            where = {
+                id: {
+                    [db.Sequelize.Op.lt]: parseInt(req.query.lastId, 10), //less than
+                },
+            };
+        }
         const posts = await db.Post.findAll({
+            where,
             include: [{
                 model: db.User,
                 attributes: ['id', 'nickname'],     // 비밀번호 가져오지 않기
@@ -27,7 +36,8 @@ router.get('/', async (req, res, next) => {
                 }],
             },],
             //order: [['createdAt', 'DESC'], ['updateAt', 'ASC']]
-            order: [['createdAt', 'DESC'], ]
+            order: [['createdAt', 'DESC'], ],
+            limit: parseInt(req.query.limit, 10),
         });
         //console.log('posts : ', posts)
         res.json(posts);

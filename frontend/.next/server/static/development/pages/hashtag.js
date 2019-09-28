@@ -1905,9 +1905,8 @@ const reducer = (state = initialState, action) => {
     case LOAD_USER_POSTS_REQUEST:
     case LOAD_MAIN_POSTS_REQUEST:
       {
-        console.log("LOAD_  _REQUEST : ", action);
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          mainPosts: []
+          mainPosts: action.lastId === 0 ? [] : state.mainPosts
         });
       }
 
@@ -1916,7 +1915,7 @@ const reducer = (state = initialState, action) => {
     case LOAD_MAIN_POSTS_SUCCESS:
       {
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          mainPosts: action.data
+          mainPosts: state.mainPosts.concat(action.data)
         });
       }
     //case LOAD_COMMENTS_FAILURE:
@@ -1925,7 +1924,6 @@ const reducer = (state = initialState, action) => {
     case LOAD_USER_POSTS_FAILURE:
     case LOAD_MAIN_POSTS_FAILURE:
       {
-        console.log("LOAD_   _FAILURE : ", action);
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
       }
 

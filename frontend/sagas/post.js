@@ -11,7 +11,7 @@ import { ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE,
     RETWEET_REQUEST, RETWEET_SUCCESS, RETWEET_FAILURE,
     REMOVE_POST_REQUEST, REMOVE_POST_SUCCESS, REMOVE_POST_FAILURE,
  } from '../reducers/post';
- 
+
 import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from '../reducers/user';
 
 import axios from 'axios';
@@ -50,15 +50,15 @@ function* watchAddPost() {
     yield takeLatest(ADD_POST_REQUEST, addPost);
 }
 
-function loadMainPostsAPI() {
+function loadMainPostsAPI(lastId = 0, limit = 10) {
     //console.log('in loadMainPosts Saga ');
-    return axios.get('/posts');
+    return axios.get(`/posts?lastId=${lastId}&limit=${limit}`);
 }
 
-function* loadMainPosts() {
+function* loadMainPosts(action) {
     //console.log('in loadMainPosts Saga ');
     try{
-        const result = yield call(loadMainPostsAPI);
+        const result = yield call(loadMainPostsAPI, action.lastId);
         yield put({
             type: LOAD_MAIN_POSTS_SUCCESS,
             data: result.data,
@@ -75,13 +75,13 @@ function* watchLoadMainPosts() {
     yield takeLatest(LOAD_MAIN_POSTS_REQUEST, loadMainPosts);
 }
 
-function loadHashtagPostsAPI(tag) {
-    return axios.get(`/hashtag/${encodeURIComponent(tag)}`);
+function loadHashtagPostsAPI(tag, lastId) {
+    return axios.get(`/hashtag/${encodeURIComponent(tag)}?lastId=${lastId}$limit=10`);
 }
 
 function* loadHashtagPosts(action) {
     try{
-        const result = yield call(loadHashtagPostsAPI, action.data);
+        const result = yield call(loadHashtagPostsAPI, action.data, action.lastId);
         yield put({
             type: LOAD_HASHTAG_POSTS_SUCCESS,
             data: result.data,

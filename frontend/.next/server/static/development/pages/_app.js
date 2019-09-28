@@ -2043,9 +2043,8 @@ const reducer = (state = initialState, action) => {
     case LOAD_USER_POSTS_REQUEST:
     case LOAD_MAIN_POSTS_REQUEST:
       {
-        console.log("LOAD_  _REQUEST : ", action);
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          mainPosts: []
+          mainPosts: action.lastId === 0 ? [] : state.mainPosts
         });
       }
 
@@ -2054,7 +2053,7 @@ const reducer = (state = initialState, action) => {
     case LOAD_MAIN_POSTS_SUCCESS:
       {
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          mainPosts: action.data
+          mainPosts: state.mainPosts.concat(action.data)
         });
       }
     //case LOAD_COMMENTS_FAILURE:
@@ -2063,7 +2062,6 @@ const reducer = (state = initialState, action) => {
     case LOAD_USER_POSTS_FAILURE:
     case LOAD_MAIN_POSTS_FAILURE:
       {
-        console.log("LOAD_   _FAILURE : ", action);
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
       }
 
@@ -2769,15 +2767,15 @@ function* watchAddPost() {
   yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(_reducers_post__WEBPACK_IMPORTED_MODULE_1__["ADD_POST_REQUEST"], addPost);
 }
 
-function loadMainPostsAPI() {
+function loadMainPostsAPI(lastId = 0, limit = 10) {
   //console.log('in loadMainPosts Saga ');
-  return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('/posts');
+  return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get(`/posts?lastId=${lastId}&limit=${limit}`);
 }
 
-function* loadMainPosts() {
+function* loadMainPosts(action) {
   //console.log('in loadMainPosts Saga ');
   try {
-    const result = yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["call"])(loadMainPostsAPI);
+    const result = yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["call"])(loadMainPostsAPI, action.lastId);
     yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])({
       type: _reducers_post__WEBPACK_IMPORTED_MODULE_1__["LOAD_MAIN_POSTS_SUCCESS"],
       data: result.data
@@ -2794,13 +2792,13 @@ function* watchLoadMainPosts() {
   yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeLatest"])(_reducers_post__WEBPACK_IMPORTED_MODULE_1__["LOAD_MAIN_POSTS_REQUEST"], loadMainPosts);
 }
 
-function loadHashtagPostsAPI(tag) {
-  return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get(`/hashtag/${encodeURIComponent(tag)}`);
+function loadHashtagPostsAPI(tag, lastId) {
+  return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get(`/hashtag/${encodeURIComponent(tag)}?lastId=${lastId}$limit=10`);
 }
 
 function* loadHashtagPosts(action) {
   try {
-    const result = yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["call"])(loadHashtagPostsAPI, action.data);
+    const result = yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["call"])(loadHashtagPostsAPI, action.data, action.lastId);
     yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])({
       type: _reducers_post__WEBPACK_IMPORTED_MODULE_1__["LOAD_HASHTAG_POSTS_SUCCESS"],
       data: result.data

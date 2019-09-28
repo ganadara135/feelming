@@ -103,10 +103,9 @@ const reducer = (state = initialState, action) => {
         case LOAD_HASHTAG_POSTS_REQUEST:
         case LOAD_USER_POSTS_REQUEST:
         case LOAD_MAIN_POSTS_REQUEST: {
-            console.log("LOAD_  _REQUEST : ", action)
             return {
                 ...state,
-                mainPosts: [],
+                mainPosts: action.lastId === 0 ? [] : state.mainPosts,
             };
         }
         case LOAD_USER_POSTS_SUCCESS:
@@ -114,14 +113,13 @@ const reducer = (state = initialState, action) => {
         case LOAD_MAIN_POSTS_SUCCESS: {
             return {
                 ...state,     
-                mainPosts: action.data,
+                mainPosts: state.mainPosts.concat(action.data),
             };
         }
         //case LOAD_COMMENTS_FAILURE:
         case LOAD_HASHTAG_POSTS_FAILURE:
         case LOAD_USER_POSTS_FAILURE:
         case LOAD_MAIN_POSTS_FAILURE: {
-            console.log("LOAD_   _FAILURE : ", action)
             return {
                 ...state,
             };

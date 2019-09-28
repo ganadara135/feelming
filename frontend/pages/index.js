@@ -10,11 +10,25 @@ const Home = () => {
     const { me } = useSelector( state => state.user );
     const { mainPosts } = useSelector( state => state.post );
 
-    // useEffect( () => {
-    //     dispatch({
-            
-    //     });
-    // }, []);
+    const onScroll = () => {
+        console.log(window.scrollY, 
+            document.documentElement.clientHeight,
+            document.documentElement.scrollHeight);
+        if (window.scrollY + document.documentElement.clientHeight 
+            > document.documentElement.scrollHeight - 300 ) {
+                dispatch({
+                    type: LOAD_MAIN_POSTS_REQUEST,
+                    lastId: mainPosts[mainPosts.length - 1 ].id,
+                })
+            };
+    };
+
+    useEffect( () => {
+        window.addEventListener('scroll', onScroll);
+        return () => {  // 이렇게 해야 호출될때 아래가 실행됨, 본 컴포넌트 나갈때 실행됨
+            window.removeEventListener('scroll', onScroll);
+        }
+    }, [mainPosts.length]); //  빈 deps [], 는 처음 로딩될때 한 번만 호출됨
 
     return (
         <div>
