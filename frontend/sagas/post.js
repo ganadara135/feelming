@@ -77,7 +77,7 @@ function* watchLoadMainPosts() {
 }
 
 function loadHashtagPostsAPI(tag, lastId) {
-    return axios.get(`/hashtag/${encodeURIComponent(tag)}?lastId=${lastId}$limit=10`);
+    return axios.get(`/hashtag/${encodeURIComponent(tag)}?lastId=${lastId}&limit=10`);
 }
 
 function* loadHashtagPosts(action) {

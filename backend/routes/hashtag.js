@@ -13,6 +13,9 @@ router.get('/:tag', async (req, res, next ) => {
                 },
             };
         }
+        console.log("hashtag limit : ", req.query.limit);
+        console.log("hashtag query : ", req.query);
+
         const posts = await db.Post.findAll( {
             where,
             include: [{
@@ -37,9 +40,10 @@ router.get('/:tag', async (req, res, next ) => {
             }, {
                 model: db.Image,
             }],
-            }],
-            limit: parseInt(req.query.limit, 10),
-            order: [['createdAt', 'DESC']]
+        }],
+        order: [['createdAt', 'DESC']],
+        limit: parseInt(req.query.limit, 10),
+        
         });
         res.json(posts);
     } catch (e) {

@@ -2796,7 +2796,7 @@ function* watchLoadMainPosts() {
 }
 
 function loadHashtagPostsAPI(tag, lastId) {
-  return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get(`/hashtag/${encodeURIComponent(tag)}?lastId=${lastId}$limit=10`);
+  return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get(`/hashtag/${encodeURIComponent(tag)}?lastId=${lastId}&limit=10`);
 }
 
 function* loadHashtagPosts(action) {
