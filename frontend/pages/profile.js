@@ -11,10 +11,8 @@ import { LOAD_USER_POSTS_REQUEST } from '../reducers/post';
 
 const Profile = () => {
     const dispatch = useDispatch();
-    const { me, followerList, followingList } = useSelector( state => state.user );
+    const { me, followerList, followingList, hasMoreFollower, hasMoreFollowing } = useSelector( state => state.user );
     const { mainPosts,  } = useSelector ( state => state.post );
-    //const [editedName, setEditedName ] = useState();
-
     // useEffect ( () => {
     //     if (me) {
     //     }
@@ -56,7 +54,7 @@ const Profile = () => {
             grid={{ gutter: 4, xs: 2, md: 3 }}
             size="small"
             header={<div> 팔로윙 목록 </div> }
-            loadMore={<Button style={{ width: '100%' }} onClick={loadMoreFollowings}> 더 보기 </Button>}
+            loadMore={hasMoreFollowing &&  <Button style={{ width: '100%' }} onClick={loadMoreFollowings}> 더 보기 </Button>}
             dataSource={followingList}
             renderItem={item => (
                 <List.Item style={{ marginTop: '20px' }}>
@@ -71,7 +69,7 @@ const Profile = () => {
             grid={{ gutter: 4, xs: 2, md: 3 }}
             size="small"
             header={<div> 팔로워 목록 </div> }
-            loadMore={<Button style={{ width: '100%' }} onClick={loadMoreFollowers}> 더 보기 </Button>}
+            loadMore={hasMoreFollower && <Button style={{ width: '100%' }} onClick={loadMoreFollowers}> 더 보기 </Button>}
             dataSource={followerList}
             renderItem={item => (
                 <List.Item style={{ marginTop: '20px' }}>

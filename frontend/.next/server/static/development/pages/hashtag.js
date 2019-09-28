@@ -2235,7 +2235,9 @@ const initialState = {
   userInfo: null,
   // 남의 정보
   isEditingNickname: false,
-  editNicknameErrorReason: ''
+  editNicknameErrorReason: '',
+  hasMoreFollower: false,
+  hasMoreFollowing: false
 };
 const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
 const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
@@ -2441,31 +2443,39 @@ const reducer = (state = initialState, action) => {
 
     case LOAD_FOLLOWERS_REQUEST:
       {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
+          // 처음 데이터를 가져올 때는 더보기 버튼을 보여준다
+          hasMoreFollower: action.offset ? state.hasMoreFollower : true
+        });
       }
 
     case LOAD_FOLLOWERS_SUCCESS:
       {
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          followerList: state.followerList.concat(action.data)
+          followerList: state.followerList.concat(action.data),
+          hasMoreFollower: action.data.length === 3 // true or false
+
         });
       }
 
     case LOAD_FOLLOWERS_FAILURE:
       {
-        // console.log("LOAD_FOLLOWERS_FAILURE : ", action.data)
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
       }
 
     case LOAD_FOLLOWINGS_REQUEST:
       {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
+          hasMoreFollowing: action.offset ? state.hasMoreFollowing : true
+        });
       }
 
     case LOAD_FOLLOWINGS_SUCCESS:
       {
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          followingList: state.followingList.concat(action.data)
+          followingList: state.followingList.concat(action.data),
+          hasMoreFollowing: action.data.length === 3 // true or false
+
         });
       }
 

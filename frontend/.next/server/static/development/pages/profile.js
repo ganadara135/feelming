@@ -1801,12 +1801,13 @@ const Profile = () => {
   const {
     me,
     followerList,
-    followingList
+    followingList,
+    hasMoreFollower,
+    hasMoreFollowing
   } = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["useSelector"])(state => state.user);
   const {
     mainPosts
-  } = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["useSelector"])(state => state.post); //const [editedName, setEditedName ] = useState();
-  // useEffect ( () => {
+  } = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["useSelector"])(state => state.post); // useEffect ( () => {
   //     if (me) {
   //     }
   // }, [me && me.id ]);
@@ -1838,13 +1839,13 @@ const Profile = () => {
   return __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 52
+      lineNumber: 50
     },
     __self: undefined
   }, __jsx(_components_NicknameEditForm__WEBPACK_IMPORTED_MODULE_4__["default"], {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 53
+      lineNumber: 51
     },
     __self: undefined
   }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["List"], {
@@ -1860,18 +1861,18 @@ const Profile = () => {
     header: __jsx("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 58
+        lineNumber: 56
       },
       __self: undefined
     }, " \uD314\uB85C\uC719 \uBAA9\uB85D "),
-    loadMore: __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
+    loadMore: hasMoreFollowing && __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
       style: {
         width: '100%'
       },
       onClick: loadMoreFollowings,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 59
+        lineNumber: 57
       },
       __self: undefined
     }, " \uB354 \uBCF4\uAE30 "),
@@ -1882,7 +1883,7 @@ const Profile = () => {
       },
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 62
+        lineNumber: 60
       },
       __self: undefined
     }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"], {
@@ -1891,27 +1892,27 @@ const Profile = () => {
         type: "stop",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 63
+          lineNumber: 61
         },
         __self: undefined
       })],
       onClick: onUnfollow(item.id),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 63
+        lineNumber: 61
       },
       __self: undefined
     }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"].Meta, {
       description: item.nickname,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 64
+        lineNumber: 62
       },
       __self: undefined
     }))),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 54
+      lineNumber: 52
     },
     __self: undefined
   }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["List"], {
@@ -1927,18 +1928,18 @@ const Profile = () => {
     header: __jsx("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 73
+        lineNumber: 71
       },
       __self: undefined
     }, " \uD314\uB85C\uC6CC \uBAA9\uB85D "),
-    loadMore: __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
+    loadMore: hasMoreFollower && __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
       style: {
         width: '100%'
       },
       onClick: loadMoreFollowers,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 74
+        lineNumber: 72
       },
       __self: undefined
     }, " \uB354 \uBCF4\uAE30 "),
@@ -1949,7 +1950,7 @@ const Profile = () => {
       },
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 77
+        lineNumber: 75
       },
       __self: undefined
     }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"], {
@@ -1958,33 +1959,33 @@ const Profile = () => {
         type: "stop",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 78
+          lineNumber: 76
         },
         __self: undefined
       })],
       onClick: onRemoveFollower(item.id),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 78
+        lineNumber: 76
       },
       __self: undefined
     }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"].Meta, {
       description: item.nickname,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 79
+        lineNumber: 77
       },
       __self: undefined
     }))),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 69
+      lineNumber: 67
     },
     __self: undefined
   }), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 84
+      lineNumber: 82
     },
     __self: undefined
   }, mainPosts.map(c => __jsx(_components_PostCard__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -1992,7 +1993,7 @@ const Profile = () => {
     post: c,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 86
+      lineNumber: 84
     },
     __self: undefined
   }))));
@@ -2491,7 +2492,9 @@ const initialState = {
   userInfo: null,
   // 남의 정보
   isEditingNickname: false,
-  editNicknameErrorReason: ''
+  editNicknameErrorReason: '',
+  hasMoreFollower: false,
+  hasMoreFollowing: false
 };
 const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
 const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
@@ -2697,31 +2700,39 @@ const reducer = (state = initialState, action) => {
 
     case LOAD_FOLLOWERS_REQUEST:
       {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
+          // 처음 데이터를 가져올 때는 더보기 버튼을 보여준다
+          hasMoreFollower: action.offset ? state.hasMoreFollower : true
+        });
       }
 
     case LOAD_FOLLOWERS_SUCCESS:
       {
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          followerList: state.followerList.concat(action.data)
+          followerList: state.followerList.concat(action.data),
+          hasMoreFollower: action.data.length === 3 // true or false
+
         });
       }
 
     case LOAD_FOLLOWERS_FAILURE:
       {
-        // console.log("LOAD_FOLLOWERS_FAILURE : ", action.data)
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
       }
 
     case LOAD_FOLLOWINGS_REQUEST:
       {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
+          hasMoreFollowing: action.offset ? state.hasMoreFollowing : true
+        });
       }
 
     case LOAD_FOLLOWINGS_SUCCESS:
       {
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          followingList: state.followingList.concat(action.data)
+          followingList: state.followingList.concat(action.data),
+          hasMoreFollowing: action.data.length === 3 // true or false
+
         });
       }
 
