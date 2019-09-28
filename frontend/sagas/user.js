@@ -18,6 +18,8 @@ function logInAPI(logInData) {
 // 서버에 요청 보내는 부분
     return axios.post('/user/login', logInData, {
         withCredentials: true,      //  쿠키 교환 with backend 
+        // 클라이언트에서 요청 보낼 때는 브라우저가 쿠키를 같이 동봉해준다
+        // SSR 일 때는 브라우저가 빠져 있으니 직접 쿠키를 넣어준다.
     });
 }
 
@@ -187,9 +189,9 @@ function* watchUnfollow() {
     yield takeEvery(UNFOLLOW_USER_REQUEST, unfollow);
 }
 
-function loadFollowersAPI(userId) {
+function loadFollowersAPI(id) {
     
-    return axios.get( `/user/${userId}/followers`, {
+    return axios.get( `/user/${id || 0}/followers`, {
         withCredentials: true,
     });
 }
@@ -216,7 +218,7 @@ function* watchLoadFollowers() {
 
 function loadFollowingsAPI(userId) {
     
-    return axios.get( `/user/${userId}/followings`, {
+    return axios.get( `/user/${userId || 0}/followings`, {
         withCredentials: true,
     });
 }
@@ -243,7 +245,7 @@ function* watchLoadFollowings() {
 
 function removeFollowerAPI(userId) {
     
-    return axios.delete( `/user/${userId}/follower`, {
+    return axios.delete( `/user/${userId || 0}/follower`, {
         withCredentials: true,
     });
 }

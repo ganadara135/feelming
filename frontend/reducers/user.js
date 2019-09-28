@@ -1,3 +1,5 @@
+import { REMOVE_POST_REQUEST } from "./post";
+
 // const dummyUser = {
 //     nickname: '코드',
 //     Post: [],
@@ -69,13 +71,7 @@ export const EDIT_NICKNAME_REQUEST = 'EDIT_NICKNAME_REQUEST';
 export const EDIT_NICKNAME_SUCCESS = 'EDIT_NICKNAME_SUCCESS';
 export const EDIT_NICKNAME_FAILURE = 'EDIT_NICKNAME_FAILURE';
 
-// export const loginAction = {
-//     type: LOG_IN_REQUEST,
-// };
-
-// export const logoutAction = {
-//     type: LOG_OUT_REQUEST,
-// }
+export const REMOVE_POST_OF_ME = 'REMOVE_POST_OF_ME';
 
 export const signupAction = (data) => ({
     type: SIGN_UP_REQUEST,
@@ -307,6 +303,15 @@ const reducer = (state = initialState, action ) => {
                 editNicknameErrorReason: action.error,
             }
         }
+        case REMOVE_POST_OF_ME: {
+            return {
+              ...state,
+              me: {
+                  ...state.me,
+                  Posts: state.me.Posts.filter( v=> v.id !== action.data),
+              },
+            };
+          }
         default: {
             return {
                 ...state,

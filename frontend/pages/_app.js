@@ -11,6 +11,8 @@ import { Provider } from 'react-redux';
 import {createStore, compose, applyMiddleware } from 'redux';
 import { initialState } from '../reducers/user';
 import { composeWithDevTools } from 'remote-redux-devtools';
+import axios from 'axios';
+import { LOAD_USER_REQUEST } from '../reducers/user';
 
 
 const Feelming = ({ Component, store, pageProps }) => {
@@ -33,22 +35,41 @@ const Feelming = ({ Component, store, pageProps }) => {
 Feelming.propTypes = {
     Component: PropTypes.elementType.isRequired,
     store: PropTypes.object.isRequired,
-    pageProps: PropTypes.object.isRequired,
+    //pageProps: PropTypes.object.isRequired,
 };
 
 Feelming.getInitialProps = async (context) => {
     //console.log(context);
     const { ctx } = context;
     let pageProps = {};
+    const state = ctx.store.getState();
+
+    // 로그인 정보 호출하는 부분
+    const cookie = ctx.isServer ?  ctx.req.headers.cookies : '';
+    if (ctx.isServer && cookie) {
+        axios.defaults.headers.Cookie = cookie;
+    }
+    if (!state.user.me) {
+        ctx.store.dispatch( {
+            type: LOAD_USER_REQUEST,
+        })
+    }
+    // 메인 포스트 가져오는 부분
     if (context.Component.getInitialProps) {
         pageProps = await context.Component.getInitialProps(ctx);
     }
+    
     return { pageProps };
 };
 
 const configureStore = (initialState, options ) => {
     const sagaMiddleware = createSagaMiddleware();
-    const middlewares = [sagaMiddleware];
+    //const middlewares = [sagaMiddleware];
+    const middlewares = [sagaMiddleware, (store) => (next) => (action) => {
+        // saga log 파일 보기
+        //    console.log(action);
+        next(action);
+    }];
     const enhancer = process.env.NODE_DEV === 'production'
         ? compose( applyMiddleware(...middlewares))
         : compose(

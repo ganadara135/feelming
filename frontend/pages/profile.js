@@ -15,22 +15,11 @@ const Profile = () => {
     const { mainPosts,  } = useSelector ( state => state.post );
     //const [editedName, setEditedName ] = useState();
 
-    useEffect ( () => {
-        if (me) {
-            dispatch({
-                type: LOAD_FOLLOWERS_REQUEST,
-                data: me.id,
-            });
-            dispatch({
-                type: LOAD_FOLLOWINGS_REQUEST,
-                data: me.id,
-            });
-            dispatch({
-                type: LOAD_USER_POSTS_REQUEST,
-                data: me.id,
-            });
-        }
-    }, [me && me.id ]);
+    // useEffect ( () => {
+    //     if (me) {
+
+    //     }
+    // }, [me && me.id ]);
 
     const onUnfollow = useCallback(userId => () => {
         dispatch({
@@ -92,4 +81,21 @@ const Profile = () => {
     );
 };
 
+Profile.getInitialProps = async (context) => {
+    const state = context.store.getState();
+    // 이 직전에 LOAD_USERS_REQUEST  가 완료돼야함
+    // 따라서 me = null 이면 나로 인식하게 아래 reducer 를 처리하다
+    context.store.dispatch({
+            type: LOAD_FOLLOWERS_REQUEST,
+            data: state.user.me && state.user.me.id,
+    });
+    context.store.dispatch({
+            type: LOAD_FOLLOWINGS_REQUEST,
+            data: state.user.me && state.user.me.id,
+    });
+    context.store.dispatch({
+            type: LOAD_USER_POSTS_REQUEST,
+            data: state.user.me && state.user.me.id,
+    });
+}
 export default Profile;

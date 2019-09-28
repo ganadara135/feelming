@@ -388,6 +388,7 @@ var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 const PostCard = ({
   post
 }) => {
+  console.log("post hashtag : ", post.content);
   const {
     0: commentFormOpened,
     1: setCommentFormOpened
@@ -476,16 +477,18 @@ const PostCard = ({
       type: _reducers_user__WEBPACK_IMPORTED_MODULE_7__["UNFOLLOW_USER_REQUEST"],
       data: userId
     });
-  }, []); // console.log("--------------")
-  // console.log("me : ",me)
-  // console.log("post : ",post)
-  //console.log("me.followings : ", me.Followings)
-  //console.log("post.User.id : ", post.User.id)
-
+  }, []);
+  const onRemovePost = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(userId => () => {
+    console.log("call onRemovePost() ");
+    dispatch({
+      type: _reducers_post__WEBPACK_IMPORTED_MODULE_8__["REMOVE_POST_REQUEST"],
+      data: userId
+    });
+  }, []);
   return __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 101
+      lineNumber: 106
     },
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"], {
@@ -495,7 +498,7 @@ const PostCard = ({
       images: post.Images,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 105
+        lineNumber: 110
       },
       __self: undefined
     }),
@@ -505,7 +508,7 @@ const PostCard = ({
       onClick: onRetweet,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 107
+        lineNumber: 112
       },
       __self: undefined
     }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Icon"], {
@@ -516,7 +519,7 @@ const PostCard = ({
       onClick: onToggleLike,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 108
+        lineNumber: 113
       },
       __self: undefined
     }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Icon"], {
@@ -525,38 +528,71 @@ const PostCard = ({
       onClick: onToggleComment,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 109
+        lineNumber: 114
       },
       __self: undefined
-    }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Icon"], {
-      type: "ellipsis",
+    }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Popover"], {
       key: "ellipsis",
+      content: __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"].Group, {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 118
+        },
+        __self: undefined
+      }, me && post.UserId === me.id ? __jsx(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 122
+        },
+        __self: undefined
+      }, " \uC218\uC815 "), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
+        type: "danger",
+        onClick: onRemovePost(post.id),
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 123
+        },
+        __self: undefined
+      }, "\uC0AD\uC81C")) : __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 126
+        },
+        __self: undefined
+      }, "\uC2E0\uACE0")),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 110
+        lineNumber: 115
       },
       __self: undefined
-    })],
+    }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Icon"], {
+      type: "ellipsis",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 130
+      },
+      __self: undefined
+    }))],
     title: post.RetweetId ? `${post.User.nickname}님이 리트윗했습니다` : null,
     extra: !me || post.User.id === me.id ? null : me.Followings && me.Followings.find(v => v.id === post.User.id) ? __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
       onClick: onUnfollow(post.User.id),
       type: "primary",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 117
+        lineNumber: 138
       },
       __self: undefined
     }, "\uC5B8\uD314\uB85C\uC6B0") : __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
       onClick: onFollow(post.User.id),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 118
+        lineNumber: 139
       },
       __self: undefined
     }, "\uD314\uB85C\uC6B0"),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 102
+      lineNumber: 107
     },
     __self: undefined
   }, post.RetweetId && post.Retweet ? __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"], {
@@ -564,13 +600,13 @@ const PostCard = ({
       images: post.Retweet.Images,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 124
+        lineNumber: 145
       },
       __self: undefined
     }),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 123
+      lineNumber: 144
     },
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"].Meta, {
@@ -584,19 +620,19 @@ const PostCard = ({
       as: `/user/${post.User.id}`,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 128
+        lineNumber: 149
       },
       __self: undefined
     }, __jsx("a", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 129
+        lineNumber: 150
       },
       __self: undefined
     }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Avatar"], {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 129
+        lineNumber: 150
       },
       __self: undefined
     }, post.User.nickname[0]))),
@@ -605,13 +641,13 @@ const PostCard = ({
       postData: post.Retweet.content,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 133
+        lineNumber: 154
       },
       __self: undefined
     }),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 126
+      lineNumber: 147
     },
     __self: undefined
   })) : __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"].Meta, {
@@ -625,19 +661,19 @@ const PostCard = ({
       as: `/user/${post.User.id}`,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 140
+        lineNumber: 161
       },
       __self: undefined
     }, __jsx("a", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 141
+        lineNumber: 162
       },
       __self: undefined
     }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Avatar"], {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 141
+        lineNumber: 162
       },
       __self: undefined
     }, post.User.nickname[0]))),
@@ -646,26 +682,26 @@ const PostCard = ({
       postData: post.content,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 145
+        lineNumber: 166
       },
       __self: undefined
     }),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 138
+      lineNumber: 159
     },
     __self: undefined
   })), commentFormOpened && __jsx(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Form"], {
     onSubmit: onSubmitComment,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 151
+      lineNumber: 172
     },
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Form"].Item, {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 152
+      lineNumber: 173
     },
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Input"].TextArea, {
@@ -674,7 +710,7 @@ const PostCard = ({
     onChange: onChangeCommentText,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 153
+      lineNumber: 174
     },
     __self: undefined
   })), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
@@ -683,7 +719,7 @@ const PostCard = ({
     loading: isAddingComment,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 155
+      lineNumber: 176
     },
     __self: undefined
   }, " \uC090\uC57D ")), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["List"], {
@@ -693,7 +729,7 @@ const PostCard = ({
     renderItem: item => __jsx("li", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 162
+        lineNumber: 183
       },
       __self: undefined
     }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Comment"], {
@@ -708,32 +744,32 @@ const PostCard = ({
         as: `/user/${item.User.id}`,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 166
+          lineNumber: 187
         },
         __self: undefined
       }, __jsx("a", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 167
+          lineNumber: 188
         },
         __self: undefined
       }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Avatar"], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 167
+          lineNumber: 188
         },
         __self: undefined
       }, item.User.nickname[0]))),
       content: item.content,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 163
+        lineNumber: 184
       },
       __self: undefined
     })),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 157
+      lineNumber: 178
     },
     __self: undefined
   })));
@@ -1770,23 +1806,11 @@ const Profile = () => {
   const {
     mainPosts
   } = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["useSelector"])(state => state.post); //const [editedName, setEditedName ] = useState();
+  // useEffect ( () => {
+  //     if (me) {
+  //     }
+  // }, [me && me.id ]);
 
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
-    if (me) {
-      dispatch({
-        type: _reducers_user__WEBPACK_IMPORTED_MODULE_5__["LOAD_FOLLOWERS_REQUEST"],
-        data: me.id
-      });
-      dispatch({
-        type: _reducers_user__WEBPACK_IMPORTED_MODULE_5__["LOAD_FOLLOWINGS_REQUEST"],
-        data: me.id
-      });
-      dispatch({
-        type: _reducers_post__WEBPACK_IMPORTED_MODULE_6__["LOAD_USER_POSTS_REQUEST"],
-        data: me.id
-      });
-    }
-  }, [me && me.id]);
   const onUnfollow = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(userId => () => {
     dispatch({
       type: _reducers_user__WEBPACK_IMPORTED_MODULE_5__["UNFOLLOW_USER_REQUEST"],
@@ -1802,13 +1826,13 @@ const Profile = () => {
   return __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 50
+      lineNumber: 39
     },
     __self: undefined
   }, __jsx(_components_NicknameEditForm__WEBPACK_IMPORTED_MODULE_4__["default"], {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 51
+      lineNumber: 40
     },
     __self: undefined
   }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["List"], {
@@ -1824,7 +1848,7 @@ const Profile = () => {
     header: __jsx("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 60
+        lineNumber: 49
       },
       __self: undefined
     }, " \uD314\uB85C\uC719 \uBAA9\uB85D "),
@@ -1834,7 +1858,7 @@ const Profile = () => {
       },
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 61
+        lineNumber: 50
       },
       __self: undefined
     }, " \uB354 \uBCF4\uAE30 "),
@@ -1845,7 +1869,7 @@ const Profile = () => {
       },
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 64
+        lineNumber: 53
       },
       __self: undefined
     }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"], {
@@ -1854,27 +1878,27 @@ const Profile = () => {
         type: "stop",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 65
+          lineNumber: 54
         },
         __self: undefined
       })],
       onClick: onUnfollow(item.id),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 65
+        lineNumber: 54
       },
       __self: undefined
     }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"].Meta, {
       description: item.nickname,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 66
+        lineNumber: 55
       },
       __self: undefined
     }))),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 56
+      lineNumber: 45
     },
     __self: undefined
   }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["List"], {
@@ -1890,7 +1914,7 @@ const Profile = () => {
     header: __jsx("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 75
+        lineNumber: 64
       },
       __self: undefined
     }, " \uD314\uB85C\uC6CC \uBAA9\uB85D "),
@@ -1900,7 +1924,7 @@ const Profile = () => {
       },
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 76
+        lineNumber: 65
       },
       __self: undefined
     }, " \uB354 \uBCF4\uAE30 "),
@@ -1911,7 +1935,7 @@ const Profile = () => {
       },
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 79
+        lineNumber: 68
       },
       __self: undefined
     }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"], {
@@ -1920,33 +1944,33 @@ const Profile = () => {
         type: "stop",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 80
+          lineNumber: 69
         },
         __self: undefined
       })],
       onClick: onRemoveFollower(item.id),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 80
+        lineNumber: 69
       },
       __self: undefined
     }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"].Meta, {
       description: item.nickname,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 81
+        lineNumber: 70
       },
       __self: undefined
     }))),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 71
+      lineNumber: 60
     },
     __self: undefined
   }), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 86
+      lineNumber: 75
     },
     __self: undefined
   }, mainPosts.map(c => __jsx(_components_PostCard__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -1954,10 +1978,28 @@ const Profile = () => {
     post: c,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 88
+      lineNumber: 77
     },
     __self: undefined
   }))));
+};
+
+Profile.getInitialProps = async context => {
+  const state = context.store.getState(); // 이 직전에 LOAD_USERS_REQUEST  가 완료돼야함
+  // 따라서 me = null 이면 나로 인식하게 아래 reducer 를 처리하다
+
+  context.store.dispatch({
+    type: _reducers_user__WEBPACK_IMPORTED_MODULE_5__["LOAD_FOLLOWERS_REQUEST"],
+    data: state.user.me && state.user.me.id
+  });
+  context.store.dispatch({
+    type: _reducers_user__WEBPACK_IMPORTED_MODULE_5__["LOAD_FOLLOWINGS_REQUEST"],
+    data: state.user.me && state.user.me.id
+  });
+  context.store.dispatch({
+    type: _reducers_post__WEBPACK_IMPORTED_MODULE_6__["LOAD_USER_POSTS_REQUEST"],
+    data: state.user.me && state.user.me.id
+  });
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Profile);
@@ -2327,6 +2369,24 @@ const reducer = (state = initialState, action) => {
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
       }
 
+    case REMOVE_POST_REQUEST:
+      {
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
+      }
+
+    case REMOVE_POST_SUCCESS:
+      {
+        //console.log('RETWEET_SUCCESS in reducers ', action.data)
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
+          mainPosts: state.mainPosts.filter(v => v.id !== action.data)
+        });
+      }
+
+    case REMOVE_POST_FAILURE:
+      {
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
+      }
+
     default:
       {
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
@@ -2342,7 +2402,7 @@ const reducer = (state = initialState, action) => {
 /*!**************************!*\
   !*** ./reducers/user.js ***!
   \**************************/
-/*! exports provided: initialState, SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE, LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE, LOG_OUT_REQUEST, LOG_OUT_SUCCESS, LOG_OUT_FAILURE, LOAD_USER_REQUEST, LOAD_USER_SUCCESS, LOAD_USER_FAILURE, LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWERS_SUCCESS, LOAD_FOLLOWERS_FAILURE, LOAD_FOLLOWINGS_REQUEST, LOAD_FOLLOWINGS_SUCCESS, LOAD_FOLLOWINGS_FAILURE, LOAD_FOLLOW_REQUEST, LOAD_FOLLOW_SUCCESS, LOAD_FOLLOW_FAILURE, FOLLOW_USER_REQUEST, FOLLOW_USER_SUCCESS, FOLLOW_USER_FAILURE, UNFOLLOW_USER_REQUEST, UNFOLLOW_USER_SUCCESS, UNFOLLOW_USER_FAILURE, REMOVE_FOLLOWER_REQUEST, REMOVE_FOLLOWER_SUCCESS, REMOVE_FOLLOWER_FAILURE, ADD_POST_TO_ME, EDIT_NICKNAME_REQUEST, EDIT_NICKNAME_SUCCESS, EDIT_NICKNAME_FAILURE, signupAction, default */
+/*! exports provided: initialState, SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE, LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE, LOG_OUT_REQUEST, LOG_OUT_SUCCESS, LOG_OUT_FAILURE, LOAD_USER_REQUEST, LOAD_USER_SUCCESS, LOAD_USER_FAILURE, LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWERS_SUCCESS, LOAD_FOLLOWERS_FAILURE, LOAD_FOLLOWINGS_REQUEST, LOAD_FOLLOWINGS_SUCCESS, LOAD_FOLLOWINGS_FAILURE, LOAD_FOLLOW_REQUEST, LOAD_FOLLOW_SUCCESS, LOAD_FOLLOW_FAILURE, FOLLOW_USER_REQUEST, FOLLOW_USER_SUCCESS, FOLLOW_USER_FAILURE, UNFOLLOW_USER_REQUEST, UNFOLLOW_USER_SUCCESS, UNFOLLOW_USER_FAILURE, REMOVE_FOLLOWER_REQUEST, REMOVE_FOLLOWER_SUCCESS, REMOVE_FOLLOWER_FAILURE, ADD_POST_TO_ME, EDIT_NICKNAME_REQUEST, EDIT_NICKNAME_SUCCESS, EDIT_NICKNAME_FAILURE, REMOVE_POST_OF_ME, signupAction, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2382,16 +2442,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EDIT_NICKNAME_REQUEST", function() { return EDIT_NICKNAME_REQUEST; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EDIT_NICKNAME_SUCCESS", function() { return EDIT_NICKNAME_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EDIT_NICKNAME_FAILURE", function() { return EDIT_NICKNAME_FAILURE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_POST_OF_ME", function() { return REMOVE_POST_OF_ME; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "signupAction", function() { return signupAction; });
 /* harmony import */ var _babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/objectSpread */ "./node_modules/@babel/runtime-corejs2/helpers/esm/objectSpread.js");
+/* harmony import */ var _post__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./post */ "./reducers/post.js");
 
-// const dummyUser = {
+ // const dummyUser = {
 //     nickname: '코드',
 //     Post: [],
 //     Followings: [],
 //     Followers: [],
 //     id: 1,  
 // };
+
 const initialState = {
   // isLoggedIn: false,
   isLoggingOut: false,
@@ -2450,13 +2513,8 @@ const ADD_POST_TO_ME = 'ADD_POST_TO_ME'; // post reducier 를 호출하는 부�
 
 const EDIT_NICKNAME_REQUEST = 'EDIT_NICKNAME_REQUEST';
 const EDIT_NICKNAME_SUCCESS = 'EDIT_NICKNAME_SUCCESS';
-const EDIT_NICKNAME_FAILURE = 'EDIT_NICKNAME_FAILURE'; // export const loginAction = {
-//     type: LOG_IN_REQUEST,
-// };
-// export const logoutAction = {
-//     type: LOG_OUT_REQUEST,
-// }
-
+const EDIT_NICKNAME_FAILURE = 'EDIT_NICKNAME_FAILURE';
+const REMOVE_POST_OF_ME = 'REMOVE_POST_OF_ME';
 const signupAction = data => ({
   type: SIGN_UP_REQUEST,
   data: data
@@ -2701,6 +2759,15 @@ const reducer = (state = initialState, action) => {
       {
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
           editNicknameErrorReason: action.error
+        });
+      }
+
+    case REMOVE_POST_OF_ME:
+      {
+        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
+          me: Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state.me, {
+            Posts: state.me.Posts.filter(v => v.id !== action.data)
+          })
         });
       }
 

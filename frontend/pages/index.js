@@ -88,6 +88,13 @@ export default Home;
  /backend/config/config.js
 
  백엔드와 프런트 서버를 각각 가동한다.
+
+
+
+
+ Cube.js 가동하는 방법 on Docker
+ 4000, 3050 포트를 호스트와 연결해 준다.
+ docker run -it -p 4000:4000 -p 3050:3050 --volume=$(pwd):/app/ --name cubejs --link mysql-db -d node
  
 
 */

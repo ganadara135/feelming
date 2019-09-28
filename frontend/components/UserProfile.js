@@ -29,13 +29,13 @@ const UserProfile = () => {
     return (
         <Card 
             actions={[
-                 <div key="twit">포스트<br/> {me.Posts.length}</div>,
-                 <div key="followings">팔로잉<br/> {me.Followings.length}</div>,
-                 <div key="followers">팔로워<br/> {me.Followers.length}</div>,
+                 <div key="twit">포스트<br/> {me && me.Posts.length}</div>,
+                 <div key="followings">팔로잉<br/> { me && me.Followings.length}</div>,
+                 <div key="followers">팔로워<br/> {me && me.Followers.length}</div>,
             ]}
         >
             <Card.Meta
-                 avatar={<Avatar>{me.nickname[0]}</Avatar>}
+                 avatar={<Avatar>{me && me.nickname[0]}</Avatar>}
                  title={me.nickname}
             />
             <Button onClick={onLogout}>로그아웃</Button>

@@ -11,17 +11,19 @@ const Hashtag = ({ tag }) => {
     const dispatch = useDispatch();
     const {mainPosts } = useSelector( state => state.post );
 
-    useEffect( () => {
-        dispatch({
-            type: LOAD_HASHTAG_POSTS_REQUEST,
-            data: tag,
-        });
-    }, []);
+    console.log('mainPosts in Hashtag : ', mainPosts);
+
+    // useEffect( () => {
+    //     dispatch({
+    //         type: LOAD_HASHTAG_POSTS_REQUEST,
+    //         data: tag,
+    //     });
+    // }, []);
     return (
         <div>
-            {mainPosts.map( c => {
-                <PostCard key={+c.createdAt} post={c} />
-            })}
+            {mainPosts.map(c => (
+                <PostCard key={c.id} post={c} />
+            ))}
         </div>
     );
 };
@@ -31,9 +33,13 @@ Hashtag.propTypes = {
 };
 
 Hashtag.getInitialProps = async (context) => {
-    console.log('hashtag getInitialProps', context.query.tag);
-    return { tag: context.query.tag };
+    const tag = context.query.tag;
+    //console.log('hashtag getInitialProps', context.query.tag);
+    context.store.dispatch({
+        type: LOAD_HASHTAG_POSTS_REQUEST,
+        data: tag,
+    })
+    return { tag };
 }
-
 
 export default Hashtag;

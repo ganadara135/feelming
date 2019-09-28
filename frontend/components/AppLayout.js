@@ -12,13 +12,13 @@ const AppLayout = ({ children }) => {
     const { isLoggedIn, me } = useSelector( state => state.user );
     const dispatch = useDispatch();
 
-    useEffect( () => {
-        if (!me) {
-            dispatch({
-                type: LOAD_USER_REQUEST,
-            });
-        }
-    }, [me]);
+    // useEffect( () => {
+    //     if (!me) {
+    //         dispatch({
+    //             type: LOAD_USER_REQUEST,
+    //         });
+    //     }
+    // }, [me]);
 
     return (
         <div>

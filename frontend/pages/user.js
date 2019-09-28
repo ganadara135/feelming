@@ -12,16 +12,6 @@ const User = ( { id } ) => {
     const {mainPosts } = useSelector( state => state.post );
     const {userInfo } = useSelector( state => state.user );
 
-    useEffect( () => {
-        dispatch({
-            type: LOAD_USER_REQUEST,
-            data: id,
-        });
-        dispatch({
-            type: LOAD_USER_POSTS_REQUEST,
-            data: id,
-        });
-    }, []);
     return (
         <div>
             {userInfo 
@@ -61,7 +51,15 @@ User.propTyps = {
 }
 
 User.getInitialProps = async (context) => {
-    console.log('hashtag getInitialProps', context.query.tag);
+    const id = context.query.id;
+    context.store.dispatch({
+        type: LOAD_USER_REQUEST,
+        data: id,
+    });
+    context.store.dispatch({
+        type: LOAD_USER_POSTS_REQUEST,
+        data: id,
+    });
     return { id: parseInt(context.query.id, 10) }
 };
 

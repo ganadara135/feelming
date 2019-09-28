@@ -310,6 +310,23 @@ const reducer = (state = initialState, action) => {
                 ...state,
             };
         }
+        case REMOVE_POST_REQUEST: {
+            return {
+                ...state,
+            };
+        }
+        case REMOVE_POST_SUCCESS: {
+            //console.log('RETWEET_SUCCESS in reducers ', action.data)
+            return {
+                ...state,
+                mainPosts: state.mainPosts.filter( v => v.id !== action.data ),
+            };
+        }
+        case REMOVE_POST_FAILURE: {
+            return {
+                ...state,
+            };
+        }
         default: {
             return {
                 ...state,
