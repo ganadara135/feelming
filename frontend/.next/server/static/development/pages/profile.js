@@ -1823,16 +1823,28 @@ const Profile = () => {
       data: userId
     });
   }, []);
+  const loadMoreFollowings = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(() => {
+    dispatch({
+      type: _reducers_user__WEBPACK_IMPORTED_MODULE_5__["LOAD_FOLLOWINGS_REQUEST"],
+      offset: followingList.length
+    });
+  }, [followingList.length]);
+  const loadMoreFollowers = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(() => {
+    dispatch({
+      type: _reducers_user__WEBPACK_IMPORTED_MODULE_5__["LOAD_FOLLOWERS_REQUEST"],
+      offset: followerList.length
+    });
+  }, [followerList.length]);
   return __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 39
+      lineNumber: 52
     },
     __self: undefined
   }, __jsx(_components_NicknameEditForm__WEBPACK_IMPORTED_MODULE_4__["default"], {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 40
+      lineNumber: 53
     },
     __self: undefined
   }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["List"], {
@@ -1848,7 +1860,7 @@ const Profile = () => {
     header: __jsx("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 49
+        lineNumber: 58
       },
       __self: undefined
     }, " \uD314\uB85C\uC719 \uBAA9\uB85D "),
@@ -1856,9 +1868,10 @@ const Profile = () => {
       style: {
         width: '100%'
       },
+      onClick: loadMoreFollowings,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 50
+        lineNumber: 59
       },
       __self: undefined
     }, " \uB354 \uBCF4\uAE30 "),
@@ -1869,7 +1882,7 @@ const Profile = () => {
       },
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 53
+        lineNumber: 62
       },
       __self: undefined
     }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"], {
@@ -1878,27 +1891,27 @@ const Profile = () => {
         type: "stop",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 54
+          lineNumber: 63
         },
         __self: undefined
       })],
       onClick: onUnfollow(item.id),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 54
+        lineNumber: 63
       },
       __self: undefined
     }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"].Meta, {
       description: item.nickname,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 55
+        lineNumber: 64
       },
       __self: undefined
     }))),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 45
+      lineNumber: 54
     },
     __self: undefined
   }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["List"], {
@@ -1914,7 +1927,7 @@ const Profile = () => {
     header: __jsx("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 64
+        lineNumber: 73
       },
       __self: undefined
     }, " \uD314\uB85C\uC6CC \uBAA9\uB85D "),
@@ -1922,9 +1935,10 @@ const Profile = () => {
       style: {
         width: '100%'
       },
+      onClick: loadMoreFollowers,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 65
+        lineNumber: 74
       },
       __self: undefined
     }, " \uB354 \uBCF4\uAE30 "),
@@ -1935,7 +1949,7 @@ const Profile = () => {
       },
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 68
+        lineNumber: 77
       },
       __self: undefined
     }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"], {
@@ -1944,33 +1958,33 @@ const Profile = () => {
         type: "stop",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 69
+          lineNumber: 78
         },
         __self: undefined
       })],
       onClick: onRemoveFollower(item.id),
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 69
+        lineNumber: 78
       },
       __self: undefined
     }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"].Meta, {
       description: item.nickname,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 70
+        lineNumber: 79
       },
       __self: undefined
     }))),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 60
+      lineNumber: 69
     },
     __self: undefined
   }), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 75
+      lineNumber: 84
     },
     __self: undefined
   }, mainPosts.map(c => __jsx(_components_PostCard__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -1978,7 +1992,7 @@ const Profile = () => {
     post: c,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 77
+      lineNumber: 86
     },
     __self: undefined
   }))));
@@ -2689,13 +2703,13 @@ const reducer = (state = initialState, action) => {
     case LOAD_FOLLOWERS_SUCCESS:
       {
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          followerList: action.data
+          followerList: state.followerList.concat(action.data)
         });
       }
 
     case LOAD_FOLLOWERS_FAILURE:
       {
-        console.log("LOAD_FOLLOWERS_FAILURE : ", action.data);
+        // console.log("LOAD_FOLLOWERS_FAILURE : ", action.data)
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
       }
 
@@ -2707,13 +2721,13 @@ const reducer = (state = initialState, action) => {
     case LOAD_FOLLOWINGS_SUCCESS:
       {
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          followingList: action.data
+          followingList: state.followingList.concat(action.data)
         });
       }
 
     case LOAD_FOLLOWINGS_FAILURE:
       {
-        console.log("LOAD_FOLLOWINGS_FAILURE : ", action.data);
+        //console.log("LOAD_FOLLOWINGS_FAILURE : ", action.data)
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
       }
 

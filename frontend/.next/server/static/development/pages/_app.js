@@ -2585,13 +2585,13 @@ const reducer = (state = initialState, action) => {
     case LOAD_FOLLOWERS_SUCCESS:
       {
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          followerList: action.data
+          followerList: state.followerList.concat(action.data)
         });
       }
 
     case LOAD_FOLLOWERS_FAILURE:
       {
-        console.log("LOAD_FOLLOWERS_FAILURE : ", action.data);
+        // console.log("LOAD_FOLLOWERS_FAILURE : ", action.data)
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
       }
 
@@ -2603,13 +2603,13 @@ const reducer = (state = initialState, action) => {
     case LOAD_FOLLOWINGS_SUCCESS:
       {
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          followingList: action.data
+          followingList: state.followingList.concat(action.data)
         });
       }
 
     case LOAD_FOLLOWINGS_FAILURE:
       {
-        console.log("LOAD_FOLLOWINGS_FAILURE : ", action.data);
+        //console.log("LOAD_FOLLOWINGS_FAILURE : ", action.data)
         return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
       }
 
@@ -3237,15 +3237,15 @@ function* watchUnfollow() {
   yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeEvery"])(_reducers_user__WEBPACK_IMPORTED_MODULE_1__["UNFOLLOW_USER_REQUEST"], unfollow);
 }
 
-function loadFollowersAPI(id) {
-  return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(`/user/${id || 0}/followers`, {
+function loadFollowersAPI(id, offset = 0, limit = 3) {
+  return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(`/user/${id || 0}/followers?offset=${offset}&limit=${limit}`, {
     withCredentials: true
   });
 }
 
 function* loadFollowers(action) {
   try {
-    const result = yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["call"])(loadFollowersAPI, action.data);
+    const result = yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["call"])(loadFollowersAPI, action.data, action.offset);
     yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])({
       // put 은 dispatch 와 동일
       type: _reducers_user__WEBPACK_IMPORTED_MODULE_1__["LOAD_FOLLOWERS_SUCCESS"],
@@ -3264,15 +3264,15 @@ function* watchLoadFollowers() {
   yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["takeEvery"])(_reducers_user__WEBPACK_IMPORTED_MODULE_1__["LOAD_FOLLOWERS_REQUEST"], loadFollowers);
 }
 
-function loadFollowingsAPI(userId) {
-  return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(`/user/${userId || 0}/followings`, {
+function loadFollowingsAPI(userId, offset = 0, limit = 3) {
+  return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(`/user/${userId || 0}/followings?offset=${offset}&limit=${limit}`, {
     withCredentials: true
   });
 }
 
 function* loadFollowings(action) {
   try {
-    const result = yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["call"])(loadFollowingsAPI, action.data);
+    const result = yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["call"])(loadFollowingsAPI, action.data, action.offset);
     yield Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_0__["put"])({
       // put 은 dispatch 와 동일
       type: _reducers_user__WEBPACK_IMPORTED_MODULE_1__["LOAD_FOLLOWINGS_SUCCESS"],

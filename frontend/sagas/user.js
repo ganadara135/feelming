@@ -189,16 +189,16 @@ function* watchUnfollow() {
     yield takeEvery(UNFOLLOW_USER_REQUEST, unfollow);
 }
 
-function loadFollowersAPI(id) {
+function loadFollowersAPI(id, offset  = 0, limit = 3) {
     
-    return axios.get( `/user/${id || 0}/followers`, {
+    return axios.get( `/user/${id || 0}/followers?offset=${offset}&limit=${limit}`, {
         withCredentials: true,
     });
 }
 
 function* loadFollowers(action) {
     try {
-        const result = yield call(loadFollowersAPI, action.data);
+        const result = yield call(loadFollowersAPI, action.data, action.offset);
         yield put( {            // put 은 dispatch 와 동일
             type: LOAD_FOLLOWERS_SUCCESS,
             data: result.data,
@@ -216,16 +216,16 @@ function* watchLoadFollowers() {
     yield takeEvery(LOAD_FOLLOWERS_REQUEST, loadFollowers);
 }
 
-function loadFollowingsAPI(userId) {
+function loadFollowingsAPI(userId, offset  = 0, limit = 3) {
     
-    return axios.get( `/user/${userId || 0}/followings`, {
+    return axios.get( `/user/${userId || 0}/followings?offset=${offset}&limit=${limit}`, {
         withCredentials: true,
     });
 }
 
 function* loadFollowings(action) {
     try {
-        const result = yield call(loadFollowingsAPI, action.data);
+        const result = yield call(loadFollowingsAPI, action.data, action.offset);
         yield put( {            // put 은 dispatch 와 동일
             type: LOAD_FOLLOWINGS_SUCCESS,
             data: result.data,
