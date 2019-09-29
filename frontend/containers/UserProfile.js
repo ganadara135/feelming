@@ -16,6 +16,10 @@ const UserProfile = () => {
     }, []);
 
      console.log(" UserProfile me : ", me)
+
+    
+    //  next.js  prefetch   기능 추가함. 사용자가 자주 사용하는 링크 파일을 prefetch 적용해 놓으면, 한번 불러올때 한꺼번에 관련 링크를 가져옴
+    //  따라서 사용자 경험이 좋으나, 실질적인 테스트는 배포하고 확인해 볼 수 있음
  
     return (
         <Card 
