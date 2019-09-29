@@ -197,6 +197,7 @@ const AppLayout = ({
     __self: undefined
   }, __jsx(next_link__WEBPACK_IMPORTED_MODULE_1___default.a, {
     href: "/profile",
+    prefetch: true,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 33
@@ -479,6 +480,7 @@ const UserProfile = () => {
   return __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"], {
     actions: [__jsx(next_link__WEBPACK_IMPORTED_MODULE_2___default.a, {
       href: "/profile",
+      prefetch: true,
       key: "twit",
       __source: {
         fileName: _jsxFileName,
@@ -506,6 +508,7 @@ const UserProfile = () => {
       __self: undefined
     }), " ", me.Posts && me.Posts.length))), __jsx(next_link__WEBPACK_IMPORTED_MODULE_2___default.a, {
       href: "profile",
+      prefetch: true,
       key: "following",
       __source: {
         fileName: _jsxFileName,
@@ -533,6 +536,7 @@ const UserProfile = () => {
       __self: undefined
     }), " ", me.Followings && me.Followings.length))), __jsx(next_link__WEBPACK_IMPORTED_MODULE_2___default.a, {
       href: "/profile",
+      prefetch: true,
       key: "follower",
       __source: {
         fileName: _jsxFileName,
