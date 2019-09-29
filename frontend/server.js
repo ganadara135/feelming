@@ -29,7 +29,11 @@ app.prepare().then( () => {
         },
     }));
 
-    // 동적인 요청 처리 부분
+    // 동적 페이지 요청 처리 부분 / 동적 라우터 처리
+    server.get('/post/:id', (req, res) => {
+        console.log("check  동적 페이지 요청 부분")
+        return app.render(req, res, '/singlePost', { id: req.params.id});
+    });
     server.get('/hashtag/:tag', (req, res) => {
         return app.render(req, res, '/hashtag', { tag: req.params.tag});
     });
