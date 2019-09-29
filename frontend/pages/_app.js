@@ -48,7 +48,7 @@ const Feelming = ({ Component, store, pageProps }) => {
                     property: 'og:type', content: 'website',
                 }]}
                 link={[{
-                    rel: 'shortcut icon', href: '/favicon.ico',
+                    rel: 'shortcut icon', href: '/favicon.png',
                     }, {
                         rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/antd/3.16.2/antd.css',
                     }, {

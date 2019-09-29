@@ -1725,7 +1725,7 @@ const Feelming = ({
     }],
     link: [{
       rel: 'shortcut icon',
-      href: '/favicon.ico'
+      href: '/favicon.png'
     }, {
       rel: 'stylesheet',
       href: 'https://cdnjs.cloudflare.com/ajax/libs/antd/3.16.2/antd.css'
