@@ -72,7 +72,7 @@ const PostForm = () => {
             <div>
                 <input type="file" multiple hidden ref={imageInput} onChange={onChangeImages} />
                 <Button onClick={onClickImageUpload}> 이미지 업로드</Button>
-                <Button type="primary" style={{ float: 'right'}} htmlType="submit" isLoading={isAddingPost}>색색</Button>
+                <Button type="primary" style={{ float: 'right'}} htmlType="submit" isloading={isAddingPost}>색색</Button>
             </div>
             <div>
                 {imagePaths.map( (v, i) => (

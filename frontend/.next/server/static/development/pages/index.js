@@ -908,7 +908,7 @@ const PostForm = () => {
       float: 'right'
     },
     htmlType: "submit",
-    isLoading: isAddingPost,
+    isloading: isAddingPost,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 75
@@ -1908,14 +1908,21 @@ const Home = () => {
     mainPosts,
     hasMorePost
   } = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["useSelector"])(state => state.post);
+  const countRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])([]);
   const onScroll = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(() => {
     // console.log(window.scrollY, document.documentElement.clientHeight,document.documentElement.scrollHeight);
     if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
       if (hasMorePost) {
-        dispatch({
-          type: _reducers_post__WEBPACK_IMPORTED_MODULE_4__["LOAD_MAIN_POSTS_REQUEST"],
-          lastId: mainPosts[mainPosts.length - 1].id
-        });
+        const lastId = mainPosts[mainPosts.length - 1].id;
+
+        if (!countRef.current.includes(lastId)) {
+          dispatch({
+            type: _reducers_post__WEBPACK_IMPORTED_MODULE_4__["LOAD_MAIN_POSTS_REQUEST"],
+            lastId
+          });
+        }
+
+        countRef.current.push(lastId);
       }
     }
 
@@ -1932,13 +1939,13 @@ const Home = () => {
   return __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 34
+      lineNumber: 39
     },
     __self: undefined
   }, me && __jsx(_components_PostForm__WEBPACK_IMPORTED_MODULE_2__["default"], {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 35
+      lineNumber: 40
     },
     __self: undefined
   }), mainPosts.map((c, index) => {
@@ -1947,7 +1954,7 @@ const Home = () => {
       post: c,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 38
+        lineNumber: 43
       },
       __self: undefined
     });
