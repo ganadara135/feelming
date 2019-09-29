@@ -34,8 +34,8 @@ app.prepare().then( () => {
         console.log("check  동적 페이지 요청 부분")
         return app.render(req, res, '/singlePost', { id: req.params.id});
     });
-    server.get('/hashtag/:tag', (req, res) => {
-        return app.render(req, res, '/hashtag', { tag: req.params.tag});
+    server.get('/hashtag/:tag', (req, res) => { // 외부 주소, 클라이언트에 보여주는 주소
+        return app.render(req, res, '/hashtag', { tag: req.params.tag});    // 내부 주소, 프런트와 백엔드 교신 주소
     });
     server.get('/user/:id', (req, res) => {
         return app.render(req, res, '/user', { id: req.params.id});

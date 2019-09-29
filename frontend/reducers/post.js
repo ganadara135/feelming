@@ -114,7 +114,7 @@ const reducer = (state = initialState, action) => {
         case LOAD_MAIN_POSTS_REQUEST: {
             return {
                 ...state,
-                mainPosts: action.lastId === 0 ? [] : state.mainPosts,
+                mainPosts: !action.lastId ? [] : state.mainPosts,
                 hasMorePost: action.lastId ? state.hasMorePost : true,
             };
         }
@@ -124,6 +124,9 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,     
                 mainPosts: state.mainPosts.concat(action.data),
+                // mainPosts: action.data.forEach(element => {
+                //    mainPosts.push(element); 
+                // }),
                 hasMorePost: action.data.length === 10,
             };
         }
@@ -178,17 +181,17 @@ const reducer = (state = initialState, action) => {
 
            // try {   
                 const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
-                console.log("postIndex : ", postIndex);
+                //console.log("postIndex : ", postIndex);
                 const post = state.mainPosts[postIndex];
-                console.log("post : ", post);
-                console.log("post.Comments : ", post.Comments)
-                console.log("action.data.comment : ", action.data.comment)
+                // console.log("post : ", post);
+                // console.log("post.Comments : ", post.Comments)
+                // console.log("action.data.comment : ", action.data.comment)
                 const Comments = [...post.Comments, action.data.comment];
-                console.log("Comments : ", Comments);
+                //console.log("Comments : ", Comments);
                 const mainPosts = [...state.mainPosts];
-                console.log("mainPosts : ", mainPosts);
+                //console.log("mainPosts : ", mainPosts);
                 mainPosts[postIndex] = {...post, Comments };
-                console.log("mainPosts[postIndex] : ", mainPosts[postIndex]);
+                //console.log("mainPosts[postIndex] : ", mainPosts[postIndex]);
             // } catch (e) {
             //     console.log("reducer error : ", e);
             // }

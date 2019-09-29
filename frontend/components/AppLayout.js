@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Menu, Input, Button, Row, Col, Avatar, Card } from 'antd';
 import LoginForm from './LoginForm';
 import UserProfile from './UserProfile';
+import Router from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import { LOAD_USER_REQUEST } from '../reducers/user';
 
@@ -19,6 +20,11 @@ const AppLayout = ({ children }) => {
     //         });
     //     }
     // }, [me]);
+    const onSearch = (value) => {
+        console.log('search Value : ', value);
+                       // 내부 주소                                      // 외부  주소
+        Router.push({ pathname: '/hashtag', query: { tag: value }}, `/hashtag/${value}`);
+    }
 
     return (
         <div>
@@ -26,7 +32,11 @@ const AppLayout = ({ children }) => {
                 <Menu.Item key='home'><Link href="/"><a>Feelming</a></Link></Menu.Item>
                 <Menu.Item key='profile'><Link href="/profile"><a>프로필</a></Link></Menu.Item>
                 <Menu.Item key='mail'>
-                    <Input.Search enterButton style={{ verticalAlign: 'middle'}} />
+                    <Input.Search 
+                        enterButton 
+                        style={{ verticalAlign: 'middle'}}
+                        onSearch={onSearch} 
+                    />
                 </Menu.Item>
             </Menu>
             <Row gutter={8} >

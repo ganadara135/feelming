@@ -111,7 +111,7 @@ const PostCard = ({ post }) => {
     return (
         <CardWrapper>
         <Card
-            key={+post.createdAt}
+            //key={+post.createdAt}
             //cover={post.Images[0] && <img alt="example" src={`http://localhost:3065/${post.Images[0].src}`} />}
             cover={post.Images && post.Images[0] && <PostImages images={post.Images} />}
             actions={[
@@ -217,7 +217,7 @@ PostCard.propTypes = {
         User: PropTypes.object,
         content: PropTypes.string,
         img: PropTypes.string,
-        //createdAt: PropTypes.string,
+        createdAt: PropTypes.string,
     })
 }
 
