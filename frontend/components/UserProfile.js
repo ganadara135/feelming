@@ -15,27 +15,17 @@ const UserProfile = () => {
     }, []);
 
      console.log(" UserProfile me : ", me)
-    //  if (!me){
-    //     me = {
-    //         Posts : [0],
-    //         Followers : [0],
-    //         Followings : [0],
-    //     }
-    //  }
-    // console.log(" UserProfile me.Posts.length : ", me.Posts.length)
-    // console.log(" UserProfile me.Followers.length : ", me.Followers.length)
-    // console.log(" UserProfile me.Followings.length : ", me.Followings.length)
-
+ 
     return (
         <Card 
             actions={[
-                 <div key="twit">포스트<br/> {me && me.Posts.length}</div>,
-                 <div key="followings">팔로잉<br/> { me && me.Followings.length}</div>,
-                 <div key="followers">팔로워<br/> {me && me.Followers.length}</div>,
+                 <div key="twit">포스트<br/> {me.Posts && me.Posts.length}</div>,
+                 <div key="followings">팔로잉<br/> { me.Followings && me.Followings.length}</div>,
+                 <div key="followers">팔로워<br/> {me.Followings && me.Followers.length}</div>,
             ]}
         >
             <Card.Meta
-                 avatar={<Avatar>{me && me.nickname[0]}</Avatar>}
+                 avatar={<Avatar>{me.nickname && me.nickname[0]}</Avatar>}
                  title={me.nickname}
             />
             <Button onClick={onLogout}>로그아웃</Button>

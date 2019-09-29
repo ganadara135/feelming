@@ -38,6 +38,7 @@
 //     content: '더미 댓글입니다',
 // }
 
+
 export const initialState = {
     mainPosts: [], // 화면에 보일 포스트들
     imagePaths: [], // 미리보기 이미지 경로

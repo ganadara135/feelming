@@ -2217,9 +2217,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EDIT_NICKNAME_FAILURE", function() { return EDIT_NICKNAME_FAILURE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_POST_OF_ME", function() { return REMOVE_POST_OF_ME; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "signupAction", function() { return signupAction; });
-/* harmony import */ var _babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/objectSpread */ "./node_modules/@babel/runtime-corejs2/helpers/esm/objectSpread.js");
-/* harmony import */ var _post__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./post */ "./reducers/post.js");
-
+/* harmony import */ var immer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! immer */ "immer");
+/* harmony import */ var immer__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(immer__WEBPACK_IMPORTED_MODULE_0__);
  // const dummyUser = {
 //     nickname: '코드',
 //     Post: [],
@@ -2301,264 +2300,337 @@ const signupAction = data => ({
 // };
 
 const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case ADD_POST_TO_ME:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          me: Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state.me, {
-            Posts: [{
-              id: action.data
-            }, ...state.me.Posts]
-          })
-        });
-      }
-      ;
-
-    case LOG_IN_REQUEST:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          isLoggingIn: true
-        });
-      }
-
-    case LOG_IN_SUCCESS:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          isLoggingIn: false,
-          //isLoggedIn: true,
-          //me: dummyUser,
-          me: action.data,
-          isLoading: false
-        });
-      }
-
-    case LOG_IN_FAILURE:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          isLoggingIn: false,
-          //isLoggedIn: false,
-          logInErrorReason: action.error,
-          me: null
-        });
-      }
-
-    case LOG_OUT_REQUEST:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          isLoggingOut: true
-        });
-      }
-
-    case LOG_OUT_SUCCESS:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          isLoggingOut: false,
-          //isLoggedIn: false,
-          me: null
-        });
-      }
-
-    case SIGN_UP_REQUEST:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          isSigningUp: true,
-          isSignedUp: false,
-          signUpErrorReason: ''
-        });
-      }
-
-    case SIGN_UP_SUCCESS:
-      {
-        console.log(" result in reducers of SIGN_UP_SUCCESS : ", action.data);
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          isSigningUp: false,
-          isSignedUp: true,
-          me: {
-            nickname: action.nickname,
-            // Post: [],
-            // Followings: [],
-            // Followers: [],
-            id: action.id,
-            userId: action.userId
-          }
-        });
-      }
-
-    case SIGN_UP_FAILURE:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          isSigningUp: false,
-          signUpErrorReason: action.error
-        });
-      }
-
-    case LOAD_USER_REQUEST:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
-      }
-
-    case LOAD_USER_SUCCESS:
-      {
-        if (action.me) {
-          return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-            me: action.data
+  return immer__WEBPACK_IMPORTED_MODULE_0___default()(state, draft => {
+    switch (action.type) {
+      case ADD_POST_TO_ME:
+        {
+          draft.me.Posts.unshift({
+            id: action.data
           });
+          break; // return {
+          //     ...state,
+          //     me: {
+          //         ...state.me,
+          //         Posts: [{ id: action.data }, ...state.me.Posts],
+          //     },
+          // };
+        }
+        ;
+
+      case LOG_IN_REQUEST:
+        {
+          draft.isLoggingIn = true;
+          draft.logInErrorReason = '';
+          break; // return {
+          //     ...state,
+          //     isLoggingIn: true,
+          // }
         }
 
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          userInfo: action.data
-        });
-      }
+      case LOG_IN_SUCCESS:
+        {
+          draft.isLoggingIn = false;
+          draft.me = action.data;
+          draft.isLoading = false;
+          draft.logInErrorReason = '';
+          break; // return {
+          //     ...state,
+          //     isLoggingIn: false,
+          //     //isLoggedIn: true,
+          //     //me: dummyUser,
+          //     me: action.data,
+          //     isLoading: false,
+          // }
+        }
 
-    case LOAD_USER_FAILURE:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
-      }
+      case LOG_IN_FAILURE:
+        {
+          draft.isLoggingIn = false;
+          draft.logInErrorReason = action.error;
+          draft.me = null;
+          break; // return {
+          //     ...state,
+          //     isLoggingIn: false,
+          //     //isLoggedIn: false,
+          //     logInErrorReason: action.error,
+          //     me: null,
+          // }
+        }
 
-    case FOLLOW_USER_REQUEST:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
-      }
+      case LOG_OUT_REQUEST:
+        {
+          draft.isLoggingOut = true;
+          break;
+        }
 
-    case FOLLOW_USER_SUCCESS:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          me: Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state.me, {
-            Followings: [{
-              id: action.data
-            }, ...state.me.Followings]
-          })
-        });
-      }
+      case LOG_OUT_SUCCESS:
+        {
+          draft.isLoggingOut = true;
+          draft.me = null;
+          break;
+        }
 
-    case FOLLOW_USER_FAILURE:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
-      }
+      case SIGN_UP_REQUEST:
+        {
+          draft.isSigningUp = false;
+          draft.isSignedUp = true;
+          draft.signUpErrorReason = '';
+          break;
+        }
 
-    case UNFOLLOW_USER_REQUEST:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
-      }
+      case SIGN_UP_SUCCESS:
+        {
+          draft.isSigningUp = false;
+          draft.isSignedUp = true;
+          break; // return {
+          //     ...state,
+          //     isSigningUp: false,
+          //     isSignedUp: true,
+          //     me : {
+          //         nickname: action.nickname,
+          //         // Post: [],
+          //         // Followings: [],
+          //         // Followers: [],
+          //         id: action.id,
+          //         userId: action.userId, 
+          //     }
+          // };
+        }
 
-    case UNFOLLOW_USER_SUCCESS:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          me: Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state.me, {
-            Followings: state.me.Followings.filter(v => v.id !== action.data)
-          }),
-          followingList: state.followingList.filter(v => v.id !== action.data)
-        });
-      }
+      case SIGN_UP_FAILURE:
+        {
+          draft.isSigningUp = false;
+          draft.signUpErrorReason = action.error;
+          break; // return {
+          //     ...state,
+          //     isSigningUp: false,
+          //     signUpErrorReason: action.error,
+          // };
+        }
 
-    case UNFOLLOW_USER_FAILURE:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
-      }
+      case LOAD_USER_REQUEST:
+        {
+          break; // return {
+          //     ...state,
+          // }
+        }
 
-    case LOAD_FOLLOWERS_REQUEST:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          // 처음 데이터를 가져올 때는 더보기 버튼을 보여준다
-          hasMoreFollower: action.offset ? state.hasMoreFollower : true
-        });
-      }
+      case LOAD_USER_SUCCESS:
+        {
+          if (action.me) {
+            draft.me = action.data;
+            break;
+          }
 
-    case LOAD_FOLLOWERS_SUCCESS:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          followerList: state.followerList.concat(action.data),
-          hasMoreFollower: action.data.length === 3 // true or false
+          draft.userInfo = action.data;
+          break; // if(action.me){
+          //     return {
+          //         ...state,
+          //         me: action.data,
+          //     };    
+          // }
+          // return {
+          //     ...state,
+          //     userInfo: action.data,
+          // }
+        }
 
-        });
-      }
+      case LOAD_USER_FAILURE:
+        {
+          break; // return {
+          //     ...state,
+          // };
+        }
 
-    case LOAD_FOLLOWERS_FAILURE:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
-      }
+      case FOLLOW_USER_REQUEST:
+        {
+          break; // return {
+          //     ...state,
+          // }
+        }
 
-    case LOAD_FOLLOWINGS_REQUEST:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          hasMoreFollowing: action.offset ? state.hasMoreFollowing : true
-        });
-      }
+      case FOLLOW_USER_SUCCESS:
+        {
+          draft.me.Followings.unshift({
+            id: action.data
+          });
+          break; // return {
+          //   ...state,
+          //   me: {
+          //     ...state.me,
+          //     Followings: [{ id: action.data }, ...state.me.Followings],
+          //   },
+          // };
+        }
 
-    case LOAD_FOLLOWINGS_SUCCESS:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          followingList: state.followingList.concat(action.data),
-          hasMoreFollowing: action.data.length === 3 // true or false
+      case FOLLOW_USER_FAILURE:
+        {
+          break;
+        }
 
-        });
-      }
+      case UNFOLLOW_USER_REQUEST:
+        {
+          break;
+        }
 
-    case LOAD_FOLLOWINGS_FAILURE:
-      {
-        //console.log("LOAD_FOLLOWINGS_FAILURE : ", action.data)
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
-      }
+      case UNFOLLOW_USER_SUCCESS:
+        {
+          const index = draft.me.Followings.findIndex(v => v.id === action.data);
+          draft.me.Followings.splice(index, 1);
+          const index2 = draft.followingList.findIndex(v => v.id === action.data);
+          draft.followingList.splice(index2, 1);
+          break; // return {
+          //   ...state,
+          //   me: {
+          //     ...state.me,
+          //     Followings: state.me.Followings.filter(v => v.id !== action.data),
+          //   },
+          //   followingList: state.followingList.filter(v => v.id !== action.data),
+          // };
+        }
 
-    case REMOVE_FOLLOWER_REQUEST:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
-      }
+      case UNFOLLOW_USER_FAILURE:
+        {
+          break;
+        }
 
-    case REMOVE_FOLLOWER_SUCCESS:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          me: Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state.me, {
-            Followers: state.me.Followers.filter(v => v.id !== action.data)
-          }),
-          followerList: state.followerList.filter(v => v.id !== action.data)
-        });
-      }
+      case LOAD_FOLLOWERS_REQUEST:
+        {
+          draft.followerList = !action.offset ? [] : draft.followerList;
+          draft.hasMoreFollower = action.offset ? draft.hasMoreFollower : true;
+          break; // return {
+          //     ...state,
+          //     // 처음 데이터를 가져올 때는 더보기 버튼을 보여준다
+          //     hasMoreFollower: action.offset ? state.hasMoreFollower : true,
+          // };
+        }
 
-    case REMOVE_FOLLOWER_FAILURE:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
-      }
+      case LOAD_FOLLOWERS_SUCCESS:
+        {
+          action.data.forEach(d => {
+            draft.followerList.push(d);
+          });
+          draft.hasMoreFollower = action.data.length === 3;
+          break; // return {
+          //   ...state,
+          //   followerList: state.followerList.concat(action.data),
+          //   hasMoreFollower: action.data.length === 3, // true or false
+          // };
+        }
 
-    case EDIT_NICKNAME_REQUEST:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          isEditingNickname: true,
-          editNicknameErrorReason: ''
-        });
-      }
+      case LOAD_FOLLOWERS_FAILURE:
+        {
+          break;
+        }
 
-    case EDIT_NICKNAME_SUCCESS:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          isEditingNickname: false,
-          me: Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state.me, {
-            nickname: action.data
-          })
-        });
-      }
+      case LOAD_FOLLOWINGS_REQUEST:
+        {
+          draft.followingList = !action.offset ? [] : draft.followingList;
+          draft.hasMoreFollowing = action.offset ? draft.hasMoreFollowing : true;
+          break; // return {
+          //     ...state,
+          //     hasMoreFollowing: action.offset ? state.hasMoreFollowing : true,
+          // }
+        }
 
-    case EDIT_NICKNAME_FAILURE:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          editNicknameErrorReason: action.error
-        });
-      }
+      case LOAD_FOLLOWINGS_SUCCESS:
+        {
+          action.data.forEach(d => {
+            draft.followingList.push(d);
+          });
+          draft.hasMoreFollowing = action.data.length === 3;
+          break; // return {
+          //   ...state,
+          //   followingList: state.followingList.concat(action.data),
+          //   hasMoreFollowing: action.data.length === 3, // true or false
+          // };
+        }
 
-    case REMOVE_POST_OF_ME:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          me: Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state.me, {
-            Posts: state.me.Posts.filter(v => v.id !== action.data)
-          })
-        });
-      }
+      case LOAD_FOLLOWINGS_FAILURE:
+        {
+          break;
+        }
 
-    default:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
-      }
-  }
+      case REMOVE_FOLLOWER_REQUEST:
+        {
+          break;
+        }
+
+      case REMOVE_FOLLOWER_SUCCESS:
+        {
+          const index = draft.me.Followers.findIndex(v => v.id === action.data);
+          draft.me.Followers.splice(index, 1);
+          const index2 = draft.followerList.findIndex(v => v.id === action.data);
+          draft.followerList.splice(index2, 1);
+          break; // return {
+          //   ...state,
+          //   me: {
+          //       ...state.me,
+          //       Followers: state.me.Followers.filter( v=> v.id !== action.data),
+          //   },
+          //   followerList: state.followerList.filter(v => v.id !== action.data),
+          // };
+        }
+
+      case REMOVE_FOLLOWER_FAILURE:
+        {
+          break;
+        }
+
+      case EDIT_NICKNAME_REQUEST:
+        {
+          draft.isEditingNickname = false;
+          draft.me.nickname = action.data;
+          break; // return {
+          //     ...state,
+          //     isEditingNickname: true,
+          //     editNicknameErrorReason: '',
+          // }
+        }
+
+      case EDIT_NICKNAME_SUCCESS:
+        {
+          draft.isEditingNickname = false;
+          draft.me.nickname = action.data;
+          break; // return {
+          //   ...state,
+          //   isEditingNickname: false,
+          //   me: {
+          //       ...state.me,
+          //       nickname: action.data,
+          //   },
+          // };
+        }
+
+      case EDIT_NICKNAME_FAILURE:
+        {
+          draft.isEditingNickname = false;
+          draft.editNicknameErrorReason = action.error;
+          break; // return {
+          //     ...state,
+          //     editNicknameErrorReason: action.error,
+          // }
+        }
+
+      case REMOVE_POST_OF_ME:
+        {
+          draft.isEditingNickname = false;
+          draft.editNicknameErrorReason = action.error;
+          break; // return {
+          //   ...state,
+          //   me: {
+          //       ...state.me,
+          //       Posts: state.me.Posts.filter( v=> v.id !== action.data),
+          //   },
+          // };
+        }
+
+      default:
+        {
+          break;
+        }
+    }
+  });
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (reducer);
@@ -2651,6 +2723,17 @@ module.exports = require("core-js/library/fn/object/get-own-property-symbols");
 /***/ (function(module, exports) {
 
 module.exports = require("core-js/library/fn/object/keys");
+
+/***/ }),
+
+/***/ "immer":
+/*!************************!*\
+  !*** external "immer" ***!
+  \************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("immer");
 
 /***/ }),
 
