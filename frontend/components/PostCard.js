@@ -5,10 +5,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
 import PostImages from './PostImages'
 import PostCardContent from './PostCardContent';
+import styled from 'styled-components';
+
 import { UNFOLLOW_USER_REQUEST, FOLLOW_USER_REQUEST } from '../reducers/user';
 import { ADD_COMMENT_REQUEST, LOAD_COMMENTS_REQUEST, UNLIKE_POST_REQUEST, LIKE_POST_REQUEST, RETWEET_REQUEST, 
     REMOVE_POST_REQUEST } from '../reducers/post';
 
+
+const CardWrapper = styled.div`
+    margin-bottom: 20px;
+`;
 
 const PostCard = ({ post }) => {
     console.log("post hashtag : ", post.content)
@@ -103,7 +109,7 @@ const PostCard = ({ post }) => {
 
 
     return (
-        <div>
+        <CardWrapper>
         <Card
             key={+post.createdAt}
             //cover={post.Images[0] && <img alt="example" src={`http://localhost:3065/${post.Images[0].src}`} />}
@@ -202,7 +208,7 @@ const PostCard = ({ post }) => {
                 />
             </>
         )}
-        </div>
+        </CardWrapper>
     );
 };
 

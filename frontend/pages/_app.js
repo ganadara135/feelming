@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import Head from 'next/head';
+import Helmet from 'react-helmet';
+import { Container } from 'next/app';
+
 import PropTypes from 'prop-types';
 import AppLayout from '../components/AppLayout';
 import reducer from '../reducers';
@@ -17,30 +20,54 @@ import { LOAD_USER_REQUEST } from '../reducers/user';
 
 const Feelming = ({ Component, store, pageProps }) => {
     return (
+        <Container>
         <Provider store={store} >
-            <Head>
-                <title>Feelming</title>
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/antd/3.23.2/antd.css" />
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/antd/3.23.2/antd" />
-                <link rel="stylesheet" type="text/css" charSet="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
-                <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
-            </Head>
+            <Helmet
+                title="Feelming"
+                htmlAttributes={{ lang: 'ko' }}
+                meta={[{
+                    charset: 'UTF-8',
+                }, {
+                    name: 'viewport', 
+                    content: 'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=yes,viewport-fit=cover',
+                }, {
+                    'http-equiv': 'X-UA-Compatible', content: 'IE=edge',
+                }, {
+                    name: 'description', content: 'Feelming SNS',
+                }, {
+                    name: 'og:title', content: 'Feelming',
+                }, {
+                    name: 'og:description', content: 'Feelming SNS',
+                }, {
+                    property: 'og:type', content: 'website',
+                }]}
+                link={[{
+                    rel: 'shortcut icon', href: '/favicon.ico',
+                    }, {
+                        rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/antd/3.16.2/antd.css',
+                    }, {
+                        rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css',
+                    }, {
+                        rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css',
+                }]}
+            />
             <AppLayout>
                 <Component {...pageProps} />
             </AppLayout>
         </Provider>
+        </Container>
     );
 };
 
 Feelming.propTypes = {
     Component: PropTypes.elementType.isRequired,
     store: PropTypes.object.isRequired,
-    //pageProps: PropTypes.object.isRequired,
+    pageProps: PropTypes.object.isRequired,
 };
 
 Feelming.getInitialProps = async (context) => {
     //console.log(context);
-    const { ctx } = context;
+    const { ctx, Component } = context;
     let pageProps = {};
     const state = ctx.store.getState();
 
@@ -55,8 +82,8 @@ Feelming.getInitialProps = async (context) => {
         })
     }
     // 메인 포스트 가져오는 부분
-    if (context.Component.getInitialProps) {
-        pageProps = await context.Component.getInitialProps(ctx);
+    if (Component.getInitialProps) {
+        pageProps = await context.Component.getInitialProps(ctx) || {};
     }
     
     return { pageProps };
