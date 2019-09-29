@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Head from 'next/head';
 import Helmet from 'react-helmet';
-import { Container } from 'next/app';
+import App, { Container } from 'next/app';
 
 import PropTypes from 'prop-types';
 import AppLayout from '../components/AppLayout';
@@ -17,6 +17,12 @@ import { composeWithDevTools } from 'remote-redux-devtools';
 import axios from 'axios';
 import { LOAD_USER_REQUEST } from '../reducers/user';
 
+// class Feelming extends App {
+//     static getInitialProps(content) {
+//     }
+//     render() {
+//     }
+// }
 
 const Feelming = ({ Component, store, pageProps }) => {
     return (

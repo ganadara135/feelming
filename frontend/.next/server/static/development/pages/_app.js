@@ -1672,7 +1672,12 @@ var __jsx = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement;
 
 
 
-
+ // class Feelming extends App {
+//     static getInitialProps(content) {
+//     }
+//     render() {
+//     }
+// }
 
 const Feelming = ({
   Component,
@@ -1682,14 +1687,14 @@ const Feelming = ({
   return __jsx(next_app__WEBPACK_IMPORTED_MODULE_4__["Container"], {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 23
+      lineNumber: 29
     },
     __self: undefined
   }, __jsx(react_redux__WEBPACK_IMPORTED_MODULE_12__["Provider"], {
     store: store,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 24
+      lineNumber: 30
     },
     __self: undefined
   }, __jsx(react_helmet__WEBPACK_IMPORTED_MODULE_3___default.a, {
@@ -1733,19 +1738,19 @@ const Feelming = ({
     }],
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 25
+      lineNumber: 31
     },
     __self: undefined
   }), __jsx(_components_AppLayout__WEBPACK_IMPORTED_MODULE_6__["default"], {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 54
+      lineNumber: 60
     },
     __self: undefined
   }, __jsx(Component, Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, pageProps, {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 55
+      lineNumber: 61
     },
     __self: undefined
   })))));
