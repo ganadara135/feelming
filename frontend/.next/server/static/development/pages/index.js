@@ -93,6 +93,18 @@ module.exports =
 /************************************************************************/
 /******/ ({
 
+/***/ "./components/FollowButton.js":
+/*!************************************!*\
+  !*** ./components/FollowButton.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"react\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! antd */ \"antd\");\n/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(antd__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ \"prop-types\");\n/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ \"react-redux\");\n/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_3__);\nvar _jsxFileName = \"/app/frontend/components/FollowButton.js\";\nvar __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;\n\n\n\n\nconst FollowButton = Object(react__WEBPACK_IMPORTED_MODULE_0__[\"memo\"])(({\n  post,\n  onUnfollow,\n  onFollow\n}) => {\n  const {\n    me\n  } = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__[\"useSelector\"])(state => state.user);\n  return !me || post.User.id === me.id ? null : me.Followings && me.Followings.find(v => v.id === post.User.id) ? __jsx(antd__WEBPACK_IMPORTED_MODULE_1__[\"Button\"], {\n    onClick: onUnfollow(post.User.id),\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 11\n    },\n    __self: undefined\n  }, \"\\uC5B8\\uD314\\uB85C\\uC6B0\") : __jsx(antd__WEBPACK_IMPORTED_MODULE_1__[\"Button\"], {\n    onClick: onFollow(post.User.id),\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 12\n    },\n    __self: undefined\n  }, \"\\uD314\\uB85C\\uC6B0\");\n});\nFollowButton.propTypes = {\n  post: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.object.isRequired,\n  onUnfollow: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.func.isRequired,\n  onFollow: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.func.isRequired\n};\n/* harmony default export */ __webpack_exports__[\"default\"] = (FollowButton);\n\n//# sourceURL=webpack:///./components/FollowButton.js?");
+
+/***/ }),
+
 /***/ "./components/ImagesZoom.js":
 /*!**********************************!*\
   !*** ./components/ImagesZoom.js ***!
@@ -101,178 +113,7 @@ module.exports =
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "prop-types");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! antd */ "antd");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(antd__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_slick__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-slick */ "react-slick");
-/* harmony import */ var react_slick__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_slick__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! styled-components */ "styled-components");
-/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(styled_components__WEBPACK_IMPORTED_MODULE_4__);
-var _jsxFileName = "/app/frontend/components/ImagesZoom.js";
-var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
-
-
-
-
-
-const Overlay = styled_components__WEBPACK_IMPORTED_MODULE_4___default.a.div`
-  position: fixed;
-  z-index: 5000;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-`;
-const Header = styled_components__WEBPACK_IMPORTED_MODULE_4___default.a.header`
-  height: 44px;
-  background: white;
-  position: relative;
-  padding: 0;
-  textAlign: center;
-
-  $ h1 {
-    margin: 0;
-    font-size: 17px;
-    color: #333;
-    line-align: 44px;
-  }
-`;
-const SlickWrapper = styled_components__WEBPACK_IMPORTED_MODULE_4___default.a.div`
-  height: calc(100% - 44px);
-  background: #090909;
-`;
-const CloseBtn = styled_components__WEBPACK_IMPORTED_MODULE_4___default()(antd__WEBPACK_IMPORTED_MODULE_2__["Icon"])`
-  position: absolute;
-  right: 0;
-  top: 0;
-  padding: 15;
-  lineHeight: 14px
-  cursor: pointer;
-`;
-const Indicator = styled_components__WEBPACK_IMPORTED_MODULE_4___default.a.div`
-  text-align: center;
-
-  $ > div {
-    width: 75px;
-    height: 30px;
-    line-height: 30px;
-    border-radius: 15px;
-    background: #313131;
-    display: inline-block;
-    text-align: center;
-    color: white;
-    font-size: 15px;
-  }
-`;
-const ImgWrapper = styled_components__WEBPACK_IMPORTED_MODULE_4___default.a.div`
-  padding: 32px;
-  text-align: center;
-
- & img {
-  margin: 0 auto;
-  max-height: 750px;
- }
-`;
-
-const ImagesZoom = ({
-  images,
-  onClose
-}) => {
-  const {
-    0: currentSlide,
-    1: setCurrentSlide
-  } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(0);
-  return __jsx(Overlay, {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 75
-    },
-    __self: undefined
-  }, __jsx(Header, {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 76
-    },
-    __self: undefined
-  }, __jsx("h1", {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 77
-    },
-    __self: undefined
-  }, "\uC0C1\uC138 \uC774\uBBF8\uC9C0"), __jsx(CloseBtn, {
-    type: "close",
-    onClick: onClose,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 78
-    },
-    __self: undefined
-  })), __jsx(SlickWrapper, {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 80
-    },
-    __self: undefined
-  }, __jsx("div", {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 81
-    },
-    __self: undefined
-  }, __jsx(react_slick__WEBPACK_IMPORTED_MODULE_3___default.a, {
-    initialSlide: 0,
-    afterChange: slide => setCurrentSlide(slide),
-    infinite: false,
-    arrows: true,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 82
-    },
-    __self: undefined
-  }, images.map(v => {
-    return __jsx(ImgWrapper, {
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 92
-      },
-      __self: undefined
-    }, __jsx("img", {
-      src: `http://localhost:3065/${v.src}`,
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 93
-      },
-      __self: undefined
-    }));
-  })), __jsx(Indicator, {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 98
-    },
-    __self: undefined
-  }, __jsx("div", {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 99
-    },
-    __self: undefined
-  }, currentSlide + 1, " / ", images.length)))));
-};
-
-ImagesZoom.propTypes = {
-  images: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
-    src: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
-  })).isRequired,
-  onClose: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired
-};
-/* harmony default export */ __webpack_exports__["default"] = (ImagesZoom);
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"react\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ \"prop-types\");\n/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! antd */ \"antd\");\n/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(antd__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var react_slick__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-slick */ \"react-slick\");\n/* harmony import */ var react_slick__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_slick__WEBPACK_IMPORTED_MODULE_3__);\n/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! styled-components */ \"styled-components\");\n/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(styled_components__WEBPACK_IMPORTED_MODULE_4__);\nvar _jsxFileName = \"/app/frontend/components/ImagesZoom.js\";\nvar __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;\n\n\n\n\n\nconst Overlay = styled_components__WEBPACK_IMPORTED_MODULE_4___default.a.div`\n  position: fixed;\n  z-index: 5000;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n`;\nconst Header = styled_components__WEBPACK_IMPORTED_MODULE_4___default.a.header`\n  height: 44px;\n  background: white;\n  position: relative;\n  padding: 0;\n  textAlign: center;\n\n  $ h1 {\n    margin: 0;\n    font-size: 17px;\n    color: #333;\n    line-align: 44px;\n  }\n`;\nconst SlickWrapper = styled_components__WEBPACK_IMPORTED_MODULE_4___default.a.div`\n  height: calc(100% - 44px);\n  background: #090909;\n`;\nconst CloseBtn = styled_components__WEBPACK_IMPORTED_MODULE_4___default()(antd__WEBPACK_IMPORTED_MODULE_2__[\"Icon\"])`\n  position: absolute;\n  right: 0;\n  top: 0;\n  padding: 15;\n  lineHeight: 14px\n  cursor: pointer;\n`;\nconst Indicator = styled_components__WEBPACK_IMPORTED_MODULE_4___default.a.div`\n  text-align: center;\n\n  $ > div {\n    width: 75px;\n    height: 30px;\n    line-height: 30px;\n    border-radius: 15px;\n    background: #313131;\n    display: inline-block;\n    text-align: center;\n    color: white;\n    font-size: 15px;\n  }\n`;\nconst ImgWrapper = styled_components__WEBPACK_IMPORTED_MODULE_4___default.a.div`\n  padding: 32px;\n  text-align: center;\n\n & img {\n  margin: 0 auto;\n  max-height: 750px;\n }\n`;\n\nconst ImagesZoom = ({\n  images,\n  onClose\n}) => {\n  const {\n    0: currentSlide,\n    1: setCurrentSlide\n  } = Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useState\"])(0);\n  return __jsx(Overlay, {\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 75\n    },\n    __self: undefined\n  }, __jsx(Header, {\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 76\n    },\n    __self: undefined\n  }, __jsx(\"h1\", {\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 77\n    },\n    __self: undefined\n  }, \"\\uC0C1\\uC138 \\uC774\\uBBF8\\uC9C0\"), __jsx(CloseBtn, {\n    type: \"close\",\n    onClick: onClose,\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 78\n    },\n    __self: undefined\n  })), __jsx(SlickWrapper, {\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 80\n    },\n    __self: undefined\n  }, __jsx(\"div\", {\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 81\n    },\n    __self: undefined\n  }, __jsx(react_slick__WEBPACK_IMPORTED_MODULE_3___default.a, {\n    initialSlide: 0,\n    afterChange: slide => setCurrentSlide(slide),\n    infinite: false,\n    arrows: true,\n    slidesToShow: 1,\n    slidesToScroll: 1,\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 82\n    },\n    __self: undefined\n  }, images.map(v => {\n    return __jsx(ImgWrapper, {\n      __source: {\n        fileName: _jsxFileName,\n        lineNumber: 92\n      },\n      __self: undefined\n    }, __jsx(\"img\", {\n      src: `http://localhost:3065/${v.src}`,\n      __source: {\n        fileName: _jsxFileName,\n        lineNumber: 93\n      },\n      __self: undefined\n    }));\n  })), __jsx(Indicator, {\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 98\n    },\n    __self: undefined\n  }, __jsx(\"div\", {\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 99\n    },\n    __self: undefined\n  }, currentSlide + 1, \" / \", images.length)))));\n};\n\nImagesZoom.propTypes = {\n  images: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({\n    src: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string\n  })).isRequired,\n  onClose: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func.isRequired\n};\n/* harmony default export */ __webpack_exports__[\"default\"] = (ImagesZoom);\n\n//# sourceURL=webpack:///./components/ImagesZoom.js?");
 
 /***/ }),
 
@@ -284,61 +125,7 @@ ImagesZoom.propTypes = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! next/link */ "./node_modules/next/link.js");
-/* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(next_link__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "prop-types");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
-var _jsxFileName = "/app/frontend/components/PostCardContent.js";
-var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
-
-
-
-
-const PostCardContent = ({
-  postData
-}) => {
-  return __jsx("div", {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 7
-    },
-    __self: undefined
-  }, postData.split(/(#[^\s]+)/g).map(v => {
-    if (v.match(/#[^\s]+/)) {
-      return __jsx(next_link__WEBPACK_IMPORTED_MODULE_1___default.a, {
-        href: {
-          pathname: '/hashtag',
-          query: {
-            tag: v.slice(1)
-          }
-        },
-        as: `/hashtag/${v.slice(1)}`,
-        key: v,
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 11
-        },
-        __self: undefined
-      }, __jsx("a", {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 16
-        },
-        __self: undefined
-      }, v));
-    }
-
-    return v;
-  }));
-};
-
-PostCardContent.propTypes = {
-  postData: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string.isRequired
-};
-/* harmony default export */ __webpack_exports__["default"] = (PostCardContent);
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"react\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! next/link */ \"./node_modules/next/link.js\");\n/* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(next_link__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ \"prop-types\");\n/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);\nvar _jsxFileName = \"/app/frontend/components/PostCardContent.js\";\nvar __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;\n\n\n\n\nconst PostCardContent = ({\n  postData\n}) => {\n  return __jsx(\"div\", {\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 7\n    },\n    __self: undefined\n  }, postData.split(/(#[^\\s]+)/g).map(v => {\n    if (v.match(/#[^\\s]+/)) {\n      return __jsx(next_link__WEBPACK_IMPORTED_MODULE_1___default.a, {\n        href: {\n          pathname: '/hashtag',\n          query: {\n            tag: v.slice(1)\n          }\n        },\n        as: `/hashtag/${v.slice(1)}`,\n        key: v,\n        __source: {\n          fileName: _jsxFileName,\n          lineNumber: 11\n        },\n        __self: undefined\n      }, __jsx(\"a\", {\n        __source: {\n          fileName: _jsxFileName,\n          lineNumber: 16\n        },\n        __self: undefined\n      }, v));\n    }\n\n    return v;\n  }));\n};\n\nPostCardContent.propTypes = {\n  postData: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string.isRequired\n};\n/* harmony default export */ __webpack_exports__[\"default\"] = (PostCardContent);\n\n//# sourceURL=webpack:///./components/PostCardContent.js?");
 
 /***/ }),
 
@@ -350,149 +137,19 @@ PostCardContent.propTypes = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "prop-types");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! antd */ "antd");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(antd__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _ImagesZoom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ImagesZoom */ "./components/ImagesZoom.js");
-var _jsxFileName = "/app/frontend/components/PostImages.js";
-var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"react\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ \"prop-types\");\n/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! antd */ \"antd\");\n/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(antd__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var _ImagesZoom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ImagesZoom */ \"./components/ImagesZoom.js\");\nvar _jsxFileName = \"/app/frontend/components/PostImages.js\";\nvar __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;\n\n\n\n\n\nconst PostImages = ({\n  images\n}) => {\n  const {\n    0: showImagesZoom,\n    1: setShowImagesZoom\n  } = Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useState\"])(false);\n  const onZoom = Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useCallback\"])(() => {\n    setShowImagesZoom(true);\n  }, []);\n  const onClose = Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useCallback\"])(() => {\n    setShowImagesZoom(false);\n  }, []);\n\n  if (images.length === 1) {\n    return __jsx(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, __jsx(\"img\", {\n      src: `http://localhost:3065/${images[0].src}`,\n      onClick: onZoom,\n      __source: {\n        fileName: _jsxFileName,\n        lineNumber: 19\n      },\n      __self: undefined\n    }), showImagesZoom && __jsx(_ImagesZoom__WEBPACK_IMPORTED_MODULE_3__[\"default\"], {\n      images: images,\n      onClose: onClose,\n      __source: {\n        fileName: _jsxFileName,\n        lineNumber: 20\n      },\n      __self: undefined\n    }));\n  }\n\n  if (images.length === 2) {\n    return __jsx(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, __jsx(\"div\", {\n      __source: {\n        fileName: _jsxFileName,\n        lineNumber: 27\n      },\n      __self: undefined\n    }, __jsx(\"img\", {\n      src: `http://localhost:3065/${images[0].src}`,\n      width: \"50%\",\n      onClick: onZoom,\n      __source: {\n        fileName: _jsxFileName,\n        lineNumber: 28\n      },\n      __self: undefined\n    }), __jsx(\"img\", {\n      src: `http://localhost:3065/${images[1].src}`,\n      width: \"50%\",\n      onClick: onZoom,\n      __source: {\n        fileName: _jsxFileName,\n        lineNumber: 29\n      },\n      __self: undefined\n    })), showImagesZoom && __jsx(_ImagesZoom__WEBPACK_IMPORTED_MODULE_3__[\"default\"], {\n      images: images,\n      onClose: onClose,\n      __source: {\n        fileName: _jsxFileName,\n        lineNumber: 31\n      },\n      __self: undefined\n    }));\n  }\n\n  return __jsx(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, __jsx(\"div\", {\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 37\n    },\n    __self: undefined\n  }, __jsx(\"img\", {\n    src: `http://localhost:3065/${images[0].src}`,\n    width: \"50%\",\n    onClick: onZoom,\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 38\n    },\n    __self: undefined\n  }), __jsx(\"div\", {\n    style: {\n      display: 'inline-block',\n      width: '50%',\n      textAlign: 'center',\n      verticalAlign: 'middle'\n    },\n    onClick: onZoom,\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 39\n    },\n    __self: undefined\n  }, __jsx(antd__WEBPACK_IMPORTED_MODULE_2__[\"Icon\"], {\n    type: \"plus\",\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 40\n    },\n    __self: undefined\n  }), __jsx(\"br\", {\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 41\n    },\n    __self: undefined\n  }), images.length - 1, \"\\uAC1C\\uC758 \\uC0AC\\uC9C4 \\uB354\\uBCF4\\uAE30\")), showImagesZoom && __jsx(_ImagesZoom__WEBPACK_IMPORTED_MODULE_3__[\"default\"], {\n    images: images,\n    onClose: onClose,\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 46\n    },\n    __self: undefined\n  }));\n};\n\nPostImages.propTypes = {\n  images: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({\n    src: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string\n  })).isRequired\n};\n/* harmony default export */ __webpack_exports__[\"default\"] = (PostImages);\n\n//# sourceURL=webpack:///./components/PostImages.js?");
 
+/***/ }),
 
+/***/ "./containers/CommentForm.js":
+/*!***********************************!*\
+  !*** ./containers/CommentForm.js ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-
-
-const PostImages = ({
-  images
-}) => {
-  const {
-    0: showImagesZoom,
-    1: setShowImagesZoom
-  } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
-  const onZoom = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(() => {
-    setShowImagesZoom(true);
-  }, []);
-  const onClose = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(() => {
-    setShowImagesZoom(false);
-  }, []);
-
-  if (images.length === 1) {
-    return __jsx(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, __jsx("img", {
-      src: `http://localhost:3065/${images[0].src}`,
-      onClick: onZoom,
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 19
-      },
-      __self: undefined
-    }), showImagesZoom && __jsx(_ImagesZoom__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      images: images,
-      onClose: onClose,
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 20
-      },
-      __self: undefined
-    }));
-  }
-
-  if (images.length === 2) {
-    return __jsx(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, __jsx("div", {
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 27
-      },
-      __self: undefined
-    }, __jsx("img", {
-      src: `http://localhost:3065/${images[0].src}`,
-      width: "50%",
-      onClick: onZoom,
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 28
-      },
-      __self: undefined
-    }), __jsx("img", {
-      src: `http://localhost:3065/${images[1].src}`,
-      width: "50%",
-      onClick: onZoom,
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 29
-      },
-      __self: undefined
-    })), showImagesZoom && __jsx(_ImagesZoom__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      images: images,
-      onClose: onClose,
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 31
-      },
-      __self: undefined
-    }));
-  }
-
-  return __jsx(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, __jsx("div", {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 37
-    },
-    __self: undefined
-  }, __jsx("img", {
-    src: `http://localhost:3065/${images[0].src}`,
-    width: "50%",
-    onClick: onZoom,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 38
-    },
-    __self: undefined
-  }), __jsx("div", {
-    style: {
-      display: 'inline-block',
-      width: '50%',
-      textAlign: 'center',
-      verticalAlign: 'middle'
-    },
-    onClick: onZoom,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 39
-    },
-    __self: undefined
-  }, __jsx(antd__WEBPACK_IMPORTED_MODULE_2__["Icon"], {
-    type: "plus",
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 40
-    },
-    __self: undefined
-  }), __jsx("br", {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 41
-    },
-    __self: undefined
-  }), images.length - 1, "\uAC1C\uC758 \uC0AC\uC9C4 \uB354\uBCF4\uAE30")), showImagesZoom && __jsx(_ImagesZoom__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    images: images,
-    onClose: onClose,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 46
-    },
-    __self: undefined
-  }));
-};
-
-PostImages.propTypes = {
-  images: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.shape({
-    src: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string
-  })).isRequired
-};
-/* harmony default export */ __webpack_exports__["default"] = (PostImages);
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"react\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ \"react-redux\");\n/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ \"prop-types\");\n/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! antd */ \"antd\");\n/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(antd__WEBPACK_IMPORTED_MODULE_3__);\n/* harmony import */ var _reducers_post__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../reducers/post */ \"./reducers/post.js\");\nvar _jsxFileName = \"/app/frontend/containers/CommentForm.js\";\nvar __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;\n\n\n\n\n\n\nconst CommentForm = ({\n  post\n}) => {\n  const {\n    0: commentText,\n    1: setCommentText\n  } = Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useState\"])('');\n  const {\n    commentAdded,\n    isAddingComment\n  } = Object(react_redux__WEBPACK_IMPORTED_MODULE_1__[\"useSelector\"])(state => state.post);\n  const {\n    me\n  } = Object(react_redux__WEBPACK_IMPORTED_MODULE_1__[\"useSelector\"])(state => state.user);\n  const dispatch = Object(react_redux__WEBPACK_IMPORTED_MODULE_1__[\"useDispatch\"])();\n  const onSubmitComment = Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useCallback\"])(e => {\n    e.preventDefault();\n\n    if (!me) {\n      return alert('로그인이 필요합니다.');\n    }\n\n    return dispatch({\n      type: _reducers_post__WEBPACK_IMPORTED_MODULE_4__[\"ADD_COMMENT_REQUEST\"],\n      data: {\n        postId: post.id,\n        content: commentText\n      }\n    });\n  }, [me && me.id, commentText]);\n  Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useEffect\"])(() => {\n    setCommentText('');\n  }, [commentAdded === true]);\n  const onChangeCommentText = Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useCallback\"])(e => {\n    setCommentText(e.target.value);\n  }, []);\n  return __jsx(antd__WEBPACK_IMPORTED_MODULE_3__[\"Form\"], {\n    onSubmit: onSubmitComment,\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 36\n    },\n    __self: undefined\n  }, __jsx(antd__WEBPACK_IMPORTED_MODULE_3__[\"Form\"].Item, {\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 37\n    },\n    __self: undefined\n  }, __jsx(antd__WEBPACK_IMPORTED_MODULE_3__[\"Input\"].TextArea, {\n    rows: 4,\n    value: commentText,\n    onChange: onChangeCommentText,\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 38\n    },\n    __self: undefined\n  })), __jsx(antd__WEBPACK_IMPORTED_MODULE_3__[\"Button\"], {\n    type: \"primary\",\n    htmlType: \"submit\",\n    loading: isAddingComment,\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 40\n    },\n    __self: undefined\n  }, \"\\uC090\\uC57D\"));\n};\n\nCommentForm.propTypes = {\n  post: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.object.isRequired\n};\n/* harmony default export */ __webpack_exports__[\"default\"] = (CommentForm);\n\n//# sourceURL=webpack:///./containers/CommentForm.js?");
 
 /***/ }),
 
@@ -504,438 +161,7 @@ PostImages.propTypes = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! antd */ "antd");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(antd__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "prop-types");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "react-redux");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! next/link */ "./node_modules/next/link.js");
-/* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(next_link__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _components_PostImages__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/PostImages */ "./components/PostImages.js");
-/* harmony import */ var _components_PostCardContent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/PostCardContent */ "./components/PostCardContent.js");
-/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! styled-components */ "styled-components");
-/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(styled_components__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _reducers_user__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../reducers/user */ "./reducers/user.js");
-/* harmony import */ var _reducers_post__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../reducers/post */ "./reducers/post.js");
-var _jsxFileName = "/app/frontend/containers/PostCard.js";
-var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
-
-
-
-
-
-
-
-
-
-
-const CardWrapper = styled_components__WEBPACK_IMPORTED_MODULE_7___default.a.div`
-    margin-bottom: 20px;
-`;
-
-const PostCard = ({
-  post
-}) => {
-  console.log("post hashtag : ", post.content);
-  const {
-    0: commentFormOpened,
-    1: setCommentFormOpened
-  } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
-  const {
-    0: commentText,
-    1: setCommentText
-  } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
-  const {
-    me
-  } = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["useSelector"])(state => state.user);
-  const {
-    commentAdded,
-    isAddingComment
-  } = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["useSelector"])(state => state.post);
-  const dispatch = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["useDispatch"])();
-  const liked = me && post.Likers && post.Likers.find(v => v.id === me.id);
-  const onToggleComment = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(() => {
-    setCommentFormOpened(prev => !prev);
-
-    if (!commentFormOpened) {
-      dispatch({
-        type: _reducers_post__WEBPACK_IMPORTED_MODULE_9__["LOAD_COMMENTS_REQUEST"],
-        data: post.id
-      });
-    }
-  }, []);
-  const onSubmitComment = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(e => {
-    e.preventDefault();
-
-    if (!me) {
-      return alert('로그인이 필요합니다');
-    }
-
-    return dispatch({
-      type: _reducers_post__WEBPACK_IMPORTED_MODULE_9__["ADD_COMMENT_REQUEST"],
-      data: {
-        postId: post.id,
-        content: commentText
-      }
-    });
-  }, [me && me.id, commentText]);
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
-    setCommentText('');
-  }, [commentAdded === true]);
-  const onChangeCommentText = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(e => {
-    setCommentText(e.target.value);
-  }, []);
-  const onToggleLike = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(() => {
-    if (!me) {
-      return alert('로그인이 필요합니다');
-    }
-
-    if (liked) {
-      // 좋아요 누른 상태
-      dispatch({
-        type: _reducers_post__WEBPACK_IMPORTED_MODULE_9__["UNLIKE_POST_REQUEST"],
-        data: post.id
-      });
-    } else {
-      // 좋아요 안 누른 상태
-      dispatch({
-        type: _reducers_post__WEBPACK_IMPORTED_MODULE_9__["LIKE_POST_REQUEST"],
-        data: post.id
-      });
-    }
-  }, [me && me.id, post && post.id, liked]);
-  const onRetweet = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(() => {
-    if (!me) {
-      return alert('로그인이 필요합니다');
-    }
-
-    return dispatch({
-      type: _reducers_post__WEBPACK_IMPORTED_MODULE_9__["RETWEET_REQUEST"],
-      data: post.id
-    });
-  }, [me && me.id, post && post.id]);
-  const onFollow = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(userId => () => {
-    dispatch({
-      type: _reducers_user__WEBPACK_IMPORTED_MODULE_8__["FOLLOW_USER_REQUEST"],
-      data: userId
-    });
-  }, [me && me.id, post && post.Followings]);
-  const onUnfollow = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(userId => () => {
-    dispatch({
-      type: _reducers_user__WEBPACK_IMPORTED_MODULE_8__["UNFOLLOW_USER_REQUEST"],
-      data: userId
-    });
-  }, []);
-  const onRemovePost = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(userId => () => {
-    console.log("call onRemovePost() ");
-    dispatch({
-      type: _reducers_post__WEBPACK_IMPORTED_MODULE_9__["REMOVE_POST_REQUEST"],
-      data: userId
-    });
-  }, []);
-  return __jsx(CardWrapper, {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 112
-    },
-    __self: undefined
-  }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"] //key={+post.createdAt}
-  //cover={post.Images[0] && <img alt="example" src={`http://localhost:3065/${post.Images[0].src}`} />}
-  , {
-    cover: post.Images && post.Images[0] && __jsx(_components_PostImages__WEBPACK_IMPORTED_MODULE_5__["default"], {
-      images: post.Images,
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 116
-      },
-      __self: undefined
-    }),
-    actions: [__jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Icon"], {
-      type: "retweet",
-      key: "retweet",
-      onClick: onRetweet,
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 118
-      },
-      __self: undefined
-    }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Icon"], {
-      type: "heart",
-      key: "heart",
-      theme: liked ? 'twoTone' : 'outlined',
-      twoToneColor: "#eb2f96",
-      onClick: onToggleLike,
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 119
-      },
-      __self: undefined
-    }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Icon"], {
-      type: "message",
-      key: "message",
-      onClick: onToggleComment,
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 120
-      },
-      __self: undefined
-    }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Popover"], {
-      key: "ellipsis",
-      content: __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"].Group, {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 124
-        },
-        __self: undefined
-      }, me && post.UserId === me.id ? __jsx(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 128
-        },
-        __self: undefined
-      }, " \uC218\uC815 "), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
-        type: "danger",
-        onClick: onRemovePost(post.id),
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 129
-        },
-        __self: undefined
-      }, "\uC0AD\uC81C")) : __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 132
-        },
-        __self: undefined
-      }, "\uC2E0\uACE0")),
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 121
-      },
-      __self: undefined
-    }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Icon"], {
-      type: "ellipsis",
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 136
-      },
-      __self: undefined
-    }))],
-    title: post.RetweetId ? `${post.User.nickname}님이 리트윗했습니다` : null,
-    extra: !me || post.User.id === me.id ? null : me.Followings && me.Followings.find(v => v.id === post.User.id) ? __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
-      onClick: onUnfollow(post.User.id),
-      type: "primary",
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 144
-      },
-      __self: undefined
-    }, "\uC5B8\uD314\uB85C\uC6B0") : __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
-      onClick: onFollow(post.User.id),
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 145
-      },
-      __self: undefined
-    }, "\uD314\uB85C\uC6B0"),
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 113
-    },
-    __self: undefined
-  }, post.RetweetId && post.Retweet ? __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"], {
-    cover: post.Retweet.Images[0] && __jsx(_components_PostImages__WEBPACK_IMPORTED_MODULE_5__["default"], {
-      images: post.Retweet.Images,
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 151
-      },
-      __self: undefined
-    }),
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 150
-    },
-    __self: undefined
-  }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"].Meta, {
-    avatar: __jsx(next_link__WEBPACK_IMPORTED_MODULE_4___default.a, {
-      href: {
-        pathname: '/user',
-        query: {
-          id: post.User.id
-        }
-      },
-      as: `/user/${post.User.id}`,
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 155
-      },
-      __self: undefined
-    }, __jsx("a", {
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 156
-      },
-      __self: undefined
-    }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Avatar"], {
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 156
-      },
-      __self: undefined
-    }, post.User.nickname[0]))),
-    title: post.User.nickname,
-    description: __jsx(_components_PostCardContent__WEBPACK_IMPORTED_MODULE_6__["default"], {
-      postData: post.Retweet.content,
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 160
-      },
-      __self: undefined
-    }),
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 153
-    },
-    __self: undefined
-  })) : __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Card"].Meta, {
-    avatar: __jsx(next_link__WEBPACK_IMPORTED_MODULE_4___default.a, {
-      href: {
-        pathname: '/user',
-        query: {
-          id: post.User.id
-        }
-      },
-      as: `/user/${post.User.id}`,
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 167
-      },
-      __self: undefined
-    }, __jsx("a", {
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 168
-      },
-      __self: undefined
-    }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Avatar"], {
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 168
-      },
-      __self: undefined
-    }, post.User.nickname[0]))),
-    title: post.User.nickname,
-    description: __jsx(_components_PostCardContent__WEBPACK_IMPORTED_MODULE_6__["default"], {
-      postData: post.content,
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 172
-      },
-      __self: undefined
-    }),
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 165
-    },
-    __self: undefined
-  })), commentFormOpened && __jsx(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Form"], {
-    onSubmit: onSubmitComment,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 178
-    },
-    __self: undefined
-  }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Form"].Item, {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 179
-    },
-    __self: undefined
-  }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Input"].TextArea, {
-    rows: 4,
-    value: commentText,
-    onChange: onChangeCommentText,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 180
-    },
-    __self: undefined
-  })), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
-    type: "primary",
-    htmlType: "submit",
-    loading: isAddingComment,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 182
-    },
-    __self: undefined
-  }, " \uC090\uC57D ")), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["List"], {
-    header: `${post.Comments ? post.Comments.length : 0} 댓글`,
-    itemLayout: "horizontal",
-    dataSource: post.Comments || [],
-    renderItem: item => __jsx("li", {
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 189
-      },
-      __self: undefined
-    }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Comment"], {
-      author: item.User.nickname,
-      avatar: __jsx(next_link__WEBPACK_IMPORTED_MODULE_4___default.a, {
-        href: {
-          pathname: '/user',
-          query: {
-            id: item.User.id
-          }
-        },
-        as: `/user/${item.User.id}`,
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 193
-        },
-        __self: undefined
-      }, __jsx("a", {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 194
-        },
-        __self: undefined
-      }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Avatar"], {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 194
-        },
-        __self: undefined
-      }, item.User.nickname[0]))),
-      content: item.content,
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 190
-      },
-      __self: undefined
-    })),
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 184
-    },
-    __self: undefined
-  })));
-};
-
-PostCard.propTypes = {
-  post: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.shape({
-    User: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.object,
-    content: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,
-    img: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,
-    createdAt: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string
-  })
-};
-/* harmony default export */ __webpack_exports__["default"] = (PostCard);
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"react\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! antd */ \"antd\");\n/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(antd__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ \"prop-types\");\n/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ \"react-redux\");\n/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_3__);\n/* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! next/link */ \"./node_modules/next/link.js\");\n/* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(next_link__WEBPACK_IMPORTED_MODULE_4__);\n/* harmony import */ var _components_PostImages__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/PostImages */ \"./components/PostImages.js\");\n/* harmony import */ var _components_PostCardContent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/PostCardContent */ \"./components/PostCardContent.js\");\n/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! styled-components */ \"styled-components\");\n/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(styled_components__WEBPACK_IMPORTED_MODULE_7__);\n/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! moment */ \"moment\");\n/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_8__);\n/* harmony import */ var _CommentForm__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./CommentForm */ \"./containers/CommentForm.js\");\n/* harmony import */ var _components_FollowButton__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../components/FollowButton */ \"./components/FollowButton.js\");\n/* harmony import */ var _reducers_user__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../reducers/user */ \"./reducers/user.js\");\n/* harmony import */ var _reducers_post__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../reducers/post */ \"./reducers/post.js\");\nvar _jsxFileName = \"/app/frontend/containers/PostCard.js\";\nvar __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;\n\n\n\n\n\n\n\n\n\nmoment__WEBPACK_IMPORTED_MODULE_8___default.a.locale('ko');\n\n\n\n\nconst CardWrapper = styled_components__WEBPACK_IMPORTED_MODULE_7___default.a.div`\n    margin-bottom: 20px;\n`;\n\nconst PostCard = ({\n  post\n}) => {\n  const {\n    0: commentFormOpened,\n    1: setCommentFormOpened\n  } = Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useState\"])(false);\n  const id = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__[\"useSelector\"])(state => state.user.me && state.user.me.id);\n  const dispatch = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__[\"useDispatch\"])();\n  const liked = id && post.Likers && post.Likers.find(v => v.id === id); // 리렌더링 되는 에러 잡는 방법  ////////////////////////   에러 잡는 방법/////////////////\n  // const postMemory = useRef(post);\n  // console.log(\"post : \", post)\n  // useEffect( () => {\n  //     console.log('post useEffect : ', postMemory.current,  post,  postMemory.current === post);\n  // }, [post]);\n  // const chk_me = useRef(me);\n  // console.log(\"me : \", me)\n  // useEffect( () => {\n  //     console.log('me useEffect : ', chk_me.current,  me,  chk_me.current === me);\n  // }, [me]);\n\n  const chk_id = Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useRef\"])(id); // Dom 에 직접 접근하기도하고, 값을 기억하지만 리렌더링하고 싶지 않을때도 사용\n\n  console.log(\"id : \", id);\n  Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useEffect\"])(() => {\n    console.log('id useEffect : ', chk_id.current, id, chk_id.current === id);\n  }, [id]);\n  const onToggleComment = Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useCallback\"])(() => {\n    setCommentFormOpened(prev => !prev);\n\n    if (!commentFormOpened) {\n      dispatch({\n        type: _reducers_post__WEBPACK_IMPORTED_MODULE_12__[\"LOAD_COMMENTS_REQUEST\"],\n        data: post.id\n      });\n    }\n  }, []);\n  const onToggleLike = Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useCallback\"])(() => {\n    if (!id) {\n      return alert('로그인이 필요합니다');\n    }\n\n    if (liked) {\n      // 좋아요 누른 상태\n      dispatch({\n        type: _reducers_post__WEBPACK_IMPORTED_MODULE_12__[\"UNLIKE_POST_REQUEST\"],\n        data: post.id\n      });\n    } else {\n      // 좋아요 안 누른 상태\n      dispatch({\n        type: _reducers_post__WEBPACK_IMPORTED_MODULE_12__[\"LIKE_POST_REQUEST\"],\n        data: post.id\n      });\n    }\n  }, [id, post && post.id, liked]);\n  const onRetweet = Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useCallback\"])(() => {\n    if (!id) {\n      return alert('로그인이 필요합니다');\n    }\n\n    return dispatch({\n      type: _reducers_post__WEBPACK_IMPORTED_MODULE_12__[\"RETWEET_REQUEST\"],\n      data: post.id\n    });\n  }, [id, post && post.id]);\n  const onFollow = Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useCallback\"])(userId => () => {\n    dispatch({\n      type: _reducers_user__WEBPACK_IMPORTED_MODULE_11__[\"FOLLOW_USER_REQUEST\"],\n      data: userId\n    });\n  }, [post && post.Followings]);\n  const onUnfollow = Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useCallback\"])(userId => () => {\n    dispatch({\n      type: _reducers_user__WEBPACK_IMPORTED_MODULE_11__[\"UNFOLLOW_USER_REQUEST\"],\n      data: userId\n    });\n  }, []);\n  const onRemovePost = Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useCallback\"])(userId => () => {\n    console.log(\"call onRemovePost() \");\n    dispatch({\n      type: _reducers_post__WEBPACK_IMPORTED_MODULE_12__[\"REMOVE_POST_REQUEST\"],\n      data: userId\n    });\n  }, []);\n  return __jsx(CardWrapper, {\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 114\n    },\n    __self: undefined\n  }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__[\"Card\"] //key={+post.createdAt}\n  //cover={post.Images[0] && <img alt=\"example\" src={`http://localhost:3065/${post.Images[0].src}`} />}\n  , {\n    cover: post.Images && post.Images[0] && __jsx(_components_PostImages__WEBPACK_IMPORTED_MODULE_5__[\"default\"], {\n      images: post.Images,\n      __source: {\n        fileName: _jsxFileName,\n        lineNumber: 118\n      },\n      __self: undefined\n    }),\n    actions: [__jsx(antd__WEBPACK_IMPORTED_MODULE_1__[\"Icon\"], {\n      type: \"retweet\",\n      key: \"retweet\",\n      onClick: onRetweet,\n      __source: {\n        fileName: _jsxFileName,\n        lineNumber: 120\n      },\n      __self: undefined\n    }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__[\"Icon\"], {\n      type: \"heart\",\n      key: \"heart\",\n      theme: liked ? 'twoTone' : 'outlined',\n      twoToneColor: \"#eb2f96\",\n      onClick: onToggleLike,\n      __source: {\n        fileName: _jsxFileName,\n        lineNumber: 121\n      },\n      __self: undefined\n    }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__[\"Icon\"], {\n      type: \"message\",\n      key: \"message\",\n      onClick: onToggleComment,\n      __source: {\n        fileName: _jsxFileName,\n        lineNumber: 122\n      },\n      __self: undefined\n    }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__[\"Popover\"], {\n      key: \"ellipsis\",\n      content: __jsx(antd__WEBPACK_IMPORTED_MODULE_1__[\"Button\"].Group, {\n        __source: {\n          fileName: _jsxFileName,\n          lineNumber: 126\n        },\n        __self: undefined\n      }, id && post.UserId === id ? __jsx(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__[\"Button\"], {\n        __source: {\n          fileName: _jsxFileName,\n          lineNumber: 130\n        },\n        __self: undefined\n      }, \" \\uC218\\uC815 \"), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__[\"Button\"], {\n        type: \"danger\",\n        onClick: onRemovePost(post.id),\n        __source: {\n          fileName: _jsxFileName,\n          lineNumber: 131\n        },\n        __self: undefined\n      }, \"\\uC0AD\\uC81C\")) : __jsx(antd__WEBPACK_IMPORTED_MODULE_1__[\"Button\"], {\n        __source: {\n          fileName: _jsxFileName,\n          lineNumber: 134\n        },\n        __self: undefined\n      }, \"\\uC2E0\\uACE0\")),\n      __source: {\n        fileName: _jsxFileName,\n        lineNumber: 123\n      },\n      __self: undefined\n    }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__[\"Icon\"], {\n      type: \"ellipsis\",\n      __source: {\n        fileName: _jsxFileName,\n        lineNumber: 138\n      },\n      __self: undefined\n    }))],\n    title: post.RetweetId ? `${post.User.nickname}님이 리트윗했습니다` : null,\n    extra: __jsx(_components_FollowButton__WEBPACK_IMPORTED_MODULE_10__[\"default\"], {\n      post: post,\n      onUnfollow: onUnfollow,\n      onFollow: onFollow,\n      __source: {\n        fileName: _jsxFileName,\n        lineNumber: 142\n      },\n      __self: undefined\n    }) // extra={!me || post.User.id === me.id\n    //     ? null\n    //     : me.Followings && me.Followings.find(v => v.id === post.User.id)\n    //       ? <Button onClick={onUnfollow(post.User.id)} type='primary'>언팔로우</Button>\n    //       : <Button onClick={onFollow(post.User.id)} >팔로우</Button>\n    //   }\n    ,\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 115\n    },\n    __self: undefined\n  }, post.RetweetId && post.Retweet ? __jsx(antd__WEBPACK_IMPORTED_MODULE_1__[\"Card\"], {\n    cover: post.Retweet.Images[0] && __jsx(_components_PostImages__WEBPACK_IMPORTED_MODULE_5__[\"default\"], {\n      images: post.Retweet.Images,\n      __source: {\n        fileName: _jsxFileName,\n        lineNumber: 154\n      },\n      __self: undefined\n    }),\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 153\n    },\n    __self: undefined\n  }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__[\"Card\"].Meta, {\n    avatar: __jsx(next_link__WEBPACK_IMPORTED_MODULE_4___default.a, {\n      href: {\n        pathname: '/user',\n        query: {\n          id: post.User.id\n        }\n      },\n      as: `/user/${post.User.id}`,\n      __source: {\n        fileName: _jsxFileName,\n        lineNumber: 158\n      },\n      __self: undefined\n    }, __jsx(\"a\", {\n      __source: {\n        fileName: _jsxFileName,\n        lineNumber: 159\n      },\n      __self: undefined\n    }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__[\"Avatar\"], {\n      __source: {\n        fileName: _jsxFileName,\n        lineNumber: 159\n      },\n      __self: undefined\n    }, post.User.nickname[0]))),\n    title: post.User.nickname,\n    description: __jsx(_components_PostCardContent__WEBPACK_IMPORTED_MODULE_6__[\"default\"], {\n      postData: post.Retweet.content,\n      __source: {\n        fileName: _jsxFileName,\n        lineNumber: 163\n      },\n      __self: undefined\n    }),\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 156\n    },\n    __self: undefined\n  })) : __jsx(antd__WEBPACK_IMPORTED_MODULE_1__[\"Card\"].Meta, {\n    avatar: __jsx(next_link__WEBPACK_IMPORTED_MODULE_4___default.a, {\n      href: {\n        pathname: '/user',\n        query: {\n          id: post.User.id\n        }\n      },\n      as: `/user/${post.User.id}`,\n      __source: {\n        fileName: _jsxFileName,\n        lineNumber: 170\n      },\n      __self: undefined\n    }, __jsx(\"a\", {\n      __source: {\n        fileName: _jsxFileName,\n        lineNumber: 171\n      },\n      __self: undefined\n    }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__[\"Avatar\"], {\n      __source: {\n        fileName: _jsxFileName,\n        lineNumber: 171\n      },\n      __self: undefined\n    }, post.User.nickname[0]))),\n    title: post.User.nickname,\n    description: __jsx(_components_PostCardContent__WEBPACK_IMPORTED_MODULE_6__[\"default\"], {\n      postData: post.content,\n      __source: {\n        fileName: _jsxFileName,\n        lineNumber: 175\n      },\n      __self: undefined\n    }),\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 168\n    },\n    __self: undefined\n  }), moment__WEBPACK_IMPORTED_MODULE_8___default()(post.createdAt).format('YYYY.MM.DD.')), commentFormOpened && __jsx(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, __jsx(_CommentForm__WEBPACK_IMPORTED_MODULE_9__[\"default\"], {\n    post: post,\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 182\n    },\n    __self: undefined\n  }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__[\"List\"], {\n    header: `${post.Comments ? post.Comments.length : 0} 댓글`,\n    itemLayout: \"horizontal\",\n    dataSource: post.Comments || [],\n    renderItem: item => __jsx(\"li\", {\n      __source: {\n        fileName: _jsxFileName,\n        lineNumber: 188\n      },\n      __self: undefined\n    }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__[\"Comment\"], {\n      author: item.User.nickname,\n      avatar: __jsx(next_link__WEBPACK_IMPORTED_MODULE_4___default.a, {\n        href: {\n          pathname: '/user',\n          query: {\n            id: item.User.id\n          }\n        },\n        as: `/user/${item.User.id}`,\n        __source: {\n          fileName: _jsxFileName,\n          lineNumber: 192\n        },\n        __self: undefined\n      }, __jsx(\"a\", {\n        __source: {\n          fileName: _jsxFileName,\n          lineNumber: 193\n        },\n        __self: undefined\n      }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__[\"Avatar\"], {\n        __source: {\n          fileName: _jsxFileName,\n          lineNumber: 193\n        },\n        __self: undefined\n      }, item.User.nickname[0]))),\n      content: item.content,\n      __source: {\n        fileName: _jsxFileName,\n        lineNumber: 189\n      },\n      __self: undefined\n    })),\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 183\n    },\n    __self: undefined\n  })));\n};\n\nPostCard.propTypes = {\n  post: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.shape({\n    User: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.object,\n    content: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,\n    img: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string,\n    createdAt: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string\n  })\n};\n/* harmony default export */ __webpack_exports__[\"default\"] = (PostCard);\n\n//# sourceURL=webpack:///./containers/PostCard.js?");
 
 /***/ }),
 
@@ -947,183 +173,7 @@ PostCard.propTypes = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! antd */ "antd");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(antd__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "react-redux");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _reducers_post__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../reducers/post */ "./reducers/post.js");
-var _jsxFileName = "/app/frontend/containers/PostForm.js";
-var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
-
-
-
-
-
-const PostForm = () => {
-  //const { imagePaths } = useSelector( state => state.post);
-  const dispatch = Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["useDispatch"])();
-  const {
-    0: text,
-    1: setText
-  } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
-  const {
-    imagePaths,
-    isAddingPost,
-    postAdded
-  } = Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["useSelector"])(state => state.post);
-  const imageInput = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
-    if (postAdded) {
-      setText('');
-    }
-  }, [postAdded]);
-  const onSubmitForm = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(e => {
-    e.preventDefault(); ///  안 넣으면 새 페이지로 넘어감
-
-    if (!text && !text.trim()) {
-      return alert('게시글을 작성하세요');
-    }
-
-    const formData = new FormData();
-    imagePaths.forEach(i => {
-      formData.append('image', i);
-    });
-    formData.append('content', text);
-    dispatch({
-      type: _reducers_post__WEBPACK_IMPORTED_MODULE_3__["ADD_POST_REQUEST"],
-      data: formData
-    });
-  }, [text, imagePaths]); //const [id, setId ] = useState('');
-
-  const onChangeText = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(e => {
-    // e.preventDefault();
-    setText(e.target.value);
-  }, []);
-  const onChangeImages = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(e => {
-    console.log(e.target.files);
-    const imageFormData = new FormData();
-    [].forEach.call(e.target.files, f => {
-      imageFormData.append('image', f);
-    });
-    dispatch({
-      type: _reducers_post__WEBPACK_IMPORTED_MODULE_3__["UPLOAD_IMAGES_REQUEST"],
-      data: imageFormData
-    });
-  }, []);
-  const onClickImageUpload = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(() => {
-    console.log("imageInput.current : ", imageInput.current);
-    imageInput.current.click();
-  }, [imageInput.current]);
-  const onRemoveImage = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(index => () => {
-    dispatch({
-      type: _reducers_post__WEBPACK_IMPORTED_MODULE_3__["REMOVE_IMAGE"],
-      index
-    });
-  }, []);
-  return __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Form"], {
-    style: {
-      margin: '10px 0 20px'
-    },
-    encType: "multipart/form-data",
-    onSubmit: onSubmitForm,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 70
-    },
-    __self: undefined
-  }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Input"].TextArea, {
-    maxLength: 140,
-    placeholder: "\uC5B4\uB5A4 \uC2E0\uAE30\uD55C \uC77C\uC774 \uC788\uC5C8\uB098\uC694?",
-    value: text,
-    onChange: onChangeText,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 71
-    },
-    __self: undefined
-  }), __jsx("div", {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 72
-    },
-    __self: undefined
-  }, __jsx("input", {
-    type: "file",
-    multiple: true,
-    hidden: true,
-    ref: imageInput,
-    onChange: onChangeImages,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 73
-    },
-    __self: undefined
-  }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
-    onClick: onClickImageUpload,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 74
-    },
-    __self: undefined
-  }, " \uC774\uBBF8\uC9C0 \uC5C5\uB85C\uB4DC"), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
-    type: "primary",
-    style: {
-      float: 'right'
-    },
-    htmlType: "submit",
-    isloading: isAddingPost,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 75
-    },
-    __self: undefined
-  }, "\uC0C9\uC0C9")), __jsx("div", {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 77
-    },
-    __self: undefined
-  }, imagePaths.map((v, i) => __jsx("div", {
-    key: v,
-    style: {
-      display: 'inline-block'
-    },
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 79
-    },
-    __self: undefined
-  }, __jsx("img", {
-    src: `http://localhost:3065/${v}`,
-    style: {
-      width: '200px'
-    },
-    alt: v,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 80
-    },
-    __self: undefined
-  }), __jsx("div", {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 81
-    },
-    __self: undefined
-  }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Button"], {
-    onClick: onRemoveImage(i),
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 82
-    },
-    __self: undefined
-  }, "\uC81C\uAC70"))))));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (PostForm);
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"react\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! antd */ \"antd\");\n/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(antd__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ \"react-redux\");\n/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var _reducers_post__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../reducers/post */ \"./reducers/post.js\");\nvar _jsxFileName = \"/app/frontend/containers/PostForm.js\";\nvar __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;\n\n\n\n\n\nconst PostForm = () => {\n  //const { imagePaths } = useSelector( state => state.post);\n  const dispatch = Object(react_redux__WEBPACK_IMPORTED_MODULE_2__[\"useDispatch\"])();\n  const {\n    0: text,\n    1: setText\n  } = Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useState\"])('');\n  const {\n    imagePaths,\n    isAddingPost,\n    postAdded\n  } = Object(react_redux__WEBPACK_IMPORTED_MODULE_2__[\"useSelector\"])(state => state.post);\n  const imageInput = Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useRef\"])();\n  Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useEffect\"])(() => {\n    if (postAdded) {\n      setText('');\n    }\n  }, [postAdded]);\n  const onSubmitForm = Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useCallback\"])(e => {\n    e.preventDefault(); ///  안 넣으면 새 페이지로 넘어감\n\n    if (!text && !text.trim()) {\n      return alert('게시글을 작성하세요');\n    }\n\n    const formData = new FormData();\n    imagePaths.forEach(i => {\n      formData.append('image', i);\n    });\n    formData.append('content', text);\n    dispatch({\n      type: _reducers_post__WEBPACK_IMPORTED_MODULE_3__[\"ADD_POST_REQUEST\"],\n      data: formData\n    });\n  }, [text, imagePaths]); //const [id, setId ] = useState('');\n\n  const onChangeText = Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useCallback\"])(e => {\n    // e.preventDefault();\n    setText(e.target.value);\n  }, []);\n  const onChangeImages = Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useCallback\"])(e => {\n    console.log(e.target.files);\n    const imageFormData = new FormData();\n    [].forEach.call(e.target.files, f => {\n      imageFormData.append('image', f);\n    });\n    dispatch({\n      type: _reducers_post__WEBPACK_IMPORTED_MODULE_3__[\"UPLOAD_IMAGES_REQUEST\"],\n      data: imageFormData\n    });\n  }, []);\n  const onClickImageUpload = Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useCallback\"])(() => {\n    console.log(\"imageInput.current : \", imageInput.current);\n    imageInput.current.click();\n  }, [imageInput.current]);\n  const onRemoveImage = Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useCallback\"])(index => () => {\n    dispatch({\n      type: _reducers_post__WEBPACK_IMPORTED_MODULE_3__[\"REMOVE_IMAGE\"],\n      index\n    });\n  }, []);\n  return __jsx(antd__WEBPACK_IMPORTED_MODULE_1__[\"Form\"], {\n    style: {\n      margin: '10px 0 20px'\n    },\n    encType: \"multipart/form-data\",\n    onSubmit: onSubmitForm,\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 70\n    },\n    __self: undefined\n  }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__[\"Input\"].TextArea, {\n    maxLength: 140,\n    placeholder: \"\\uC5B4\\uB5A4 \\uC2E0\\uAE30\\uD55C \\uC77C\\uC774 \\uC788\\uC5C8\\uB098\\uC694?\",\n    value: text,\n    onChange: onChangeText,\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 71\n    },\n    __self: undefined\n  }), __jsx(\"div\", {\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 72\n    },\n    __self: undefined\n  }, __jsx(\"input\", {\n    type: \"file\",\n    multiple: true,\n    hidden: true,\n    ref: imageInput,\n    onChange: onChangeImages,\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 73\n    },\n    __self: undefined\n  }), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__[\"Button\"], {\n    onClick: onClickImageUpload,\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 74\n    },\n    __self: undefined\n  }, \" \\uC774\\uBBF8\\uC9C0 \\uC5C5\\uB85C\\uB4DC\"), __jsx(antd__WEBPACK_IMPORTED_MODULE_1__[\"Button\"], {\n    type: \"primary\",\n    style: {\n      float: 'right'\n    },\n    htmlType: \"submit\",\n    isloading: isAddingPost,\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 75\n    },\n    __self: undefined\n  }, \"\\uC0C9\\uC0C9\")), __jsx(\"div\", {\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 77\n    },\n    __self: undefined\n  }, imagePaths.map((v, i) => __jsx(\"div\", {\n    key: v,\n    style: {\n      display: 'inline-block'\n    },\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 79\n    },\n    __self: undefined\n  }, __jsx(\"img\", {\n    src: `http://localhost:3065/${v}`,\n    style: {\n      width: '200px'\n    },\n    alt: v,\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 80\n    },\n    __self: undefined\n  }), __jsx(\"div\", {\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 81\n    },\n    __self: undefined\n  }, __jsx(antd__WEBPACK_IMPORTED_MODULE_1__[\"Button\"], {\n    onClick: onRemoveImage(i),\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 82\n    },\n    __self: undefined\n  }, \"\\uC81C\\uAC70\"))))));\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (PostForm);\n\n//# sourceURL=webpack:///./containers/PostForm.js?");
 
 /***/ }),
 
@@ -1134,7 +184,7 @@ const PostForm = () => {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! core-js/library/fn/map */ "core-js/library/fn/map");
+eval("module.exports = __webpack_require__(/*! core-js/library/fn/map */ \"core-js/library/fn/map\");\n\n//# sourceURL=webpack:///./node_modules/@babel/runtime-corejs2/core-js/map.js?");
 
 /***/ }),
 
@@ -1145,7 +195,7 @@ module.exports = __webpack_require__(/*! core-js/library/fn/map */ "core-js/libr
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! core-js/library/fn/object/assign */ "core-js/library/fn/object/assign");
+eval("module.exports = __webpack_require__(/*! core-js/library/fn/object/assign */ \"core-js/library/fn/object/assign\");\n\n//# sourceURL=webpack:///./node_modules/@babel/runtime-corejs2/core-js/object/assign.js?");
 
 /***/ }),
 
@@ -1156,7 +206,7 @@ module.exports = __webpack_require__(/*! core-js/library/fn/object/assign */ "co
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! core-js/library/fn/object/define-property */ "core-js/library/fn/object/define-property");
+eval("module.exports = __webpack_require__(/*! core-js/library/fn/object/define-property */ \"core-js/library/fn/object/define-property\");\n\n//# sourceURL=webpack:///./node_modules/@babel/runtime-corejs2/core-js/object/define-property.js?");
 
 /***/ }),
 
@@ -1167,7 +217,7 @@ module.exports = __webpack_require__(/*! core-js/library/fn/object/define-proper
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! core-js/library/fn/object/get-own-property-descriptor */ "core-js/library/fn/object/get-own-property-descriptor");
+eval("module.exports = __webpack_require__(/*! core-js/library/fn/object/get-own-property-descriptor */ \"core-js/library/fn/object/get-own-property-descriptor\");\n\n//# sourceURL=webpack:///./node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-descriptor.js?");
 
 /***/ }),
 
@@ -1178,7 +228,7 @@ module.exports = __webpack_require__(/*! core-js/library/fn/object/get-own-prope
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! core-js/library/fn/object/get-own-property-symbols */ "core-js/library/fn/object/get-own-property-symbols");
+eval("module.exports = __webpack_require__(/*! core-js/library/fn/object/get-own-property-symbols */ \"core-js/library/fn/object/get-own-property-symbols\");\n\n//# sourceURL=webpack:///./node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-symbols.js?");
 
 /***/ }),
 
@@ -1189,7 +239,7 @@ module.exports = __webpack_require__(/*! core-js/library/fn/object/get-own-prope
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! core-js/library/fn/object/keys */ "core-js/library/fn/object/keys");
+eval("module.exports = __webpack_require__(/*! core-js/library/fn/object/keys */ \"core-js/library/fn/object/keys\");\n\n//# sourceURL=webpack:///./node_modules/@babel/runtime-corejs2/core-js/object/keys.js?");
 
 /***/ }),
 
@@ -1201,25 +251,7 @@ module.exports = __webpack_require__(/*! core-js/library/fn/object/keys */ "core
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _defineProperty; });
-/* harmony import */ var _core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core-js/object/define-property */ "./node_modules/@babel/runtime-corejs2/core-js/object/define-property.js");
-/* harmony import */ var _core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0__);
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    _core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0___default()(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _defineProperty; });\n/* harmony import */ var _core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core-js/object/define-property */ \"./node_modules/@babel/runtime-corejs2/core-js/object/define-property.js\");\n/* harmony import */ var _core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0__);\n\nfunction _defineProperty(obj, key, value) {\n  if (key in obj) {\n    _core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0___default()(obj, key, {\n      value: value,\n      enumerable: true,\n      configurable: true,\n      writable: true\n    });\n  } else {\n    obj[key] = value;\n  }\n\n  return obj;\n}\n\n//# sourceURL=webpack:///./node_modules/@babel/runtime-corejs2/helpers/esm/defineProperty.js?");
 
 /***/ }),
 
@@ -1231,38 +263,7 @@ function _defineProperty(obj, key, value) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _objectSpread; });
-/* harmony import */ var _core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core-js/object/get-own-property-descriptor */ "./node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-descriptor.js");
-/* harmony import */ var _core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../core-js/object/get-own-property-symbols */ "./node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-symbols.js");
-/* harmony import */ var _core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _core_js_object_keys__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../core-js/object/keys */ "./node_modules/@babel/runtime-corejs2/core-js/object/keys.js");
-/* harmony import */ var _core_js_object_keys__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_core_js_object_keys__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./defineProperty */ "./node_modules/@babel/runtime-corejs2/helpers/esm/defineProperty.js");
-
-
-
-
-function _objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-
-    var ownKeys = _core_js_object_keys__WEBPACK_IMPORTED_MODULE_2___default()(source);
-
-    if (typeof _core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_1___default.a === 'function') {
-      ownKeys = ownKeys.concat(_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_1___default()(source).filter(function (sym) {
-        return _core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_0___default()(source, sym).enumerable;
-      }));
-    }
-
-    ownKeys.forEach(function (key) {
-      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_3__["default"])(target, key, source[key]);
-    });
-  }
-
-  return target;
-}
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _objectSpread; });\n/* harmony import */ var _core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core-js/object/get-own-property-descriptor */ \"./node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-descriptor.js\");\n/* harmony import */ var _core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../core-js/object/get-own-property-symbols */ \"./node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-symbols.js\");\n/* harmony import */ var _core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _core_js_object_keys__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../core-js/object/keys */ \"./node_modules/@babel/runtime-corejs2/core-js/object/keys.js\");\n/* harmony import */ var _core_js_object_keys__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_core_js_object_keys__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./defineProperty */ \"./node_modules/@babel/runtime-corejs2/helpers/esm/defineProperty.js\");\n\n\n\n\nfunction _objectSpread(target) {\n  for (var i = 1; i < arguments.length; i++) {\n    var source = arguments[i] != null ? arguments[i] : {};\n\n    var ownKeys = _core_js_object_keys__WEBPACK_IMPORTED_MODULE_2___default()(source);\n\n    if (typeof _core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_1___default.a === 'function') {\n      ownKeys = ownKeys.concat(_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_1___default()(source).filter(function (sym) {\n        return _core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_0___default()(source, sym).enumerable;\n      }));\n    }\n\n    ownKeys.forEach(function (key) {\n      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_3__[\"default\"])(target, key, source[key]);\n    });\n  }\n\n  return target;\n}\n\n//# sourceURL=webpack:///./node_modules/@babel/runtime-corejs2/helpers/esm/objectSpread.js?");
 
 /***/ }),
 
@@ -1273,27 +274,7 @@ function _objectSpread(target) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var _Object$assign = __webpack_require__(/*! ../core-js/object/assign */ "./node_modules/@babel/runtime-corejs2/core-js/object/assign.js");
-
-function _extends() {
-  module.exports = _extends = _Object$assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-
-module.exports = _extends;
+eval("var _Object$assign = __webpack_require__(/*! ../core-js/object/assign */ \"./node_modules/@babel/runtime-corejs2/core-js/object/assign.js\");\n\nfunction _extends() {\n  module.exports = _extends = _Object$assign || function (target) {\n    for (var i = 1; i < arguments.length; i++) {\n      var source = arguments[i];\n\n      for (var key in source) {\n        if (Object.prototype.hasOwnProperty.call(source, key)) {\n          target[key] = source[key];\n        }\n      }\n    }\n\n    return target;\n  };\n\n  return _extends.apply(this, arguments);\n}\n\nmodule.exports = _extends;\n\n//# sourceURL=webpack:///./node_modules/@babel/runtime-corejs2/helpers/extends.js?");
 
 /***/ }),
 
@@ -1304,13 +285,7 @@ module.exports = _extends;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : {
-    "default": obj
-  };
-}
-
-module.exports = _interopRequireDefault;
+eval("function _interopRequireDefault(obj) {\n  return obj && obj.__esModule ? obj : {\n    \"default\": obj\n  };\n}\n\nmodule.exports = _interopRequireDefault;\n\n//# sourceURL=webpack:///./node_modules/@babel/runtime-corejs2/helpers/interopRequireDefault.js?");
 
 /***/ }),
 
@@ -1321,36 +296,7 @@ module.exports = _interopRequireDefault;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var _Object$getOwnPropertyDescriptor = __webpack_require__(/*! ../core-js/object/get-own-property-descriptor */ "./node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-descriptor.js");
-
-var _Object$defineProperty = __webpack_require__(/*! ../core-js/object/define-property */ "./node_modules/@babel/runtime-corejs2/core-js/object/define-property.js");
-
-function _interopRequireWildcard(obj) {
-  if (obj && obj.__esModule) {
-    return obj;
-  } else {
-    var newObj = {};
-
-    if (obj != null) {
-      for (var key in obj) {
-        if (Object.prototype.hasOwnProperty.call(obj, key)) {
-          var desc = _Object$defineProperty && _Object$getOwnPropertyDescriptor ? _Object$getOwnPropertyDescriptor(obj, key) : {};
-
-          if (desc.get || desc.set) {
-            _Object$defineProperty(newObj, key, desc);
-          } else {
-            newObj[key] = obj[key];
-          }
-        }
-      }
-    }
-
-    newObj["default"] = obj;
-    return newObj;
-  }
-}
-
-module.exports = _interopRequireWildcard;
+eval("var _Object$getOwnPropertyDescriptor = __webpack_require__(/*! ../core-js/object/get-own-property-descriptor */ \"./node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-descriptor.js\");\n\nvar _Object$defineProperty = __webpack_require__(/*! ../core-js/object/define-property */ \"./node_modules/@babel/runtime-corejs2/core-js/object/define-property.js\");\n\nfunction _interopRequireWildcard(obj) {\n  if (obj && obj.__esModule) {\n    return obj;\n  } else {\n    var newObj = {};\n\n    if (obj != null) {\n      for (var key in obj) {\n        if (Object.prototype.hasOwnProperty.call(obj, key)) {\n          var desc = _Object$defineProperty && _Object$getOwnPropertyDescriptor ? _Object$getOwnPropertyDescriptor(obj, key) : {};\n\n          if (desc.get || desc.set) {\n            _Object$defineProperty(newObj, key, desc);\n          } else {\n            newObj[key] = obj[key];\n          }\n        }\n      }\n    }\n\n    newObj[\"default\"] = obj;\n    return newObj;\n  }\n}\n\nmodule.exports = _interopRequireWildcard;\n\n//# sourceURL=webpack:///./node_modules/@babel/runtime-corejs2/helpers/interopRequireWildcard.js?");
 
 /***/ }),
 
@@ -1362,297 +308,7 @@ module.exports = _interopRequireWildcard;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
-
-var _interopRequireWildcard = __webpack_require__(/*! @babel/runtime-corejs2/helpers/interopRequireWildcard */ "./node_modules/@babel/runtime-corejs2/helpers/interopRequireWildcard.js");
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime-corejs2/helpers/interopRequireDefault */ "./node_modules/@babel/runtime-corejs2/helpers/interopRequireDefault.js");
-
-exports.__esModule = true;
-exports.default = void 0;
-
-var _map = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/core-js/map */ "./node_modules/@babel/runtime-corejs2/core-js/map.js"));
-
-var _url = __webpack_require__(/*! url */ "url");
-
-var _react = _interopRequireWildcard(__webpack_require__(/*! react */ "react"));
-
-var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "prop-types"));
-
-var _router = _interopRequireDefault(__webpack_require__(/*! ./router */ "./node_modules/next/dist/client/router.js"));
-
-var _rewriteUrlForExport = __webpack_require__(/*! next-server/dist/lib/router/rewrite-url-for-export */ "next-server/dist/lib/router/rewrite-url-for-export");
-
-var _utils = __webpack_require__(/*! next-server/dist/lib/utils */ "next-server/dist/lib/utils");
-/* global __NEXT_DATA__ */
-
-
-function isLocal(href) {
-  const url = (0, _url.parse)(href, false, true);
-  const origin = (0, _url.parse)((0, _utils.getLocationOrigin)(), false, true);
-  return !url.host || url.protocol === origin.protocol && url.host === origin.host;
-}
-
-function memoizedFormatUrl(formatFunc) {
-  let lastHref = null;
-  let lastAs = null;
-  let lastResult = null;
-  return (href, as) => {
-    if (lastResult && href === lastHref && as === lastAs) {
-      return lastResult;
-    }
-
-    const result = formatFunc(href, as);
-    lastHref = href;
-    lastAs = as;
-    lastResult = result;
-    return result;
-  };
-}
-
-function formatUrl(url) {
-  return url && typeof url === 'object' ? (0, _utils.formatWithValidation)(url) : url;
-}
-
-let observer;
-const listeners = new _map.default();
-const IntersectionObserver = false ? undefined : null;
-
-function getObserver() {
-  // Return shared instance of IntersectionObserver if already created
-  if (observer) {
-    return observer;
-  } // Only create shared IntersectionObserver if supported in browser
-
-
-  if (!IntersectionObserver) {
-    return undefined;
-  }
-
-  return observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!listeners.has(entry.target)) {
-        return;
-      }
-
-      const cb = listeners.get(entry.target);
-
-      if (entry.isIntersecting || entry.intersectionRatio > 0) {
-        observer.unobserve(entry.target);
-        listeners.delete(entry.target);
-        cb();
-      }
-    });
-  }, {
-    rootMargin: '200px'
-  });
-}
-
-const listenToIntersections = (el, cb) => {
-  const observer = getObserver();
-
-  if (!observer) {
-    return () => {};
-  }
-
-  observer.observe(el);
-  listeners.set(el, cb);
-  return () => {
-    observer.unobserve(el);
-    listeners.delete(el);
-  };
-};
-
-class Link extends _react.Component {
-  constructor(props) {
-    super(props);
-    this.p = void 0;
-
-    this.cleanUpListeners = () => {};
-
-    this.formatUrls = memoizedFormatUrl((href, asHref) => {
-      return {
-        href: formatUrl(href),
-        as: asHref ? formatUrl(asHref) : asHref
-      };
-    });
-
-    this.linkClicked = e => {
-      // @ts-ignore target exists on currentTarget
-      const {
-        nodeName,
-        target
-      } = e.currentTarget;
-
-      if (nodeName === 'A' && (target && target !== '_self' || e.metaKey || e.ctrlKey || e.shiftKey || e.nativeEvent && e.nativeEvent.which === 2)) {
-        // ignore click for new tab / new window behavior
-        return;
-      }
-
-      let {
-        href,
-        as
-      } = this.formatUrls(this.props.href, this.props.as);
-
-      if (!isLocal(href)) {
-        // ignore click if it's outside our scope (e.g. https://google.com)
-        return;
-      }
-
-      const {
-        pathname
-      } = window.location;
-      href = (0, _url.resolve)(pathname, href);
-      as = as ? (0, _url.resolve)(pathname, as) : href;
-      e.preventDefault(); //  avoid scroll for urls with anchor refs
-
-      let {
-        scroll
-      } = this.props;
-
-      if (scroll == null) {
-        scroll = as.indexOf('#') < 0;
-      } // replace state instead of push if prop is present
-
-
-      _router.default[this.props.replace ? 'replace' : 'push'](href, as, {
-        shallow: this.props.shallow
-      }).then(success => {
-        if (!success) return;
-
-        if (scroll) {
-          window.scrollTo(0, 0);
-          document.body.focus();
-        }
-      });
-    };
-
-    if (true) {
-      if (props.prefetch) {
-        console.warn('Next.js auto-prefetches automatically based on viewport. The prefetch attribute is no longer needed. More: https://err.sh/zeit/next.js/prefetch-true-deprecated');
-      }
-    }
-
-    this.p = props.prefetch !== false;
-  }
-
-  componentWillUnmount() {
-    this.cleanUpListeners();
-  }
-
-  handleRef(ref) {
-    if (this.p && IntersectionObserver && ref && ref.tagName) {
-      this.cleanUpListeners();
-      this.cleanUpListeners = listenToIntersections(ref, () => {
-        this.prefetch();
-      });
-    }
-  } // The function is memoized so that no extra lifecycles are needed
-  // as per https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html
-
-
-  prefetch() {
-    if (!this.p || true) return; // Prefetch the JSON page if asked (only in the client)
-
-    const {
-      pathname
-    } = window.location;
-    const {
-      href: parsedHref
-    } = this.formatUrls(this.props.href, this.props.as);
-    const href = (0, _url.resolve)(pathname, parsedHref);
-
-    _router.default.prefetch(href);
-  }
-
-  render() {
-    let {
-      children
-    } = this.props;
-    const {
-      href,
-      as
-    } = this.formatUrls(this.props.href, this.props.as); // Deprecated. Warning shown by propType check. If the children provided is a string (<Link>example</Link>) we wrap it in an <a> tag
-
-    if (typeof children === 'string') {
-      children = _react.default.createElement("a", null, children);
-    } // This will return the first child, if multiple are provided it will throw an error
-
-
-    const child = _react.Children.only(children);
-
-    const props = {
-      ref: el => {
-        this.handleRef(el);
-
-        if (child && typeof child === 'object' && child.ref) {
-          if (typeof child.ref === 'function') child.ref(el);else if (typeof child.ref === 'object') {
-            child.ref.current = el;
-          }
-        }
-      },
-      onMouseEnter: e => {
-        if (child.props && typeof child.props.onMouseEnter === 'function') {
-          child.props.onMouseEnter(e);
-        }
-
-        this.prefetch();
-      },
-      onClick: e => {
-        if (child.props && typeof child.props.onClick === 'function') {
-          child.props.onClick(e);
-        }
-
-        if (!e.defaultPrevented) {
-          this.linkClicked(e);
-        }
-      } // If child is an <a> tag and doesn't have a href attribute, or if the 'passHref' property is
-      // defined, we specify the current 'href', so that repetition is not needed by the user
-
-    };
-
-    if (this.props.passHref || child.type === 'a' && !('href' in child.props)) {
-      props.href = as || href;
-    } // Add the ending slash to the paths. So, we can serve the
-    // "<page>/index.html" directly.
-
-
-    if (false) {}
-
-    return _react.default.cloneElement(child, props);
-  }
-
-}
-
-Link.propTypes = void 0;
-
-if (true) {
-  const warn = (0, _utils.execOnce)(console.error); // This module gets removed by webpack.IgnorePlugin
-
-  const exact = __webpack_require__(/*! prop-types-exact */ "prop-types-exact");
-
-  Link.propTypes = exact({
-    href: _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.object]).isRequired,
-    as: _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.object]),
-    prefetch: _propTypes.default.bool,
-    replace: _propTypes.default.bool,
-    shallow: _propTypes.default.bool,
-    passHref: _propTypes.default.bool,
-    scroll: _propTypes.default.bool,
-    children: _propTypes.default.oneOfType([_propTypes.default.element, (props, propName) => {
-      const value = props[propName];
-
-      if (typeof value === 'string') {
-        warn("Warning: You're using a string directly inside <Link>. This usage has been deprecated. Please add an <a> tag as child of <Link>");
-      }
-
-      return null;
-    }]).isRequired
-  });
-}
-
-var _default = Link;
-exports.default = _default;
+eval("\n\nvar _interopRequireWildcard = __webpack_require__(/*! @babel/runtime-corejs2/helpers/interopRequireWildcard */ \"./node_modules/@babel/runtime-corejs2/helpers/interopRequireWildcard.js\");\n\nvar _interopRequireDefault = __webpack_require__(/*! @babel/runtime-corejs2/helpers/interopRequireDefault */ \"./node_modules/@babel/runtime-corejs2/helpers/interopRequireDefault.js\");\n\nexports.__esModule = true;\nexports.default = void 0;\n\nvar _map = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/core-js/map */ \"./node_modules/@babel/runtime-corejs2/core-js/map.js\"));\n\nvar _url = __webpack_require__(/*! url */ \"url\");\n\nvar _react = _interopRequireWildcard(__webpack_require__(/*! react */ \"react\"));\n\nvar _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ \"prop-types\"));\n\nvar _router = _interopRequireDefault(__webpack_require__(/*! ./router */ \"./node_modules/next/dist/client/router.js\"));\n\nvar _rewriteUrlForExport = __webpack_require__(/*! next-server/dist/lib/router/rewrite-url-for-export */ \"next-server/dist/lib/router/rewrite-url-for-export\");\n\nvar _utils = __webpack_require__(/*! next-server/dist/lib/utils */ \"next-server/dist/lib/utils\");\n/* global __NEXT_DATA__ */\n\n\nfunction isLocal(href) {\n  const url = (0, _url.parse)(href, false, true);\n  const origin = (0, _url.parse)((0, _utils.getLocationOrigin)(), false, true);\n  return !url.host || url.protocol === origin.protocol && url.host === origin.host;\n}\n\nfunction memoizedFormatUrl(formatFunc) {\n  let lastHref = null;\n  let lastAs = null;\n  let lastResult = null;\n  return (href, as) => {\n    if (lastResult && href === lastHref && as === lastAs) {\n      return lastResult;\n    }\n\n    const result = formatFunc(href, as);\n    lastHref = href;\n    lastAs = as;\n    lastResult = result;\n    return result;\n  };\n}\n\nfunction formatUrl(url) {\n  return url && typeof url === 'object' ? (0, _utils.formatWithValidation)(url) : url;\n}\n\nlet observer;\nconst listeners = new _map.default();\nconst IntersectionObserver = false ? undefined : null;\n\nfunction getObserver() {\n  // Return shared instance of IntersectionObserver if already created\n  if (observer) {\n    return observer;\n  } // Only create shared IntersectionObserver if supported in browser\n\n\n  if (!IntersectionObserver) {\n    return undefined;\n  }\n\n  return observer = new IntersectionObserver(entries => {\n    entries.forEach(entry => {\n      if (!listeners.has(entry.target)) {\n        return;\n      }\n\n      const cb = listeners.get(entry.target);\n\n      if (entry.isIntersecting || entry.intersectionRatio > 0) {\n        observer.unobserve(entry.target);\n        listeners.delete(entry.target);\n        cb();\n      }\n    });\n  }, {\n    rootMargin: '200px'\n  });\n}\n\nconst listenToIntersections = (el, cb) => {\n  const observer = getObserver();\n\n  if (!observer) {\n    return () => {};\n  }\n\n  observer.observe(el);\n  listeners.set(el, cb);\n  return () => {\n    observer.unobserve(el);\n    listeners.delete(el);\n  };\n};\n\nclass Link extends _react.Component {\n  constructor(props) {\n    super(props);\n    this.p = void 0;\n\n    this.cleanUpListeners = () => {};\n\n    this.formatUrls = memoizedFormatUrl((href, asHref) => {\n      return {\n        href: formatUrl(href),\n        as: asHref ? formatUrl(asHref) : asHref\n      };\n    });\n\n    this.linkClicked = e => {\n      // @ts-ignore target exists on currentTarget\n      const {\n        nodeName,\n        target\n      } = e.currentTarget;\n\n      if (nodeName === 'A' && (target && target !== '_self' || e.metaKey || e.ctrlKey || e.shiftKey || e.nativeEvent && e.nativeEvent.which === 2)) {\n        // ignore click for new tab / new window behavior\n        return;\n      }\n\n      let {\n        href,\n        as\n      } = this.formatUrls(this.props.href, this.props.as);\n\n      if (!isLocal(href)) {\n        // ignore click if it's outside our scope (e.g. https://google.com)\n        return;\n      }\n\n      const {\n        pathname\n      } = window.location;\n      href = (0, _url.resolve)(pathname, href);\n      as = as ? (0, _url.resolve)(pathname, as) : href;\n      e.preventDefault(); //  avoid scroll for urls with anchor refs\n\n      let {\n        scroll\n      } = this.props;\n\n      if (scroll == null) {\n        scroll = as.indexOf('#') < 0;\n      } // replace state instead of push if prop is present\n\n\n      _router.default[this.props.replace ? 'replace' : 'push'](href, as, {\n        shallow: this.props.shallow\n      }).then(success => {\n        if (!success) return;\n\n        if (scroll) {\n          window.scrollTo(0, 0);\n          document.body.focus();\n        }\n      });\n    };\n\n    if (true) {\n      if (props.prefetch) {\n        console.warn('Next.js auto-prefetches automatically based on viewport. The prefetch attribute is no longer needed. More: https://err.sh/zeit/next.js/prefetch-true-deprecated');\n      }\n    }\n\n    this.p = props.prefetch !== false;\n  }\n\n  componentWillUnmount() {\n    this.cleanUpListeners();\n  }\n\n  handleRef(ref) {\n    if (this.p && IntersectionObserver && ref && ref.tagName) {\n      this.cleanUpListeners();\n      this.cleanUpListeners = listenToIntersections(ref, () => {\n        this.prefetch();\n      });\n    }\n  } // The function is memoized so that no extra lifecycles are needed\n  // as per https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html\n\n\n  prefetch() {\n    if (!this.p || true) return; // Prefetch the JSON page if asked (only in the client)\n\n    const {\n      pathname\n    } = window.location;\n    const {\n      href: parsedHref\n    } = this.formatUrls(this.props.href, this.props.as);\n    const href = (0, _url.resolve)(pathname, parsedHref);\n\n    _router.default.prefetch(href);\n  }\n\n  render() {\n    let {\n      children\n    } = this.props;\n    const {\n      href,\n      as\n    } = this.formatUrls(this.props.href, this.props.as); // Deprecated. Warning shown by propType check. If the children provided is a string (<Link>example</Link>) we wrap it in an <a> tag\n\n    if (typeof children === 'string') {\n      children = _react.default.createElement(\"a\", null, children);\n    } // This will return the first child, if multiple are provided it will throw an error\n\n\n    const child = _react.Children.only(children);\n\n    const props = {\n      ref: el => {\n        this.handleRef(el);\n\n        if (child && typeof child === 'object' && child.ref) {\n          if (typeof child.ref === 'function') child.ref(el);else if (typeof child.ref === 'object') {\n            child.ref.current = el;\n          }\n        }\n      },\n      onMouseEnter: e => {\n        if (child.props && typeof child.props.onMouseEnter === 'function') {\n          child.props.onMouseEnter(e);\n        }\n\n        this.prefetch();\n      },\n      onClick: e => {\n        if (child.props && typeof child.props.onClick === 'function') {\n          child.props.onClick(e);\n        }\n\n        if (!e.defaultPrevented) {\n          this.linkClicked(e);\n        }\n      } // If child is an <a> tag and doesn't have a href attribute, or if the 'passHref' property is\n      // defined, we specify the current 'href', so that repetition is not needed by the user\n\n    };\n\n    if (this.props.passHref || child.type === 'a' && !('href' in child.props)) {\n      props.href = as || href;\n    } // Add the ending slash to the paths. So, we can serve the\n    // \"<page>/index.html\" directly.\n\n\n    if (false) {}\n\n    return _react.default.cloneElement(child, props);\n  }\n\n}\n\nLink.propTypes = void 0;\n\nif (true) {\n  const warn = (0, _utils.execOnce)(console.error); // This module gets removed by webpack.IgnorePlugin\n\n  const exact = __webpack_require__(/*! prop-types-exact */ \"prop-types-exact\");\n\n  Link.propTypes = exact({\n    href: _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.object]).isRequired,\n    as: _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.object]),\n    prefetch: _propTypes.default.bool,\n    replace: _propTypes.default.bool,\n    shallow: _propTypes.default.bool,\n    passHref: _propTypes.default.bool,\n    scroll: _propTypes.default.bool,\n    children: _propTypes.default.oneOfType([_propTypes.default.element, (props, propName) => {\n      const value = props[propName];\n\n      if (typeof value === 'string') {\n        warn(\"Warning: You're using a string directly inside <Link>. This usage has been deprecated. Please add an <a> tag as child of <Link>\");\n      }\n\n      return null;\n    }]).isRequired\n  });\n}\n\nvar _default = Link;\nexports.default = _default;\n\n//# sourceURL=webpack:///./node_modules/next/dist/client/link.js?");
 
 /***/ }),
 
@@ -1664,161 +320,7 @@ exports.default = _default;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
-
-var _interopRequireWildcard = __webpack_require__(/*! @babel/runtime-corejs2/helpers/interopRequireWildcard */ "./node_modules/@babel/runtime-corejs2/helpers/interopRequireWildcard.js");
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime-corejs2/helpers/interopRequireDefault */ "./node_modules/@babel/runtime-corejs2/helpers/interopRequireDefault.js");
-
-exports.__esModule = true;
-exports.useRouter = useRouter;
-exports.makePublicRouterInstance = makePublicRouterInstance;
-exports.createRouter = exports.withRouter = exports.default = void 0;
-
-var _extends2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/extends */ "./node_modules/@babel/runtime-corejs2/helpers/extends.js"));
-
-var _defineProperty = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/core-js/object/define-property */ "./node_modules/@babel/runtime-corejs2/core-js/object/define-property.js"));
-
-var _react = _interopRequireDefault(__webpack_require__(/*! react */ "react"));
-
-var _router2 = _interopRequireWildcard(__webpack_require__(/*! next-server/dist/lib/router/router */ "next-server/dist/lib/router/router"));
-
-exports.Router = _router2.default;
-exports.NextRouter = _router2.NextRouter;
-
-var _routerContext = __webpack_require__(/*! next-server/dist/lib/router-context */ "next-server/dist/lib/router-context");
-
-var _withRouter = _interopRequireDefault(__webpack_require__(/*! ./with-router */ "./node_modules/next/dist/client/with-router.js"));
-
-exports.withRouter = _withRouter.default;
-/* global window */
-
-const singletonRouter = {
-  router: null,
-  // holds the actual router instance
-  readyCallbacks: [],
-
-  ready(cb) {
-    if (this.router) return cb();
-
-    if (false) {}
-  }
-
-}; // Create public properties and methods of the router in the singletonRouter
-
-const urlPropertyFields = ['pathname', 'route', 'query', 'asPath', 'components'];
-const routerEvents = ['routeChangeStart', 'beforeHistoryChange', 'routeChangeComplete', 'routeChangeError', 'hashChangeStart', 'hashChangeComplete'];
-const coreMethodFields = ['push', 'replace', 'reload', 'back', 'prefetch', 'beforePopState']; // Events is a static property on the router, the router doesn't have to be initialized to use it
-
-(0, _defineProperty.default)(singletonRouter, 'events', {
-  get() {
-    return _router2.default.events;
-  }
-
-});
-urlPropertyFields.forEach(field => {
-  // Here we need to use Object.defineProperty because, we need to return
-  // the property assigned to the actual router
-  // The value might get changed as we change routes and this is the
-  // proper way to access it
-  (0, _defineProperty.default)(singletonRouter, field, {
-    get() {
-      const router = getRouter();
-      return router[field];
-    }
-
-  });
-});
-coreMethodFields.forEach(field => {
-  // We don't really know the types here, so we add them later instead
-  ;
-
-  singletonRouter[field] = function () {
-    const router = getRouter();
-    return router[field](...arguments);
-  };
-});
-routerEvents.forEach(event => {
-  singletonRouter.ready(() => {
-    _router2.default.events.on(event, function () {
-      const eventField = "on" + event.charAt(0).toUpperCase() + event.substring(1);
-      const _singletonRouter = singletonRouter;
-
-      if (_singletonRouter[eventField]) {
-        try {
-          _singletonRouter[eventField](...arguments);
-        } catch (err) {
-          // tslint:disable-next-line:no-console
-          console.error("Error when running the Router event: " + eventField); // tslint:disable-next-line:no-console
-
-          console.error(err.message + "\n" + err.stack);
-        }
-      }
-    });
-  });
-});
-
-function getRouter() {
-  if (!singletonRouter.router) {
-    const message = 'No router instance found.\n' + 'You should only use "next/router" inside the client side of your app.\n';
-    throw new Error(message);
-  }
-
-  return singletonRouter.router;
-} // Export the singletonRouter and this is the public API.
-
-
-var _default = singletonRouter; // Reexport the withRoute HOC
-
-exports.default = _default;
-
-function useRouter() {
-  return _react.default.useContext(_routerContext.RouterContext);
-} // INTERNAL APIS
-// -------------
-// (do not use following exports inside the app)
-// Create a router and assign it as the singleton instance.
-// This is used in client side when we are initilizing the app.
-// This should **not** use inside the server.
-
-
-const createRouter = function createRouter() {
-  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  singletonRouter.router = new _router2.default(...args);
-  singletonRouter.readyCallbacks.forEach(cb => cb());
-  singletonRouter.readyCallbacks = [];
-  return singletonRouter.router;
-}; // This function is used to create the `withRouter` router instance
-
-
-exports.createRouter = createRouter;
-
-function makePublicRouterInstance(router) {
-  const _router = router;
-  const instance = {};
-
-  for (const property of urlPropertyFields) {
-    if (typeof _router[property] === 'object') {
-      instance[property] = (0, _extends2.default)({}, _router[property]); // makes sure query is not stateful
-
-      continue;
-    }
-
-    instance[property] = _router[property];
-  } // Events is a static property on the router, the router doesn't have to be initialized to use it
-
-
-  instance.events = _router2.default.events;
-  coreMethodFields.forEach(field => {
-    instance[field] = function () {
-      return _router[field](...arguments);
-    };
-  });
-  return instance;
-}
+eval("\n\nvar _interopRequireWildcard = __webpack_require__(/*! @babel/runtime-corejs2/helpers/interopRequireWildcard */ \"./node_modules/@babel/runtime-corejs2/helpers/interopRequireWildcard.js\");\n\nvar _interopRequireDefault = __webpack_require__(/*! @babel/runtime-corejs2/helpers/interopRequireDefault */ \"./node_modules/@babel/runtime-corejs2/helpers/interopRequireDefault.js\");\n\nexports.__esModule = true;\nexports.useRouter = useRouter;\nexports.makePublicRouterInstance = makePublicRouterInstance;\nexports.createRouter = exports.withRouter = exports.default = void 0;\n\nvar _extends2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/extends */ \"./node_modules/@babel/runtime-corejs2/helpers/extends.js\"));\n\nvar _defineProperty = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/core-js/object/define-property */ \"./node_modules/@babel/runtime-corejs2/core-js/object/define-property.js\"));\n\nvar _react = _interopRequireDefault(__webpack_require__(/*! react */ \"react\"));\n\nvar _router2 = _interopRequireWildcard(__webpack_require__(/*! next-server/dist/lib/router/router */ \"next-server/dist/lib/router/router\"));\n\nexports.Router = _router2.default;\nexports.NextRouter = _router2.NextRouter;\n\nvar _routerContext = __webpack_require__(/*! next-server/dist/lib/router-context */ \"next-server/dist/lib/router-context\");\n\nvar _withRouter = _interopRequireDefault(__webpack_require__(/*! ./with-router */ \"./node_modules/next/dist/client/with-router.js\"));\n\nexports.withRouter = _withRouter.default;\n/* global window */\n\nconst singletonRouter = {\n  router: null,\n  // holds the actual router instance\n  readyCallbacks: [],\n\n  ready(cb) {\n    if (this.router) return cb();\n\n    if (false) {}\n  }\n\n}; // Create public properties and methods of the router in the singletonRouter\n\nconst urlPropertyFields = ['pathname', 'route', 'query', 'asPath', 'components'];\nconst routerEvents = ['routeChangeStart', 'beforeHistoryChange', 'routeChangeComplete', 'routeChangeError', 'hashChangeStart', 'hashChangeComplete'];\nconst coreMethodFields = ['push', 'replace', 'reload', 'back', 'prefetch', 'beforePopState']; // Events is a static property on the router, the router doesn't have to be initialized to use it\n\n(0, _defineProperty.default)(singletonRouter, 'events', {\n  get() {\n    return _router2.default.events;\n  }\n\n});\nurlPropertyFields.forEach(field => {\n  // Here we need to use Object.defineProperty because, we need to return\n  // the property assigned to the actual router\n  // The value might get changed as we change routes and this is the\n  // proper way to access it\n  (0, _defineProperty.default)(singletonRouter, field, {\n    get() {\n      const router = getRouter();\n      return router[field];\n    }\n\n  });\n});\ncoreMethodFields.forEach(field => {\n  // We don't really know the types here, so we add them later instead\n  ;\n\n  singletonRouter[field] = function () {\n    const router = getRouter();\n    return router[field](...arguments);\n  };\n});\nrouterEvents.forEach(event => {\n  singletonRouter.ready(() => {\n    _router2.default.events.on(event, function () {\n      const eventField = \"on\" + event.charAt(0).toUpperCase() + event.substring(1);\n      const _singletonRouter = singletonRouter;\n\n      if (_singletonRouter[eventField]) {\n        try {\n          _singletonRouter[eventField](...arguments);\n        } catch (err) {\n          // tslint:disable-next-line:no-console\n          console.error(\"Error when running the Router event: \" + eventField); // tslint:disable-next-line:no-console\n\n          console.error(err.message + \"\\n\" + err.stack);\n        }\n      }\n    });\n  });\n});\n\nfunction getRouter() {\n  if (!singletonRouter.router) {\n    const message = 'No router instance found.\\n' + 'You should only use \"next/router\" inside the client side of your app.\\n';\n    throw new Error(message);\n  }\n\n  return singletonRouter.router;\n} // Export the singletonRouter and this is the public API.\n\n\nvar _default = singletonRouter; // Reexport the withRoute HOC\n\nexports.default = _default;\n\nfunction useRouter() {\n  return _react.default.useContext(_routerContext.RouterContext);\n} // INTERNAL APIS\n// -------------\n// (do not use following exports inside the app)\n// Create a router and assign it as the singleton instance.\n// This is used in client side when we are initilizing the app.\n// This should **not** use inside the server.\n\n\nconst createRouter = function createRouter() {\n  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {\n    args[_key] = arguments[_key];\n  }\n\n  singletonRouter.router = new _router2.default(...args);\n  singletonRouter.readyCallbacks.forEach(cb => cb());\n  singletonRouter.readyCallbacks = [];\n  return singletonRouter.router;\n}; // This function is used to create the `withRouter` router instance\n\n\nexports.createRouter = createRouter;\n\nfunction makePublicRouterInstance(router) {\n  const _router = router;\n  const instance = {};\n\n  for (const property of urlPropertyFields) {\n    if (typeof _router[property] === 'object') {\n      instance[property] = (0, _extends2.default)({}, _router[property]); // makes sure query is not stateful\n\n      continue;\n    }\n\n    instance[property] = _router[property];\n  } // Events is a static property on the router, the router doesn't have to be initialized to use it\n\n\n  instance.events = _router2.default.events;\n  coreMethodFields.forEach(field => {\n    instance[field] = function () {\n      return _router[field](...arguments);\n    };\n  });\n  return instance;\n}\n\n//# sourceURL=webpack:///./node_modules/next/dist/client/router.js?");
 
 /***/ }),
 
@@ -1830,48 +332,7 @@ function makePublicRouterInstance(router) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime-corejs2/helpers/interopRequireDefault */ "./node_modules/@babel/runtime-corejs2/helpers/interopRequireDefault.js");
-
-exports.__esModule = true;
-exports.default = withRouter;
-
-var _extends2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/extends */ "./node_modules/@babel/runtime-corejs2/helpers/extends.js"));
-
-var _react = _interopRequireDefault(__webpack_require__(/*! react */ "react"));
-
-var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "prop-types"));
-
-function withRouter(ComposedComponent) {
-  class WithRouteWrapper extends _react.default.Component {
-    constructor() {
-      super(...arguments);
-      this.context = void 0;
-    }
-
-    render() {
-      return _react.default.createElement(ComposedComponent, (0, _extends2.default)({
-        router: this.context.router
-      }, this.props));
-    }
-
-  }
-
-  WithRouteWrapper.displayName = void 0;
-  WithRouteWrapper.getInitialProps = void 0;
-  WithRouteWrapper.contextTypes = {
-    router: _propTypes.default.object
-  };
-  WithRouteWrapper.getInitialProps = ComposedComponent.getInitialProps;
-
-  if (true) {
-    const name = ComposedComponent.displayName || ComposedComponent.name || 'Unknown';
-    WithRouteWrapper.displayName = "withRouter(" + name + ")";
-  }
-
-  return WithRouteWrapper;
-}
+eval("\n\nvar _interopRequireDefault = __webpack_require__(/*! @babel/runtime-corejs2/helpers/interopRequireDefault */ \"./node_modules/@babel/runtime-corejs2/helpers/interopRequireDefault.js\");\n\nexports.__esModule = true;\nexports.default = withRouter;\n\nvar _extends2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/extends */ \"./node_modules/@babel/runtime-corejs2/helpers/extends.js\"));\n\nvar _react = _interopRequireDefault(__webpack_require__(/*! react */ \"react\"));\n\nvar _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ \"prop-types\"));\n\nfunction withRouter(ComposedComponent) {\n  class WithRouteWrapper extends _react.default.Component {\n    constructor() {\n      super(...arguments);\n      this.context = void 0;\n    }\n\n    render() {\n      return _react.default.createElement(ComposedComponent, (0, _extends2.default)({\n        router: this.context.router\n      }, this.props));\n    }\n\n  }\n\n  WithRouteWrapper.displayName = void 0;\n  WithRouteWrapper.getInitialProps = void 0;\n  WithRouteWrapper.contextTypes = {\n    router: _propTypes.default.object\n  };\n  WithRouteWrapper.getInitialProps = ComposedComponent.getInitialProps;\n\n  if (true) {\n    const name = ComposedComponent.displayName || ComposedComponent.name || 'Unknown';\n    WithRouteWrapper.displayName = \"withRouter(\" + name + \")\";\n  }\n\n  return WithRouteWrapper;\n}\n\n//# sourceURL=webpack:///./node_modules/next/dist/client/with-router.js?");
 
 /***/ }),
 
@@ -1882,8 +343,7 @@ function withRouter(ComposedComponent) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! ./dist/client/link */ "./node_modules/next/dist/client/link.js")
-
+eval("module.exports = __webpack_require__(/*! ./dist/client/link */ \"./node_modules/next/dist/client/link.js\")\n\n\n//# sourceURL=webpack:///./node_modules/next/link.js?");
 
 /***/ }),
 
@@ -1895,150 +355,7 @@ module.exports = __webpack_require__(/*! ./dist/client/link */ "./node_modules/n
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _containers_PostCard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../containers/PostCard */ "./containers/PostCard.js");
-/* harmony import */ var _containers_PostForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../containers/PostForm */ "./containers/PostForm.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "react-redux");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _reducers_post__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../reducers/post */ "./reducers/post.js");
-var _jsxFileName = "/app/frontend/pages/index.js";
-var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
-
-
-
-
-
-
-const Home = () => {
-  const dispatch = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["useDispatch"])();
-  const {
-    me
-  } = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["useSelector"])(state => state.user);
-  const {
-    mainPosts,
-    hasMorePost
-  } = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["useSelector"])(state => state.post);
-  const countRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])([]);
-  const onScroll = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(() => {
-    // console.log(window.scrollY, document.documentElement.clientHeight,document.documentElement.scrollHeight);
-    if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
-      if (hasMorePost) {
-        const lastId = mainPosts[mainPosts.length - 1].id;
-
-        if (!countRef.current.includes(lastId)) {
-          dispatch({
-            type: _reducers_post__WEBPACK_IMPORTED_MODULE_4__["LOAD_MAIN_POSTS_REQUEST"],
-            lastId
-          });
-        }
-
-        countRef.current.push(lastId);
-      }
-    }
-
-    ;
-  }, [hasMorePost, mainPosts.length]);
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
-    window.addEventListener('scroll', onScroll);
-    return () => {
-      // 이렇게 해야 호출될때 아래가 실행됨, 본 컴포넌트 나갈때 실행됨
-      window.removeEventListener('scroll', onScroll);
-    };
-  }, [mainPosts.length]); //  빈 deps [], 는 처음 로딩될때 한 번만 호출됨
-
-  return __jsx("div", {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 39
-    },
-    __self: undefined
-  }, me && __jsx(_containers_PostForm__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 40
-    },
-    __self: undefined
-  }), mainPosts.map(c => {
-    return __jsx(_containers_PostCard__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      key: c.id,
-      post: c,
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 43
-      },
-      __self: undefined
-    });
-  }));
-};
-
-Home.getInitialProps = async context => {
-  context.store.dispatch({
-    type: _reducers_post__WEBPACK_IMPORTED_MODULE_4__["LOAD_MAIN_POSTS_REQUEST"]
-  });
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (Home); // function mapStateToProps(state) {
-//     return {
-//         user: state.user,
-//     };
-// }
-// function mapDispatchToProps(dispatch) {
-//     return {
-//         login: () => dispatch(loginAction),
-//         logout: () => dispatch(logoutAction)
-//     };
-// }
-// export default connect(mapStateToProps, mapDispatchToProps)(Home);
-
-/*
-
- // Docker 재실행 방법
- docker ps          // 과거 실행 내역 조사 
- docker restart 이름,
- docker exec -it web(이름) /bin/bash
- npm run dev  // 백엔드 프런트엔드 각각 위치에서 실행 
-
- 
- // Docker 초기 실행 방법
- Docker 실행 명령어
- docker mysql 실행
- docker run --name mysql -e MYSQL_ROOT_PASSWORD=mypass -d -p 3306:3306 mysql
-
-
- mysql 컨테이너에 접속하기
- docker exec -it mysql /bin/bash
-
- mysql 데이터베이스에 접근하기
- mysql -u root -p password
-
-
-
-
- Nodejs 서버 + mysql 연결하여  실행 
- docker run -it -p 3060:3060 -p 3065:3065 --volume=$(pwd):/app/  --name web --link mysql-db  -d node  
-
- NodeJs 컨테이너에 접속하기 
- docker exec -it web /bin/bash
-
- mysql 컨테이너 접속 아이피 찾기
- docker inspect bridge
-
- 찾은 아이피를 백엔드 db 설정 파일에 적는다
- /backend/config/config.js
-
- 백엔드와 프런트 서버를 각각 가동한다.
-
-
-
-
- Cube.js 가동하는 방법 on Docker
- 4000, 3050 포트를 호스트와 연결해 준다.
- docker run -it -p 4000:4000 -p 3050:3050 --volume=$(pwd):/app/ --name cubejs --link mysql-db -d node
- 
-
-*/
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"react\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _containers_PostCard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../containers/PostCard */ \"./containers/PostCard.js\");\n/* harmony import */ var _containers_PostForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../containers/PostForm */ \"./containers/PostForm.js\");\n/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ \"react-redux\");\n/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_3__);\n/* harmony import */ var _reducers_post__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../reducers/post */ \"./reducers/post.js\");\nvar _jsxFileName = \"/app/frontend/pages/index.js\";\nvar __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;\n\n\n\n\n\n\nconst Home = () => {\n  const dispatch = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__[\"useDispatch\"])();\n  const {\n    me\n  } = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__[\"useSelector\"])(state => state.user);\n  const {\n    mainPosts,\n    hasMorePost\n  } = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__[\"useSelector\"])(state => state.post);\n  const countRef = Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useRef\"])([]);\n  const onScroll = Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useCallback\"])(() => {\n    // console.log(window.scrollY, document.documentElement.clientHeight,document.documentElement.scrollHeight);\n    if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {\n      if (hasMorePost) {\n        const lastId = mainPosts[mainPosts.length - 1].id;\n\n        if (!countRef.current.includes(lastId)) {\n          dispatch({\n            type: _reducers_post__WEBPACK_IMPORTED_MODULE_4__[\"LOAD_MAIN_POSTS_REQUEST\"],\n            lastId\n          });\n        }\n\n        countRef.current.push(lastId);\n      }\n    }\n\n    ;\n  }, [hasMorePost, mainPosts.length]);\n  Object(react__WEBPACK_IMPORTED_MODULE_0__[\"useEffect\"])(() => {\n    window.addEventListener('scroll', onScroll);\n    return () => {\n      // 이렇게 해야 호출될때 아래가 실행됨, 본 컴포넌트 나갈때 실행됨\n      window.removeEventListener('scroll', onScroll);\n    };\n  }, [mainPosts.length]); //  빈 deps [], 는 처음 로딩될때 한 번만 호출됨\n\n  return __jsx(\"div\", {\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 39\n    },\n    __self: undefined\n  }, me && __jsx(_containers_PostForm__WEBPACK_IMPORTED_MODULE_2__[\"default\"], {\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 40\n    },\n    __self: undefined\n  }), mainPosts.map(c => {\n    return __jsx(_containers_PostCard__WEBPACK_IMPORTED_MODULE_1__[\"default\"], {\n      key: c.id,\n      post: c,\n      __source: {\n        fileName: _jsxFileName,\n        lineNumber: 43\n      },\n      __self: undefined\n    });\n  }));\n};\n\nHome.getInitialProps = async context => {\n  context.store.dispatch({\n    type: _reducers_post__WEBPACK_IMPORTED_MODULE_4__[\"LOAD_MAIN_POSTS_REQUEST\"]\n  });\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Home); // function mapStateToProps(state) {\n//     return {\n//         user: state.user,\n//     };\n// }\n// function mapDispatchToProps(dispatch) {\n//     return {\n//         login: () => dispatch(loginAction),\n//         logout: () => dispatch(logoutAction)\n//     };\n// }\n// export default connect(mapStateToProps, mapDispatchToProps)(Home);\n\n/*\n\n // Docker 재실행 방법\n docker ps          // 과거 실행 내역 조사 \n docker restart 이름,\n docker exec -it web(이름) /bin/bash\n npm run dev  // 백엔드 프런트엔드 각각 위치에서 실행 \n\n \n // Docker 초기 실행 방법\n Docker 실행 명령어\n docker mysql 실행\n docker run --name mysql -e MYSQL_ROOT_PASSWORD=mypass -d -p 3306:3306 mysql\n\n\n mysql 컨테이너에 접속하기\n docker exec -it mysql /bin/bash\n\n mysql 데이터베이스에 접근하기\n mysql -u root -p password\n\n\n\n\n Nodejs 서버 + mysql 연결하여  실행 \n docker run -it -p 3060:3060 -p 3065:3065 --volume=$(pwd):/app/  --name web --link mysql-db  -d node  \n\n NodeJs 컨테이너에 접속하기 \n docker exec -it web /bin/bash\n\n mysql 컨테이너 접속 아이피 찾기\n docker inspect bridge\n\n 찾은 아이피를 백엔드 db 설정 파일에 적는다\n /backend/config/config.js\n\n 백엔드와 프런트 서버를 각각 가동한다.\n\n\n\n\n Cube.js 가동하는 방법 on Docker\n 4000, 3050 포트를 호스트와 연결해 준다.\n docker run -it -p 4000:4000 -p 3050:3050 --volume=$(pwd):/app/ --name cubejs --link mysql-db -d node\n \n\n*/\n\n//# sourceURL=webpack:///./pages/index.js?");
 
 /***/ }),
 
@@ -2050,403 +367,7 @@ Home.getInitialProps = async context => {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initialState", function() { return initialState; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_MAIN_POSTS_REQUEST", function() { return LOAD_MAIN_POSTS_REQUEST; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_MAIN_POSTS_SUCCESS", function() { return LOAD_MAIN_POSTS_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_MAIN_POSTS_FAILURE", function() { return LOAD_MAIN_POSTS_FAILURE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_HASHTAG_POSTS_REQUEST", function() { return LOAD_HASHTAG_POSTS_REQUEST; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_HASHTAG_POSTS_SUCCESS", function() { return LOAD_HASHTAG_POSTS_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_HASHTAG_POSTS_FAILURE", function() { return LOAD_HASHTAG_POSTS_FAILURE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_USER_POSTS_REQUEST", function() { return LOAD_USER_POSTS_REQUEST; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_USER_POSTS_SUCCESS", function() { return LOAD_USER_POSTS_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_USER_POSTS_FAILURE", function() { return LOAD_USER_POSTS_FAILURE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPLOAD_IMAGES_REQUEST", function() { return UPLOAD_IMAGES_REQUEST; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPLOAD_IMAGES_SUCCESS", function() { return UPLOAD_IMAGES_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPLOAD_IMAGES_FAILURE", function() { return UPLOAD_IMAGES_FAILURE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_IMAGE", function() { return REMOVE_IMAGE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_POST_REQUEST", function() { return ADD_POST_REQUEST; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_POST_SUCCESS", function() { return ADD_POST_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_POST_FAILURE", function() { return ADD_POST_FAILURE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_COMMENT_REQUEST", function() { return ADD_COMMENT_REQUEST; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_COMMENT_SUCCESS", function() { return ADD_COMMENT_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_COMMENT_FAILURE", function() { return ADD_COMMENT_FAILURE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LIKE_POST_REQUEST", function() { return LIKE_POST_REQUEST; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LIKE_POST_SUCCESS", function() { return LIKE_POST_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LIKE_POST_FAILURE", function() { return LIKE_POST_FAILURE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UNLIKE_POST_REQUEST", function() { return UNLIKE_POST_REQUEST; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UNLIKE_POST_SUCCESS", function() { return UNLIKE_POST_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UNLIKE_POST_FAILURE", function() { return UNLIKE_POST_FAILURE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_COMMENTS_REQUEST", function() { return LOAD_COMMENTS_REQUEST; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_COMMENTS_SUCCESS", function() { return LOAD_COMMENTS_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_COMMENTS_FAILURE", function() { return LOAD_COMMENTS_FAILURE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RETWEET_REQUEST", function() { return RETWEET_REQUEST; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RETWEET_SUCCESS", function() { return RETWEET_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RETWEET_FAILURE", function() { return RETWEET_FAILURE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_POST_REQUEST", function() { return REMOVE_POST_REQUEST; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_POST_SUCCESS", function() { return REMOVE_POST_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_POST_FAILURE", function() { return REMOVE_POST_FAILURE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_POST_REQUEST", function() { return LOAD_POST_REQUEST; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_POST_SUCCESS", function() { return LOAD_POST_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_POST_FAILURE", function() { return LOAD_POST_FAILURE; });
-/* harmony import */ var _babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/objectSpread */ "./node_modules/@babel/runtime-corejs2/helpers/esm/objectSpread.js");
-
-// export const initialState = {
-//     mainPosts: [{
-//         // id: 1,
-//         // User: {
-//         //     id: 1,
-//         //     nickname: "코드",
-//         // },
-//         // content: "첫 번째 게시글",
-//         // img: "https://blog.yena.io/assets/post-img/171123-nachoi-300.jpg",
-//         // Comments: [],
-//     }],                 // 화면에 보일 포스트들
-//     imagePaths: [],     // 미리보기 이미지 경로
-//     addPostErrorReason:'',  // 포스트 업로드 실패 사유
-//     isAddingPost: false,        // 포스트 업로드 중
-//     postAdded: false,           // 포스트 업로드 성공,
-//     isAddingComment:false,
-//     addCommentErrorReason: '',
-//     commentAdded: false,
-// };
-// const dummyPost = {
-//     id: 2,
-//     User: {
-//         id: 1,
-//         nickname: '코드',
-//     },
-//     content: '나는 더미입니다',
-//     Comments: [],
-// }
-// const dummyComment = {
-//     id: 1,
-//     User: {
-//         id: 1,
-//         nickname: 2,
-//     },
-//     createdAt: new Date(),
-//     content: '더미 댓글입니다',
-// }
-const initialState = {
-  mainPosts: [],
-  // 화면에 보일 포스트들
-  imagePaths: [],
-  // 미리보기 이미지 경로
-  addPostErrorReason: '',
-  // 포스트 업로드 실패 사유
-  isAddingPost: false,
-  // 포스트 업로드 중
-  postAdded: false,
-  // 포스트 업로드 성공
-  isAddingComment: false,
-  addCommentErrorReason: '',
-  commentAdded: false,
-  singlePost: null
-};
-const LOAD_MAIN_POSTS_REQUEST = 'LOAD_MAIN_POSTS_REQUEST';
-const LOAD_MAIN_POSTS_SUCCESS = 'LOAD_MAIN_POSTS_SUCCESS';
-const LOAD_MAIN_POSTS_FAILURE = 'LOAD_MAIN_POSTS_FAILURE';
-const LOAD_HASHTAG_POSTS_REQUEST = 'LOAD_HASHTAG_POSTS_REQUEST';
-const LOAD_HASHTAG_POSTS_SUCCESS = 'LOAD_HASHTAG_POSTS_SUCCESS';
-const LOAD_HASHTAG_POSTS_FAILURE = 'LOAD_HASHTAG_POSTS_FAILURE';
-const LOAD_USER_POSTS_REQUEST = 'LOAD_USER_POSTS_REQUEST';
-const LOAD_USER_POSTS_SUCCESS = 'LOAD_USER_POSTS_SUCCESS';
-const LOAD_USER_POSTS_FAILURE = 'LOAD_USER_POSTS_FAILURE';
-const UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST';
-const UPLOAD_IMAGES_SUCCESS = 'UPLOAD_IMAGES_SUCCESS';
-const UPLOAD_IMAGES_FAILURE = 'UPLOAD_IMAGES_FAILURE';
-const REMOVE_IMAGE = 'REMOVE_IMAGE';
-const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
-const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
-const ADD_POST_FAILURE = 'ADD_POST_FAILURE';
-const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST';
-const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
-const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
-const LIKE_POST_REQUEST = 'LIKE_POST_REQUEST';
-const LIKE_POST_SUCCESS = 'LIKE_POST_SUCCESS';
-const LIKE_POST_FAILURE = 'LIKE_POST_FAILURE';
-const UNLIKE_POST_REQUEST = 'UNLIKE_POST_REQUEST';
-const UNLIKE_POST_SUCCESS = 'UNLIKE_POST_SUCCESS';
-const UNLIKE_POST_FAILURE = 'UNLIKE_POST_FAILURE';
-const LOAD_COMMENTS_REQUEST = 'LOAD_COMMENTS_REQUEST';
-const LOAD_COMMENTS_SUCCESS = 'LOAD_COMMENTS_SUCCESS';
-const LOAD_COMMENTS_FAILURE = 'LOAD_COMMENTS_FAILURE';
-const RETWEET_REQUEST = 'RETWEET_REQUEST';
-const RETWEET_SUCCESS = 'RETWEET_SUCCESS';
-const RETWEET_FAILURE = 'RETWEET_FAILURE';
-const REMOVE_POST_REQUEST = 'REMOVE_POST_REQUEST';
-const REMOVE_POST_SUCCESS = 'REMOVE_POST_SUCCESS';
-const REMOVE_POST_FAILURE = 'REMOVE_POST_FAILURE';
-const LOAD_POST_REQUEST = 'LOAD_POST_REQUEST';
-const LOAD_POST_SUCCESS = 'LOAD_POST_SUCCESS';
-const LOAD_POST_FAILURE = 'LOAD_POST_FAILURE';
-
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    //case LOAD_COMMENTS_REQUEST:
-    case LOAD_HASHTAG_POSTS_REQUEST:
-    case LOAD_USER_POSTS_REQUEST:
-    case LOAD_MAIN_POSTS_REQUEST:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          mainPosts: !action.lastId ? [] : state.mainPosts,
-          hasMorePost: action.lastId ? state.hasMorePost : true
-        });
-      }
-
-    case LOAD_USER_POSTS_SUCCESS:
-    case LOAD_HASHTAG_POSTS_SUCCESS:
-    case LOAD_MAIN_POSTS_SUCCESS:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          mainPosts: state.mainPosts.concat(action.data),
-          // mainPosts: action.data.forEach(element => {
-          //    mainPosts.push(element); 
-          // }),
-          hasMorePost: action.data.length === 10
-        });
-      }
-    //case LOAD_COMMENTS_FAILURE:
-
-    case LOAD_HASHTAG_POSTS_FAILURE:
-    case LOAD_USER_POSTS_FAILURE:
-    case LOAD_MAIN_POSTS_FAILURE:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
-      }
-
-    case ADD_POST_REQUEST:
-      {
-        //console.log(" in Reducuer ADD_POST_REQUEST : ", action)
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          isAddingPost: true,
-          addPostErrorReason: '',
-          postAdded: false
-        });
-      }
-
-    case ADD_POST_SUCCESS:
-      {
-        //console.log(" in Reducuer ADD_POST_SUCCESS : ", action)
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          isAddingPost: false,
-          //mainPosts: [dummyPost, ...state.mainPosts],
-          mainPosts: [action.data, ...state.mainPosts],
-          postAdded: true,
-          imagePaths: []
-        });
-      }
-
-    case ADD_POST_FAILURE:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          isAddingPost: false,
-          addPostErrorReason: action.error
-        });
-      }
-
-    case ADD_COMMENT_REQUEST:
-      {
-        // console.log(" in Reducuer ADD_COMMENT_REQUEST :  ", action)
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          isAddingComment: true,
-          addCommentErrorReason: '',
-          commentAdded: false
-        });
-      }
-
-    case ADD_COMMENT_SUCCESS:
-      {
-        // console.log(" in Reducuer ADD_COMMENT_SUCCESS :  ", action)
-        // console.log(" chk state : ", state)
-        // console.log(" state.mainPosts[0] : ", state.mainPosts[0]);
-        // try {   
-        const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId); //console.log("postIndex : ", postIndex);
-
-        const post = state.mainPosts[postIndex]; // console.log("post : ", post);
-        // console.log("post.Comments : ", post.Comments)
-        // console.log("action.data.comment : ", action.data.comment)
-
-        const Comments = [...post.Comments, action.data.comment]; //console.log("Comments : ", Comments);
-
-        const mainPosts = [...state.mainPosts]; //console.log("mainPosts : ", mainPosts);
-
-        mainPosts[postIndex] = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, post, {
-          Comments
-        }); //console.log("mainPosts[postIndex] : ", mainPosts[postIndex]);
-        // } catch (e) {
-        //     console.log("reducer error : ", e);
-        // }
-
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          isAddingComment: false,
-          mainPosts,
-          //mainPosts : mainPosts,
-          commentAdded: true
-        });
-      }
-
-    case ADD_COMMENT_FAILURE:
-      {
-        console.log(" in Reducuer ADD_COMMENT_FAILURE :  ", action);
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          isAddingComment: false,
-          addCommentErrorReason: action.error
-        });
-      }
-
-    case LOAD_COMMENTS_SUCCESS:
-      {
-        console.log('LOAD_COMMENTS_SUCCESS action : ', action.data);
-        console.log('LOAD_COMMENTS_SUCCESS state : ', state);
-
-        if (action.data.postId !== undefined) {
-          const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
-          const post = state.mainPosts[postIndex];
-          const Comments = action.data.comments;
-          const mainPosts = [...state.mainPosts];
-          mainPosts[postIndex] = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, post, {
-            Comments
-          });
-          return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-            mainPosts //mainPosts : mainPosts,
-
-          });
-        } else {
-          return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
-        }
-      }
-
-    case UPLOAD_IMAGES_REQUEST:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
-      }
-
-    case UPLOAD_IMAGES_SUCCESS:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          imagePaths: [...state.imagePaths, ...action.data]
-        });
-      }
-
-    case UPLOAD_IMAGES_FAILURE:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
-      }
-
-    case REMOVE_IMAGE:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          imagePaths: state.imagePaths.filter((v, i) => i !== action.index)
-        });
-      }
-
-    case LIKE_POST_REQUEST:
-      {
-        //console.log(" in Reducuer ADD_POST_REQUEST : ", action)
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
-      }
-
-    case LIKE_POST_SUCCESS:
-      {
-        //console.log(" in Reducuer ADD_POST_SUCCESS : ", action)
-        const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
-        const post = state.mainPosts[postIndex];
-        const Likers = [{
-          id: action.data.userId
-        }, ...post.Likers];
-        const mainPosts = [...state.mainPosts];
-        mainPosts[postIndex] = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, post, {
-          Likers
-        });
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          mainPosts
-        });
-      }
-
-    case LIKE_POST_FAILURE:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
-      }
-
-    case UNLIKE_POST_REQUEST:
-      {
-        //console.log(" in Reducuer ADD_POST_REQUEST : ", action)
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
-      }
-
-    case UNLIKE_POST_SUCCESS:
-      {
-        //console.log(" in Reducuer ADD_POST_SUCCESS : ", action)
-        const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
-        const post = state.mainPosts[postIndex];
-        const Likers = post.Likers.filter(v => v.id !== action.data.userId);
-        const mainPosts = [...state.mainPosts];
-        mainPosts[postIndex] = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, post, {
-          Likers
-        });
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          mainPosts
-        });
-      }
-
-    case UNLIKE_POST_FAILURE:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
-      }
-
-    case RETWEET_REQUEST:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
-      }
-
-    case RETWEET_SUCCESS:
-      {
-        console.log('RETWEET_SUCCESS in reducers ', action.data);
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          mainPosts: [action.data, ...state.mainPosts]
-        });
-      }
-
-    case RETWEET_FAILURE:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
-      }
-
-    case REMOVE_POST_REQUEST:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
-      }
-
-    case REMOVE_POST_SUCCESS:
-      {
-        //console.log('RETWEET_SUCCESS in reducers ', action.data)
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          mainPosts: state.mainPosts.filter(v => v.id !== action.data)
-        });
-      }
-
-    case REMOVE_POST_FAILURE:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
-      }
-
-    case LOAD_POST_SUCCESS:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, {
-          singlePost: action.data
-        });
-      }
-
-    default:
-      {
-        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state);
-      }
-  }
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (reducer);
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"initialState\", function() { return initialState; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOAD_MAIN_POSTS_REQUEST\", function() { return LOAD_MAIN_POSTS_REQUEST; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOAD_MAIN_POSTS_SUCCESS\", function() { return LOAD_MAIN_POSTS_SUCCESS; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOAD_MAIN_POSTS_FAILURE\", function() { return LOAD_MAIN_POSTS_FAILURE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOAD_HASHTAG_POSTS_REQUEST\", function() { return LOAD_HASHTAG_POSTS_REQUEST; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOAD_HASHTAG_POSTS_SUCCESS\", function() { return LOAD_HASHTAG_POSTS_SUCCESS; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOAD_HASHTAG_POSTS_FAILURE\", function() { return LOAD_HASHTAG_POSTS_FAILURE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOAD_USER_POSTS_REQUEST\", function() { return LOAD_USER_POSTS_REQUEST; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOAD_USER_POSTS_SUCCESS\", function() { return LOAD_USER_POSTS_SUCCESS; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOAD_USER_POSTS_FAILURE\", function() { return LOAD_USER_POSTS_FAILURE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"UPLOAD_IMAGES_REQUEST\", function() { return UPLOAD_IMAGES_REQUEST; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"UPLOAD_IMAGES_SUCCESS\", function() { return UPLOAD_IMAGES_SUCCESS; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"UPLOAD_IMAGES_FAILURE\", function() { return UPLOAD_IMAGES_FAILURE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"REMOVE_IMAGE\", function() { return REMOVE_IMAGE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"ADD_POST_REQUEST\", function() { return ADD_POST_REQUEST; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"ADD_POST_SUCCESS\", function() { return ADD_POST_SUCCESS; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"ADD_POST_FAILURE\", function() { return ADD_POST_FAILURE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"ADD_COMMENT_REQUEST\", function() { return ADD_COMMENT_REQUEST; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"ADD_COMMENT_SUCCESS\", function() { return ADD_COMMENT_SUCCESS; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"ADD_COMMENT_FAILURE\", function() { return ADD_COMMENT_FAILURE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LIKE_POST_REQUEST\", function() { return LIKE_POST_REQUEST; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LIKE_POST_SUCCESS\", function() { return LIKE_POST_SUCCESS; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LIKE_POST_FAILURE\", function() { return LIKE_POST_FAILURE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"UNLIKE_POST_REQUEST\", function() { return UNLIKE_POST_REQUEST; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"UNLIKE_POST_SUCCESS\", function() { return UNLIKE_POST_SUCCESS; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"UNLIKE_POST_FAILURE\", function() { return UNLIKE_POST_FAILURE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOAD_COMMENTS_REQUEST\", function() { return LOAD_COMMENTS_REQUEST; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOAD_COMMENTS_SUCCESS\", function() { return LOAD_COMMENTS_SUCCESS; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOAD_COMMENTS_FAILURE\", function() { return LOAD_COMMENTS_FAILURE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"RETWEET_REQUEST\", function() { return RETWEET_REQUEST; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"RETWEET_SUCCESS\", function() { return RETWEET_SUCCESS; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"RETWEET_FAILURE\", function() { return RETWEET_FAILURE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"REMOVE_POST_REQUEST\", function() { return REMOVE_POST_REQUEST; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"REMOVE_POST_SUCCESS\", function() { return REMOVE_POST_SUCCESS; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"REMOVE_POST_FAILURE\", function() { return REMOVE_POST_FAILURE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOAD_POST_REQUEST\", function() { return LOAD_POST_REQUEST; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOAD_POST_SUCCESS\", function() { return LOAD_POST_SUCCESS; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOAD_POST_FAILURE\", function() { return LOAD_POST_FAILURE; });\n/* harmony import */ var _babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/objectSpread */ \"./node_modules/@babel/runtime-corejs2/helpers/esm/objectSpread.js\");\n\n// export const initialState = {\n//     mainPosts: [{\n//         // id: 1,\n//         // User: {\n//         //     id: 1,\n//         //     nickname: \"코드\",\n//         // },\n//         // content: \"첫 번째 게시글\",\n//         // img: \"https://blog.yena.io/assets/post-img/171123-nachoi-300.jpg\",\n//         // Comments: [],\n//     }],                 // 화면에 보일 포스트들\n//     imagePaths: [],     // 미리보기 이미지 경로\n//     addPostErrorReason:'',  // 포스트 업로드 실패 사유\n//     isAddingPost: false,        // 포스트 업로드 중\n//     postAdded: false,           // 포스트 업로드 성공,\n//     isAddingComment:false,\n//     addCommentErrorReason: '',\n//     commentAdded: false,\n// };\n// const dummyPost = {\n//     id: 2,\n//     User: {\n//         id: 1,\n//         nickname: '코드',\n//     },\n//     content: '나는 더미입니다',\n//     Comments: [],\n// }\n// const dummyComment = {\n//     id: 1,\n//     User: {\n//         id: 1,\n//         nickname: 2,\n//     },\n//     createdAt: new Date(),\n//     content: '더미 댓글입니다',\n// }\nconst initialState = {\n  mainPosts: [],\n  // 화면에 보일 포스트들\n  imagePaths: [],\n  // 미리보기 이미지 경로\n  addPostErrorReason: '',\n  // 포스트 업로드 실패 사유\n  isAddingPost: false,\n  // 포스트 업로드 중\n  postAdded: false,\n  // 포스트 업로드 성공\n  isAddingComment: false,\n  addCommentErrorReason: '',\n  commentAdded: false,\n  singlePost: null\n};\nconst LOAD_MAIN_POSTS_REQUEST = 'LOAD_MAIN_POSTS_REQUEST';\nconst LOAD_MAIN_POSTS_SUCCESS = 'LOAD_MAIN_POSTS_SUCCESS';\nconst LOAD_MAIN_POSTS_FAILURE = 'LOAD_MAIN_POSTS_FAILURE';\nconst LOAD_HASHTAG_POSTS_REQUEST = 'LOAD_HASHTAG_POSTS_REQUEST';\nconst LOAD_HASHTAG_POSTS_SUCCESS = 'LOAD_HASHTAG_POSTS_SUCCESS';\nconst LOAD_HASHTAG_POSTS_FAILURE = 'LOAD_HASHTAG_POSTS_FAILURE';\nconst LOAD_USER_POSTS_REQUEST = 'LOAD_USER_POSTS_REQUEST';\nconst LOAD_USER_POSTS_SUCCESS = 'LOAD_USER_POSTS_SUCCESS';\nconst LOAD_USER_POSTS_FAILURE = 'LOAD_USER_POSTS_FAILURE';\nconst UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST';\nconst UPLOAD_IMAGES_SUCCESS = 'UPLOAD_IMAGES_SUCCESS';\nconst UPLOAD_IMAGES_FAILURE = 'UPLOAD_IMAGES_FAILURE';\nconst REMOVE_IMAGE = 'REMOVE_IMAGE';\nconst ADD_POST_REQUEST = 'ADD_POST_REQUEST';\nconst ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';\nconst ADD_POST_FAILURE = 'ADD_POST_FAILURE';\nconst ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST';\nconst ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';\nconst ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';\nconst LIKE_POST_REQUEST = 'LIKE_POST_REQUEST';\nconst LIKE_POST_SUCCESS = 'LIKE_POST_SUCCESS';\nconst LIKE_POST_FAILURE = 'LIKE_POST_FAILURE';\nconst UNLIKE_POST_REQUEST = 'UNLIKE_POST_REQUEST';\nconst UNLIKE_POST_SUCCESS = 'UNLIKE_POST_SUCCESS';\nconst UNLIKE_POST_FAILURE = 'UNLIKE_POST_FAILURE';\nconst LOAD_COMMENTS_REQUEST = 'LOAD_COMMENTS_REQUEST';\nconst LOAD_COMMENTS_SUCCESS = 'LOAD_COMMENTS_SUCCESS';\nconst LOAD_COMMENTS_FAILURE = 'LOAD_COMMENTS_FAILURE';\nconst RETWEET_REQUEST = 'RETWEET_REQUEST';\nconst RETWEET_SUCCESS = 'RETWEET_SUCCESS';\nconst RETWEET_FAILURE = 'RETWEET_FAILURE';\nconst REMOVE_POST_REQUEST = 'REMOVE_POST_REQUEST';\nconst REMOVE_POST_SUCCESS = 'REMOVE_POST_SUCCESS';\nconst REMOVE_POST_FAILURE = 'REMOVE_POST_FAILURE';\nconst LOAD_POST_REQUEST = 'LOAD_POST_REQUEST';\nconst LOAD_POST_SUCCESS = 'LOAD_POST_SUCCESS';\nconst LOAD_POST_FAILURE = 'LOAD_POST_FAILURE';\n\nconst reducer = (state = initialState, action) => {\n  switch (action.type) {\n    //case LOAD_COMMENTS_REQUEST:\n    case LOAD_HASHTAG_POSTS_REQUEST:\n    case LOAD_USER_POSTS_REQUEST:\n    case LOAD_MAIN_POSTS_REQUEST:\n      {\n        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state, {\n          mainPosts: !action.lastId ? [] : state.mainPosts,\n          hasMorePost: action.lastId ? state.hasMorePost : true\n        });\n      }\n\n    case LOAD_USER_POSTS_SUCCESS:\n    case LOAD_HASHTAG_POSTS_SUCCESS:\n    case LOAD_MAIN_POSTS_SUCCESS:\n      {\n        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state, {\n          mainPosts: state.mainPosts.concat(action.data),\n          // mainPosts: action.data.forEach(element => {\n          //    mainPosts.push(element); \n          // }),\n          hasMorePost: action.data.length === 10\n        });\n      }\n    //case LOAD_COMMENTS_FAILURE:\n\n    case LOAD_HASHTAG_POSTS_FAILURE:\n    case LOAD_USER_POSTS_FAILURE:\n    case LOAD_MAIN_POSTS_FAILURE:\n      {\n        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state);\n      }\n\n    case ADD_POST_REQUEST:\n      {\n        //console.log(\" in Reducuer ADD_POST_REQUEST : \", action)\n        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state, {\n          isAddingPost: true,\n          addPostErrorReason: '',\n          postAdded: false\n        });\n      }\n\n    case ADD_POST_SUCCESS:\n      {\n        //console.log(\" in Reducuer ADD_POST_SUCCESS : \", action)\n        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state, {\n          isAddingPost: false,\n          //mainPosts: [dummyPost, ...state.mainPosts],\n          mainPosts: [action.data, ...state.mainPosts],\n          postAdded: true,\n          imagePaths: []\n        });\n      }\n\n    case ADD_POST_FAILURE:\n      {\n        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state, {\n          isAddingPost: false,\n          addPostErrorReason: action.error\n        });\n      }\n\n    case ADD_COMMENT_REQUEST:\n      {\n        // console.log(\" in Reducuer ADD_COMMENT_REQUEST :  \", action)\n        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state, {\n          isAddingComment: true,\n          addCommentErrorReason: '',\n          commentAdded: false\n        });\n      }\n\n    case ADD_COMMENT_SUCCESS:\n      {\n        // console.log(\" in Reducuer ADD_COMMENT_SUCCESS :  \", action)\n        // console.log(\" chk state : \", state)\n        // console.log(\" state.mainPosts[0] : \", state.mainPosts[0]);\n        // try {   \n        const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId); //console.log(\"postIndex : \", postIndex);\n\n        const post = state.mainPosts[postIndex]; // console.log(\"post : \", post);\n        // console.log(\"post.Comments : \", post.Comments)\n        // console.log(\"action.data.comment : \", action.data.comment)\n\n        const Comments = [...post.Comments, action.data.comment]; //console.log(\"Comments : \", Comments);\n\n        const mainPosts = [...state.mainPosts]; //console.log(\"mainPosts : \", mainPosts);\n\n        mainPosts[postIndex] = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, post, {\n          Comments\n        }); //console.log(\"mainPosts[postIndex] : \", mainPosts[postIndex]);\n        // } catch (e) {\n        //     console.log(\"reducer error : \", e);\n        // }\n\n        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state, {\n          isAddingComment: false,\n          mainPosts,\n          //mainPosts : mainPosts,\n          commentAdded: true\n        });\n      }\n\n    case ADD_COMMENT_FAILURE:\n      {\n        console.log(\" in Reducuer ADD_COMMENT_FAILURE :  \", action);\n        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state, {\n          isAddingComment: false,\n          addCommentErrorReason: action.error\n        });\n      }\n\n    case LOAD_COMMENTS_SUCCESS:\n      {\n        console.log('LOAD_COMMENTS_SUCCESS action : ', action.data);\n        console.log('LOAD_COMMENTS_SUCCESS state : ', state);\n\n        if (action.data.postId !== undefined) {\n          const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);\n          const post = state.mainPosts[postIndex];\n          const Comments = action.data.comments;\n          const mainPosts = [...state.mainPosts];\n          mainPosts[postIndex] = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, post, {\n            Comments\n          });\n          return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state, {\n            mainPosts //mainPosts : mainPosts,\n\n          });\n        } else {\n          return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state);\n        }\n      }\n\n    case UPLOAD_IMAGES_REQUEST:\n      {\n        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state);\n      }\n\n    case UPLOAD_IMAGES_SUCCESS:\n      {\n        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state, {\n          imagePaths: [...state.imagePaths, ...action.data]\n        });\n      }\n\n    case UPLOAD_IMAGES_FAILURE:\n      {\n        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state);\n      }\n\n    case REMOVE_IMAGE:\n      {\n        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state, {\n          imagePaths: state.imagePaths.filter((v, i) => i !== action.index)\n        });\n      }\n\n    case LIKE_POST_REQUEST:\n      {\n        //console.log(\" in Reducuer ADD_POST_REQUEST : \", action)\n        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state);\n      }\n\n    case LIKE_POST_SUCCESS:\n      {\n        //console.log(\" in Reducuer ADD_POST_SUCCESS : \", action)\n        const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);\n        const post = state.mainPosts[postIndex];\n        const Likers = [{\n          id: action.data.userId\n        }, ...post.Likers];\n        const mainPosts = [...state.mainPosts];\n        mainPosts[postIndex] = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, post, {\n          Likers\n        });\n        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state, {\n          mainPosts\n        });\n      }\n\n    case LIKE_POST_FAILURE:\n      {\n        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state);\n      }\n\n    case UNLIKE_POST_REQUEST:\n      {\n        //console.log(\" in Reducuer ADD_POST_REQUEST : \", action)\n        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state);\n      }\n\n    case UNLIKE_POST_SUCCESS:\n      {\n        //console.log(\" in Reducuer ADD_POST_SUCCESS : \", action)\n        const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);\n        const post = state.mainPosts[postIndex];\n        const Likers = post.Likers.filter(v => v.id !== action.data.userId);\n        const mainPosts = [...state.mainPosts];\n        mainPosts[postIndex] = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, post, {\n          Likers\n        });\n        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state, {\n          mainPosts\n        });\n      }\n\n    case UNLIKE_POST_FAILURE:\n      {\n        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state);\n      }\n\n    case RETWEET_REQUEST:\n      {\n        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state);\n      }\n\n    case RETWEET_SUCCESS:\n      {\n        console.log('RETWEET_SUCCESS in reducers ', action.data);\n        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state, {\n          mainPosts: [action.data, ...state.mainPosts]\n        });\n      }\n\n    case RETWEET_FAILURE:\n      {\n        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state);\n      }\n\n    case REMOVE_POST_REQUEST:\n      {\n        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state);\n      }\n\n    case REMOVE_POST_SUCCESS:\n      {\n        //console.log('RETWEET_SUCCESS in reducers ', action.data)\n        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state, {\n          mainPosts: state.mainPosts.filter(v => v.id !== action.data)\n        });\n      }\n\n    case REMOVE_POST_FAILURE:\n      {\n        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state);\n      }\n\n    case LOAD_POST_SUCCESS:\n      {\n        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state, {\n          singlePost: action.data\n        });\n      }\n\n    default:\n      {\n        return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state);\n      }\n  }\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (reducer);\n\n//# sourceURL=webpack:///./reducers/post.js?");
 
 /***/ }),
 
@@ -2458,461 +379,7 @@ const reducer = (state = initialState, action) => {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initialState", function() { return initialState; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SIGN_UP_REQUEST", function() { return SIGN_UP_REQUEST; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SIGN_UP_SUCCESS", function() { return SIGN_UP_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SIGN_UP_FAILURE", function() { return SIGN_UP_FAILURE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOG_IN_REQUEST", function() { return LOG_IN_REQUEST; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOG_IN_SUCCESS", function() { return LOG_IN_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOG_IN_FAILURE", function() { return LOG_IN_FAILURE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOG_OUT_REQUEST", function() { return LOG_OUT_REQUEST; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOG_OUT_SUCCESS", function() { return LOG_OUT_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOG_OUT_FAILURE", function() { return LOG_OUT_FAILURE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_USER_REQUEST", function() { return LOAD_USER_REQUEST; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_USER_SUCCESS", function() { return LOAD_USER_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_USER_FAILURE", function() { return LOAD_USER_FAILURE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_FOLLOWERS_REQUEST", function() { return LOAD_FOLLOWERS_REQUEST; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_FOLLOWERS_SUCCESS", function() { return LOAD_FOLLOWERS_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_FOLLOWERS_FAILURE", function() { return LOAD_FOLLOWERS_FAILURE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_FOLLOWINGS_REQUEST", function() { return LOAD_FOLLOWINGS_REQUEST; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_FOLLOWINGS_SUCCESS", function() { return LOAD_FOLLOWINGS_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_FOLLOWINGS_FAILURE", function() { return LOAD_FOLLOWINGS_FAILURE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_FOLLOW_REQUEST", function() { return LOAD_FOLLOW_REQUEST; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_FOLLOW_SUCCESS", function() { return LOAD_FOLLOW_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_FOLLOW_FAILURE", function() { return LOAD_FOLLOW_FAILURE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FOLLOW_USER_REQUEST", function() { return FOLLOW_USER_REQUEST; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FOLLOW_USER_SUCCESS", function() { return FOLLOW_USER_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FOLLOW_USER_FAILURE", function() { return FOLLOW_USER_FAILURE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UNFOLLOW_USER_REQUEST", function() { return UNFOLLOW_USER_REQUEST; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UNFOLLOW_USER_SUCCESS", function() { return UNFOLLOW_USER_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UNFOLLOW_USER_FAILURE", function() { return UNFOLLOW_USER_FAILURE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_FOLLOWER_REQUEST", function() { return REMOVE_FOLLOWER_REQUEST; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_FOLLOWER_SUCCESS", function() { return REMOVE_FOLLOWER_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_FOLLOWER_FAILURE", function() { return REMOVE_FOLLOWER_FAILURE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_POST_TO_ME", function() { return ADD_POST_TO_ME; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EDIT_NICKNAME_REQUEST", function() { return EDIT_NICKNAME_REQUEST; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EDIT_NICKNAME_SUCCESS", function() { return EDIT_NICKNAME_SUCCESS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EDIT_NICKNAME_FAILURE", function() { return EDIT_NICKNAME_FAILURE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_POST_OF_ME", function() { return REMOVE_POST_OF_ME; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "signupAction", function() { return signupAction; });
-/* harmony import */ var immer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! immer */ "immer");
-/* harmony import */ var immer__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(immer__WEBPACK_IMPORTED_MODULE_0__);
- // const dummyUser = {
-//     nickname: '코드',
-//     Post: [],
-//     Followings: [],
-//     Followers: [],
-//     id: 1,  
-// };
-
-const initialState = {
-  // isLoggedIn: false,
-  isLoggingOut: false,
-  // 로그아웃 시도중
-  isLoggingIn: false,
-  // 로그인 시도중
-  logInErrorReason: '',
-  // 로그인 실퍠 상유
-  signedUp: false,
-  // 회원가입 성공
-  isSigningUp: false,
-  // 회원가입 시도중
-  signUpErrorReason: '',
-  // 회원가입 실패 사유
-  me: null,
-  followingList: [],
-  // 팔로잉 리스트
-  followerList: [],
-  // 팔로워 리스트
-  userInfo: null,
-  // 남의 정보
-  isEditingNickname: false,
-  editNicknameErrorReason: '',
-  hasMoreFollower: false,
-  hasMoreFollowing: false
-};
-const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
-const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
-const SIGN_UP_FAILURE = 'SIGN_UP_FAILURE';
-const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
-const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS';
-const LOG_IN_FAILURE = 'LOG_IN_FAILURE';
-const LOG_OUT_REQUEST = 'LOG_OUT_REQUEST';
-const LOG_OUT_SUCCESS = 'LOG_OUT_SUCCESS';
-const LOG_OUT_FAILURE = 'LOG_OUT_FAILURE';
-const LOAD_USER_REQUEST = 'LOAD_USER_REQUEST';
-const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS';
-const LOAD_USER_FAILURE = 'LOAD_USER_FAILURE';
-const LOAD_FOLLOWERS_REQUEST = 'LOAD_FOLLOWERS_REQUEST';
-const LOAD_FOLLOWERS_SUCCESS = 'LOAD_FOLLOWERS_SUCCESS';
-const LOAD_FOLLOWERS_FAILURE = 'LOAD_FOLLOWERS_FAILURE';
-const LOAD_FOLLOWINGS_REQUEST = 'LOAD_FOLLOWINGS_REQUEST';
-const LOAD_FOLLOWINGS_SUCCESS = 'LOAD_FOLLOWINGS_SUCCESS';
-const LOAD_FOLLOWINGS_FAILURE = 'LOAD_FOLLOWINGS_FAILURE';
-const LOAD_FOLLOW_REQUEST = 'LOAD_FOLLOW_REQUEST';
-const LOAD_FOLLOW_SUCCESS = 'LOAD_FOLLOW_SUCCESS';
-const LOAD_FOLLOW_FAILURE = 'LOAD_FOLLOW_FAILURE';
-const FOLLOW_USER_REQUEST = 'FOLLOW_USER_REQUEST';
-const FOLLOW_USER_SUCCESS = 'FOLLOW_USER_SUCCESS';
-const FOLLOW_USER_FAILURE = 'FOLLOW_USER_FAILURE';
-const UNFOLLOW_USER_REQUEST = 'UNFOLLOW_USER_REQUEST';
-const UNFOLLOW_USER_SUCCESS = 'UNFOLLOW_USER_SUCCESS';
-const UNFOLLOW_USER_FAILURE = 'UNFOLLOW_USER_FAILURE';
-const REMOVE_FOLLOWER_REQUEST = 'REMOVE_FOLLOWER_REQUEST';
-const REMOVE_FOLLOWER_SUCCESS = 'REMOVE_FOLLOWER_SUCCESS';
-const REMOVE_FOLLOWER_FAILURE = 'REMOVE_FOLLOWER_FAILURE';
-const ADD_POST_TO_ME = 'ADD_POST_TO_ME'; // post reducier 를 호출하는 부분 (다른 리듀서 호출)
-
-const EDIT_NICKNAME_REQUEST = 'EDIT_NICKNAME_REQUEST';
-const EDIT_NICKNAME_SUCCESS = 'EDIT_NICKNAME_SUCCESS';
-const EDIT_NICKNAME_FAILURE = 'EDIT_NICKNAME_FAILURE';
-const REMOVE_POST_OF_ME = 'REMOVE_POST_OF_ME';
-const signupAction = data => ({
-  type: SIGN_UP_REQUEST,
-  data: data
-}); // export const signupAction = (data) => {
-//     return {
-//         type: SIGN_UP_REQUEST,
-//         data: data,
-//     };
-// };
-
-const reducer = (state = initialState, action) => {
-  return immer__WEBPACK_IMPORTED_MODULE_0___default()(state, draft => {
-    switch (action.type) {
-      case ADD_POST_TO_ME:
-        {
-          draft.me.Posts.unshift({
-            id: action.data
-          });
-          break; // return {
-          //     ...state,
-          //     me: {
-          //         ...state.me,
-          //         Posts: [{ id: action.data }, ...state.me.Posts],
-          //     },
-          // };
-        }
-        ;
-
-      case LOG_IN_REQUEST:
-        {
-          draft.isLoggingIn = true;
-          draft.logInErrorReason = '';
-          break; // return {
-          //     ...state,
-          //     isLoggingIn: true,
-          // }
-        }
-
-      case LOG_IN_SUCCESS:
-        {
-          draft.isLoggingIn = false;
-          draft.me = action.data;
-          draft.isLoading = false;
-          draft.logInErrorReason = '';
-          break; // return {
-          //     ...state,
-          //     isLoggingIn: false,
-          //     //isLoggedIn: true,
-          //     //me: dummyUser,
-          //     me: action.data,
-          //     isLoading: false,
-          // }
-        }
-
-      case LOG_IN_FAILURE:
-        {
-          draft.isLoggingIn = false;
-          draft.logInErrorReason = action.error;
-          draft.me = null;
-          break; // return {
-          //     ...state,
-          //     isLoggingIn: false,
-          //     //isLoggedIn: false,
-          //     logInErrorReason: action.error,
-          //     me: null,
-          // }
-        }
-
-      case LOG_OUT_REQUEST:
-        {
-          draft.isLoggingOut = true;
-          break;
-        }
-
-      case LOG_OUT_SUCCESS:
-        {
-          draft.isLoggingOut = true;
-          draft.me = null;
-          break;
-        }
-
-      case SIGN_UP_REQUEST:
-        {
-          draft.isSigningUp = false;
-          draft.isSignedUp = true;
-          draft.signUpErrorReason = '';
-          break;
-        }
-
-      case SIGN_UP_SUCCESS:
-        {
-          draft.isSigningUp = false;
-          draft.isSignedUp = true;
-          break; // return {
-          //     ...state,
-          //     isSigningUp: false,
-          //     isSignedUp: true,
-          //     me : {
-          //         nickname: action.nickname,
-          //         // Post: [],
-          //         // Followings: [],
-          //         // Followers: [],
-          //         id: action.id,
-          //         userId: action.userId, 
-          //     }
-          // };
-        }
-
-      case SIGN_UP_FAILURE:
-        {
-          draft.isSigningUp = false;
-          draft.signUpErrorReason = action.error;
-          break; // return {
-          //     ...state,
-          //     isSigningUp: false,
-          //     signUpErrorReason: action.error,
-          // };
-        }
-
-      case LOAD_USER_REQUEST:
-        {
-          break; // return {
-          //     ...state,
-          // }
-        }
-
-      case LOAD_USER_SUCCESS:
-        {
-          if (action.me) {
-            draft.me = action.data;
-            break;
-          }
-
-          draft.userInfo = action.data;
-          break; // if(action.me){
-          //     return {
-          //         ...state,
-          //         me: action.data,
-          //     };    
-          // }
-          // return {
-          //     ...state,
-          //     userInfo: action.data,
-          // }
-        }
-
-      case LOAD_USER_FAILURE:
-        {
-          break; // return {
-          //     ...state,
-          // };
-        }
-
-      case FOLLOW_USER_REQUEST:
-        {
-          break; // return {
-          //     ...state,
-          // }
-        }
-
-      case FOLLOW_USER_SUCCESS:
-        {
-          draft.me.Followings.unshift({
-            id: action.data
-          });
-          break; // return {
-          //   ...state,
-          //   me: {
-          //     ...state.me,
-          //     Followings: [{ id: action.data }, ...state.me.Followings],
-          //   },
-          // };
-        }
-
-      case FOLLOW_USER_FAILURE:
-        {
-          break;
-        }
-
-      case UNFOLLOW_USER_REQUEST:
-        {
-          break;
-        }
-
-      case UNFOLLOW_USER_SUCCESS:
-        {
-          const index = draft.me.Followings.findIndex(v => v.id === action.data);
-          draft.me.Followings.splice(index, 1);
-          const index2 = draft.followingList.findIndex(v => v.id === action.data);
-          draft.followingList.splice(index2, 1);
-          break; // return {
-          //   ...state,
-          //   me: {
-          //     ...state.me,
-          //     Followings: state.me.Followings.filter(v => v.id !== action.data),
-          //   },
-          //   followingList: state.followingList.filter(v => v.id !== action.data),
-          // };
-        }
-
-      case UNFOLLOW_USER_FAILURE:
-        {
-          break;
-        }
-
-      case LOAD_FOLLOWERS_REQUEST:
-        {
-          draft.followerList = !action.offset ? [] : draft.followerList;
-          draft.hasMoreFollower = action.offset ? draft.hasMoreFollower : true;
-          break; // return {
-          //     ...state,
-          //     // 처음 데이터를 가져올 때는 더보기 버튼을 보여준다
-          //     hasMoreFollower: action.offset ? state.hasMoreFollower : true,
-          // };
-        }
-
-      case LOAD_FOLLOWERS_SUCCESS:
-        {
-          action.data.forEach(d => {
-            draft.followerList.push(d);
-          });
-          draft.hasMoreFollower = action.data.length === 3;
-          break; // return {
-          //   ...state,
-          //   followerList: state.followerList.concat(action.data),
-          //   hasMoreFollower: action.data.length === 3, // true or false
-          // };
-        }
-
-      case LOAD_FOLLOWERS_FAILURE:
-        {
-          break;
-        }
-
-      case LOAD_FOLLOWINGS_REQUEST:
-        {
-          draft.followingList = !action.offset ? [] : draft.followingList;
-          draft.hasMoreFollowing = action.offset ? draft.hasMoreFollowing : true;
-          break; // return {
-          //     ...state,
-          //     hasMoreFollowing: action.offset ? state.hasMoreFollowing : true,
-          // }
-        }
-
-      case LOAD_FOLLOWINGS_SUCCESS:
-        {
-          action.data.forEach(d => {
-            draft.followingList.push(d);
-          });
-          draft.hasMoreFollowing = action.data.length === 3;
-          break; // return {
-          //   ...state,
-          //   followingList: state.followingList.concat(action.data),
-          //   hasMoreFollowing: action.data.length === 3, // true or false
-          // };
-        }
-
-      case LOAD_FOLLOWINGS_FAILURE:
-        {
-          break;
-        }
-
-      case REMOVE_FOLLOWER_REQUEST:
-        {
-          break;
-        }
-
-      case REMOVE_FOLLOWER_SUCCESS:
-        {
-          const index = draft.me.Followers.findIndex(v => v.id === action.data);
-          draft.me.Followers.splice(index, 1);
-          const index2 = draft.followerList.findIndex(v => v.id === action.data);
-          draft.followerList.splice(index2, 1);
-          break; // return {
-          //   ...state,
-          //   me: {
-          //       ...state.me,
-          //       Followers: state.me.Followers.filter( v=> v.id !== action.data),
-          //   },
-          //   followerList: state.followerList.filter(v => v.id !== action.data),
-          // };
-        }
-
-      case REMOVE_FOLLOWER_FAILURE:
-        {
-          break;
-        }
-
-      case EDIT_NICKNAME_REQUEST:
-        {
-          draft.isEditingNickname = false;
-          draft.me.nickname = action.data;
-          break; // return {
-          //     ...state,
-          //     isEditingNickname: true,
-          //     editNicknameErrorReason: '',
-          // }
-        }
-
-      case EDIT_NICKNAME_SUCCESS:
-        {
-          draft.isEditingNickname = false;
-          draft.me.nickname = action.data;
-          break; // return {
-          //   ...state,
-          //   isEditingNickname: false,
-          //   me: {
-          //       ...state.me,
-          //       nickname: action.data,
-          //   },
-          // };
-        }
-
-      case EDIT_NICKNAME_FAILURE:
-        {
-          draft.isEditingNickname = false;
-          draft.editNicknameErrorReason = action.error;
-          break; // return {
-          //     ...state,
-          //     editNicknameErrorReason: action.error,
-          // }
-        }
-
-      case REMOVE_POST_OF_ME:
-        {
-          draft.isEditingNickname = false;
-          draft.editNicknameErrorReason = action.error;
-          break; // return {
-          //   ...state,
-          //   me: {
-          //       ...state.me,
-          //       Posts: state.me.Posts.filter( v=> v.id !== action.data),
-          //   },
-          // };
-        }
-
-      default:
-        {
-          break;
-        }
-    }
-  });
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (reducer);
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"initialState\", function() { return initialState; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"SIGN_UP_REQUEST\", function() { return SIGN_UP_REQUEST; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"SIGN_UP_SUCCESS\", function() { return SIGN_UP_SUCCESS; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"SIGN_UP_FAILURE\", function() { return SIGN_UP_FAILURE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOG_IN_REQUEST\", function() { return LOG_IN_REQUEST; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOG_IN_SUCCESS\", function() { return LOG_IN_SUCCESS; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOG_IN_FAILURE\", function() { return LOG_IN_FAILURE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOG_OUT_REQUEST\", function() { return LOG_OUT_REQUEST; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOG_OUT_SUCCESS\", function() { return LOG_OUT_SUCCESS; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOG_OUT_FAILURE\", function() { return LOG_OUT_FAILURE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOAD_USER_REQUEST\", function() { return LOAD_USER_REQUEST; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOAD_USER_SUCCESS\", function() { return LOAD_USER_SUCCESS; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOAD_USER_FAILURE\", function() { return LOAD_USER_FAILURE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOAD_FOLLOWERS_REQUEST\", function() { return LOAD_FOLLOWERS_REQUEST; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOAD_FOLLOWERS_SUCCESS\", function() { return LOAD_FOLLOWERS_SUCCESS; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOAD_FOLLOWERS_FAILURE\", function() { return LOAD_FOLLOWERS_FAILURE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOAD_FOLLOWINGS_REQUEST\", function() { return LOAD_FOLLOWINGS_REQUEST; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOAD_FOLLOWINGS_SUCCESS\", function() { return LOAD_FOLLOWINGS_SUCCESS; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOAD_FOLLOWINGS_FAILURE\", function() { return LOAD_FOLLOWINGS_FAILURE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOAD_FOLLOW_REQUEST\", function() { return LOAD_FOLLOW_REQUEST; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOAD_FOLLOW_SUCCESS\", function() { return LOAD_FOLLOW_SUCCESS; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LOAD_FOLLOW_FAILURE\", function() { return LOAD_FOLLOW_FAILURE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"FOLLOW_USER_REQUEST\", function() { return FOLLOW_USER_REQUEST; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"FOLLOW_USER_SUCCESS\", function() { return FOLLOW_USER_SUCCESS; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"FOLLOW_USER_FAILURE\", function() { return FOLLOW_USER_FAILURE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"UNFOLLOW_USER_REQUEST\", function() { return UNFOLLOW_USER_REQUEST; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"UNFOLLOW_USER_SUCCESS\", function() { return UNFOLLOW_USER_SUCCESS; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"UNFOLLOW_USER_FAILURE\", function() { return UNFOLLOW_USER_FAILURE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"REMOVE_FOLLOWER_REQUEST\", function() { return REMOVE_FOLLOWER_REQUEST; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"REMOVE_FOLLOWER_SUCCESS\", function() { return REMOVE_FOLLOWER_SUCCESS; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"REMOVE_FOLLOWER_FAILURE\", function() { return REMOVE_FOLLOWER_FAILURE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"ADD_POST_TO_ME\", function() { return ADD_POST_TO_ME; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"EDIT_NICKNAME_REQUEST\", function() { return EDIT_NICKNAME_REQUEST; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"EDIT_NICKNAME_SUCCESS\", function() { return EDIT_NICKNAME_SUCCESS; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"EDIT_NICKNAME_FAILURE\", function() { return EDIT_NICKNAME_FAILURE; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"REMOVE_POST_OF_ME\", function() { return REMOVE_POST_OF_ME; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"signupAction\", function() { return signupAction; });\n/* harmony import */ var immer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! immer */ \"immer\");\n/* harmony import */ var immer__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(immer__WEBPACK_IMPORTED_MODULE_0__);\n // const dummyUser = {\n//     nickname: '코드',\n//     Post: [],\n//     Followings: [],\n//     Followers: [],\n//     id: 1,  \n// };\n\nconst initialState = {\n  // isLoggedIn: false,\n  isLoggingOut: false,\n  // 로그아웃 시도중\n  isLoggingIn: false,\n  // 로그인 시도중\n  logInErrorReason: '',\n  // 로그인 실퍠 상유\n  signedUp: false,\n  // 회원가입 성공\n  isSigningUp: false,\n  // 회원가입 시도중\n  signUpErrorReason: '',\n  // 회원가입 실패 사유\n  me: null,\n  followingList: [],\n  // 팔로잉 리스트\n  followerList: [],\n  // 팔로워 리스트\n  userInfo: null,\n  // 남의 정보\n  isEditingNickname: false,\n  editNicknameErrorReason: '',\n  hasMoreFollower: false,\n  hasMoreFollowing: false\n};\nconst SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';\nconst SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';\nconst SIGN_UP_FAILURE = 'SIGN_UP_FAILURE';\nconst LOG_IN_REQUEST = 'LOG_IN_REQUEST';\nconst LOG_IN_SUCCESS = 'LOG_IN_SUCCESS';\nconst LOG_IN_FAILURE = 'LOG_IN_FAILURE';\nconst LOG_OUT_REQUEST = 'LOG_OUT_REQUEST';\nconst LOG_OUT_SUCCESS = 'LOG_OUT_SUCCESS';\nconst LOG_OUT_FAILURE = 'LOG_OUT_FAILURE';\nconst LOAD_USER_REQUEST = 'LOAD_USER_REQUEST';\nconst LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS';\nconst LOAD_USER_FAILURE = 'LOAD_USER_FAILURE';\nconst LOAD_FOLLOWERS_REQUEST = 'LOAD_FOLLOWERS_REQUEST';\nconst LOAD_FOLLOWERS_SUCCESS = 'LOAD_FOLLOWERS_SUCCESS';\nconst LOAD_FOLLOWERS_FAILURE = 'LOAD_FOLLOWERS_FAILURE';\nconst LOAD_FOLLOWINGS_REQUEST = 'LOAD_FOLLOWINGS_REQUEST';\nconst LOAD_FOLLOWINGS_SUCCESS = 'LOAD_FOLLOWINGS_SUCCESS';\nconst LOAD_FOLLOWINGS_FAILURE = 'LOAD_FOLLOWINGS_FAILURE';\nconst LOAD_FOLLOW_REQUEST = 'LOAD_FOLLOW_REQUEST';\nconst LOAD_FOLLOW_SUCCESS = 'LOAD_FOLLOW_SUCCESS';\nconst LOAD_FOLLOW_FAILURE = 'LOAD_FOLLOW_FAILURE';\nconst FOLLOW_USER_REQUEST = 'FOLLOW_USER_REQUEST';\nconst FOLLOW_USER_SUCCESS = 'FOLLOW_USER_SUCCESS';\nconst FOLLOW_USER_FAILURE = 'FOLLOW_USER_FAILURE';\nconst UNFOLLOW_USER_REQUEST = 'UNFOLLOW_USER_REQUEST';\nconst UNFOLLOW_USER_SUCCESS = 'UNFOLLOW_USER_SUCCESS';\nconst UNFOLLOW_USER_FAILURE = 'UNFOLLOW_USER_FAILURE';\nconst REMOVE_FOLLOWER_REQUEST = 'REMOVE_FOLLOWER_REQUEST';\nconst REMOVE_FOLLOWER_SUCCESS = 'REMOVE_FOLLOWER_SUCCESS';\nconst REMOVE_FOLLOWER_FAILURE = 'REMOVE_FOLLOWER_FAILURE';\nconst ADD_POST_TO_ME = 'ADD_POST_TO_ME'; // post reducier 를 호출하는 부분 (다른 리듀서 호출)\n\nconst EDIT_NICKNAME_REQUEST = 'EDIT_NICKNAME_REQUEST';\nconst EDIT_NICKNAME_SUCCESS = 'EDIT_NICKNAME_SUCCESS';\nconst EDIT_NICKNAME_FAILURE = 'EDIT_NICKNAME_FAILURE';\nconst REMOVE_POST_OF_ME = 'REMOVE_POST_OF_ME';\nconst signupAction = data => ({\n  type: SIGN_UP_REQUEST,\n  data: data\n}); // export const signupAction = (data) => {\n//     return {\n//         type: SIGN_UP_REQUEST,\n//         data: data,\n//     };\n// };\n\nconst reducer = (state = initialState, action) => {\n  return immer__WEBPACK_IMPORTED_MODULE_0___default()(state, draft => {\n    switch (action.type) {\n      case ADD_POST_TO_ME:\n        {\n          draft.me.Posts.unshift({\n            id: action.data\n          });\n          break; // return {\n          //     ...state,\n          //     me: {\n          //         ...state.me,\n          //         Posts: [{ id: action.data }, ...state.me.Posts],\n          //     },\n          // };\n        }\n        ;\n\n      case LOG_IN_REQUEST:\n        {\n          draft.isLoggingIn = true;\n          draft.logInErrorReason = '';\n          break; // return {\n          //     ...state,\n          //     isLoggingIn: true,\n          // }\n        }\n\n      case LOG_IN_SUCCESS:\n        {\n          draft.isLoggingIn = false;\n          draft.me = action.data;\n          draft.isLoading = false;\n          draft.logInErrorReason = '';\n          break; // return {\n          //     ...state,\n          //     isLoggingIn: false,\n          //     //isLoggedIn: true,\n          //     //me: dummyUser,\n          //     me: action.data,\n          //     isLoading: false,\n          // }\n        }\n\n      case LOG_IN_FAILURE:\n        {\n          draft.isLoggingIn = false;\n          draft.logInErrorReason = action.error;\n          draft.me = null;\n          break; // return {\n          //     ...state,\n          //     isLoggingIn: false,\n          //     //isLoggedIn: false,\n          //     logInErrorReason: action.error,\n          //     me: null,\n          // }\n        }\n\n      case LOG_OUT_REQUEST:\n        {\n          draft.isLoggingOut = true;\n          break;\n        }\n\n      case LOG_OUT_SUCCESS:\n        {\n          draft.isLoggingOut = true;\n          draft.me = null;\n          break;\n        }\n\n      case SIGN_UP_REQUEST:\n        {\n          draft.isSigningUp = false;\n          draft.isSignedUp = true;\n          draft.signUpErrorReason = '';\n          break;\n        }\n\n      case SIGN_UP_SUCCESS:\n        {\n          draft.isSigningUp = false;\n          draft.isSignedUp = true;\n          break; // return {\n          //     ...state,\n          //     isSigningUp: false,\n          //     isSignedUp: true,\n          //     me : {\n          //         nickname: action.nickname,\n          //         // Post: [],\n          //         // Followings: [],\n          //         // Followers: [],\n          //         id: action.id,\n          //         userId: action.userId, \n          //     }\n          // };\n        }\n\n      case SIGN_UP_FAILURE:\n        {\n          draft.isSigningUp = false;\n          draft.signUpErrorReason = action.error;\n          break; // return {\n          //     ...state,\n          //     isSigningUp: false,\n          //     signUpErrorReason: action.error,\n          // };\n        }\n\n      case LOAD_USER_REQUEST:\n        {\n          break; // return {\n          //     ...state,\n          // }\n        }\n\n      case LOAD_USER_SUCCESS:\n        {\n          if (action.me) {\n            draft.me = action.data;\n            break;\n          }\n\n          draft.userInfo = action.data;\n          break; // if(action.me){\n          //     return {\n          //         ...state,\n          //         me: action.data,\n          //     };    \n          // }\n          // return {\n          //     ...state,\n          //     userInfo: action.data,\n          // }\n        }\n\n      case LOAD_USER_FAILURE:\n        {\n          break; // return {\n          //     ...state,\n          // };\n        }\n\n      case FOLLOW_USER_REQUEST:\n        {\n          break; // return {\n          //     ...state,\n          // }\n        }\n\n      case FOLLOW_USER_SUCCESS:\n        {\n          draft.me.Followings.unshift({\n            id: action.data\n          });\n          break; // return {\n          //   ...state,\n          //   me: {\n          //     ...state.me,\n          //     Followings: [{ id: action.data }, ...state.me.Followings],\n          //   },\n          // };\n        }\n\n      case FOLLOW_USER_FAILURE:\n        {\n          break;\n        }\n\n      case UNFOLLOW_USER_REQUEST:\n        {\n          break;\n        }\n\n      case UNFOLLOW_USER_SUCCESS:\n        {\n          const index = draft.me.Followings.findIndex(v => v.id === action.data);\n          draft.me.Followings.splice(index, 1);\n          const index2 = draft.followingList.findIndex(v => v.id === action.data);\n          draft.followingList.splice(index2, 1);\n          break; // return {\n          //   ...state,\n          //   me: {\n          //     ...state.me,\n          //     Followings: state.me.Followings.filter(v => v.id !== action.data),\n          //   },\n          //   followingList: state.followingList.filter(v => v.id !== action.data),\n          // };\n        }\n\n      case UNFOLLOW_USER_FAILURE:\n        {\n          break;\n        }\n\n      case LOAD_FOLLOWERS_REQUEST:\n        {\n          draft.followerList = !action.offset ? [] : draft.followerList;\n          draft.hasMoreFollower = action.offset ? draft.hasMoreFollower : true;\n          break; // return {\n          //     ...state,\n          //     // 처음 데이터를 가져올 때는 더보기 버튼을 보여준다\n          //     hasMoreFollower: action.offset ? state.hasMoreFollower : true,\n          // };\n        }\n\n      case LOAD_FOLLOWERS_SUCCESS:\n        {\n          action.data.forEach(d => {\n            draft.followerList.push(d);\n          });\n          draft.hasMoreFollower = action.data.length === 3;\n          break; // return {\n          //   ...state,\n          //   followerList: state.followerList.concat(action.data),\n          //   hasMoreFollower: action.data.length === 3, // true or false\n          // };\n        }\n\n      case LOAD_FOLLOWERS_FAILURE:\n        {\n          break;\n        }\n\n      case LOAD_FOLLOWINGS_REQUEST:\n        {\n          draft.followingList = !action.offset ? [] : draft.followingList;\n          draft.hasMoreFollowing = action.offset ? draft.hasMoreFollowing : true;\n          break; // return {\n          //     ...state,\n          //     hasMoreFollowing: action.offset ? state.hasMoreFollowing : true,\n          // }\n        }\n\n      case LOAD_FOLLOWINGS_SUCCESS:\n        {\n          action.data.forEach(d => {\n            draft.followingList.push(d);\n          });\n          draft.hasMoreFollowing = action.data.length === 3;\n          break; // return {\n          //   ...state,\n          //   followingList: state.followingList.concat(action.data),\n          //   hasMoreFollowing: action.data.length === 3, // true or false\n          // };\n        }\n\n      case LOAD_FOLLOWINGS_FAILURE:\n        {\n          break;\n        }\n\n      case REMOVE_FOLLOWER_REQUEST:\n        {\n          break;\n        }\n\n      case REMOVE_FOLLOWER_SUCCESS:\n        {\n          const index = draft.me.Followers.findIndex(v => v.id === action.data);\n          draft.me.Followers.splice(index, 1);\n          const index2 = draft.followerList.findIndex(v => v.id === action.data);\n          draft.followerList.splice(index2, 1);\n          break; // return {\n          //   ...state,\n          //   me: {\n          //       ...state.me,\n          //       Followers: state.me.Followers.filter( v=> v.id !== action.data),\n          //   },\n          //   followerList: state.followerList.filter(v => v.id !== action.data),\n          // };\n        }\n\n      case REMOVE_FOLLOWER_FAILURE:\n        {\n          break;\n        }\n\n      case EDIT_NICKNAME_REQUEST:\n        {\n          draft.isEditingNickname = false;\n          draft.me.nickname = action.data;\n          break; // return {\n          //     ...state,\n          //     isEditingNickname: true,\n          //     editNicknameErrorReason: '',\n          // }\n        }\n\n      case EDIT_NICKNAME_SUCCESS:\n        {\n          draft.isEditingNickname = false;\n          draft.me.nickname = action.data;\n          break; // return {\n          //   ...state,\n          //   isEditingNickname: false,\n          //   me: {\n          //       ...state.me,\n          //       nickname: action.data,\n          //   },\n          // };\n        }\n\n      case EDIT_NICKNAME_FAILURE:\n        {\n          draft.isEditingNickname = false;\n          draft.editNicknameErrorReason = action.error;\n          break; // return {\n          //     ...state,\n          //     editNicknameErrorReason: action.error,\n          // }\n        }\n\n      case REMOVE_POST_OF_ME:\n        {\n          draft.isEditingNickname = false;\n          draft.editNicknameErrorReason = action.error;\n          break; // return {\n          //   ...state,\n          //   me: {\n          //       ...state.me,\n          //       Posts: state.me.Posts.filter( v=> v.id !== action.data),\n          //   },\n          // };\n        }\n\n      default:\n        {\n          break;\n        }\n    }\n  });\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (reducer);\n\n//# sourceURL=webpack:///./reducers/user.js?");
 
 /***/ }),
 
@@ -2923,8 +390,7 @@ const reducer = (state = initialState, action) => {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /app/frontend/pages/index.js */"./pages/index.js");
-
+eval("module.exports = __webpack_require__(/*! /app/frontend/pages/index.js */\"./pages/index.js\");\n\n\n//# sourceURL=webpack:///multi_./pages/index.js?");
 
 /***/ }),
 
@@ -2935,7 +401,7 @@ module.exports = __webpack_require__(/*! /app/frontend/pages/index.js */"./pages
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = require("antd");
+eval("module.exports = require(\"antd\");\n\n//# sourceURL=webpack:///external_%22antd%22?");
 
 /***/ }),
 
@@ -2946,7 +412,7 @@ module.exports = require("antd");
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = require("core-js/library/fn/map");
+eval("module.exports = require(\"core-js/library/fn/map\");\n\n//# sourceURL=webpack:///external_%22core-js/library/fn/map%22?");
 
 /***/ }),
 
@@ -2957,7 +423,7 @@ module.exports = require("core-js/library/fn/map");
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = require("core-js/library/fn/object/assign");
+eval("module.exports = require(\"core-js/library/fn/object/assign\");\n\n//# sourceURL=webpack:///external_%22core-js/library/fn/object/assign%22?");
 
 /***/ }),
 
@@ -2968,7 +434,7 @@ module.exports = require("core-js/library/fn/object/assign");
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = require("core-js/library/fn/object/define-property");
+eval("module.exports = require(\"core-js/library/fn/object/define-property\");\n\n//# sourceURL=webpack:///external_%22core-js/library/fn/object/define-property%22?");
 
 /***/ }),
 
@@ -2979,7 +445,7 @@ module.exports = require("core-js/library/fn/object/define-property");
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = require("core-js/library/fn/object/get-own-property-descriptor");
+eval("module.exports = require(\"core-js/library/fn/object/get-own-property-descriptor\");\n\n//# sourceURL=webpack:///external_%22core-js/library/fn/object/get-own-property-descriptor%22?");
 
 /***/ }),
 
@@ -2990,7 +456,7 @@ module.exports = require("core-js/library/fn/object/get-own-property-descriptor"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = require("core-js/library/fn/object/get-own-property-symbols");
+eval("module.exports = require(\"core-js/library/fn/object/get-own-property-symbols\");\n\n//# sourceURL=webpack:///external_%22core-js/library/fn/object/get-own-property-symbols%22?");
 
 /***/ }),
 
@@ -3001,7 +467,7 @@ module.exports = require("core-js/library/fn/object/get-own-property-symbols");
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = require("core-js/library/fn/object/keys");
+eval("module.exports = require(\"core-js/library/fn/object/keys\");\n\n//# sourceURL=webpack:///external_%22core-js/library/fn/object/keys%22?");
 
 /***/ }),
 
@@ -3012,7 +478,18 @@ module.exports = require("core-js/library/fn/object/keys");
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = require("immer");
+eval("module.exports = require(\"immer\");\n\n//# sourceURL=webpack:///external_%22immer%22?");
+
+/***/ }),
+
+/***/ "moment":
+/*!*************************!*\
+  !*** external "moment" ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"moment\");\n\n//# sourceURL=webpack:///external_%22moment%22?");
 
 /***/ }),
 
@@ -3023,7 +500,7 @@ module.exports = require("immer");
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = require("next-server/dist/lib/router-context");
+eval("module.exports = require(\"next-server/dist/lib/router-context\");\n\n//# sourceURL=webpack:///external_%22next-server/dist/lib/router-context%22?");
 
 /***/ }),
 
@@ -3034,7 +511,7 @@ module.exports = require("next-server/dist/lib/router-context");
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = require("next-server/dist/lib/router/rewrite-url-for-export");
+eval("module.exports = require(\"next-server/dist/lib/router/rewrite-url-for-export\");\n\n//# sourceURL=webpack:///external_%22next-server/dist/lib/router/rewrite-url-for-export%22?");
 
 /***/ }),
 
@@ -3045,7 +522,7 @@ module.exports = require("next-server/dist/lib/router/rewrite-url-for-export");
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = require("next-server/dist/lib/router/router");
+eval("module.exports = require(\"next-server/dist/lib/router/router\");\n\n//# sourceURL=webpack:///external_%22next-server/dist/lib/router/router%22?");
 
 /***/ }),
 
@@ -3056,7 +533,7 @@ module.exports = require("next-server/dist/lib/router/router");
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = require("next-server/dist/lib/utils");
+eval("module.exports = require(\"next-server/dist/lib/utils\");\n\n//# sourceURL=webpack:///external_%22next-server/dist/lib/utils%22?");
 
 /***/ }),
 
@@ -3067,7 +544,7 @@ module.exports = require("next-server/dist/lib/utils");
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = require("prop-types");
+eval("module.exports = require(\"prop-types\");\n\n//# sourceURL=webpack:///external_%22prop-types%22?");
 
 /***/ }),
 
@@ -3078,7 +555,7 @@ module.exports = require("prop-types");
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = require("prop-types-exact");
+eval("module.exports = require(\"prop-types-exact\");\n\n//# sourceURL=webpack:///external_%22prop-types-exact%22?");
 
 /***/ }),
 
@@ -3089,7 +566,7 @@ module.exports = require("prop-types-exact");
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = require("react");
+eval("module.exports = require(\"react\");\n\n//# sourceURL=webpack:///external_%22react%22?");
 
 /***/ }),
 
@@ -3100,7 +577,7 @@ module.exports = require("react");
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = require("react-redux");
+eval("module.exports = require(\"react-redux\");\n\n//# sourceURL=webpack:///external_%22react-redux%22?");
 
 /***/ }),
 
@@ -3111,7 +588,7 @@ module.exports = require("react-redux");
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = require("react-slick");
+eval("module.exports = require(\"react-slick\");\n\n//# sourceURL=webpack:///external_%22react-slick%22?");
 
 /***/ }),
 
@@ -3122,7 +599,7 @@ module.exports = require("react-slick");
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = require("styled-components");
+eval("module.exports = require(\"styled-components\");\n\n//# sourceURL=webpack:///external_%22styled-components%22?");
 
 /***/ }),
 
@@ -3133,9 +610,8 @@ module.exports = require("styled-components");
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = require("url");
+eval("module.exports = require(\"url\");\n\n//# sourceURL=webpack:///external_%22url%22?");
 
 /***/ })
 
 /******/ });
-//# sourceMappingURL=index.js.map

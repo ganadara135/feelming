@@ -1,0 +1,1 @@
+{"ast":null,"code":"// 비동치 처리는 Saga 에서 전담해서 처리\nimport { all, fork } from 'redux-saga/effects';\nimport axios from 'axios';\nimport user from './user';\nimport post from './post';\naxios.defaults.baseURL = 'http://localhost:3065/api';\nexport default function* rootSaga() {\n  yield all([fork(user), fork(post)]);\n}","map":null,"metadata":{},"sourceType":"module"}

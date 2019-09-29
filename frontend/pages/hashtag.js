@@ -7,7 +7,7 @@ import {LOAD_HASHTAG_POSTS_REQUEST} from '../reducers/post';
 
  
 const Hashtag = ({ tag }) => {
-    console.log("tag : ", tag);
+   // console.log("tag : ", tag);
     const dispatch = useDispatch();
     const {mainPosts, hasMorePost } = useSelector( state => state.post );
 
@@ -17,7 +17,7 @@ const Hashtag = ({ tag }) => {
                 if (hasMorePost) {
                     dispatch({
                         type: LOAD_HASHTAG_POSTS_REQUEST,
-                        lastId: mainPosts[mainPosts.length - 1 ].id,
+                        lastId: mainPosts[mainPosts.length - 1 ] && mainPosts[mainPosts.length - 1 ].id,
                         data: tag
                     })
                 }

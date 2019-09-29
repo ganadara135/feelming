@@ -6,21 +6,24 @@
   "scripts": {
     "dev": "nodemon",
     "build": "BUNDLE_ANALYZE=both next build",
+    "prestart": "npm run build",
     "start": "NODE_ENV=production next start",
+    "poststart": "",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "kcod",
   "license": "ISC",
   "devDependencies": {
+    "@zeit/next-bundle-analyzer": "^0.1.2",
     "babel-eslint": "^10.0.3",
+    "compression-webpack-plugin": "^3.0.0",
     "eslint": "^6.4.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^2.0.1",
     "nodemon": "^1.19.2",
     "remote-redux-devtools": "^0.5.16",
-    "webpack": "^4.40.2",
-    "@zeit/next-bundle-analyzer": "^0.1.2"
+    "webpack": "^4.40.2"
   },
   "dependencies": {
     "antd": "^3.23.2",
@@ -30,6 +33,7 @@
     "express": "^4.17.1",
     "express-session": "^1.16.2",
     "immer": "^4.0.0",
+    "moment": "^2.24.0",
     "morgan": "^1.9.1",
     "next": "^9.0.5",
     "next-redux-saga": "^4.0.2",
