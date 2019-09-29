@@ -110,8 +110,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! antd */ "antd");
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(antd__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _LoginForm__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./LoginForm */ "./components/LoginForm.js");
-/* harmony import */ var _UserProfile__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./UserProfile */ "./components/UserProfile.js");
+/* harmony import */ var _containers_LoginForm__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../containers/LoginForm */ "./containers/LoginForm.js");
+/* harmony import */ var _containers_UserProfile__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../containers/UserProfile */ "./containers/UserProfile.js");
 /* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! next/router */ "next/router");
 /* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-redux */ "react-redux");
@@ -242,13 +242,13 @@ const AppLayout = ({
     },
     __self: undefined
   }, me // isLoggedIn 
-  ? __jsx(_UserProfile__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  ? __jsx(_containers_UserProfile__WEBPACK_IMPORTED_MODULE_5__["default"], {
     __source: {
       fileName: _jsxFileName,
       lineNumber: 45
     },
     __self: undefined
-  }) : __jsx(_LoginForm__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }) : __jsx(_containers_LoginForm__WEBPACK_IMPORTED_MODULE_4__["default"], {
     __source: {
       fileName: _jsxFileName,
       lineNumber: 46
@@ -287,9 +287,9 @@ AppLayout.protTypes = {
 
 /***/ }),
 
-/***/ "./components/LoginForm.js":
+/***/ "./containers/LoginForm.js":
 /*!*********************************!*\
-  !*** ./components/LoginForm.js ***!
+  !*** ./containers/LoginForm.js ***!
   \*********************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -306,7 +306,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _pages_signup__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../pages/signup */ "./pages/signup.js");
 /* harmony import */ var _reducers_user__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../reducers/user */ "./reducers/user.js");
-var _jsxFileName = "/app/frontend/components/LoginForm.js";
+var _jsxFileName = "/app/frontend/containers/LoginForm.js";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
@@ -439,9 +439,9 @@ const LoginForm = () => {
 
 /***/ }),
 
-/***/ "./components/UserProfile.js":
+/***/ "./containers/UserProfile.js":
 /*!***********************************!*\
-  !*** ./components/UserProfile.js ***!
+  !*** ./containers/UserProfile.js ***!
   \***********************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -457,7 +457,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "react-redux");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _reducers_user__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../reducers/user */ "./reducers/user.js");
-var _jsxFileName = "/app/frontend/components/UserProfile.js";
+var _jsxFileName = "/app/frontend/containers/UserProfile.js";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
