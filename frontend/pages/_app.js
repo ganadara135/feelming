@@ -46,6 +46,8 @@ const Feelming = ({ Component, store, pageProps }) => {
                     name: 'og:description', content: 'Feelming SNS',
                 }, {
                     property: 'og:type', content: 'website',
+                }, {
+                    property: 'og:image', content: 'http://localhost:3060/favicon.png',
                 }]}
                 link={[{
                     rel: 'shortcut icon', href: '/favicon.png',
