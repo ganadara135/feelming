@@ -1,15 +1,20 @@
 import React, { useState, useCallback } from 'react';
 import { Button, Input, Form } from 'antd';
 import Link from 'next/link';
+import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {useInput } from '../pages/signup';
 import { LOG_IN_REQUEST } from '../reducers/user';
 
+const LoginError = styled.div`
+    color : red;
+`;
+
 const LoginForm = () => {
     const [id, onChangeId] = useInput('');
     const [password, onChangePassword] = useInput('');
-    const { isLoggingIn } = useSelector( state => state.user);
+    const { isLoggingIn, logInErrorReason } = useSelector( state => state.user);
     const dispatch = useDispatch();
 
 
@@ -36,6 +41,7 @@ const LoginForm = () => {
                 <br />
                 <input name="user-password" type="password" value={password} onChange={onChangePassword} required />
             </div>
+            <LoginError>{logInErrorReason}</LoginError>
             <div>
                 <Button type="primary" htmlType="submit" loading={isLoggingIn}>로그인</Button>
                 <Link href="/signup"><a><Button>회원가입</Button></a></Link>
