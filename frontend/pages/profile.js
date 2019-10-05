@@ -3,6 +3,7 @@ import { Form, Button, List, Card, Icon, Input } from 'antd';
 import PostCard from '../containers/PostCard';
 import { useDispatch, useSelector } from 'react-redux';
 import NicknameEditForm from '../containers/NicknameEditForm';
+import ProfileImg from '../containers/ProfileImg.js';
 import FollowList from '../components/FollowList';
 
 import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST, UNFOLLOW_USER_REQUEST, 
@@ -49,7 +50,9 @@ const Profile = () => {
 
     return (
     <div>
+        <ProfileImg />
         <NicknameEditForm />
+        
         <FollowList
             header="팔로잉 목록"
             hasMore={hasMoreFollowing}
@@ -62,7 +65,7 @@ const Profile = () => {
             hasMore={hasMoreFollower}
             onClickMore={loadMoreFollowers}
             data={followerList}
-            onClickStop={onUnfollow}
+            onClickStop={onRemoveFollower}
         />
         <div>
             {mainPosts.map(c => (

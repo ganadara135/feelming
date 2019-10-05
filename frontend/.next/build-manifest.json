@@ -1,50 +1,20 @@
 {
-  "devFiles": [],
+  "devFiles": [
+    "static/development/dll/dll_9e2a3f9838424feeb96c.js",
+    "static/development/dll/dll_9e2a3f9838424feeb96c.js.map"
+  ],
   "pages": {
-    "/": [
-      "static/runtime/webpack-035ac2b14bde147cb4a8.js",
-      "static/chunks/commons.36fd512148997e2e631a.js",
-      "static/runtime/main-00074cd7b39dd68b66b6.js"
-    ],
     "/_app": [
-      "static/runtime/webpack-035ac2b14bde147cb4a8.js",
-      "static/chunks/commons.36fd512148997e2e631a.js",
-      "static/runtime/main-00074cd7b39dd68b66b6.js"
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
     ],
     "/_error": [
-      "static/runtime/webpack-035ac2b14bde147cb4a8.js",
-      "static/chunks/commons.36fd512148997e2e631a.js",
-      "static/runtime/main-00074cd7b39dd68b66b6.js"
-    ],
-    "/hashtag": [
-      "static/runtime/webpack-035ac2b14bde147cb4a8.js",
-      "static/chunks/commons.36fd512148997e2e631a.js",
-      "static/runtime/main-00074cd7b39dd68b66b6.js"
-    ],
-    "/index": [
-      "static/runtime/webpack-035ac2b14bde147cb4a8.js",
-      "static/chunks/commons.36fd512148997e2e631a.js",
-      "static/runtime/main-00074cd7b39dd68b66b6.js"
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
     ],
     "/profile": [
-      "static/runtime/webpack-035ac2b14bde147cb4a8.js",
-      "static/chunks/commons.36fd512148997e2e631a.js",
-      "static/runtime/main-00074cd7b39dd68b66b6.js"
-    ],
-    "/signup": [
-      "static/runtime/webpack-035ac2b14bde147cb4a8.js",
-      "static/chunks/commons.36fd512148997e2e631a.js",
-      "static/runtime/main-00074cd7b39dd68b66b6.js"
-    ],
-    "/singlePost": [
-      "static/runtime/webpack-035ac2b14bde147cb4a8.js",
-      "static/chunks/commons.36fd512148997e2e631a.js",
-      "static/runtime/main-00074cd7b39dd68b66b6.js"
-    ],
-    "/user": [
-      "static/runtime/webpack-035ac2b14bde147cb4a8.js",
-      "static/chunks/commons.36fd512148997e2e631a.js",
-      "static/runtime/main-00074cd7b39dd68b66b6.js"
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
     ]
   }
 }

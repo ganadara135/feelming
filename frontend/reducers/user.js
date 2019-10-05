@@ -26,6 +26,7 @@ export const initialState = {
     editNicknameErrorReason: '',
     hasMoreFollower: false,
     hasMoreFollowing: false,
+    profileImg: [],        // 프로필 사진 3장
 };
 
 
@@ -76,6 +77,11 @@ export const EDIT_NICKNAME_SUCCESS = 'EDIT_NICKNAME_SUCCESS';
 export const EDIT_NICKNAME_FAILURE = 'EDIT_NICKNAME_FAILURE';
 
 export const REMOVE_POST_OF_ME = 'REMOVE_POST_OF_ME';
+
+export const UPLOAD_PROFILE_IMAGES_REQUEST = 'UPLOAD_PROFILE_IMAGES_REQUEST';
+export const UPLOAD_PROFILE_IMAGES_SUCCESS = 'UPLOAD_PROFILE_IMAGES_SUCCESS';
+export const UPLOAD_PROFILE_IMAGES_FAILURE = 'UPLOAD_PROFILE_IMAGES_FAILURE';
+
 
 export const signupAction = (data) => ({
     type: SIGN_UP_REQUEST,
@@ -367,6 +373,24 @@ const reducer = (state = initialState, action ) => {
             //       Posts: state.me.Posts.filter( v=> v.id !== action.data),
             //   },
             // };
+        }
+
+        case UPLOAD_PROFILE_IMAGES_REQUEST: {
+            return {
+                ...state,
+            };
+        }
+        case UPLOAD_PROFILE_IMAGES_SUCCESS: {
+            return {
+                ...state,
+                //imagePaths: [...state.imagePaths, ...action.data],
+                profileImg: [...state.profileImg, ...action.data],
+            };
+        }
+        case UPLOAD_PROFILE_IMAGES_FAILURE: {
+            return {
+                ...state,
+            };
         }
         default: {
             break;
