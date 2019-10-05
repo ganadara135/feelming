@@ -9,7 +9,7 @@ const ProfileImg = () => {
     const dispatch = useDispatch();
     const [ which, setWhich ] = useState(0);
     const imageInput = useRef();
-    const { profileImg } = useSelector( state => state.user );
+    const { profileImg, me } = useSelector( state => state.user );
 
     
     function onChangeCarousel(which) {
@@ -21,11 +21,15 @@ const ProfileImg = () => {
     
          const imageFormData = new FormData();
          [].forEach.call(e.target.files, (f) => {
-            imageFormData.append( 'image', f);
+            console.log(" in forEach() f : ", f);
+            imageFormData.append('image', f);
          });
          dispatch({
              type: UPLOAD_PROFILE_IMAGES_REQUEST,
              data: imageFormData,
+             userId: me.id,
+            //  whatType: "image",              // body 에서 처리 안됨(multer)
+            //  description: "사용자 프로필 이미지",
          });
     }, []);
 

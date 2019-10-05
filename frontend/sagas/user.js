@@ -298,15 +298,20 @@ function* watchEditNickname() {
     yield takeEvery(EDIT_NICKNAME_REQUEST, editNickname);
 }
 
-function uploadProfileImageAPI(formData) {
-    console.log("uploadProfileImageAPI : ", formData)
-    return axios.put( `/user/profileImg`, formData)
+// function uploadProfileImageAPI(formData, whatType, description) {
+function uploadProfileImageAPI(userId, formData) {
+    console.log("uploadProfileImageAPI userId : ", userId)
+    return axios.put( `/user/${userId}/profileImg`, formData);    // body 폼으로 데이터 전달, withCredentials 로 젼달하지 말라
+    
+    // return axios.get( `/user/${userId || 0}/followings?offset=${offset}&limit=${limit}`, {
+    //     withCredentials: true,
+    // });
 }
 
 function* uploadProfileImage(action) {
+    //console.log("action : ", action)
     try{
-
-        const result = yield call(uploadProfileImageAPI, action.data);
+        const result = yield call(uploadProfileImageAPI, action.userId, action.data);
         yield put({
             type: UPLOAD_PROFILE_IMAGES_SUCCESS,
             data: result.data,
