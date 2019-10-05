@@ -26,7 +26,7 @@ export const initialState = {
     editNicknameErrorReason: '',
     hasMoreFollower: false,
     hasMoreFollowing: false,
-    profileImg: [],        // 프로필 사진 3장
+    profileImg: [],        // 프로필 이미지 경로
 };
 
 
@@ -81,7 +81,7 @@ export const REMOVE_POST_OF_ME = 'REMOVE_POST_OF_ME';
 export const UPLOAD_PROFILE_IMAGES_REQUEST = 'UPLOAD_PROFILE_IMAGES_REQUEST';
 export const UPLOAD_PROFILE_IMAGES_SUCCESS = 'UPLOAD_PROFILE_IMAGES_SUCCESS';
 export const UPLOAD_PROFILE_IMAGES_FAILURE = 'UPLOAD_PROFILE_IMAGES_FAILURE';
-
+export const REMOVE_PROFILE_IMAGE = 'REMOVE_PROFILE_IMAGE';
 
 export const signupAction = (data) => ({
     type: SIGN_UP_REQUEST,
@@ -378,6 +378,7 @@ const reducer = (state = initialState, action ) => {
         case UPLOAD_PROFILE_IMAGES_REQUEST: {
             return {
                 ...state,
+                profileImageErrorReason: '',
             };
         }
         case UPLOAD_PROFILE_IMAGES_SUCCESS: {
@@ -390,7 +391,14 @@ const reducer = (state = initialState, action ) => {
         case UPLOAD_PROFILE_IMAGES_FAILURE: {
             return {
                 ...state,
+                profileImageErrorReason : action.error,
             };
+        }
+        case REMOVE_PROFILE_IMAGE: {
+            return {
+                ...state,
+                profileImg: state.profileImg.filter((v,i) => i !== action.index),
+            }
         }
         default: {
             break;

@@ -1810,7 +1810,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _bab
 
 /***/ }),
 
-/***/ 2:
+/***/ 1:
 /*!************************************************************************************************************!*\
   !*** multi next-client-pages-loader?page=%2F_error&absolutePagePath=%2Fapp%2Ffrontend%2Fpages%2F_error.js ***!
   \************************************************************************************************************/
@@ -1832,4 +1832,4 @@ eval("module.exports = dll_129a35c7ec57967eb265;\n\n//# sourceURL=webpack:///ext
 
 /***/ })
 
-},[[2,"static/runtime/webpack.js"]]]);
+},[[1,"static/runtime/webpack.js"]]]);

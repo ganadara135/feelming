@@ -50,8 +50,8 @@ const Profile = () => {
 
     return (
     <div>
-        <ProfileImg />
-        <NicknameEditForm />
+        {me && <ProfileImg /> }
+        {me && <NicknameEditForm /> }
         
         <FollowList
             header="팔로잉 목록"

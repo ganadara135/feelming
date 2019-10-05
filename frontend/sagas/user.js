@@ -9,6 +9,7 @@ import { LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE,
     LOAD_FOLLOWINGS_REQUEST, LOAD_FOLLOWINGS_SUCCESS, LOAD_FOLLOWINGS_FAILURE,
     REMOVE_FOLLOWER_REQUEST, REMOVE_FOLLOWER_SUCCESS, REMOVE_FOLLOWER_FAILURE,
     EDIT_NICKNAME_REQUEST, EDIT_NICKNAME_SUCCESS, EDIT_NICKNAME_FAILURE,
+    UPLOAD_PROFILE_IMAGES_REQUEST, UPLOAD_PROFILE_IMAGES_SUCCESS, UPLOAD_PROFILE_IMAGES_FAILURE,
 } from '../reducers/user'
 import axios from 'axios';
 // const HELLO_SAGA = 'HELLO_SAGA';
@@ -297,6 +298,31 @@ function* watchEditNickname() {
     yield takeEvery(EDIT_NICKNAME_REQUEST, editNickname);
 }
 
+function uploadProfileImageAPI(formData) {
+    console.log("uploadProfileImageAPI : ", formData)
+    return axios.put( `/user/profileImg`, formData)
+}
+
+function* uploadProfileImage(action) {
+    try{
+
+        const result = yield call(uploadProfileImageAPI, action.data);
+        yield put({
+            type: UPLOAD_PROFILE_IMAGES_SUCCESS,
+            data: result.data,
+        });
+    }catch (e) {
+        yield put({
+            type: UPLOAD_PROFILE_IMAGES_FAILURE,
+            error: e,
+        })
+    }
+}
+
+function* watchUploadProfileImage() {
+    yield takeLatest(UPLOAD_PROFILE_IMAGES_REQUEST, uploadProfileImage);
+}
+
 export default function* userSaga() {
     yield all([
         fork(watchLogIn),       // 이벤트 리스너로 이해, 순서 의미 없음
@@ -309,6 +335,7 @@ export default function* userSaga() {
         fork(watchLoadFollowers),
         fork(watchRemoveFollower),
         fork(watchEditNickname),
+        fork(watchUploadProfileImage),
 
         // call()   // 동기 호출
         // fork()   // 비동기 호출
