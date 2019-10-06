@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect, useRef} from 'react';
 import { Form, Input, Button, Card, Carousel, Upload, message, Icon, Avatar} from 'antd';
 import Img from 'react-image';
 import { useSelector, useDispatch } from 'react-redux';
-import { UPLOAD_PROFILE_IMAGES_REQUEST } from '../reducers/user';
+import { UPLOAD_PROFILE_IMAGES_REQUEST, REMOVE_PROFILE_IMAGE } from '../reducers/user';
 
 const ProfileImg = () => {
 

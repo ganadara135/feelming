@@ -5,6 +5,8 @@ import { EDIT_NICKNAME_REQUEST } from '../reducers/user';
 
 const NicknameEditForm = () => {
     const [editedName, setEditedName] = useState('');
+    const [editedCurrentCareer, setEditedCurrentCareer] = useState('');
+    const [editedPastCareer, setEditedPastCareer] = useState('');
     const dispatch = useDispatch();
     const { me, isEditingNickname } = useSelector( state => state.user);
 
@@ -23,12 +25,23 @@ const NicknameEditForm = () => {
     return (
         <Form style={{ marginBottom: '20px', border: '1px solid #d9d9d9', padding: '20px'}} layout='inline' onSubmit={onEditNickname}>
             <Form.Item>
-                <Input addonBefore='닉네임' value={editedName || (me && me.nickname)} onChange={onChangeNickname}/> 
+                <Input addonBefore="필명" value={editedName || (me && me.nickname)} onChange={onChangeNickname}/> 
             </Form.Item>
             <Form.Item>
                 <Button type='primary' htmlType="submit" loading={isEditingNickname}>수정</Button>
             </Form.Item>
-
+            <Form.Item>
+                <Input addonBefore="현 소속" value={editedCurrentCareer || (me && me.career && me.career.length > 0 && me.career[0])} onChange={onChangeNickname}/> 
+            </Form.Item>
+            <Form.Item>
+                <Button type='primary' htmlType="submit" loading={isEditingNickname}>수정</Button>
+            </Form.Item>
+            <Form.Item>
+                <Input addonBefore="과거 소속" value={editedPastCareer || (me && me.career && me.career.length > 1 && me.career[1])} onChange={onChangeNickname}/> 
+            </Form.Item>
+            <Form.Item>
+                <Button type='primary' htmlType="submit" loading={isEditingNickname}>수정</Button>
+            </Form.Item>
         </Form>
     )
 }

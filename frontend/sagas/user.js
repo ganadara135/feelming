@@ -10,7 +10,8 @@ import { LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE,
     REMOVE_FOLLOWER_REQUEST, REMOVE_FOLLOWER_SUCCESS, REMOVE_FOLLOWER_FAILURE,
     EDIT_NICKNAME_REQUEST, EDIT_NICKNAME_SUCCESS, EDIT_NICKNAME_FAILURE,
     UPLOAD_PROFILE_IMAGES_REQUEST, UPLOAD_PROFILE_IMAGES_SUCCESS, UPLOAD_PROFILE_IMAGES_FAILURE,
-    LOAD_PROFILE_INFO_REQUEST, LOAD_PROFILE_INFO_SUCCESS, LOAD_PROFILE_INFO_FAILURE,
+    LOAD_PROFILE_IMAGE_REQUEST, LOAD_PROFILE_IMAGE_SUCCESS, LOAD_PROFILE_IMAGE_FAILURE,
+    LOAD_PROFILE_CAREER_REQUEST, LOAD_PROFILE_CAREER_SUCCESS, LOAD_PROFILE_CAREER_FAILURE,
 } from '../reducers/user'
 import axios from 'axios';
 // const HELLO_SAGA = 'HELLO_SAGA';
@@ -326,25 +327,25 @@ function* watchUploadProfileImage() {
 }
 
 
-function loadProfileInfoAPI(userId) {
+function loadProfileImageAPI(userId) {
     return axios.get( `/user/${userId}/profileImg`, {
         withCredentials: true,
     });
 }
 
-function* loadProfileInfo(action) {
+function* loadProfileImage(action) {
     try {
-        const result = yield call(loadProfileInfoAPI, action.data);
+        const result = yield call(loadProfileImageAPI, action.data);
         console.log("loadProfileInfo SAGA result : ", result.data)
 
         if(result.data.error){
             yield put( {
-                type: LOAD_PROFILE_INFO_FAILURE,
+                type: LOAD_PROFILE_IMAGE_FAILURE,
                 error: result.data.error,
             });
         }else{
             yield put( {            // put 은 dispatch 와 동일
-                type: LOAD_PROFILE_INFO_SUCCESS,
+                type: LOAD_PROFILE_IMAGE_SUCCESS,
                 data: result.data,
             });
         }
@@ -352,14 +353,51 @@ function* loadProfileInfo(action) {
     } catch (e) {
         console.error(e);
         yield put( {
-            type: LOAD_PROFILE_INFO_FAILURE,
+            type: LOAD_PROFILE_IMAGE_FAILURE,
             error: e,
         });
     }
 }
 
-function* watchLoadProfileInfo() {
-    yield takeLatest(LOAD_PROFILE_INFO_REQUEST, loadProfileInfo);
+function* watchLoadProfileImage() {
+    yield takeLatest(LOAD_PROFILE_IMAGE_REQUEST, loadProfileImage);
+}
+
+
+function loadProfileCareerAPI(userId) {
+    return axios.get( `/user/${userId}/profileCareer`, {
+        withCredentials: true,
+    });
+}
+
+function* loadProfileCareer(action) {
+    try {
+        const result = yield call(loadProfileCareerAPI, action.data);
+        console.log("loadProfileCareer SAGA result : ", result.data)
+
+        if(result.data.error){
+            yield put( {
+                type: LOAD_PROFILE_CAREER_FAILURE,
+                error: result.data.error,
+            });
+        }else{
+            yield put( {            // put 은 dispatch 와 동일
+                type: LOAD_PROFILE_CAREER_SUCCESS,
+                data: result.data,
+            });
+        }
+
+    } catch (e) {
+        console.error(e);
+        yield put( {
+            type: LOAD_PROFILE_CAREER_FAILURE,
+            error: e,
+        });
+    }
+}
+
+function* watchLoadProfileCareer() {
+    yield takeLatest(LOAD_PROFILE_CAREER_REQUEST, loadProfileCareer);
 }
 
 export default function* userSaga() {
@@ -375,50 +413,10 @@ export default function* userSaga() {
         fork(watchRemoveFollower),
         fork(watchEditNickname),
         fork(watchUploadProfileImage),
-        fork(watchLoadProfileInfo),
+        fork(watchLoadProfileImage),
+        fork(watchLoadProfileCareer)
 
         // call()   // 동기 호출
         // fork()   // 비동기 호출
-        // watchHello(),
-        // //helloSaga(),
-        // watchLogin(),
-        // watchSignup(),
     ]);
-}
-
-// function* watchHello() {
-//     yield takeEvery(HELLO_SAGA, function*() {
-//         console.log(1);
-//         console.log(2);
-//         console.log(3);
-//         console.log(4);
-//     })
-// }
-
-// function* watchHello() {
-//     console.log("Before Saga");
-//     while(true) {
-//         yield take(HELLO_SAGA);
-//     console.log("Hello Saga");
-//     }
-// }
-
-
-function* helloSaga() {
-    //yield take(HELLO_SAGA);
-    //yield takeLatest(HELLO_SAGA, hello);
-    console.log("Before Saga");
-    while(true) {
-        yield take(HELLO_SAGA);
-    console.log("Hello Saga");
-    }
-}
-
-function* watchHello() {
-    yield takeLatest(HELLO_SAGA, function*() {
-        yield delay( 1000 );
-        yield put({
-            type: 'BYE_SAGA'
-        });
-    });
 }

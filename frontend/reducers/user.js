@@ -6,8 +6,8 @@ import produce from 'immer';
 //     Followings: [],
 //     Followers: [],
 //     id: 1,  
+//     career: [],  
 // };
-
 
 
 export const initialState = {
@@ -28,6 +28,7 @@ export const initialState = {
     hasMoreFollowing: false,
     profileImg: [],        // 프로필 이미지 경로
     profileImgErrorReason: '',
+    
 };
 
 
@@ -84,20 +85,18 @@ export const UPLOAD_PROFILE_IMAGES_SUCCESS = 'UPLOAD_PROFILE_IMAGES_SUCCESS';
 export const UPLOAD_PROFILE_IMAGES_FAILURE = 'UPLOAD_PROFILE_IMAGES_FAILURE';
 export const REMOVE_PROFILE_IMAGE = 'REMOVE_PROFILE_IMAGE';
 
-export const LOAD_PROFILE_INFO_REQUEST = 'LOAD_PROFILE_INFO_REQUEST';
-export const LOAD_PROFILE_INFO_SUCCESS = 'LOAD_PROFILE_INFO_SUCCESS';
-export const LOAD_PROFILE_INFO_FAILURE = 'LOAD_PROFILE_INFO_FAILURE';
+export const LOAD_PROFILE_IMAGE_REQUEST = 'LOAD_PROFILE_IMAGE_REQUEST';
+export const LOAD_PROFILE_IMAGE_SUCCESS = 'LOAD_PROFILE_IMAGE_SUCCESS';
+export const LOAD_PROFILE_IMAGE_FAILURE = 'LOAD_PROFILE_IMAGE_FAILURE';
+
+export const LOAD_PROFILE_CAREER_REQUEST = 'LOAD_PROFILE_CAREER_REQUEST';
+export const LOAD_PROFILE_CAREER_SUCCESS = 'LOAD_PROFILE_CAREER_SUCCESS';
+export const LOAD_PROFILE_CAREER_FAILURE = 'LOAD_PROFILE_CAREER_FAILURE';
 
 export const signupAction = (data) => ({
     type: SIGN_UP_REQUEST,
     data: data,
 });
-// export const signupAction = (data) => {
-//     return {
-//         type: SIGN_UP_REQUEST,
-//         data: data,
-//     };
-// };
 
 const reducer = (state = initialState, action ) => {
     return produce(state, (draft) => {
@@ -405,22 +404,55 @@ const reducer = (state = initialState, action ) => {
                 profileImg: state.profileImg.filter((v,i) => i !== action.index),
             }
         }
-        case LOAD_PROFILE_INFO_REQUEST: {
+        case LOAD_PROFILE_IMAGE_REQUEST: {
             return {
                 ...state,
                 profileImgErrorReason: '',
             };
         }
-        case LOAD_PROFILE_INFO_SUCCESS: {
+        case LOAD_PROFILE_IMAGE_SUCCESS: {
             return {
               ...state,
               profileImg: action.data
             };
           }
-        case LOAD_PROFILE_INFO_FAILURE: {
+        case LOAD_PROFILE_IMAGE_FAILURE: {
             return {
                 ...state,
                 profileImgErrorReason : action.error,
+            };
+        }
+        case LOAD_PROFILE_CAREER_REQUEST: {
+            return {
+                ...state,
+                me : {
+                    ...state.me,
+                    careerErrorReason: '',
+                }
+            };
+        }
+        case LOAD_PROFILE_CAREER_SUCCESS: {
+            return {
+                ...state,
+                me : {
+                    ...state.me,
+                    career : action.data,
+                    //nickname: action.nickname,
+                    // Post: [],
+                    // Followings: [],
+                    // Followers: [],
+                    // id: action.id,
+                    // userId: action.userId, 
+                }
+            };
+          }
+        case LOAD_PROFILE_CAREER_FAILURE: {
+            return {
+                ...state,
+                me : {
+                    ...state.me,
+                    careerErrorReason : action.error,
+                }
             };
         }
         default: {

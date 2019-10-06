@@ -280,12 +280,12 @@ router.put('/:id/profileImg', upload.array('image',1), async (req, res, next) =>
     // console.log("req.params : ", req.params);
 
     try {
-         const newUserAsset = await db.UserAsset.create({
+         await db.UserAsset.create({
             UserId: req.params.id,            // foreinKey 는 앞글자가 대문자임 
             src: req.files[0].filename,
             dType: req.files[0].mimetype,
             description: req.files[0].originalname,
-         })
+         });
 
         //  console.log("req.body : ",req.body)
         //  console.log("newUserAsset : ", newUserAsset)
@@ -298,13 +298,13 @@ router.put('/:id/profileImg', upload.array('image',1), async (req, res, next) =>
  })
 
 
- router.get('/:id/profileImg', isLoggedIn, async (req, res, next) => {  // GET /api/user
+router.get('/:id/profileImg', isLoggedIn, async (req, res, next) => {  // GET /api/user
        
         try {
             const userAssetResult = await db.UserAsset.findAll({
                 //req.params.id  가  0 이면 req.user.id 로 처리
                 where: { UserId: parseInt(req.params.id, 10) },
-                order: [['createdAt', 'DESC'], ],
+                order: [['createdAt', 'ASC'], ],
                 limit: 3,
             })
 
@@ -323,5 +323,32 @@ router.put('/:id/profileImg', upload.array('image',1), async (req, res, next) =>
             next(e);
         };
 });
+
+
+router.get('/:id/profileCareer', isLoggedIn, async (req, res, next) => {  // GET /api/user
+       
+    try {
+        const careerResult = await db.Career.findAll({
+            //req.params.id  가  0 이면 req.user.id 로 처리
+            where: { UserId: parseInt(req.params.id, 10) },
+            order: [['createdAt', 'ASC'], ],
+            limit: 2,
+        })
+
+        console.log("careerResult : ", careerResult);
+        console.log("careerResult.length : ", careerResult.length);
+  
+        if(careerResult.length === 0){       // userAssetResult === nulll
+            res.json({error : "Not matching result"})
+        }else {
+            res.json(careerResult);
+        }
+
+    } catch (e) {
+        console.error(e);
+        next(e);
+    };
+});
+
 
 module.exports = router;
