@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
     const Career = sequelize.define('Career', {
-        position: {
-            type: DataTypes.STRING(255),       
+        career: {
+            type: DataTypes.STRING(155),       
             allowNull: true,
         },
         startDate: {

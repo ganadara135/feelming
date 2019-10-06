@@ -304,7 +304,7 @@ router.get('/:id/profileImg', isLoggedIn, async (req, res, next) => {  // GET /a
             const userAssetResult = await db.UserAsset.findAll({
                 //req.params.id  가  0 이면 req.user.id 로 처리
                 where: { UserId: parseInt(req.params.id, 10) },
-                order: [['createdAt', 'ASC'], ],
+                order: [['createdAt', 'DESC'], ],
                 limit: 3,
             })
 
@@ -331,13 +331,13 @@ router.get('/:id/profileCareer', isLoggedIn, async (req, res, next) => {  // GET
         const careerResult = await db.Career.findAll({
             //req.params.id  가  0 이면 req.user.id 로 처리
             where: { UserId: parseInt(req.params.id, 10) },
-            order: [['createdAt', 'ASC'], ],
+            attributes: ['career'],
+            //order: [['createdAt', 'ASC'], ],
+            order: [['createdAt', 'DESC'], ],
             limit: 2,
         })
 
-        console.log("careerResult : ", careerResult);
-        console.log("careerResult.length : ", careerResult.length);
-  
+ 
         if(careerResult.length === 0){       // userAssetResult === nulll
             res.json({error : "Not matching result"})
         }else {
@@ -349,6 +349,41 @@ router.get('/:id/profileCareer', isLoggedIn, async (req, res, next) => {  // GET
         next(e);
     };
 });
+
+
+router.post('/currentCareer', async (req, res, next ) => {
+    console.log('req.body : ', req.body);
+
+    try {
+        await db.Career.create({
+            UserId: req.user.id,            // foreinKey 는 앞글자가 대문자임 '아이디가 아닌 table 에서 auto_increment 한 id 사용
+            career: req.body.currentCareer,
+            // startDate: req.body.startDate,
+            // endDate: req.body.endDate,
+        });
+        
+        res.send(req.body.currentCareer);
+    } catch (e) {
+        console.error(e)
+        next(e);
+    }
+})
+
+router.post('/pastCareer', async (req, res, next ) => {
+    try {
+        await db.Career.create({
+            UserId: req.user.id,            // foreinKey 는 앞글자가 대문자임 '아이디가 아닌 table 에서 auto_increment 한 id 사용
+            career: req.body.pastCareer,
+            // startDate: req.body.startDate,
+            // endDate: req.body.endDate,
+        });
+        
+        res.send(req.body.pastCareer);
+    } catch (e) {
+        console.error(e)
+        next(e);
+    }
+})
 
 
 module.exports = router;

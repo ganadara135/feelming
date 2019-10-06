@@ -93,6 +93,15 @@ export const LOAD_PROFILE_CAREER_REQUEST = 'LOAD_PROFILE_CAREER_REQUEST';
 export const LOAD_PROFILE_CAREER_SUCCESS = 'LOAD_PROFILE_CAREER_SUCCESS';
 export const LOAD_PROFILE_CAREER_FAILURE = 'LOAD_PROFILE_CAREER_FAILURE';
 
+export const EDIT_CURRENT_CAREER_REQUEST = 'EDIT_CURRENT_CAREER_REQUEST';
+export const EDIT_CURRENT_CAREER_SUCCESS = 'EDIT_CURRENT_CAREER_SUCCESS';
+export const EDIT_CURRENT_CAREER_FAILURE = 'EDIT_CURRENT_CAREER_FAILURE';
+
+export const EDIT_PAST_CAREER_REQUEST = 'EDIT_CURRENT_CAREER_REQUEST';
+export const EDIT_PAST_CAREER_SUCCESS = 'EDIT_PAST_CAREER_SUCCESS';
+export const EDIT_PAST_CAREER_FAILURE = 'EDIT_PAST_CAREER_FAILURE';
+
+
 export const signupAction = (data) => ({
     type: SIGN_UP_REQUEST,
     data: data,
@@ -453,6 +462,48 @@ const reducer = (state = initialState, action ) => {
                     ...state.me,
                     careerErrorReason : action.error,
                 }
+            };
+        }
+        case EDIT_CURRENT_CAREER_REQUEST: {
+            return {
+                ...state,
+                //ErrorReason: '',
+            };
+        }
+        case EDIT_CURRENT_CAREER_SUCCESS: {
+            return {
+                ...state,
+                me : {
+                    ...state.me,
+                    career: state.me.career && state.me.career.length >= 2 ? [action.data, state.me.career[1]] : [...action.data],
+                }
+            };
+        }
+        case EDIT_CURRENT_CAREER_FAILURE: {
+            return {
+                ...state,
+                //profileImageErrorReason : action.error,
+            };
+        }
+        case EDIT_PAST_CAREER_REQUEST: {
+            return {
+                ...state,
+                //ErrorReason: '',
+            };
+        }
+        case EDIT_PAST_CAREER_SUCCESS: {
+            return {
+                ...state,
+                me : {
+                    ...state.me,
+                    career: state.me.career && state.me.career.length >= 2 ? [state.me.career[0], action.data] : [state.me.career[0], action.data],
+                }
+            };
+        }
+        case EDIT_PAST_CAREER_FAILURE: {
+            return {
+                ...state,
+                //profileImageErrorReason : action.error,
             };
         }
         default: {

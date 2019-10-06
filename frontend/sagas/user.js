@@ -11,7 +11,9 @@ import { LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE,
     EDIT_NICKNAME_REQUEST, EDIT_NICKNAME_SUCCESS, EDIT_NICKNAME_FAILURE,
     UPLOAD_PROFILE_IMAGES_REQUEST, UPLOAD_PROFILE_IMAGES_SUCCESS, UPLOAD_PROFILE_IMAGES_FAILURE,
     LOAD_PROFILE_IMAGE_REQUEST, LOAD_PROFILE_IMAGE_SUCCESS, LOAD_PROFILE_IMAGE_FAILURE,
-    LOAD_PROFILE_CAREER_REQUEST, LOAD_PROFILE_CAREER_SUCCESS, LOAD_PROFILE_CAREER_FAILURE,
+    LOAD_PROFILE_CAREER_REQUEST, LOAD_PROFILE_CAREER_SUCCESS, LOAD_PROFILE_CAREER_FAILURE, 
+    EDIT_CURRENT_CAREER_REQUEST, EDIT_CURRENT_CAREER_SUCCESS, EDIT_CURRENT_CAREER_FAILURE,
+    EDIT_PAST_CAREER_REQUEST, EDIT_PAST_CAREER_SUCCESS, EDIT_PAST_CAREER_FAILURE,
 } from '../reducers/user'
 import axios from 'axios';
 // const HELLO_SAGA = 'HELLO_SAGA';
@@ -400,6 +402,62 @@ function* watchLoadProfileCareer() {
     yield takeLatest(LOAD_PROFILE_CAREER_REQUEST, loadProfileCareer);
 }
 
+function editCurrentCareerAPI(currentCareer) {
+    // {currentCareer}   =>  currentCareer : 입력값
+    // currentCareer     =>  '입력값' : '' 
+    return axios.post( `/user/currentCareer`, {currentCareer}, {
+        withCredentials: true,
+    });
+}
+
+function* editCurrentCareer(action) {
+    try {
+        const result = yield call(editCurrentCareerAPI, action.data);
+        yield put( {            // put 은 dispatch 와 동일
+            type: EDIT_CURRENT_CAREER_SUCCESS,
+            data: result.data,
+        });
+    } catch (e) {
+        console.error(e);
+        yield put( {
+            type: EDIT_CURRENT_CAREER_FAILURE,
+            error: e,
+        });
+    }
+}
+
+function* watchEditCurrentCareer() {
+    yield takeEvery(EDIT_CURRENT_CAREER_REQUEST, editCurrentCareer);
+}
+
+function editPastCareerAPI(pastCareer) {
+    // {currentCareer}   =>  currentCareer : 입력값
+    // currentCareer     =>  '입력값' : '' 
+    return axios.post( `/user/pastCareer`, {pastCareer}, {
+        withCredentials: true,          // 이걸 넣어줘야 backend 쪽에서 req.user  사용가능
+    });
+}
+
+function* editPastCareer(action) {
+    try {
+        const result = yield call(editPastCareerAPI, action.data);
+        yield put( {            // put 은 dispatch 와 동일
+            type: EDIT_PAST_CAREER_SUCCESS,
+            data: result.data,
+        });
+    } catch (e) {
+        console.error(e);
+        yield put( {
+            type: EDIT_PAST_CAREER_FAILURE,
+            error: e,
+        });
+    }
+}
+
+function* watchEditPastCareer() {
+    yield takeEvery(EDIT_PAST_CAREER_REQUEST, editPastCareer);
+}
+
 export default function* userSaga() {
     yield all([
         fork(watchLogIn),       // 이벤트 리스너로 이해, 순서 의미 없음
@@ -414,7 +472,9 @@ export default function* userSaga() {
         fork(watchEditNickname),
         fork(watchUploadProfileImage),
         fork(watchLoadProfileImage),
-        fork(watchLoadProfileCareer)
+        fork(watchLoadProfileCareer),
+        fork(watchEditCurrentCareer),
+        fork(watchEditPastCareer),
 
         // call()   // 동기 호출
         // fork()   // 비동기 호출

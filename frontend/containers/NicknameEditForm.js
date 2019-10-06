@@ -1,7 +1,7 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { Button, Form, Input }  from 'antd';
 import { useDispatch , useSelector} from 'react-redux';
-import { EDIT_NICKNAME_REQUEST } from '../reducers/user';
+import { EDIT_NICKNAME_REQUEST, EDIT_CURRENT_CAREER_REQUEST, EDIT_PAST_CAREER_REQUEST } from '../reducers/user';
 
 const NicknameEditForm = () => {
     const [editedName, setEditedName] = useState('');
@@ -9,12 +9,34 @@ const NicknameEditForm = () => {
     const [editedPastCareer, setEditedPastCareer] = useState('');
     const dispatch = useDispatch();
     const { me, isEditingNickname } = useSelector( state => state.user);
+ //   const { career } = useSelector( state => state.user.me);
+
+    // useEffect( () => {
+    //     console.log(" career useEffect : ", career);
+    //      console.log(" career useEffect : ", career[0].career);
+    //      console.log(" career useEffect : ", career[1].career);
+
+    //     if(career) {
+    //         setEditedCurrentCareer(career[0].career);
+        
+    //         setEditedPastCareer(career[1].career);
+    //     }
+    //    // console.log('post useEffect : ', postMemory.current,  post,  postMemory.current === post);
+    // }, [career]);
 
     const onChangeNickname = useCallback( (e) => {
         setEditedName(e.target.value);
     }, []);
 
-    const onEditNickname = useCallback( (e) => {
+    const onChangeCurrentCareer = useCallback( (e) => {
+        setEditedCurrentCareer(e.target.value);
+    }, [me.career]);
+
+    const onChangePastCareer = useCallback( (e) => {
+        setEditedPastCareer(e.target.value);
+    }, [me.career]);
+
+    const onFormEditNickname = useCallback( (e) => {
         e.preventDefault();
         dispatch({
             type: EDIT_NICKNAME_REQUEST,
@@ -22,27 +44,49 @@ const NicknameEditForm = () => {
         });
     },[editedName]);
 
+    const onFormEditCurrentCareer = useCallback( (e) => {
+        e.preventDefault();
+        dispatch({
+            type: EDIT_CURRENT_CAREER_REQUEST,
+            data: editedCurrentCareer,
+        });
+    },[editedCurrentCareer]);
+
+    const onFormEditPastCareer = useCallback( (e) => {
+        e.preventDefault();
+        dispatch({
+            type: EDIT_PAST_CAREER_REQUEST,
+            data: editedPastCareer,
+        });
+    },[editedPastCareer]);
+
     return (
-        <Form style={{ marginBottom: '20px', border: '1px solid #d9d9d9', padding: '20px'}} layout='inline' onSubmit={onEditNickname}>
+        <div style={{ marginBottom: '20px', border: '1px solid #d9d9d9', padding: '20px'}}>
+        <Form  layout='inline' onSubmit={onFormEditNickname}>
             <Form.Item>
                 <Input addonBefore="필명" value={editedName || (me && me.nickname)} onChange={onChangeNickname}/> 
             </Form.Item>
             <Form.Item>
                 <Button type='primary' htmlType="submit" loading={isEditingNickname}>수정</Button>
             </Form.Item>
+        </Form>
+        <Form  layout='inline' onSubmit={onFormEditCurrentCareer}>
             <Form.Item>
-                <Input addonBefore="현 소속" value={editedCurrentCareer || (me && me.career && me.career.length > 0 && me.career[0])} onChange={onChangeNickname}/> 
-            </Form.Item>
-            <Form.Item>
-                <Button type='primary' htmlType="submit" loading={isEditingNickname}>수정</Button>
-            </Form.Item>
-            <Form.Item>
-                <Input addonBefore="과거 소속" value={editedPastCareer || (me && me.career && me.career.length > 1 && me.career[1])} onChange={onChangeNickname}/> 
+                <Input addonBefore="현 소속" value={editedCurrentCareer || (me && me.career && me.career[0].career)} onChange={onChangeCurrentCareer}/> 
             </Form.Item>
             <Form.Item>
                 <Button type='primary' htmlType="submit" loading={isEditingNickname}>수정</Button>
             </Form.Item>
         </Form>
+        <Form  layout='inline' onSubmit={onFormEditPastCareer}>
+            <Form.Item>
+                <Input addonBefore="과거 소속" value={editedPastCareer || (me && me.career && me.career.length > 1 && me.career[1].career)} onChange={onChangePastCareer}/> 
+            </Form.Item>
+            <Form.Item>
+                <Button type='primary' htmlType="submit" loading={isEditingNickname}>수정</Button>
+            </Form.Item>
+        </Form>
+        </div>
     )
 }
 
