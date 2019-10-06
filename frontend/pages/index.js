@@ -109,6 +109,14 @@ export default Home;
  백엔드와 프런트 서버를 각각 가동한다.
 
 
+ // mysql 주요 명령어
+ 1. How to drop constraint in MySql
+ > SET FOREIGN_KEY_CHECKS = 0;      // TURN OFF
+ > SET FOREIGN_KEY_CHECKS = 1;      // TURN ON
+ > DROP TABLE 'table-name';
+ 
+
+
 
 
  Cube.js 가동하는 방법 on Docker
