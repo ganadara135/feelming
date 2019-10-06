@@ -1,5 +1,6 @@
 exports.isLoggedIn = (req, res, next) => {
-    //console.log('isLoggedIn : ', req.body);
+    //console.log('isLoggedIn req.body : ', req.body);
+    //console.log('isLoggedIn req : ', req);
     //if (req.user) {
     if (req.isAuthenticated()) {
         next();     // 다음 미들웨어 넘어감

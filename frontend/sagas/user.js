@@ -10,6 +10,7 @@ import { LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE,
     REMOVE_FOLLOWER_REQUEST, REMOVE_FOLLOWER_SUCCESS, REMOVE_FOLLOWER_FAILURE,
     EDIT_NICKNAME_REQUEST, EDIT_NICKNAME_SUCCESS, EDIT_NICKNAME_FAILURE,
     UPLOAD_PROFILE_IMAGES_REQUEST, UPLOAD_PROFILE_IMAGES_SUCCESS, UPLOAD_PROFILE_IMAGES_FAILURE,
+    LOAD_PROFILE_INFO_REQUEST, LOAD_PROFILE_INFO_SUCCESS, LOAD_PROFILE_INFO_FAILURE,
 } from '../reducers/user'
 import axios from 'axios';
 // const HELLO_SAGA = 'HELLO_SAGA';
@@ -300,12 +301,8 @@ function* watchEditNickname() {
 
 // function uploadProfileImageAPI(formData, whatType, description) {
 function uploadProfileImageAPI(userId, formData) {
-    console.log("uploadProfileImageAPI userId : ", userId)
+    // console.log("uploadProfileImageAPI userId : ", userId)
     return axios.put( `/user/${userId}/profileImg`, formData);    // body 폼으로 데이터 전달, withCredentials 로 젼달하지 말라
-    
-    // return axios.get( `/user/${userId || 0}/followings?offset=${offset}&limit=${limit}`, {
-    //     withCredentials: true,
-    // });
 }
 
 function* uploadProfileImage(action) {
@@ -328,6 +325,43 @@ function* watchUploadProfileImage() {
     yield takeLatest(UPLOAD_PROFILE_IMAGES_REQUEST, uploadProfileImage);
 }
 
+
+function loadProfileInfoAPI(userId) {
+    return axios.get( `/user/${userId}/profileImg`, {
+        withCredentials: true,
+    });
+}
+
+function* loadProfileInfo(action) {
+    try {
+        const result = yield call(loadProfileInfoAPI, action.data);
+        console.log("loadProfileInfo SAGA result : ", result.data)
+
+        if(result.data.error){
+            yield put( {
+                type: LOAD_PROFILE_INFO_FAILURE,
+                error: result.data.error,
+            });
+        }else{
+            yield put( {            // put 은 dispatch 와 동일
+                type: LOAD_PROFILE_INFO_SUCCESS,
+                data: result.data,
+            });
+        }
+
+    } catch (e) {
+        console.error(e);
+        yield put( {
+            type: LOAD_PROFILE_INFO_FAILURE,
+            error: e,
+        });
+    }
+}
+
+function* watchLoadProfileInfo() {
+    yield takeLatest(LOAD_PROFILE_INFO_REQUEST, loadProfileInfo);
+}
+
 export default function* userSaga() {
     yield all([
         fork(watchLogIn),       // 이벤트 리스너로 이해, 순서 의미 없음
@@ -341,6 +375,7 @@ export default function* userSaga() {
         fork(watchRemoveFollower),
         fork(watchEditNickname),
         fork(watchUploadProfileImage),
+        fork(watchLoadProfileInfo),
 
         // call()   // 동기 호출
         // fork()   // 비동기 호출

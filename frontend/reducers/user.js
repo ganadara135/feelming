@@ -27,6 +27,7 @@ export const initialState = {
     hasMoreFollower: false,
     hasMoreFollowing: false,
     profileImg: [],        // 프로필 이미지 경로
+    profileImgErrorReason: '',
 };
 
 
@@ -82,6 +83,10 @@ export const UPLOAD_PROFILE_IMAGES_REQUEST = 'UPLOAD_PROFILE_IMAGES_REQUEST';
 export const UPLOAD_PROFILE_IMAGES_SUCCESS = 'UPLOAD_PROFILE_IMAGES_SUCCESS';
 export const UPLOAD_PROFILE_IMAGES_FAILURE = 'UPLOAD_PROFILE_IMAGES_FAILURE';
 export const REMOVE_PROFILE_IMAGE = 'REMOVE_PROFILE_IMAGE';
+
+export const LOAD_PROFILE_INFO_REQUEST = 'LOAD_PROFILE_INFO_REQUEST';
+export const LOAD_PROFILE_INFO_SUCCESS = 'LOAD_PROFILE_INFO_SUCCESS';
+export const LOAD_PROFILE_INFO_FAILURE = 'LOAD_PROFILE_INFO_FAILURE';
 
 export const signupAction = (data) => ({
     type: SIGN_UP_REQUEST,
@@ -399,6 +404,24 @@ const reducer = (state = initialState, action ) => {
                 ...state,
                 profileImg: state.profileImg.filter((v,i) => i !== action.index),
             }
+        }
+        case LOAD_PROFILE_INFO_REQUEST: {
+            return {
+                ...state,
+                profileImgErrorReason: '',
+            };
+        }
+        case LOAD_PROFILE_INFO_SUCCESS: {
+            return {
+              ...state,
+              profileImg: action.data
+            };
+          }
+        case LOAD_PROFILE_INFO_FAILURE: {
+            return {
+                ...state,
+                profileImgErrorReason : action.error,
+            };
         }
         default: {
             break;

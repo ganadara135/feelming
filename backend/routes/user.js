@@ -2,6 +2,8 @@ const express = require('express');
 const db = require('../models');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
+const multer = require('multer');
+const path = require('path');
 const { isLoggedIn } = require('./middleware');
 
 const router = express.Router();
@@ -239,5 +241,87 @@ router.patch('/nickname', async (req, res, next ) => {
         next(e);
     }
 })
+
+
+//  프로필 이미지 저장하는 부분
+const upload = multer( {
+    storage: multer.diskStorage( {
+        destination(req, file, done) {      // 파일 저장 위치
+            done(null, 'uploads');  // uplaods 는 파일을 저장할 서버측 폴더명, 
+        },
+        filename(req, file, done) {           // 파일명
+            const ext = path.extname(file.originalname);
+            const basename = path.basename(file.originalname, ext); //제로초.png  ext===.png,  basename===제로초
+            done(null, basename + new Date().valueOf() + ext );
+        },
+    }),
+    limits: { fileSize: 20 * 1024 * 1024 },
+});
+
+// uplaod.array() 는 미들웨어, image 는 전달해 주는 곳의 명칭과 같게
+// router.put('/profileImg', upload.array('image'), (req, res) => {
+//     console.log("req.files : ", req.files);
+//     res.json(req.files.map( v => v.filename));
+// });
+
+router.put('/:id/profileImg', upload.array('image',1), async (req, res, next) => {  // POST /api/user
+//router.put('/profileImg', upload.array('image'), (req, res) => {  // POST /api/user
+    // console.log("router.post_/_", req.body )
+    //console.log("req : ", req);
+    // console.log("req.file : ", req.file);
+    // console.log("req.files : ", req.files);
+    // console.log("req.body : ", req.body);
+    // console.log("req.files.map( v => v.filename) : ", req.files.map( v => v.filename));
+    // console.log("req.files[0].filename : ", req.files[0].filename);
+    // console.log("req.files[0].mimetype : ", req.files[0].mimetype);
+    // console.log("req.files[0].originalname : ", req.files[0].originalname);
+    // console.log("req.user : ", req.user);
+    // //console.log("req.user.id : ", req.user.id);
+    // console.log("req.params : ", req.params);
+
+    try {
+         const newUserAsset = await db.UserAsset.create({
+            UserId: req.params.id,            // foreinKey 는 앞글자가 대문자임 
+            src: req.files[0].filename,
+            dType: req.files[0].mimetype,
+            description: req.files[0].originalname,
+         })
+
+        //  console.log("req.body : ",req.body)
+        //  console.log("newUserAsset : ", newUserAsset)
+ 
+         res.json(req.files.map( v => v.filename));
+    } catch (e) {
+        console.error(e)
+        next(e);
+    }  
+ })
+
+
+ router.get('/:id/profileImg', isLoggedIn, async (req, res, next) => {  // GET /api/user
+       
+        try {
+            const userAssetResult = await db.UserAsset.findAll({
+                //req.params.id  가  0 이면 req.user.id 로 처리
+                where: { UserId: parseInt(req.params.id, 10) },
+                order: [['createdAt', 'DESC'], ],
+                limit: 3,
+            })
+
+            // console.log(" userAssetResult : ", userAssetResult);
+            // console.log(" userAssetResult : ", userAssetResult.map( v => v.src))
+    
+            
+            if(!userAssetResult){       // userAssetResult === nulll
+                res.json({error : "Not matching result"})
+            }else {
+                res.json(userAssetResult.map( v => v.src));
+            }
+    
+        } catch (e) {
+            console.error(e);
+            next(e);
+        };
+});
 
 module.exports = router;

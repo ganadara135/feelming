@@ -20,6 +20,12 @@ const upload = multer( {
     limits: { fileSize: 20 * 1024 * 1024 },
 });  
 
+// uplaod.array() 는 미들웨어, image 는 전달해 주는 곳의 명칭과 같게
+router.post('/images', upload.array('image'), (req, res) => {
+    console.log("req.files : ", req.files);
+    res.json(req.files.map( v => v.filename));
+});
+
 router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {  // POST /api/post
    // console.log("router.post_/_", req.body )
     try {
@@ -76,12 +82,8 @@ router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {  // POST
 
 
 
-            // uplaod.array() 는 미들웨어, image 는 전달해 주는 곳의 명칭과 같게
-router.post('/images', upload.array('image'), (req, res) => {
-    console.log(req.files);
-    res.json(req.files.map( v => v.filename));
+            
 
-});
 
 router.get('/:id/comments', async (req, res, next) => {
     try {
@@ -233,4 +235,26 @@ router.delete('/:id', isLoggedIn, async (req, res, next ) => {
         next(e);
     }
 })
+
+
+router.get('/:id', async (req, res, next) => {
+    try {
+        console.log(" req.params : ", req.params);
+
+        const post = await db.Post.findOne({
+            where: { id: req.params.id },
+            include: [{
+                model: db.User,
+                attributes: ['id', 'nickname'],
+            }, {
+                model: db.Image,
+            }],
+        });
+        res.json(post);
+    } catch (e) {
+        console.error(e);
+        next(e);
+    }
+});
+
 module.exports = router;

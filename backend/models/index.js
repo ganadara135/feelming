@@ -5,7 +5,7 @@ const env = process.env.NODE_ENV || 'development';
 const config = require('../config/config.js')[env];
 const db = {};
 
-console.log("config : ", config)
+// console.log("config : ", config)
 const  sequelize = new Sequelize(config.database, config.username, config.password, config);
 
 
@@ -15,6 +15,7 @@ db.Hashtag = require('./hashtag')(sequelize, Sequelize);
 db.Image = require('./image')(sequelize, Sequelize);
 db.Post = require('./post')(sequelize, Sequelize);
 db.User = require('./user')(sequelize, Sequelize);
+db.UserAsset = require('./userAsset')(sequelize, Sequelize);
 
 
 Object.keys(db).forEach(modelName => {

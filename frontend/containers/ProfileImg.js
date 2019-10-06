@@ -9,7 +9,7 @@ const ProfileImg = () => {
     const dispatch = useDispatch();
     const [ which, setWhich ] = useState(0);
     const imageInput = useRef();
-    const { profileImg, me } = useSelector( state => state.user );
+    const { profileImg, me, profileImgErrorReason } = useSelector( state => state.user );
 
     
     function onChangeCarousel(which) {
@@ -67,6 +67,7 @@ const ProfileImg = () => {
                 </Button>
             </div>
         </Carousel>
+        {profileImgErrorReason && <div> {profileImgErrorReason} </div>   }
         {profileImg.filter((v,i) => i === which).map( (v, i) => (
            <div key={v} style={{ display: 'inline-block'}}>
                 <img src={`http://localhost:3065/${v}` } style={{ width: '200px' }} alt={v} />

@@ -7,7 +7,7 @@ import ProfileImg from '../containers/ProfileImg.js';
 import FollowList from '../components/FollowList';
 
 import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST, UNFOLLOW_USER_REQUEST, 
-    REMOVE_FOLLOWER_REQUEST } from '../reducers/user';
+    REMOVE_FOLLOWER_REQUEST, LOAD_PROFILE_INFO_REQUEST } from '../reducers/user';
 import { LOAD_USER_POSTS_REQUEST } from '../reducers/post';
  
 
@@ -92,5 +92,11 @@ Profile.getInitialProps = async (context) => {
             type: LOAD_USER_POSTS_REQUEST,
             data: state.user.me && state.user.me.id,
     });
+    if(state.user.me) {
+        context.store.dispatch({
+            type: LOAD_PROFILE_INFO_REQUEST,
+            data: state.user.me && state.user.me.id,
+        });
+    }  
 }
 export default Profile;
