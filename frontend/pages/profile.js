@@ -4,10 +4,12 @@ import PostCard from '../containers/PostCard';
 import { useDispatch, useSelector } from 'react-redux';
 import NicknameEditForm from '../containers/NicknameEditForm';
 import ProfileImg from '../containers/ProfileImg';
+import SelfIntroductionEditForm from '../containers/SelfIntroductionEditForm';
 import FollowList from '../components/FollowList';
 
 import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST, UNFOLLOW_USER_REQUEST, 
-    REMOVE_FOLLOWER_REQUEST, LOAD_PROFILE_IMAGE_REQUEST, LOAD_PROFILE_CAREER_REQUEST } from '../reducers/user';
+    REMOVE_FOLLOWER_REQUEST, LOAD_PROFILE_IMAGE_REQUEST, LOAD_PROFILE_CAREER_REQUEST,
+    LOAD_SELFINTRODUCTION_REQUEST } from '../reducers/user';
 import { LOAD_USER_POSTS_REQUEST } from '../reducers/post';
  
 
@@ -52,6 +54,7 @@ const Profile = () => {
     <div>
         {me && <ProfileImg /> }
         {me && <NicknameEditForm /> }
+        {me && <SelfIntroductionEditForm /> }
         
         <FollowList
             header="팔로잉 목록"
@@ -99,6 +102,10 @@ Profile.getInitialProps = async (context) => {
         });
         context.store.dispatch({
             type: LOAD_PROFILE_CAREER_REQUEST,
+            data: state.user.me && state.user.me.id,
+        });
+        context.store.dispatch({
+            type: LOAD_SELFINTRODUCTION_REQUEST,
             data: state.user.me && state.user.me.id,
         });
     }  

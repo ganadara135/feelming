@@ -97,9 +97,15 @@ export const EDIT_CURRENT_CAREER_REQUEST = 'EDIT_CURRENT_CAREER_REQUEST';
 export const EDIT_CURRENT_CAREER_SUCCESS = 'EDIT_CURRENT_CAREER_SUCCESS';
 export const EDIT_CURRENT_CAREER_FAILURE = 'EDIT_CURRENT_CAREER_FAILURE';
 
-export const EDIT_PAST_CAREER_REQUEST = 'EDIT_CURRENT_CAREER_REQUEST';
+export const EDIT_PAST_CAREER_REQUEST = 'EDIT_PAST_CAREER_REQUEST';
 export const EDIT_PAST_CAREER_SUCCESS = 'EDIT_PAST_CAREER_SUCCESS';
 export const EDIT_PAST_CAREER_FAILURE = 'EDIT_PAST_CAREER_FAILURE';
+
+export const LOAD_SELFINTRODUCTION_REQUEST = 'LOAD_SELFINTRODUCTION_REQUEST';
+export const LOAD_SELFINTRODUCTION_SUCCESS = 'LOAD_SELFINTRODUCTION_SUCCESS';
+export const LOAD_SELFINTRODUCTION_FAILURE = 'LOAD_SELFINTRODUCTION_FAILURE';
+
+
 
 
 export const signupAction = (data) => ({
@@ -146,8 +152,12 @@ const reducer = (state = initialState, action ) => {
             // }
         }
         case LOG_IN_FAILURE: {
+
+            console.log("action.error : ", action.error);
+            console.log("action.reason : ", action.reason);
+
             draft.isLoggingIn =  false;
-            draft.logInErrorReason = action.error;
+            draft.logInErrorReason = action.reason ? action.reason : action.error;
             draft.me = null;
             break;
 
@@ -504,6 +514,25 @@ const reducer = (state = initialState, action ) => {
             return {
                 ...state,
                 //profileImageErrorReason : action.error,
+            };
+        }
+        case LOAD_SELFINTRODUCTION_REQUEST: {
+            return {
+                ...state,
+            };
+        }
+        case LOAD_SELFINTRODUCTION_SUCCESS: {
+            return {
+                ...state,
+                me : {
+                    ...state.me,
+                    selfIntro : action.data,
+                }
+            };
+          }
+        case LOAD_SELFINTRODUCTION_FAILURE: {
+            return {
+                ...state,
             };
         }
         default: {

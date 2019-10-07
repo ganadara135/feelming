@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(100),
             allowNull: false,
         },
+        selfIntro: {
+            type: DataTypes.STRING(255),
+            allowNull: true,
+        },
     }, {
         charset: 'utf8',
         collate: 'utf8_general_ci',    // 한글이 저장됨,

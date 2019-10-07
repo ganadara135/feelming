@@ -30,11 +30,11 @@ const NicknameEditForm = () => {
 
     const onChangeCurrentCareer = useCallback( (e) => {
         setEditedCurrentCareer(e.target.value);
-    }, [me.career]);
+    }, []);
 
     const onChangePastCareer = useCallback( (e) => {
         setEditedPastCareer(e.target.value);
-    }, [me.career]);
+    }, []);
 
     const onFormEditNickname = useCallback( (e) => {
         e.preventDefault();
@@ -46,6 +46,7 @@ const NicknameEditForm = () => {
 
     const onFormEditCurrentCareer = useCallback( (e) => {
         e.preventDefault();
+        console.log("/////// current   onFormEditCurrentCareer ()   ///// ")
         dispatch({
             type: EDIT_CURRENT_CAREER_REQUEST,
             data: editedCurrentCareer,
@@ -54,6 +55,7 @@ const NicknameEditForm = () => {
 
     const onFormEditPastCareer = useCallback( (e) => {
         e.preventDefault();
+        console.log("/////// past   onFormEditPastCareer ()   ///// ")
         dispatch({
             type: EDIT_PAST_CAREER_REQUEST,
             data: editedPastCareer,

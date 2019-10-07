@@ -111,7 +111,7 @@ router.post('/login', (req, res, next) => { // POST /api/user/login
             }],
             attributes: ['id', 'nickname', 'userId'],
           });
-          console.log(fullUser);
+          // console.log(fullUser);
           return res.json(fullUser);
         } catch (e) {
           next(e);
@@ -352,7 +352,7 @@ router.get('/:id/profileCareer', isLoggedIn, async (req, res, next) => {  // GET
 
 
 router.post('/currentCareer', async (req, res, next ) => {
-    console.log('req.body : ', req.body);
+    console.log('req.body in Current: ', req.body);
 
     try {
         await db.Career.create({
@@ -369,7 +369,9 @@ router.post('/currentCareer', async (req, res, next ) => {
     }
 })
 
-router.post('/pastCareer', async (req, res, next ) => {
+router.put('/pastCareer', async (req, res, next ) => {
+    console.log('req.body in Past : ', req.body);
+
     try {
         await db.Career.create({
             UserId: req.user.id,            // foreinKey 는 앞글자가 대문자임 '아이디가 아닌 table 에서 auto_increment 한 id 사용

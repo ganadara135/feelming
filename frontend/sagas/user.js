@@ -1,4 +1,4 @@
-import { all, fork, takeLatest, takeEvery, call, put, take, delay, } from 'redux-saga/effects';
+import { all, fork, takeLatest, call, put, take, delay, } from 'redux-saga/effects';
 import { LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE, 
     SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE,
     LOG_OUT_REQUEST, LOG_OUT_SUCCESS, LOG_OUT_FAILURE,
@@ -49,7 +49,7 @@ function* logIn(action) {
 }
 
 function* watchLogIn() {
-    yield takeEvery(LOG_IN_REQUEST, logIn);
+    yield takeLatest(LOG_IN_REQUEST, logIn);
     // while(true){
     //     yield take(LOG_IN_REQUEST, login)    // take 안에 gernerater.next() 기능이 있음
     //     yield put( {            // put 은 redux 에 dispatch 와 동일
@@ -84,7 +84,7 @@ function* signUp(action) {
 }
 
 function* watchSignUp() {
-    yield takeEvery(SIGN_UP_REQUEST, signUp);
+    yield takeLatest(SIGN_UP_REQUEST, signUp);
 }
 
 function logOutAPI() {
@@ -109,7 +109,7 @@ function* logOut(action) {
 }
 
 function* watchLogOut() {
-    yield takeEvery(LOG_OUT_REQUEST, logOut);
+    yield takeLatest(LOG_OUT_REQUEST, logOut);
 }
 
 function loadUserAPI(userId) {
@@ -137,7 +137,7 @@ function* loadUser(action) {
 }
 
 function* watchLoadUser() {
-    yield takeEvery(LOAD_USER_REQUEST, loadUser);
+    yield takeLatest(LOAD_USER_REQUEST, loadUser);
 }
 
 function followAPI(userId) {
@@ -164,7 +164,7 @@ function* follow(action) {
 }
 
 function* watchFollow() {
-    yield takeEvery(FOLLOW_USER_REQUEST, follow);
+    yield takeLatest(FOLLOW_USER_REQUEST, follow);
 }
 
 function unfollowAPI(userId) {
@@ -191,7 +191,7 @@ function* unfollow(action) {
 }
 
 function* watchUnfollow() {
-    yield takeEvery(UNFOLLOW_USER_REQUEST, unfollow);
+    yield takeLatest(UNFOLLOW_USER_REQUEST, unfollow);
 }
 
 function loadFollowersAPI(id, offset  = 0, limit = 3) {
@@ -218,7 +218,7 @@ function* loadFollowers(action) {
 }
 
 function* watchLoadFollowers() {
-    yield takeEvery(LOAD_FOLLOWERS_REQUEST, loadFollowers);
+    yield takeLatest(LOAD_FOLLOWERS_REQUEST, loadFollowers);
 }
 
 function loadFollowingsAPI(userId, offset  = 0, limit = 3) {
@@ -245,7 +245,7 @@ function* loadFollowings(action) {
 }
 
 function* watchLoadFollowings() {
-    yield takeEvery(LOAD_FOLLOWINGS_REQUEST, loadFollowings);
+    yield takeLatest(LOAD_FOLLOWINGS_REQUEST, loadFollowings);
 }
 
 function removeFollowerAPI(userId) {
@@ -272,7 +272,7 @@ function* removeFollower(action) {
 }
 
 function* watchRemoveFollower() {
-    yield takeEvery(REMOVE_FOLLOWER_REQUEST, removeFollower);
+    yield takeLatest(REMOVE_FOLLOWER_REQUEST, removeFollower);
 }
 
 function editNicknameAPI(nickname) {
@@ -299,7 +299,7 @@ function* editNickname(action) {
 }
 
 function* watchEditNickname() {
-    yield takeEvery(EDIT_NICKNAME_REQUEST, editNickname);
+    yield takeLatest(EDIT_NICKNAME_REQUEST, editNickname);
 }
 
 // function uploadProfileImageAPI(formData, whatType, description) {
@@ -413,6 +413,7 @@ function editCurrentCareerAPI(currentCareer) {
 function* editCurrentCareer(action) {
     try {
         const result = yield call(editCurrentCareerAPI, action.data);
+        console.log(" chk result.data in Current : ", result.data)
         yield put( {            // put 은 dispatch 와 동일
             type: EDIT_CURRENT_CAREER_SUCCESS,
             data: result.data,
@@ -427,13 +428,13 @@ function* editCurrentCareer(action) {
 }
 
 function* watchEditCurrentCareer() {
-    yield takeEvery(EDIT_CURRENT_CAREER_REQUEST, editCurrentCareer);
+    yield takeLatest(EDIT_CURRENT_CAREER_REQUEST, editCurrentCareer);
 }
 
 function editPastCareerAPI(pastCareer) {
     // {currentCareer}   =>  currentCareer : 입력값
     // currentCareer     =>  '입력값' : '' 
-    return axios.post( `/user/pastCareer`, {pastCareer}, {
+    return axios.put( `/user/pastCareer`, {pastCareer}, {
         withCredentials: true,          // 이걸 넣어줘야 backend 쪽에서 req.user  사용가능
     });
 }
@@ -441,6 +442,7 @@ function editPastCareerAPI(pastCareer) {
 function* editPastCareer(action) {
     try {
         const result = yield call(editPastCareerAPI, action.data);
+        console.log(" chk result.data in Past : ", result.data)
         yield put( {            // put 은 dispatch 와 동일
             type: EDIT_PAST_CAREER_SUCCESS,
             data: result.data,
@@ -455,7 +457,7 @@ function* editPastCareer(action) {
 }
 
 function* watchEditPastCareer() {
-    yield takeEvery(EDIT_PAST_CAREER_REQUEST, editPastCareer);
+    yield takeLatest(EDIT_PAST_CAREER_REQUEST, editPastCareer);
 }
 
 export default function* userSaga() {

@@ -16,7 +16,7 @@ db.Image = require('./image')(sequelize, Sequelize);
 db.Post = require('./post')(sequelize, Sequelize);
 db.User = require('./user')(sequelize, Sequelize);
 db.UserAsset = require('./userAsset')(sequelize, Sequelize);
-db.Career = require('./Career')(sequelize, Sequelize);
+db.Career = require('./career')(sequelize, Sequelize);
 
 
 Object.keys(db).forEach(modelName => {

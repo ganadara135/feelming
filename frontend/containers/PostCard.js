@@ -43,11 +43,11 @@ const PostCard = ({ post }) => {
     //     console.log('me useEffect : ', chk_me.current,  me,  chk_me.current === me);
     // }, [me]);
 
-    const chk_id = useRef(id);      // Dom 에 직접 접근하기도하고, 값을 기억하지만 리렌더링하고 싶지 않을때도 사용
-    console.log("id : ", id)
-    useEffect( () => {
-        console.log('id useEffect : ', chk_id.current,  id,  chk_id.current === id);
-    }, [id]);
+    // const chk_id = useRef(id);      // Dom 에 직접 접근하기도하고, 값을 기억하지만 리렌더링하고 싶지 않을때도 사용
+    // console.log("id : ", id)
+    // useEffect( () => {
+    //     console.log('id useEffect : ', chk_id.current,  id,  chk_id.current === id);
+    // }, [id]);
 
 
     const onToggleComment = useCallback(() => {

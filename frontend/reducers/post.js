@@ -121,6 +121,7 @@ const reducer = (state = initialState, action) => {
         case LOAD_USER_POSTS_SUCCESS:
         case LOAD_HASHTAG_POSTS_SUCCESS:
         case LOAD_MAIN_POSTS_SUCCESS: {
+            // mainPosts : ", state.mainPosts)
             return {
                 ...state,     
                 mainPosts: state.mainPosts.concat(action.data),
