@@ -388,4 +388,37 @@ router.put('/pastCareer', async (req, res, next ) => {
 })
 
 
+router.get('/:id/selfIntroduction', isLoggedIn, async (req, res, next) => {  // GET /api/user
+       
+    try {
+        const selfIntroResult = await db.User.findOne({
+            //req.params.id  가  0 이면 req.user.id 로 처리
+            where: { UserId: parseInt(req.params.id, 10) },
+            attributes: ['id', 'selfIntro'],
+        })
+        
+        res.json(selfIntroResult);
+        
+    } catch (e) {
+        console.error(e);
+        next(e);
+    };
+});
+
+
+router.patch('/selfIntroduction', async (req, res, next ) => {
+    try {
+        await db.User.update({
+            selfIntro: req.body.selfIntroduction,
+        }, {
+            where: { id: req.user.id },
+        });
+        res.send(req.body.selfIntroduction);
+    } catch (e) {
+        console.error(e)
+        next(e);
+    }
+})
+
+
 module.exports = router;

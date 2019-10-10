@@ -105,7 +105,9 @@ export const LOAD_SELFINTRODUCTION_REQUEST = 'LOAD_SELFINTRODUCTION_REQUEST';
 export const LOAD_SELFINTRODUCTION_SUCCESS = 'LOAD_SELFINTRODUCTION_SUCCESS';
 export const LOAD_SELFINTRODUCTION_FAILURE = 'LOAD_SELFINTRODUCTION_FAILURE';
 
-
+export const EDIT_SELFINTRODUCTION_REQUEST = 'EDIT_SELFINTRODUCTION_REQUEST';
+export const EDIT_SELFINTRODUCTION_SUCCESS = 'EDIT_SELFINTRODUCTION_SUCCESS';
+export const EDIT_SELFINTRODUCTION_FAILURE = 'EDIT_SELFINTRODUCTION_FAILURE';
 
 
 export const signupAction = (data) => ({
@@ -531,6 +533,25 @@ const reducer = (state = initialState, action ) => {
             };
           }
         case LOAD_SELFINTRODUCTION_FAILURE: {
+            return {
+                ...state,
+            };
+        }
+        case EDIT_SELFINTRODUCTION_REQUEST: {
+            return {
+                ...state,
+            };
+        }
+        case EDIT_SELFINTRODUCTION_SUCCESS: {
+            return {
+                ...state,
+                me : {
+                    ...state.me,
+                    selfIntro : action.data,
+                }
+            };
+          }
+        case EDIT_SELFINTRODUCTION_FAILURE: {
             return {
                 ...state,
             };

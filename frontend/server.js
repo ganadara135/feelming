@@ -52,4 +52,8 @@ app.prepare().then( () => {
     server.listen(prod ? process.env.PORT : 3060, () => {
         console.log(`next+express running on port ${process.env.PORT}`);
     });
-});
+})
+.catch((ex) => {
+    console.error(ex.stack);
+    process.exit(1);
+})

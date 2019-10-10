@@ -1,6 +1,5 @@
 import React, { useCallback, useState, useEffect, useRef} from 'react';
 import { Form, Input, Button, Card, Carousel, Upload, message, Icon, Avatar} from 'antd';
-import Img from 'react-image';
 import { useSelector, useDispatch } from 'react-redux';
 import { UPLOAD_PROFILE_IMAGES_REQUEST, REMOVE_PROFILE_IMAGE } from '../reducers/user';
 
@@ -13,7 +12,7 @@ const ProfileImg = () => {
 
     
     function onChangeCarousel(which) {
-        console.log('which : ', which);
+       // console.log('which : ', which);
         setWhich(which);
     }
 
@@ -21,7 +20,7 @@ const ProfileImg = () => {
     
          const imageFormData = new FormData();
          [].forEach.call(e.target.files, (f) => {
-            console.log(" in forEach() f : ", f);
+            //console.log(" in forEach() f : ", f);
             imageFormData.append('image', f);
          });
          dispatch({
@@ -34,7 +33,7 @@ const ProfileImg = () => {
     }, []);
 
     const onClickImageUpload = useCallback( () => {
-        console.log("imageInput.current : ", imageInput.current);
+       // console.log("imageInput.current : ", imageInput.current);
         imageInput.current.click();
     }, [imageInput.current]);
     

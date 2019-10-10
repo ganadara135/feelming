@@ -21,7 +21,6 @@ const AppLayout = ({ children }) => {
     //     }
     // }, [me]);
     const onSearch = (value) => {
-        console.log('search Value : ', value);
                        // 내부 주소                                      // 외부  주소
         Router.push({ pathname: '/hashtag', query: { tag: value }}, `/hashtag/${value}`);
     }
@@ -31,13 +30,14 @@ const AppLayout = ({ children }) => {
             <Menu mode="horizontal">
                 <Menu.Item key='home'><Link href="/"><a>Feelming</a></Link></Menu.Item>
                 <Menu.Item key='profile'><Link href="/profile"  prefetch  ><a>프로필</a></Link></Menu.Item>
-                <Menu.Item key='mail'>
+                <Menu.Item key='search'>
                     <Input.Search 
                         enterButton 
                         style={{ verticalAlign: 'middle'}}
                         onSearch={onSearch} 
                     />
                 </Menu.Item>
+                <Menu.Item key='workplace'><Link href="/workplace"  ><a>내작업장</a></Link></Menu.Item>
             </Menu>
             <Row gutter={8} >
                 <Col xs={24} md={6}>
@@ -47,7 +47,7 @@ const AppLayout = ({ children }) => {
                     }
                 </Col>
                 <Col xs={24} md={12}> 
-                    {children}
+                    {children}            
                 </Col>
                 <Col xs={24} md={6}>
                     <a target="_blank">Made by kcod</a>

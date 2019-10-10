@@ -14,6 +14,8 @@ import { LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE,
     LOAD_PROFILE_CAREER_REQUEST, LOAD_PROFILE_CAREER_SUCCESS, LOAD_PROFILE_CAREER_FAILURE, 
     EDIT_CURRENT_CAREER_REQUEST, EDIT_CURRENT_CAREER_SUCCESS, EDIT_CURRENT_CAREER_FAILURE,
     EDIT_PAST_CAREER_REQUEST, EDIT_PAST_CAREER_SUCCESS, EDIT_PAST_CAREER_FAILURE,
+    LOAD_SELFINTRODUCTION_REQUEST, LOAD_SELFINTRODUCTION_SUCCESS, LOAD_SELFINTRODUCTION_FAILURE,
+    EDIT_SELFINTRODUCTION_REQUEST, EDIT_SELFINTRODUCTION_SUCCESS, EDIT_SELFINTRODUCTION_FAILURE,
 } from '../reducers/user'
 import axios from 'axios';
 // const HELLO_SAGA = 'HELLO_SAGA';
@@ -460,6 +462,68 @@ function* watchEditPastCareer() {
     yield takeLatest(EDIT_PAST_CAREER_REQUEST, editPastCareer);
 }
 
+
+
+function loadLoadSelfIntroductionAPI(userId) {
+    return axios.get( `/user/${userId}/selfIntroduction`, {
+        withCredentials: true,
+    });
+}
+
+function* loadSelfIntroduction(action) {
+    try {
+        const result = yield call(loadLoadSelfIntroductionAPI, action.data);
+       // console.log("loadProfileCareer SAGA result : ", result.data)
+        
+        yield put( {                          // put 은 dispatch 와 동일
+            type: LOAD_SELFINTRODUCTION_SUCCESS,
+            data: result.data,
+        });
+    
+
+    } catch (e) {
+        console.error(e);
+        yield put( {
+            type: LOAD_SELFINTRODUCTION_FAILURE,
+            error: e,
+        });
+    }
+}
+
+function* watchLoadSelfIntroduction() {
+    yield takeLatest(LOAD_SELFINTRODUCTION_REQUEST, loadSelfIntroduction);
+}
+
+function editSelfIntroductionAPI(selfIntroduction) {
+    // {currentCareer}   =>  currentCareer : 입력값
+    // currentCareer     =>  '입력값' : '' 
+    return axios.patch( `/user/selfIntroduction`, {selfIntroduction}, {
+        withCredentials: true,          // 이걸 넣어줘야 backend 쪽에서 req.user  사용가능
+    });
+}
+
+function* editSelfIntroduction(action) {
+    try {
+        const result = yield call(editSelfIntroductionAPI, action.data);
+       // console.log(" chk result.data in Past : ", result.data)
+        yield put( {            // put 은 dispatch 와 동일
+            type: EDIT_SELFINTRODUCTION_SUCCESS,
+            data: result.data,
+        });
+    } catch (e) {
+        console.error(e);
+        yield put( {
+            type: EDIT_SELFINTRODUCTION_FAILURE,
+            error: e,
+        });
+    }
+}
+
+function* watchEditSelfIntroduction() {
+    yield takeLatest(EDIT_SELFINTRODUCTION_REQUEST, editSelfIntroduction);
+}
+
+
 export default function* userSaga() {
     yield all([
         fork(watchLogIn),       // 이벤트 리스너로 이해, 순서 의미 없음
@@ -477,6 +541,8 @@ export default function* userSaga() {
         fork(watchLoadProfileCareer),
         fork(watchEditCurrentCareer),
         fork(watchEditPastCareer),
+        fork(watchLoadSelfIntroduction),
+        fork(watchEditSelfIntroduction),
 
         // call()   // 동기 호출
         // fork()   // 비동기 호출
