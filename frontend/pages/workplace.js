@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 const Workplace = () => {
 
     const { Option } = Select;
+    //const { form } = useSelector( props => props );
+ //   console.log("form : ", form)
    // const { getFieldDecorator } = this.props.form;
 
     function onChange(value) {
@@ -93,21 +95,20 @@ const Workplace = () => {
         });
     };
 
-    const add = () => {
-        const { form } = this.props;
-        // can use data-binding to get
-        const keys = form.getFieldValue('keys');
-        const nextKeys = keys.concat(id++);
-        // can use data-binding to set
-        // important! notify form to detect changes
-        form.setFieldsValue({
-            keys: nextKeys,
-        });
+    const add = props => {
+         const { form } = this.props;
+        // // can use data-binding to get
+        // const keys = form.getFieldValue('keys');
+        // const nextKeys = keys.concat(id++);
+        // // can use data-binding to set
+        // // important! notify form to detect changes
+        // form.setFieldsValue({
+        //     keys: nextKeys,
+        // });
     };
 
     return (
         
- 
         <Form lable="자료등록">
            <Form.Item label="형식" >
                 <Select defaultValue="movie">
@@ -157,7 +158,7 @@ const Workplace = () => {
             </Form.Item>
 
             <Form.Item label="검색 키워드 등록">
-                <Button type="dashed" onClick={add} style={{ width: '60%' }}>
+                <Button type="dashed" onClick={() => add(Form)} style={{ width: '60%' }}>
                     <Icon type="plus" /> Add field
                 </Button>
             </Form.Item>
@@ -168,7 +169,7 @@ const Workplace = () => {
             <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
                 <Button type="primary" htmlType="submit">
                     Submit
-                </Button>   
+                </Button> 
             </Form.Item>
 
         </Form>
