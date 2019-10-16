@@ -12,6 +12,18 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(225),
             allowNull: true,
         },
+        category: {
+            type: DataTypes.STRING(100),
+            allowNull: true,
+        },
+        publicScope: {
+            type: DataTypes.STRING(100),
+            allowNull: true,
+        },
+        keywords: {
+            type: DataTypes.STRING(255),
+            allowNull: true,
+        },
     }, {
         charset: 'utf8',             // 한글 
         collate: 'utf8_general_ci',    // 한글이 저장됨

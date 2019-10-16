@@ -109,6 +109,10 @@ export const EDIT_SELFINTRODUCTION_REQUEST = 'EDIT_SELFINTRODUCTION_REQUEST';
 export const EDIT_SELFINTRODUCTION_SUCCESS = 'EDIT_SELFINTRODUCTION_SUCCESS';
 export const EDIT_SELFINTRODUCTION_FAILURE = 'EDIT_SELFINTRODUCTION_FAILURE';
 
+export const UPLOAD_WORKPLACE_REQUEST = 'UPLOAD_WORKPLACE_REQUEST';
+export const UPLOAD_WORKPLACE_SUCCESS = 'UPLOAD_WORKPLACE_SUCCESS';
+export const UPLOAD_WORKPLACE_FAILURE = 'UPLOAD_WORKPLACE_FAILURE';
+
 
 export const signupAction = (data) => ({
     type: SIGN_UP_REQUEST,
@@ -552,6 +556,25 @@ const reducer = (state = initialState, action ) => {
             };
           }
         case EDIT_SELFINTRODUCTION_FAILURE: {
+            return {
+                ...state,
+            };
+        }
+        case UPLOAD_WORKPLACE_REQUEST: {
+            return {
+                ...state,
+            };
+        }
+        case UPLOAD_WORKPLACE_SUCCESS: {
+            return {
+                ...state,
+                // me : {
+                //     ...state.me,
+                //     selfIntro : action.data,
+                // }
+            };
+          }
+        case UPLOAD_WORKPLACE_FAILURE: {
             return {
                 ...state,
             };

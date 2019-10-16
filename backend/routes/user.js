@@ -244,7 +244,7 @@ router.patch('/nickname', async (req, res, next ) => {
 
 
 //  프로필 이미지 저장하는 부분
-const upload = multer( {
+var upload = multer( {
     storage: multer.diskStorage( {
         destination(req, file, done) {      // 파일 저장 위치
             done(null, 'uploads');  // uplaods 는 파일을 저장할 서버측 폴더명, 
@@ -254,6 +254,10 @@ const upload = multer( {
             const basename = path.basename(file.originalname, ext); //제로초.png  ext===.png,  basename===제로초
             done(null, basename + new Date().valueOf() + ext );
         },
+        // onError : function(err, next) {
+        //     console.log("file upload err : ", err);
+        //     next(err);
+        // }
     }),
     limits: { fileSize: 20 * 1024 * 1024 },
 });
@@ -265,19 +269,6 @@ const upload = multer( {
 // });
 
 router.put('/:id/profileImg', upload.array('image',1), async (req, res, next) => {  // POST /api/user
-//router.put('/profileImg', upload.array('image'), (req, res) => {  // POST /api/user
-    // console.log("router.post_/_", req.body )
-    //console.log("req : ", req);
-    // console.log("req.file : ", req.file);
-    // console.log("req.files : ", req.files);
-    // console.log("req.body : ", req.body);
-    // console.log("req.files.map( v => v.filename) : ", req.files.map( v => v.filename));
-    // console.log("req.files[0].filename : ", req.files[0].filename);
-    // console.log("req.files[0].mimetype : ", req.files[0].mimetype);
-    // console.log("req.files[0].originalname : ", req.files[0].originalname);
-    // console.log("req.user : ", req.user);
-    // //console.log("req.user.id : ", req.user.id);
-    // console.log("req.params : ", req.params);
 
     try {
          await db.UserAsset.create({
@@ -419,6 +410,42 @@ router.patch('/selfIntroduction', async (req, res, next ) => {
         next(e);
     }
 })
+
+
+// uplaod.array() 는 미들웨어, image 는 전달해 주는 곳의 명칭과 같게
+router.post('/uploadWorkplaceUpfile', upload.array('upFiles'), (req, res) => {
+    console.log("req.files : ", req.files);
+    res.json(req.files.map( v => v.filename));
+});
+
+router.put('/uploadWorkplace', async (req, res, next) => {  // put /api/user
+
+    console.log("파일 업로드 결과 확인")
+    console.log("req.user.id : ", req.user.id);
+    //console.log("req.body.upFiles : ", req.body.upFiles);
+    //console.log("req.body.upFiles.file.originFileObj : ", req.body.upFiles.file);
+    console.log("req.body.upFiles.file.response : ", req.body.upFiles.file.response);
+
+    console.log("category stringify() : ", JSON.stringify(req.body.category));
+    
+
+    try {
+        await db.UserAsset.create({
+            UserId: req.user.id,            // foreinKey 는 앞글자가 대문자임 '아이디가 아닌 table 에서 auto_increment 한 id 사용 
+            src: req.body.upFiles.file.response[0],
+            dType: req.body.dataType,
+            category: JSON.stringify(req.body.category),
+            publicScope: req.body.publicScope,
+            keywords: JSON.stringify(req.body.keywordKey),
+        });
+
+        res.json("성공");
+    } catch (e) {
+        console.error(e)
+        next(e);
+    }
+})
+
 
 
 module.exports = router;

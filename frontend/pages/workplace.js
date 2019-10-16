@@ -1,60 +1,61 @@
-import React, { useState, useCallback } from 'react';
-import { Row, Col, Form, Select, Upload, Icon, Button, Cascader, Input } from 'antd';
+import React, { useRef } from 'react';
+import { Row, Col, Form, Select, Upload, Icon, Button, Cascader, Input, message } from 'antd';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
-import renderEmpty from 'antd/lib/config-provider/renderEmpty';
+import { useDispatch, useSelector, connect } from 'react-redux';
+import { UPLOAD_WORKPLACE_REQUEST } from '../reducers/user';
 
 let id = 0;
-
 //const Workplace = () => {
- const  category = [
+const  category = [
+    {
+        value: '인디밴드',
+        label: '인디밴드',
+        children: [
         {
-          value: '인디밴드',
-          label: '인디밴드',
-          children: [
+            value: 'Rock',
+            label: 'Rock',
+            children: [
             {
-              value: 'Rock',
-              label: 'Rock',
-              children: [
-                {
-                  value: 'Funk',
-                  label: 'Funk',
-                },
-              ],
+                value: 'Funk',
+                label: 'Funk',
             },
-          ],
+            ],
         },
+        ],
+    },
+    {
+        value: 'jiangsu',
+        label: 'Jiangsu',
+        children: [
         {
-          value: 'jiangsu',
-          label: 'Jiangsu',
-          children: [
+            value: 'nanjing',
+            label: 'Nanjing',
+            children: [
             {
-              value: 'nanjing',
-              label: 'Nanjing',
-              children: [
-                {
-                  value: 'zhonghuamen',
-                  label: 'Zhong Hua Men',
-                },
-              ],
+                value: 'zhonghuamen',
+                label: 'Zhong Hua Men',
             },
-          ],
+            ],
         },
-      ];
+        ],
+    },
+];
 
 class Workplace extends React.Component {
 
-
-    normFile = e => {
-        console.log('Upload event:', e);
-        if (Array.isArray(e)) {
-          return e;
-        }
-        return e && e.fileList;
-    };
-
-     
+    constructor(props) {
+        super(props);
+        //this.imageInputRef = React.createRef();
+    }
+    
+    // normFile = e => {
+    //     console.log('Upload event:', e);
+    //     if (Array.isArray(e)) {
+    //       return e;
+    //     }
+    //     return e && e.fileList;
+    // };
 
     onChangeCategory = (value, selectedOptions)  => {
         console.log(value, selectedOptions);
@@ -68,15 +69,15 @@ class Workplace extends React.Component {
     remove = k => {
         const { form } = this.props;
         // can use data-binding to get
-        const keys = form.getFieldValue('keys');
+        const keywordKey = form.getFieldValue('keywordKey');
         // We need at least one keyword
-        if (keys.length === 1) {
+        if (keywordKey.length === 1) {
             return;
         }
 
         // can use data-binding to set
         form.setFieldsValue({
-            keys: keys.filter(key => key !== k),
+            keywordKey: keywordKey.filter(key => key !== k),
         });
 
         id--;
@@ -88,19 +89,32 @@ class Workplace extends React.Component {
             return alert('최대 키워드 갯수는 5 까지 입니다.')
         }
         
-         const { form } = this.props;
+        const { form } = this.props;
         // can use data-binding to get
-        const keys = form.getFieldValue('keys');
-        const nextKeys = keys.concat(id++);
+        const keywordKey = form.getFieldValue('keywordKey');
+        const nextKeys = keywordKey.concat(id++);
         // can use data-binding to set
         // important! notify form to detect changes
         form.setFieldsValue({
-            keys: nextKeys,
+            keywordKey: nextKeys,
         });
     };
 
+    onSubmitForm = (e) => {
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+          if (!err) {
+            console.log('Received values of form: ', values);
+            //console.log()
+            this.props.upload(values);
+          }
+        });
+    };
+
+
     render() {
 
+        //const dispatch = useDispatch();
         const { Option } = Select;
         //console.log("this.props.form : ", this.props.form)
         //const { getFieldDecorator, getFieldValue } = this.props;
@@ -124,19 +138,18 @@ class Workplace extends React.Component {
             },
         };
 
-        form.getFieldDecorator('keys', { initialValue: [] });
+        form.getFieldDecorator('keywordKey', { initialValue: [] });
+        const keywordKey = form.getFieldValue('keywordKey');
+        //console.log("keys : ", keys);
 
-        const keys = form.getFieldValue('keys');
-        console.log("keys : ", keys);
-
-        const formItems = keys.map((k, index) => (
+        const formItems = keywordKey.map((k, index) => (
             <Form.Item
                 {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
                 label={index === 0 ? '키워드' : ''}
                 required={false}
                 key={k}
             >
-                {form.getFieldDecorator(`names[${k}]`, {
+                {form.getFieldDecorator(`keyword[${k}]`, {
                 validateTrigger: ['onChange', 'onBlur'],
                 rules: [
                     {
@@ -146,7 +159,7 @@ class Workplace extends React.Component {
                     },
                 ],
                 })(<Input placeholder="검색 키워드" style={{ width: '60%', marginRight: 8 }} />)}
-                {keys.length > 1 ? (
+                {keywordKey.length > 1 ? (
                 <Icon
                     className="dynamic-delete-button"
                     type="minus-circle-o"
@@ -156,41 +169,77 @@ class Workplace extends React.Component {
             </Form.Item>
         ));
 
-    
+        const upFilesProps = {
+            name: 'upFiles',
+            multiple: true,
+            action: 'http://localhost:3065/api/user/uploadWorkplaceUpfile/',
+            onChange(info) {
+              const { status } = info.file;
+              if (status !== 'uploading') {
+                console.log(info.file, info.fileList);
+              }
+              if (status === 'done') {
+                console.log("info : ", info)
+                console.log("info.file.response[0] : ", info.file.response[0])
+                message.success(`${info.file.name} file uploaded successfully.`);
+
+                // form.getFieldDecorator(`upFileListSync[${info.file.response[0]}]`);
+                // const upFileListSync = form.getFieldValue('upFileListSync');
+                // console.log("mmm : ", upFileListSync);
+                // console.log("all Values : ", form.getFieldsValue());
+
+              } else if (status === 'error') {
+                message.error(`${info.file.name} file upload failed.`);
+              }
+            },
+        }
 
         return (
             
-            <Form lable="자료등록">
-            <Form.Item label="형식" >
-                    <Select defaultValue="movie">
+            <Form lable="자료등록" onSubmit={this.onSubmitForm} >
+                <Form.Item label="형식" >
+                    {form.getFieldDecorator('dataType', {
+                        rules: [{ required: true, message: 'Please select Data Type!' }],
+                    })(
+                        <Select
+                        placeholder="등록하려는 파일의 형식을 선택하세요"
+                        >
                         <Option value="movie">동영상</Option>
                         <Option value="image">그림</Option>
                         <Option value="picture">사진</Option>
                         <Option value="sound">사운드</Option>
                         <Option value="text">텍스트</Option>
-                    </Select>
+                        </Select>,
+                    )}
                 </Form.Item>
                 <Form.Item label="권한" >
-                    <Select defaultValue="onlyMe">
+                    {form.getFieldDecorator('publicScope', {
+                        rules: [{ required: true, message: 'Please select Public Scope!' }],
+                    })(
+                        <Select
+                        placeholder="등록하려는 파일의 공개범위를 선택하세요"
+                        >
                         <Option value="onlyMe">나만</Option>
                         <Option value="anyone">누구나</Option>
                         <Option value="freind">친구만</Option>
                         <Option value="requested">요청건만</Option>
-                    </Select>
+                        </Select>
+                    )}
                 </Form.Item>
-                <Form.Item label="Dragger">
-                    {/* {getFieldDecorator('dragger', {
-                        valuePropName: 'fileList',
-                        getValueFromEvent: normFile,
-                    })( */}
-                        <Upload.Dragger name="files" action="/upload.do">
+                <Form.Item label="upFiles">
+                    {form.getFieldDecorator('upFiles', {
+                        rules: [{ required: true, message: 'Please upload data!' }],
+                        valuePropName: 'upFiles',
+                        //getValueFromEvent: this.normFile,
+                    })(
+                        <Upload.Dragger {...upFilesProps}>
                         <p className="ant-upload-drag-icon">
                             <Icon type="inbox" />
                         </p>
                         <p className="ant-upload-text">Click or drag file to this area to upload</p>
                         <p className="ant-upload-hint">Support for a single or bulk upload.</p>
                         </Upload.Dragger>
-                    {/* )} */}
+                    )}
                 </Form.Item>
                 <Form.Item label="카테고리">
                     {form.getFieldDecorator('category', {
@@ -239,5 +288,11 @@ class Workplace extends React.Component {
 //     padding: 5px 0;
 //   }
   
+const mapDispatchToProps = (dispatch, ownProps) => {
+    console.log("ownProps in mapDispatchToProps : ", ownProps);
+    return {
+        upload: formData => dispatch({type: UPLOAD_WORKPLACE_REQUEST, data: formData })
+    }
+}
 
-export default Form.create({name: 'keys' })(Workplace);
+export default connect(null,mapDispatchToProps)(Form.create({name: 'workplaceForm' })(Workplace));

@@ -16,7 +16,8 @@ import { LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE,
     EDIT_PAST_CAREER_REQUEST, EDIT_PAST_CAREER_SUCCESS, EDIT_PAST_CAREER_FAILURE,
     LOAD_SELFINTRODUCTION_REQUEST, LOAD_SELFINTRODUCTION_SUCCESS, LOAD_SELFINTRODUCTION_FAILURE,
     EDIT_SELFINTRODUCTION_REQUEST, EDIT_SELFINTRODUCTION_SUCCESS, EDIT_SELFINTRODUCTION_FAILURE,
-} from '../reducers/user'
+    UPLOAD_WORKPLACE_REQUEST, UPLOAD_WORKPLACE_SUCCESS, UPLOAD_WORKPLACE_FAILURE,
+} from '../reducers/user';
 import axios from 'axios';
 // const HELLO_SAGA = 'HELLO_SAGA';
 
@@ -523,6 +524,36 @@ function* watchEditSelfIntroduction() {
     yield takeLatest(EDIT_SELFINTRODUCTION_REQUEST, editSelfIntroduction);
 }
 
+function uploadWorkplaceAPI(formData) {
+    
+    // {currentCareer}   =>  currentCareer : 입력값
+    // currentCareer     =>  '입력값' : '' 
+    return axios.put( `/user/uploadWorkplace`, {...formData}, {
+        withCredentials: true,          // 이걸 넣어줘야 backend 쪽에서 req.user  사용가능
+    });
+}
+
+function* uploadWorkplace(action) {
+    try {
+        console.log('action.data : ', action.data)
+        const result = yield call(uploadWorkplaceAPI, action.data);
+        console.log(" chk result.data in Past : ", result.data)
+        yield put( {            // put 은 dispatch 와 동일
+            type: UPLOAD_WORKPLACE_SUCCESS,
+            data: result.data,
+        });
+    } catch (e) {
+        console.error(e);
+        yield put( {
+            type: UPLOAD_WORKPLACE_FAILURE,
+            error: e,
+        });
+    }
+}
+
+function* watchUploadWorkpalce() {
+    yield takeLatest(UPLOAD_WORKPLACE_REQUEST, uploadWorkplace);
+}
 
 export default function* userSaga() {
     yield all([
@@ -543,6 +574,7 @@ export default function* userSaga() {
         fork(watchEditPastCareer),
         fork(watchLoadSelfIntroduction),
         fork(watchEditSelfIntroduction),
+        fork(watchUploadWorkpalce),
 
         // call()   // 동기 호출
         // fork()   // 비동기 호출
