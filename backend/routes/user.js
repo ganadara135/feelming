@@ -420,13 +420,23 @@ router.post('/uploadWorkplaceUpfile', upload.array('upFiles'), (req, res) => {
 
 router.put('/uploadWorkplace', async (req, res, next) => {  // put /api/user
 
+    var regex = /[\[\]]/g;
+
     console.log("파일 업로드 결과 확인")
     console.log("req.user.id : ", req.user.id);
     //console.log("req.body.upFiles : ", req.body.upFiles);
     //console.log("req.body.upFiles.file.originFileObj : ", req.body.upFiles.file);
     console.log("req.body.upFiles.file.response : ", req.body.upFiles.file.response);
+    console.log("req.body.keywords : ", req.body.keywords)
+    
+    //const convertCategory = req.body.category
+    console.log("category stringify() : ", JSON.stringify(req.body.keywords));
+    console.log("category stringify() : ", JSON.stringify(req.body.keywords).replace(regex,""));
 
-    console.log("category stringify() : ", JSON.stringify(req.body.category));
+   
+    // var match = /[\[\]]/g.exec(JSON.stringify(req.body.category))
+    // console.log("match : ", match);
+    
     
 
     try {
@@ -434,9 +444,9 @@ router.put('/uploadWorkplace', async (req, res, next) => {  // put /api/user
             UserId: req.user.id,            // foreinKey 는 앞글자가 대문자임 '아이디가 아닌 table 에서 auto_increment 한 id 사용 
             src: req.body.upFiles.file.response[0],
             dType: req.body.dataType,
-            category: JSON.stringify(req.body.category),
+            category: JSON.stringify(req.body.category).replace(regex,""),
             publicScope: req.body.publicScope,
-            keywords: JSON.stringify(req.body.keywordKey),
+            keywords: JSON.stringify(req.body.keywords).replace(regex,""),
         });
 
         res.json("성공");

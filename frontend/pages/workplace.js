@@ -149,7 +149,7 @@ class Workplace extends React.Component {
                 required={false}
                 key={k}
             >
-                {form.getFieldDecorator(`keyword[${k}]`, {
+                {form.getFieldDecorator(`keywords[${k}]`, {
                 validateTrigger: ['onChange', 'onBlur'],
                 rules: [
                     {
