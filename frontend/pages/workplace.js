@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { useDispatch, useSelector, connect } from 'react-redux';
 import { UPLOAD_WORKPLACE_REQUEST } from '../reducers/user';
 
-let id = 0;
+
 //const Workplace = () => {
 const  category = [
     {
@@ -47,6 +47,10 @@ class Workplace extends React.Component {
     constructor(props) {
         super(props);
         //this.imageInputRef = React.createRef();
+    //    let id = 0;
+        this.state = {
+            keyCount : 0,         // 키워드 카운트 하는 변수 값
+        }
     }
     
     // normFile = e => {
@@ -80,19 +84,19 @@ class Workplace extends React.Component {
             keywordKey: keywordKey.filter(key => key !== k),
         });
 
-        id--;
+        this.state.keyCount--;
     };
 
     add = () => {
 
-        if(id >= 5){
+        if(this.state.keyCount >= 5){
             return alert('최대 키워드 갯수는 5 까지 입니다.')
         }
         
         const { form } = this.props;
         // can use data-binding to get
         const keywordKey = form.getFieldValue('keywordKey');
-        const nextKeys = keywordKey.concat(id++);
+        const nextKeys = keywordKey.concat(this.state.keyCount++);
         // can use data-binding to set
         // important! notify form to detect changes
         form.setFieldsValue({
