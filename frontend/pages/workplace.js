@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Row, Col, Form, Select, Upload, Icon, Button, Cascader, Input, message } from 'antd';
+import { Form, Select, Upload, Icon, Button, Cascader, Input, message } from 'antd';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useDispatch, useSelector, connect } from 'react-redux';
@@ -142,40 +142,44 @@ class Workplace extends React.Component {
             },
         };
 
-        form.getFieldDecorator('keywordKey', { initialValue: [] });
+        form.getFieldDecorator('keywordKey', { initialValue: [] })
+
         const keywordKey = form.getFieldValue('keywordKey');
         //console.log("keys : ", keys);
+        // {form.getFieldDecorator('SellRight', {
+        //     rules: [{ required: false, message: 'Please input sellRight of this content!' }],
+        // })(<Input />)}
 
-        const formItems = keywordKey.map((k, index) => (
-            <Form.Item
-                {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-                label={index === 0 ? '키워드' : ''}
-                required={false}
-                key={k}
-            >
-                {form.getFieldDecorator(`keywords[${k}]`, {
-                validateTrigger: ['onChange', 'onBlur'],
-                rules: [
-                    {
-                    required: true,
-                    whitespace: true,
-                    message: "Please input keywords or delete this field.",
-                    },
-                ],
-                })(<Input placeholder="검색 키워드" style={{ width: '60%', marginRight: 8 }} />)}
-                {keywordKey.length > 1 ? (
-                <Icon
-                    className="dynamic-delete-button"
-                    type="minus-circle-o"
-                    onClick={() => this.remove(k)}
-                />
-                ) : null}
-            </Form.Item>
-        ));
+            const formItems = keywordKey.map((k, index) => (
+                <Form.Item
+                    {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
+                    label={index === 0 ? '키워드' : ''}
+                    required={true}
+                    key={k}
+                >
+                    {form.getFieldDecorator(`keywords[${k}]`, {
+                    validateTrigger: ['onChange', 'onBlur'],
+                    rules: [
+                        {
+                        required: true,
+                        whitespace: true,
+                        message: "Please input keywords or delete this field.",
+                        },
+                    ],
+                    })(<Input placeholder="검색 키워드" style={{ width: '60%', marginRight: 8 }} />)}
+                    {keywordKey.length > 1 ? (
+                    <Icon
+                        className="dynamic-delete-button"
+                        type="minus-circle-o"
+                        onClick={() => this.remove(k)}
+                    />
+                    ) : null}
+                </Form.Item>
+            ));
 
         const upFilesProps = {
             name: 'upFiles',
-            multiple: true,
+            multiple: false,
             action: 'http://localhost:3065/api/user/uploadWorkplaceUpfile/',
             onChange(info) {
               const { status } = info.file;
@@ -267,9 +271,16 @@ class Workplace extends React.Component {
                         <Icon type="plus" /> Add keywords
                     </Button>
                 </Form.Item>
-        
-
-
+                <Form.Item label="CopyRight">
+                    {form.getFieldDecorator('copyRight', {
+                        rules: [{ required: true, message: 'Please input copyRight of this content!' }],
+                    })(<Input />)}
+                </Form.Item>
+                <Form.Item label="SellRight">
+                    {form.getFieldDecorator('SellRight', {
+                        rules: [{ required: false, message: 'Please input sellRight of this content!' }],
+                    })(<Input />)}
+                </Form.Item>
 
                 <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
                     <Button type="primary" htmlType="submit">

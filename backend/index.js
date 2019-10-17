@@ -35,7 +35,7 @@ app.use(expressSesion( {
     saveUninitialized: false,   // 빈 값도 저장
     secret: process.env.COOKIE_SECRET,     // 세션 암호화
     cookie: {
-        httpOnly: true,         // 쿠키 접근 차잔
+        httpOnly: true,         // 쿠키 접근 차단
         secure: false,          // https 를 사용할 때 true  
     },
     name: 'ThisIsNotCookie',     // 세션이름, 나중에 쿠키값인줄 모르게 이름 변경 필요, 

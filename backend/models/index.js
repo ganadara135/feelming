@@ -11,8 +11,8 @@ const  sequelize = new Sequelize(config.database, config.username, config.passwo
 
 // 테이블 선언
 db.Comment = require('./comment')(sequelize, Sequelize);
-db.Hashtag = require('./hashtag')(sequelize, Sequelize);
-db.Image = require('./image')(sequelize, Sequelize);
+db.KeywordTag = require('./keywordTag')(sequelize, Sequelize);
+// db.Image = require('./image')(sequelize, Sequelize);
 db.Post = require('./post')(sequelize, Sequelize);
 db.User = require('./user')(sequelize, Sequelize);
 db.UserAsset = require('./userAsset')(sequelize, Sequelize);

@@ -1,13 +1,13 @@
 module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define('User', {     // 테이블명은 users 로 복수형으로 변경됨
-        nickname: {
-            type: DataTypes.STRING(20),
-            allowNull: false
-        },
         userId: {
             type: DataTypes.STRING(20),
             allowNull: false,
             unique: true
+        },
+        nickname: {
+            type: DataTypes.STRING(20),
+            allowNull: false
         },
         password: {
             type: DataTypes.STRING(100),
@@ -31,6 +31,8 @@ module.exports = (sequelize, DataTypes) => {
         // 자가 호출 M : M 관계는 아래와 같이 2번에 걸쳐서 적는다.
         db.User.belongsToMany(db.User, { through: 'Follow', as: 'Followers', foreignKey: 'followingId'});
         db.User.belongsToMany(db.User, { through: 'Follow', as: 'Followings', foreignKey: 'followerId'});
+
+        db.User.hasMany(db.UserAsset);
     }
 
     return User;

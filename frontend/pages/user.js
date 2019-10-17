@@ -8,7 +8,7 @@ import { Avatar, Card } from 'antd';
 
 const User = ( { id } ) => {
   
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const {mainPosts } = useSelector( state => state.post );
     const {userInfo } = useSelector( state => state.user );
 

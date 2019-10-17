@@ -36,8 +36,8 @@ function* logIn(action) {
         // yield fork(logger);    // 로그 기록하는 기능 예제
         // yield call(loginAPI);       // call 동기 호출
         //yield delay( 2000);
-        console.log("before logInAPI() in Saga")
         const result = yield call(logInAPI, action.data);
+        //console.log("logIn result.data : ", result.data);
         yield put( {            // put 은 dispatch 와 동일
             type: LOG_IN_SUCCESS,
             data: result.data,
@@ -73,7 +73,7 @@ function* signUp(action) {
         //yield delay(2000);
         const result = yield call(signUpAPI, action.data);
         //throw new Error('에러 발생');
-        console.log("result : ", result);
+        //console.log("result.data : ", result.data);
         yield put( {            // put 은 dispatch 와 동일
             type: SIGN_UP_SUCCESS,
             data: result.data,

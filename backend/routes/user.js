@@ -34,7 +34,8 @@ router.post('/', async (req, res, next) => {        // 회원가입
             userId: req.body.userId,
             password: hashedPassword,
         });
-        console.log(newUser);
+
+        delete newUser.password;
         return res.status(200).json(newUser);
 
     } catch (e) {
@@ -99,13 +100,13 @@ router.post('/login', (req, res, next) => { // POST /api/user/login
             include: [{
               model: db.Post,
               as: 'Posts',
-              attributes: ['id'],
+              attributes: ['id'],       // 등록된 컨텐츠 정보
             }, {
-              model: db.User,
+              model: db.User,           // 팔로윙 정보
               as: 'Followings',
               attributes: ['id'],
             }, {
-              model: db.User,
+              model: db.User,           // 팔로워 정보
               as: 'Followers',
               attributes: ['id'],
             }],
@@ -243,11 +244,30 @@ router.patch('/nickname', async (req, res, next ) => {
 })
 
 
-//  프로필 이미지 저장하는 부분
+//  사용자가 업로드하는 파일 저장하는 부분
 var upload = multer( {
     storage: multer.diskStorage( {
         destination(req, file, done) {      // 파일 저장 위치
             done(null, 'uploads');  // uplaods 는 파일을 저장할 서버측 폴더명, 
+        },
+        filename(req, file, done) {           // 파일명
+            const ext = path.extname(file.originalname);
+            const basename = path.basename(file.originalname, ext); //제로초.png  ext===.png,  basename===제로초
+            done(null, basename + new Date().valueOf() + ext );
+        },
+        // onError : function(err, next) {
+        //     console.log("file upload err : ", err);
+        //     next(err);
+        // }
+    }),
+    limits: { fileSize: 20 * 1024 * 1024 },
+});
+
+//  사용자의 프로필 파일 저장하는 부분
+var uploadProfile = multer( {
+    storage: multer.diskStorage( {
+        destination(req, file, done) {      // 파일 저장 위치
+            done(null, 'uploads/profile/');  // uplaods 는 파일을 저장할 서버측 폴더명, 
         },
         filename(req, file, done) {           // 파일명
             const ext = path.extname(file.originalname);
@@ -268,14 +288,14 @@ var upload = multer( {
 //     res.json(req.files.map( v => v.filename));
 // });
 
-router.put('/:id/profileImg', upload.array('image',1), async (req, res, next) => {  // POST /api/user
+router.put('/:id/profileImg', uploadProfile.array('image',1), async (req, res, next) => {  // POST /api/user
 
     try {
          await db.UserAsset.create({
             UserId: req.params.id,            // foreinKey 는 앞글자가 대문자임 
             src: req.files[0].filename,
-            dType: req.files[0].mimetype,
-            description: req.files[0].originalname,
+            dataType: req.files[0].mimetype,
+            // description: req.files[0].originalname,
          });
 
         //  console.log("req.body : ",req.body)

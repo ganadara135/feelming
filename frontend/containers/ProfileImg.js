@@ -27,13 +27,10 @@ const ProfileImg = () => {
              type: UPLOAD_PROFILE_IMAGES_REQUEST,
              data: imageFormData,
              userId: me.id,
-            //  whatType: "image",              // body 에서 처리 안됨(multer)
-            //  description: "사용자 프로필 이미지",
          });
     }, []);
 
     const onClickImageUpload = useCallback( () => {
-       // console.log("imageInput.current : ", imageInput.current);
         imageInput.current.click();
     }, [imageInput.current]);
     
@@ -46,7 +43,15 @@ const ProfileImg = () => {
       
     return (   
         <div>
-        <Carousel afterChange={onChangeCarousel}  style={{ width: 240, padding: 10 }} >      
+            {profileImg.filter((v,i) => i === which).map( (v, i) => (
+                <div key={v} style={{ display: 'inline-block'}}>
+                    <div>
+                        <Button onClick={onRemoveImage(i)}>제거</Button>
+                    </div>
+                    <img src={`http://localhost:3065/profile/${v}` } style={{ width: '200px' }} alt={v} />
+                </div> 
+            ))}
+        <Carousel afterChange={onChangeCarousel}  style={{ width: 240, height: 73, padding: 20 }} >      
             <div>
                 <input type="file" multiple hidden ref={imageInput} onChange={onChangeImages} />
                 <Button onClick={onClickImageUpload}> 
@@ -67,14 +72,7 @@ const ProfileImg = () => {
             </div>
         </Carousel>
         {profileImgErrorReason && <div> {profileImgErrorReason} </div>   }
-        {profileImg.filter((v,i) => i === which).map( (v, i) => (
-           <div key={v} style={{ display: 'inline-block'}}>
-                <img src={`http://localhost:3065/${v}` } style={{ width: '200px' }} alt={v} />
-                <div>
-                    <Button onClick={onRemoveImage(i)}>제거</Button>
-                </div>
-           </div> 
-        ))}
+        
         </div>
     );
 }
