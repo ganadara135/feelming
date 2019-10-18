@@ -37,13 +37,14 @@ function* logIn(action) {
         // yield call(loginAPI);       // call 동기 호출
         //yield delay( 2000);
         const result = yield call(logInAPI, action.data);
-        //console.log("logIn result.data : ", result.data);
+        console.log("logIn result.data : ", result.data);
         yield put( {            // put 은 dispatch 와 동일
             type: LOG_IN_SUCCESS,
             data: result.data,
         });
     } catch (e) {
         console.error(e);
+
         yield put( {
             type: LOG_IN_FAILURE,
             reason: e.response && e.response.data,
@@ -73,15 +74,17 @@ function* signUp(action) {
         //yield delay(2000);
         const result = yield call(signUpAPI, action.data);
         //throw new Error('에러 발생');
-        //console.log("result.data : ", result.data);
+        console.log("result.data : ", result.data);
         yield put( {            // put 은 dispatch 와 동일
             type: SIGN_UP_SUCCESS,
             data: result.data,
         });
     } catch (e) {
         console.error(e);
+        console.log("my e : ", e.response)
         yield put( {
             type: SIGN_UP_FAILURE,
+            error: e.response && e.response.data,
         });
     }
 }

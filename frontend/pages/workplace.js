@@ -179,7 +179,7 @@ class Workplace extends React.Component {
 
         const upFilesProps = {
             name: 'upFiles',
-            multiple: false,
+            multiple: false,        // 1개의 파일 입력만 허용
             action: 'http://localhost:3065/api/user/uploadWorkplaceUpfile/',
             onChange(info) {
               const { status } = info.file;

@@ -53,6 +53,15 @@ router.get('/:id', async (req, res, next) => {  // 남의 정보 가져오는 �
                 model: db.Post,
                 as: 'Posts',
                 attributes: ['id'],
+
+                // model: db.UserAsset,
+                // // as: 'Posts',
+                // attributes: ['id', 'PostId'],
+                // incldue: [{
+                //   model: db.Post,
+                //   attributes: ['id'],
+                //   where: {id: PostId}  
+                // }],
             }, {
                 model: db.User,
                 as: 'Followings',
@@ -61,7 +70,8 @@ router.get('/:id', async (req, res, next) => {  // 남의 정보 가져오는 �
                 model: db.User,
                 as: 'Followers',
                 attributes: ['id'],
-            }],
+            },
+        ],
             attributes: ['id', 'nickname'],
         });
         const jsonUser = user.toJSON();
@@ -95,13 +105,15 @@ router.post('/login', (req, res, next) => { // POST /api/user/login
           if (loginErr) {
             return next(loginErr);
           }
+          
           const fullUser = await db.User.findOne({
+            attributes: ['id', 'nickname', 'userId'],
             where: { id: user.id },
             include: [{
-              model: db.Post,
-              as: 'Posts',
-              attributes: ['id'],       // 등록된 컨텐츠 정보
-            }, {
+                model: db.Post,           // 등록된 컨텐츠 정보
+                as: 'Posts',        
+                attributes: ['id','UserId'],       
+            },{
               model: db.User,           // 팔로윙 정보
               as: 'Followings',
               attributes: ['id'],
@@ -109,10 +121,15 @@ router.post('/login', (req, res, next) => { // POST /api/user/login
               model: db.User,           // 팔로워 정보
               as: 'Followers',
               attributes: ['id'],
-            }],
-            attributes: ['id', 'nickname', 'userId'],
-          });
-          // console.log(fullUser);
+            }]
+        
+// SELECT `User`.`id`, `User`.`nickname`, `User`.`userId`, `Posts`.`id` AS `Posts.id`, `Posts`.`UserId` AS `Posts.UserId`,
+// `Followings`.`id` AS `Followings.id`, `Followings->Follow`.`createdAt` AS `Followings.Follow.createdAt`, `Followings->Follow`.`updatedAt` AS `Followings.Follow.updatedAt`, `Followings->Follow`.`followingId` AS `Followings.Follow.followingId`, `Followings->Follow`.`followerId` AS `Followings.Follow.followerId`, `Followers`.`id` AS `Followers.id`, `Followers->Follow`.`createdAt` AS `Followers.Follow.createdAt`, `Followers->Follow`.`updatedAt` AS `Followers.Follow.updatedAt`, `Followers->Follow`.`followingId` AS `Followers.Follow.followingId`, `Followers->Follow`.`followerId` AS `Followers.Follow.followerId` 
+// FROM `User` AS `User` LEFT OUTER JOIN `Post` AS `Posts` ON `User`.`id` = `Posts`.`UserId` LEFT OUTER JOIN ( `Follow` AS `Followings->Follow` INNER JOIN `User` AS `Followings` ON `Followings`.`id` = `Followings->Follow`.`followingId`) ON `User`.`id` = `Followings->Follow`.`followerId` LEFT OUTER JOIN ( `Follow` AS `Followers->Follow` INNER JOIN `User` AS `Followers` ON `Followers`.`id` = `Followers->Follow`.`followerId`) ON `User`.`id` = `Followers->Follow`.`followingId` 
+// WHERE `User`.`id` = 1              
+
+          })
+          console.log(fullUser);
           return res.json(fullUser);
         } catch (e) {
           next(e);
@@ -120,6 +137,14 @@ router.post('/login', (req, res, next) => { // POST /api/user/login
       });
     })(req, res, next);
 });
+
+// SELECT `User`.`id`, `User`.`nickname`, `User`.`userId`, `UserAssets`.`id` AS `UserAssets.id`, `Followings`.`id` AS `Followings.id`, `Followings->Follow`.`createdAt` AS `Followings.Follow.createdAt`, `Followings->Follow`.`updatedAt` AS `Followings.Follow.updatedAt`, `Followings->Follow`.`followingId` AS `Followings.Follow.followingId`, `Followings->Follow`.`followerId` AS `Followings.Follow.followerId`, `Followers`.`id` AS `Followers.id`, `Followers->Follow`.`createdAt` AS `Followers.Follow.createdAt`, `Followers->Follow`.`updatedAt` AS `Followers.Follow.updatedAt`, `Followers->Follow`.`followingId` AS `Followers.Follow.followingId`, `Followers->Follow`.`followerId` AS `Followers.Follow.followerId` 
+// FROM `User` AS `User` LEFT OUTER JOIN `UserAsset` AS `UserAssets` ON `User`.`id` = `UserAssets`.`UserId` 
+// LEFT OUTER JOIN ( `Follow` AS `Followings->Follow` INNER JOIN `User` AS `Followings` ON `Followings`.`id` = `Followings->Follow`.`followingId`) 
+// ON `User`.`id` = `Followings->Follow`.`followerId` 
+// LEFT OUTER JOIN ( `Follow` AS `Followers->Follow` INNER JOIN `User` AS `Followers` ON `Followers`.`id` = `Followers->Follow`.`followerId`) 
+// ON `User`.`id` = `Followers->Follow`.`followingId` WHERE `User`.`id` = 1;
+
 
 router.post('/:id/follow', isLoggedIn, async (req, res, next ) => {
     try {
@@ -310,29 +335,28 @@ router.put('/:id/profileImg', uploadProfile.array('image',1), async (req, res, n
 
 
 router.get('/:id/profileImg', isLoggedIn, async (req, res, next) => {  // GET /api/user
-       
-        try {
-            const userAssetResult = await db.UserAsset.findAll({
-                //req.params.id  가  0 이면 req.user.id 로 처리
-                where: { UserId: parseInt(req.params.id, 10) },
-                order: [['createdAt', 'DESC'], ],
-                limit: 3,
-            })
+    try {
+        const userAssetResult = await db.UserAsset.findAll({
+            //req.params.id  가  0 이면 req.user.id 로 처리
+            where: { UserId: parseInt(req.params.id, 10) },
+            order: [['createdAt', 'DESC'], ],
+            limit: 3,
+        })
 
-            // console.log(" userAssetResult : ", userAssetResult);
-            // console.log(" userAssetResult : ", userAssetResult.map( v => v.src))
-    
-            
-            if(!userAssetResult){       // userAssetResult === nulll
-                res.json({error : "Not matching result"})
-            }else {
-                res.json(userAssetResult.map( v => v.src));
-            }
-    
-        } catch (e) {
-            console.error(e);
-            next(e);
-        };
+        // console.log(" userAssetResult : ", userAssetResult);
+        // console.log(" userAssetResult : ", userAssetResult.map( v => v.src))
+
+        
+        if(!userAssetResult){       // userAssetResult === nulll
+            res.json({error : "Not matching result"})
+        }else {
+            res.json(userAssetResult.map( v => v.src));
+        }
+
+    } catch (e) {
+        console.error(e);
+        next(e);
+    };
 });
 
 

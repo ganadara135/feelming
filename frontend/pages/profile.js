@@ -11,7 +11,7 @@ import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST, UNFOLLOW_USER_REQUEST,
     REMOVE_FOLLOWER_REQUEST, LOAD_PROFILE_IMAGE_REQUEST, LOAD_PROFILE_CAREER_REQUEST,
     LOAD_SELFINTRODUCTION_REQUEST } from '../reducers/user';
 import { LOAD_USER_POSTS_REQUEST } from '../reducers/post';
- 
+
 
 const Profile = () => {
     const dispatch = useDispatch();
@@ -53,9 +53,9 @@ const Profile = () => {
     return (
     <div>
         {me && <ProfileImg /> }
-        {/* {me && <NicknameEditForm /> }
+        {me && <NicknameEditForm /> }
         {me && <SelfIntroductionEditForm /> }
-         */}
+        
         {/* <FollowList
             header="팔로잉 목록"
             hasMore={hasMoreFollowing}
@@ -83,31 +83,31 @@ Profile.getInitialProps = async (context) => {
     const state = context.store.getState();
     // 이 직전에 LOAD_USERS_REQUEST  가 완료돼야함
     // 따라서 me = null 이면 나로 인식하게 아래 reducer 를 처리하다
-    // if(state.user.me) {
-    //     context.store.dispatch({
-    //         type: LOAD_FOLLOWERS_REQUEST,
-    //         data: state.user.me && state.user.me.id,
-    //     });
-    //     context.store.dispatch({
-    //         type: LOAD_FOLLOWINGS_REQUEST,
-    //         data: state.user.me && state.user.me.id,
-    //     });
-    //     context.store.dispatch({
-    //         type: LOAD_USER_POSTS_REQUEST,
-    //         data: state.user.me && state.user.me.id,
-    //     });
-    //     context.store.dispatch({
-    //         type: LOAD_PROFILE_IMAGE_REQUEST,
-    //         data: state.user.me && state.user.me.id,
-    //     });
-    //     context.store.dispatch({
-    //         type: LOAD_PROFILE_CAREER_REQUEST,
-    //         data: state.user.me && state.user.me.id,
-    //     });
-    //     context.store.dispatch({
-    //         type: LOAD_SELFINTRODUCTION_REQUEST,
-    //         data: state.user.me && state.user.me.id,
-    //     });
-    // }  
+    if(state.user.me) {
+        context.store.dispatch({
+            type: LOAD_FOLLOWERS_REQUEST,
+            data: state.user.me && state.user.me.id,
+        });
+        context.store.dispatch({
+            type: LOAD_FOLLOWINGS_REQUEST,
+            data: state.user.me && state.user.me.id,
+        });
+        context.store.dispatch({
+            type: LOAD_USER_POSTS_REQUEST,
+            data: state.user.me && state.user.me.id,
+        });
+        context.store.dispatch({
+            type: LOAD_PROFILE_IMAGE_REQUEST,
+            data: state.user.me && state.user.me.id,
+        });
+        context.store.dispatch({
+            type: LOAD_PROFILE_CAREER_REQUEST,
+            data: state.user.me && state.user.me.id,
+        });
+        context.store.dispatch({
+            type: LOAD_SELFINTRODUCTION_REQUEST,
+            data: state.user.me && state.user.me.id,
+        });
+    }
 }
 export default Profile;

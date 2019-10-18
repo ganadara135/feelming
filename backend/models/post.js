@@ -32,6 +32,7 @@ module.exports = (sequelize, DataTypes) => {
         db.Post.belongsToMany(db.User, { through: 'Like'});
 
         db.Post.hasMany(db.UserAsset);
+        db.Post.belongsTo(db.User);
     }
 
     return Post;
