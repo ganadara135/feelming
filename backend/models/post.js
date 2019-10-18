@@ -1,9 +1,9 @@
 module.exports = (sequelize, DataTypes) => {
     const Post = sequelize.define('Post', {
-        content: {
-            type: DataTypes.TEXT,       // 매우 긴 글
-            allowNull: false,
-        },
+        // content: {
+        //     type: DataTypes.TEXT,       // 매우 긴 글
+        //     allowNull: false,
+        // },
         description: {
             type: DataTypes.STRING(225),
             allowNull: true,
@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
         db.Post.belongsToMany(db.User, { through: 'Like'});
 
         db.Post.hasMany(db.UserAsset);
-        db.Post.belongsTo(db.User);
+        db.Post.belongsToMany(db.User);
     }
 
     return Post;

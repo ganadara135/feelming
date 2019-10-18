@@ -458,7 +458,7 @@ router.patch('/selfIntroduction', async (req, res, next ) => {
 
 // uplaod.array() 는 미들웨어, image 는 전달해 주는 곳의 명칭과 같게
 router.post('/uploadWorkplaceUpfile', upload.array('upFiles'), (req, res) => {
-    console.log("req.files : ", req.files);
+//    console.log("req.files : ", req.files);
     res.json(req.files.map( v => v.filename));
 });
 
@@ -480,21 +480,51 @@ router.put('/uploadWorkplace', async (req, res, next) => {  // put /api/user
    
     // var match = /[\[\]]/g.exec(JSON.stringify(req.body.category))
     // console.log("match : ", match);
-    
-    
-
+    let transaction;
+    const keywordList = req.body.keywords;
     try {
+        transaction = await db.sequelize.transaction();
+        const resultKeywordTag = await Promise.all(keywordList.map(tag =>  
+            console.log('tag : ', tag) || db.KeywordTag.findOrCreate({
+            where: { keywords: tag.toLowerCase() },
+        })));
+
+        console.log("resultKeywordTag.length : ", resultKeywordTag.length);
+
         await db.UserAsset.create({
             UserId: req.user.id,            // foreinKey 는 앞글자가 대문자임 '아이디가 아닌 table 에서 auto_increment 한 id 사용 
             src: req.body.upFiles.file.response[0],
-            dType: req.body.dataType,
+            dataType: req.body.dataType,
+        });
+        
+        const resultPost = await db.Post.create({
             category: JSON.stringify(req.body.category).replace(regex,""),
             publicScope: req.body.publicScope,
-            keywords: JSON.stringify(req.body.keywords).replace(regex,""),
-        });
+            // description: req.body.
+        })
+
+        console.log("resultPost : ", resultPost);
+
+
+        // const selfIntroResult = await db.KeywordTag.findAll({
+        //     where: { UserId: parseInt(req.params.id, 10) },
+        //     attributes: ['id', 'selfIntro'],
+        // })
+        // await db.KeywordTag.create({
+        //     keywords: JSON.stringify(req.body.keywords).replace(regex,""),
+        // })
+
+
+
+        
+        transaction.rollback();
+        //await transaction.commit();
 
         res.json("성공");
     } catch (e) {
+        if (transaction) 
+            transaction.rollback();
+
         console.error(e)
         next(e);
     }

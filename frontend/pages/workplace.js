@@ -182,6 +182,7 @@ class Workplace extends React.Component {
             multiple: false,        // 1개의 파일 입력만 허용
             action: 'http://localhost:3065/api/user/uploadWorkplaceUpfile/',
             onChange(info) {
+
               const { status } = info.file;
               if (status !== 'uploading') {
                 console.log(info.file, info.fileList);
