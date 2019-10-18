@@ -480,28 +480,33 @@ router.put('/uploadWorkplace', async (req, res, next) => {  // put /api/user
    
     // var match = /[\[\]]/g.exec(JSON.stringify(req.body.category))
     // console.log("match : ", match);
-    let transaction;
+   // let transaction;
     const keywordList = req.body.keywords;
+    
     try {
-        transaction = await db.sequelize.transaction();
+        
+                                //await Model.destroy({where: {id}}, {transaction});
+    //    transaction = await db.sequelize.transaction();
         const resultKeywordTag = await Promise.all(keywordList.map(tag =>  
-            console.log('tag : ', tag) || db.KeywordTag.findOrCreate({
-            where: { keywords: tag.toLowerCase() },
-        })));
+            db.KeywordTag.findOrCreate(
+                {where: {keyword: tag}})));
+
+           // prom2.push(db.user.findOrCreate({where: {username: 'fnord'}, defaults: {job: 'something else'}}, {transaction: t}));
 
         console.log("resultKeywordTag.length : ", resultKeywordTag.length);
+        console.log("resultKeywordTag : ", resultKeywordTag);
 
         await db.UserAsset.create({
             UserId: req.user.id,            // foreinKey 는 앞글자가 대문자임 '아이디가 아닌 table 에서 auto_increment 한 id 사용 
             src: req.body.upFiles.file.response[0],
             dataType: req.body.dataType,
-        });
+        }, );
         
         const resultPost = await db.Post.create({
             category: JSON.stringify(req.body.category).replace(regex,""),
             publicScope: req.body.publicScope,
             // description: req.body.
-        })
+        }, )
 
         console.log("resultPost : ", resultPost);
 
@@ -517,7 +522,7 @@ router.put('/uploadWorkplace', async (req, res, next) => {  // put /api/user
 
 
         
-        transaction.rollback();
+        //transaction.rollback();
         //await transaction.commit();
 
         res.json("성공");

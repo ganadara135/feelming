@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
 
     UserAsset.associate = (db) => {
         db.UserAsset.belongsTo(db.User);        // forienKey 는 앞글자가 대문자임 UserId 
-        db.UserAsset.belongsTo(db.Post, { as: 'UpperWhere'});
+        db.UserAsset.belongsTo(db.Post);
     }
 
     return UserAsset;

@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     const KeywordTag = sequelize.define('KeywordTag', {
-        keywords: {
+        keyword: {
             type: DataTypes.STRING(50),
             allowNull: false,
         },
