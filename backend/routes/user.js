@@ -466,70 +466,63 @@ router.put('/uploadWorkplace', async (req, res, next) => {  // put /api/user
 
     var regex = /[\[\]]/g;
 
-    console.log("파일 업로드 결과 확인")
-    console.log("req.user.id : ", req.user.id);
-    //console.log("req.body.upFiles : ", req.body.upFiles);
-    //console.log("req.body.upFiles.file.originFileObj : ", req.body.upFiles.file);
-    console.log("req.body.upFiles.file.response : ", req.body.upFiles.file.response);
-    console.log("req.body.keywords : ", req.body.keywords)
+     console.log("파일 업로드 결과 확인")
+     console.log("req.user.id : ", req.user.id);
+    // //console.log("req.body.upFiles : ", req.body.upFiles);
+    // //console.log("req.body.upFiles.file.originFileObj : ", req.body.upFiles.file);
+     console.log("req.body.upFiles.file.response : ", req.body.upFiles.file.response);
+     //console.log("req.body : ", req.body)
     
-    //const convertCategory = req.body.category
-    console.log("category stringify() : ", JSON.stringify(req.body.keywords));
-    console.log("category stringify() : ", JSON.stringify(req.body.keywords).replace(regex,""));
+    // //const convertCategory = req.body.category
+    // console.log("category stringify() : ", JSON.stringify(req.body.keywords));
+    // console.log("category stringify() : ", JSON.stringify(req.body.keywords).replace(regex,""));
 
-   
     // var match = /[\[\]]/g.exec(JSON.stringify(req.body.category))
     // console.log("match : ", match);
-   // let transaction;
+   
     const keywordList = req.body.keywords;
-    
+
     try {
+        let t = await db.sequelize.transaction({autocommit: true});
+        const resultTag = await Promise.all(keywordList.map(tag =>  
+            db.KeywordTag.findOrCreate({
+                transaction: t,
+                where: {keyword: tag},
+            })));
+        const arrKeywordTag = [];
+        resultTag.forEach( tag => {
+            console.log("boolean : ", tag[1])
+            console.log("id : ", tag[0]['dataValues'].id);
+            //console.log("id : ", tag[0]['dataValues']);
+            if(tag[1])
+                arrKeywordTag.push(tag[0]['dataValues'].id)
+        });
         
-                                //await Model.destroy({where: {id}}, {transaction});
-    //    transaction = await db.sequelize.transaction();
-        const resultKeywordTag = await Promise.all(keywordList.map(tag =>  
-            db.KeywordTag.findOrCreate(
-                {where: {keyword: tag}})));
-
-           // prom2.push(db.user.findOrCreate({where: {username: 'fnord'}, defaults: {job: 'something else'}}, {transaction: t}));
-
-        console.log("resultKeywordTag.length : ", resultKeywordTag.length);
-        console.log("resultKeywordTag : ", resultKeywordTag);
-
-        await db.UserAsset.create({
-            UserId: req.user.id,            // foreinKey 는 앞글자가 대문자임 '아이디가 아닌 table 에서 auto_increment 한 id 사용 
-            src: req.body.upFiles.file.response[0],
-            dataType: req.body.dataType,
-        }, );
-        
+        console.log("arrKeywordTag : ", arrKeywordTag)
         const resultPost = await db.Post.create({
             category: JSON.stringify(req.body.category).replace(regex,""),
             publicScope: req.body.publicScope,
-            // description: req.body.
-        }, )
+                // description: req.body.
+                 // 저작권도 
+        }, {transaction: t});
 
-        console.log("resultPost : ", resultPost);
-
-
-        // const selfIntroResult = await db.KeywordTag.findAll({
-        //     where: { UserId: parseInt(req.params.id, 10) },
-        //     attributes: ['id', 'selfIntro'],
-        // })
-        // await db.KeywordTag.create({
-        //     keywords: JSON.stringify(req.body.keywords).replace(regex,""),
-        // })
-
-
-
+        await resultPost.addKeywordTag(arrKeywordTag.map( r => r));
+        console.log("포스트id : ", resultPost.dataValues.id)
+        await db.UserAsset.create({
+            src: req.body.upFiles.file.response[0],
+            dataType: req.body.dataType,
+            PostId: resultPost.dataValues.id,
+            UserId: req.user.id,
+        }, {transaction: t});
+       // await resultPost.addUserAsset()
         
-        //transaction.rollback();
-        //await transaction.commit();
-
-        res.json("성공");
+        t.commit();
+            
+        t.afterCommit( (t) => {
+            res.json("성공");
+        })
+        
     } catch (e) {
-        if (transaction) 
-            transaction.rollback();
-
         console.error(e)
         next(e);
     }
