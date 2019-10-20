@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
 import PostImages from '../components/PostImages'
-import PostCardContent from '../components/PostCardContent';
+//import PostCardContent from '../components/PostCardContent';
 import styled from 'styled-components';
 import moment from 'moment';
 moment.locale('ko');
@@ -25,6 +25,8 @@ const CardWrapper = styled.div`
 const PostCard = ({ post }) => {
     const [commentFormOpened, setCommentFormOpened ] = useState(false);
     const id = useSelector(state => state.user.me && state.user.me.id);
+    //console.log("check.state.me : ", useSelector(state => state.user.me));
+
     const dispatch = useDispatch();
 
     const liked = id && post.Likers && post.Likers.find(v => v.id === id);
@@ -154,25 +156,25 @@ const PostCard = ({ post }) => {
                     cover={post.Retweet.Images[0] && <PostImages images={post.Retweet.Images} /> }
                 >
                 <Card.Meta
-                    avatar={(
-                    <Link href={{ pathname: '/user', query: { id: post.User.id }}}  as={`/user/${post.User.id}`}>
-                    <a><Avatar>{post.User.nickname[0]}</Avatar></a>
-                    </Link>
+                    avatar={(<a></a>
+                    // <Link href={{ pathname: '/user', query: { id: post.User.id }}}  as={`/user/${post.User.id}`}>
+                    // <a><Avatar>{post.User.nickname[0]}</Avatar></a>
+                    // </Link>
                     )}
-                title={post.User.nickname}
-                description={<PostCardContent postData={post.Retweet.content} />}
+              //      title={post.User.nickname}
+                // description={<PostCardContent postData={post.Retweet.content} />}
                 />
                 </Card>
                 )
             : (
             <Card.Meta
-                avatar={(
-                <Link href={{ pathname: '/user', query: { id: post.User.id }}}  as={`/user/${post.User.id}`}>
-                <a><Avatar>{post.User.nickname[0]}</Avatar></a>
-                </Link>
+                avatar={( <a></a>
+                // <Link href={{ pathname: '/user', query: { id: post.User.id }}}  as={`/user/${post.User.id}`}>
+                // <a><Avatar>{post.User.nickname[0]}</Avatar></a>
+                // </Link>
           )}
-          title={post.User.nickname}
-          description={<PostCardContent postData={post.content} />}
+         //  title={post.User.nickname}
+        //   description={<PostCardContent postData={post.content} />}
 
             /> )}
             {moment(post.createdAt).format('YYYY.MM.DD.')}
