@@ -39,6 +39,7 @@ const Home = () => {
         <div>
             {/* {me && <PostForm /> } */}
             {mainPosts.map( (c) => {
+              //  console.log("c : ", c)
                 return (
                     <PostCard key={c.id} post={c} />
                 );

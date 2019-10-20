@@ -129,7 +129,7 @@ router.post('/login', (req, res, next) => { // POST /api/user/login
 // WHERE `User`.`id` = 1              
 
           })
-          console.log(fullUser);
+          //console.log(fullUser);
           return res.json(fullUser);
         } catch (e) {
           next(e);

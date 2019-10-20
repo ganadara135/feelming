@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -116,37 +116,14 @@ eval("\n\nvar _interopRequireDefault = __webpack_require__(/*! @babel/runtime-co
 
 /***/ }),
 
-/***/ "./node_modules/next/error.js":
+/***/ 2:
 /*!************************************!*\
-  !*** ./node_modules/next/error.js ***!
+  !*** multi next/dist/pages/_error ***!
   \************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("module.exports = __webpack_require__(/*! ./dist/pages/_error */ \"./node_modules/next/dist/pages/_error.js\")\n\n\n//# sourceURL=webpack:///./node_modules/next/error.js?");
-
-/***/ }),
-
-/***/ "./pages/_error.js":
-/*!*************************!*\
-  !*** ./pages/_error.js ***!
-  \*************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var next_error__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! next/error */ \"./node_modules/next/error.js\");\n/* harmony import */ var next_error__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(next_error__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ \"react\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ \"prop-types\");\n/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);\nvar _jsxFileName = \"/app/frontend/pages/_error.js\";\nvar __jsx = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement;\n\n\n\n\nconst MyError = statusCode => {\n  //console.log(\"Error\", props);\n  return __jsx(\"div\", {\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 9\n    },\n    __self: undefined\n  }, __jsx(\"h1\", {\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 10\n    },\n    __self: undefined\n  }, statusCode, \" \\uC5D0\\uB7EC \\uBC1C\\uC0DD \"), __jsx(next_error__WEBPACK_IMPORTED_MODULE_0___default.a, {\n    statusCode: statusCode,\n    __source: {\n      fileName: _jsxFileName,\n      lineNumber: 11\n    },\n    __self: undefined\n  }));\n};\n\nMyError.propTypes = {\n  statusCode: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.number\n};\nMyError.defaultProps = {\n  statusCode: 400\n};\n\nMyError.getInitialProps = async context => {\n  const statusCode = context.res ? context.res.statusCode : context.err ? context.err.statusCode : null;\n  return {\n    statusCode\n  };\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (MyError);\n\n//# sourceURL=webpack:///./pages/_error.js?");
-
-/***/ }),
-
-/***/ 4:
-/*!*******************************!*\
-  !*** multi ./pages/_error.js ***!
-  \*******************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-eval("module.exports = __webpack_require__(/*! /app/frontend/pages/_error.js */\"./pages/_error.js\");\n\n\n//# sourceURL=webpack:///multi_./pages/_error.js?");
+eval("module.exports = __webpack_require__(/*! next/dist/pages/_error */\"./node_modules/next/dist/pages/_error.js\");\n\n\n//# sourceURL=webpack:///multi_next/dist/pages/_error?");
 
 /***/ }),
 
@@ -158,17 +135,6 @@ eval("module.exports = __webpack_require__(/*! /app/frontend/pages/_error.js */\
 /***/ (function(module, exports) {
 
 eval("module.exports = require(\"next-server/head\");\n\n//# sourceURL=webpack:///external_%22next-server/head%22?");
-
-/***/ }),
-
-/***/ "prop-types":
-/*!*****************************!*\
-  !*** external "prop-types" ***!
-  \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-eval("module.exports = require(\"prop-types\");\n\n//# sourceURL=webpack:///external_%22prop-types%22?");
 
 /***/ }),
 

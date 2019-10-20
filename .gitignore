@@ -3,6 +3,7 @@
 /backend/uploads/
 /frontend/node_modules/
 /frontend/.next/
+/frontend/bundles/
 
 # Files  #
 .env
