@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import { Form, Select, Upload, Icon, Button, Cascader, Input, message } from 'antd';
-import Link from 'next/link';
 import styled from 'styled-components';
-import { useDispatch, useSelector, connect } from 'react-redux';
+import { connect } from 'react-redux';
+import Router from 'next/router';
 import { UPLOAD_WORKPLACE_REQUEST } from '../reducers/user';
 
 
@@ -50,6 +50,7 @@ class Workplace extends React.Component {
     //    let id = 0;
         this.state = {
             keyCount : 0,         // 키워드 카운트 하는 변수 값
+            serverMsgCheck: '',
         }
     }
     
@@ -114,6 +115,21 @@ class Workplace extends React.Component {
           }
         });
     };
+
+    // ************   이 부분이 props 와 state 의 전반적인 관계를 다 보여줌
+    componentWillUpdate(nextProps, nextState) {
+        console.log("this.props.serverReactionData : ", this.props.serverReactionData)
+        console.log("this.state.serverMsgCheck : ", this.state.serverMsgCheck);
+        // console.log("nextState : ", nextState)
+        console.log("nextProps : ", nextProps)
+       
+        if(nextProps.serverReactionData !== undefined && nextProps.serverReactionData !== '' && this.state.serverMsgCheck === ''){
+            //message.success(`${this.props.serverReactionData}  successfully.`);
+            this.state.serverMsgCheck = nextProps.serverReactionData;
+            alert(`${this.state.serverMsgCheck}  successfully.`);
+            Router.push('/');   
+        }
+    }    
 
 
     render() {
@@ -191,17 +207,20 @@ class Workplace extends React.Component {
                 console.log("info : ", info)
                 console.log("info.file.response[0] : ", info.file.response[0])
                 message.success(`${info.file.name} file uploaded successfully.`);
-
-                // form.getFieldDecorator(`upFileListSync[${info.file.response[0]}]`);
-                // const upFileListSync = form.getFieldValue('upFileListSync');
-                // console.log("mmm : ", upFileListSync);
-                // console.log("all Values : ", form.getFieldsValue());
-
               } else if (status === 'error') {
                 message.error(`${info.file.name} file upload failed.`);
               }
             },
         }
+
+        //const { form } = this.props;
+        //console.log("this.props.serverReactionData : ", this.props.serverReactionData)
+        //if(this.props.serverReactionData !== undefined){
+        // if(this.props.serverReactionData) {
+        //     //message.success(`${this.props.serverReactionData}  successfully.`);
+        //     console.log("눈물 뚝뚝")
+        //     alert(`${this.props.serverReactionData}  successfully.`);
+        // }
 
         return (
             
@@ -303,7 +322,16 @@ class Workplace extends React.Component {
 //     background: #00a0e9;
 //     padding: 5px 0;
 //   }
-  
+
+// 이 부분이 Redux store 와 현재 Component 을 연결해 주는 부분
+// 매개변수는 Redux store 를 가르킴,
+// A : B   부분에서  A 는  Redux store 가 현 컴포넌트에게 전달해 주는 props 명칭
+// 현 컴포넌트에서 const { A } = this.props;  받아서 활용
+// ******************** 이게 있어야 redux store 의 값 변경이 있을때, 현 컴포넌트를 호출해줌  **************************
+const mapStateToProps = state => console.log("state in mapStateToProps : ", state) || ({
+    serverReactionData: state.user.serverReactionData,
+});
+
 const mapDispatchToProps = (dispatch, ownProps) => {
     console.log("ownProps in mapDispatchToProps : ", ownProps);
     return {
@@ -311,4 +339,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 }
 
-export default connect(null,mapDispatchToProps)(Form.create({name: 'workplaceForm' })(Workplace));
+export default connect(mapStateToProps,mapDispatchToProps)(Form.create({name: 'workplaceForm' })(Workplace));

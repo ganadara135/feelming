@@ -28,7 +28,7 @@ export const initialState = {
     hasMoreFollowing: false,
     profileImg: [],        // 프로필 이미지 경로
     profileImgErrorReason: '',
-    
+    serverReactionData: '',
 };
 
 
@@ -561,20 +561,21 @@ const reducer = (state = initialState, action ) => {
         case UPLOAD_WORKPLACE_REQUEST: {
             return {
                 ...state,
+                serverReactionData: '',
             };
         }
         case UPLOAD_WORKPLACE_SUCCESS: {
+            console.log("serverReactionData : ", action.data); 
             return {
                 ...state,
-                // me : {
-                //     ...state.me,
-                //     selfIntro : action.data,
-                // }
+                serverReactionData: action.data,
+                
             };
           }
         case UPLOAD_WORKPLACE_FAILURE: {
             return {
                 ...state,
+                serverReactionData: action.data,
             };
         }
         default: {

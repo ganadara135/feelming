@@ -9,10 +9,14 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true,
         },
         category: {
-            type: DataTypes.STRING(100),
+            type: DataTypes.STRING(255),
             allowNull: true,
         },
         publicScope: {
+            type: DataTypes.STRING(50),
+            allowNull: true,
+        },
+        copyright: {
             type: DataTypes.STRING(100),
             allowNull: true,
         },

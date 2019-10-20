@@ -502,11 +502,12 @@ router.put('/uploadWorkplace', async (req, res, next) => {  // put /api/user
         const resultPost = await db.Post.create({
             category: JSON.stringify(req.body.category).replace(regex,""),
             publicScope: req.body.publicScope,
-                // description: req.body.
-                 // 저작권도 
+            copyright: req.body.copyRight,
+            UserId: req.user.id,                    // foriegnkey
         }, {transaction: t});
 
-        await resultPost.addKeywordTag(arrKeywordTag.map( r => r));
+        await resultPost.addKeywordTag(arrKeywordTag.map( r => r),{transaction: t}); // 다대다 관계 테이블에 값 입력 방식, transaction 처리 방식도 잊지 말자, api 매뉴얼에도 안나옴
+
         console.log("포스트id : ", resultPost.dataValues.id)
         await db.UserAsset.create({
             src: req.body.upFiles.file.response[0],
@@ -519,7 +520,8 @@ router.put('/uploadWorkplace', async (req, res, next) => {  // put /api/user
         t.commit();
             
         t.afterCommit( (t) => {
-            res.json("성공");
+            //res.json("성공");
+            res.status(200).send('등록완료');
         })
         
     } catch (e) {
