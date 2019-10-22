@@ -7,7 +7,7 @@
     "dev": "nodemon",
     "build": "ANALYZE=true next build",
     "prestart": "npm run build",
-    "start": "NODE_ENV=production PORT=80 pm2 start server",
+    "start": "NODE_ENV=production PORT=80 pm2 start server.js",
     "poststart": "",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
