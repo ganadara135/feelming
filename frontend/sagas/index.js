@@ -6,7 +6,7 @@ import user from './user';
 import post from './post';
 import { backUrl } from '../config/config';
 
-axios.defaults.baseURL = `${backUrl}`;
+axios.defaults.baseURL = `${backUrl}/api`;
 
 export default function* rootSaga() {
     yield all([

@@ -37,7 +37,7 @@ function* logIn(action) {
         // yield call(loginAPI);       // call 동기 호출
         //yield delay( 2000);
         const result = yield call(logInAPI, action.data);
-        console.log("logIn result.data : ", result.data);
+  //      console.log("logIn result.data : ", result.data);
         yield put( {            // put 은 dispatch 와 동일
             type: LOG_IN_SUCCESS,
             data: result.data,
