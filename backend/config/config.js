@@ -7,7 +7,7 @@ module.exports = {
     "username": "root",
     "password": process.env.DB_PASSWORD,
     "database": "fixunit",
-    "host": "172.17.0.2",   
+    "host": "172.2.0.1",   
     "dialect": "mysql",
     "operatorsAliases": false
   },
@@ -25,6 +25,8 @@ module.exports = {
     "database": "fixunit",
     "host": "db-feelming.c9ykurpormoh.ap-northeast-2.rds.amazonaws.com",
     "dialect": "mysql",
-    "operatorsAliases": false
+    "operatorsAliases": false,
+    "port": 3306,
+    "language": 'kr'
   }
 }

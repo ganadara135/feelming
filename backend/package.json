@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon",
+    "dbSetting": "sequelize create:db",
     "start": "NODE_ENV=production PORT=80 pm2 start index.js"
   },
   "author": "kcod",
