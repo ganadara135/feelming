@@ -126,9 +126,6 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,     
                 mainPosts: state.mainPosts.concat(action.data),
-                // mainPosts: action.data.forEach(element => {
-                //    mainPosts.push(element); 
-                // }),
                 hasMorePost: action.data.length === 10,
             };
         }

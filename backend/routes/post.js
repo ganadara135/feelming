@@ -83,8 +83,6 @@ router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {  // POST
 
 
             
-
-
 router.get('/:id/comments', async (req, res, next) => {
     try {
         const post = await db.Post.findOne({ where: {id: req.params.id }});

@@ -22,7 +22,7 @@ const ProfileImg = () => {
     
          const imageFormData = new FormData();
          [].forEach.call(e.target.files, (f) => {
-            console.log(" in forEach() f : ", f);
+           // console.log(" in forEach() f : ", f);
             imageFormData.append('image', f);
          });
          dispatch({

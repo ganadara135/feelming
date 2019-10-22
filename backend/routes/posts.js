@@ -21,9 +21,6 @@ router.get('/', async (req, res, next) => {
             }, {
                 model: db.UserAsset
             }, {
-                model: db.Comment
-            },
-            {
                 model: db.User,
                 through: {
                     attributes: ['id'],

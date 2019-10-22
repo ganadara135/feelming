@@ -467,7 +467,7 @@ router.put('/uploadWorkplace', async (req, res, next) => {  // put /api/user
     var regex = /[\[\]]/g;
 
      console.log("파일 업로드 결과 확인")
-     console.log("req.user.id : ", req.user.id);
+//     console.log("req.user.id : ", req.user.id);
     // //console.log("req.body.upFiles : ", req.body.upFiles);
     // //console.log("req.body.upFiles.file.originFileObj : ", req.body.upFiles.file);
      console.log("req.body.upFiles.file.response : ", req.body.upFiles.file.response);
@@ -491,8 +491,8 @@ router.put('/uploadWorkplace', async (req, res, next) => {  // put /api/user
             })));
         const arrKeywordTag = [];
         resultTag.forEach( tag => {
-            console.log("boolean : ", tag[1])
-            console.log("id : ", tag[0]['dataValues'].id);
+    //        console.log("boolean : ", tag[1])
+    //        console.log("id : ", tag[0]['dataValues'].id);
             //console.log("id : ", tag[0]['dataValues']);
             if(tag[1])
                 arrKeywordTag.push(tag[0]['dataValues'].id)

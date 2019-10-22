@@ -4,12 +4,14 @@ dotenv.config();
 
 module.exports = {
   "development": {
-    "username": "root",
+    "username": "fixunit",
     "password": process.env.DB_PASSWORD,
     "database": "fixunit",
-    "host": "172.2.0.1",   
+    "host": "db-feelming.c9ykurpormoh.ap-northeast-2.rds.amazonaws.com",
     "dialect": "mysql",
-    "operatorsAliases": false
+    "operatorsAliases": false,
+    "port": 3306,
+    "language": 'kr'
   },
   "test": {
     "username": "root",

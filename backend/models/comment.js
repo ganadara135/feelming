@@ -2,7 +2,7 @@ module.exports = (sequelize, DataTypes) => {
     const Comment = sequelize.define('Comment', {
         content: {
             type: DataTypes.TEXT,       // 매우 긴 글
-            allowNull: false,
+            allowNull: true,
         },
     }, {
         charset: 'utf8mb4',             // 한글 + 이모티콘 지원
