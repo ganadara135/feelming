@@ -20,7 +20,7 @@ module.exports = {
     "operatorsAliases": false
   },
   "production": {
-    "username": "root",
+    "username": "fixunit",
     "password": process.env.DB_PASSWORD,
     "database": "fixunit",
     "host": "db-feelming.c9ykurpormoh.ap-northeast-2.rds.amazonaws.com",
