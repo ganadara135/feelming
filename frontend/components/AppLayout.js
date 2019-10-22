@@ -22,7 +22,8 @@ const AppLayout = ({ children }) => {
     // }, [me]);
     const onSearch = (value) => {
                        // 내부 주소                                      // 외부  주소
-        Router.push({ pathname: '/hashtag', query: { tag: value }}, `/hashtag/${value}`);
+       // Router.push({ pathname: '/hashtag', query: { tag: value }}, `/hashtag/${value}`);
+       alert("It is under construction")
     }
 
     return (
