@@ -268,7 +268,7 @@ const reducer = (state = initialState, action) => {
             const postIndex = state.mainPosts.findIndex( v => v.id === action.data.postId);
             const post = state.mainPosts[postIndex];
             
-            const Liker = [{ id: action.data.userId }, ...post.Likers];
+            const Liker = [{ id: action.data.userId }, ...post.Liker];
             console.log(" Like post : ", post);
             console.log(" Like Liker : ", Liker);
             const mainPosts = [...state.mainPosts];
