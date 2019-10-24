@@ -29,8 +29,9 @@ const PostCard = ({ post }) => {
 
     const dispatch = useDispatch();
 
-    const liked = id && post.Likers && post.Likers.find(v => v.id === id);
-
+    const liked = id && post.Liker && post.Liker.find(v =>  v.id === id);
+    console.log("liked : ", liked);
+    console.log("post.Liker[0] : ", post.Liker[0]);
 
     // 리렌더링 되는 에러 잡는 방법  ////////////////////////   에러 잡는 방법/////////////////
     // const postMemory = useRef(post);
@@ -66,18 +67,20 @@ const PostCard = ({ post }) => {
         if (!id) {
             return alert('로그인이 필요합니다');
         }
-        if (liked){     // 좋아요 누른 상태
+        console.log("onToggleLike liked : ", liked)
+        if ( liked && liked.id === id){     // 좋아요 누른 상태
             dispatch( {
                 type: UNLIKE_POST_REQUEST,
                 data: post.id,
             });
-        } else {                                                        // 좋아요 안 누른 상태
+        } 
+        if(liked === undefined) {                                                        // 좋아요 안 누른 상태
             dispatch( {
                 type: LIKE_POST_REQUEST,
                 data: post.id,
             });
         }
-    }, [id, post && post.id, liked])
+    }, [id, post && post.id, liked && liked.id])
 
     const onRetweet = useCallback( () => {
         if (!id) {
@@ -120,7 +123,7 @@ const PostCard = ({ post }) => {
             cover={post.Images && post.Images[0] && <PostImages images={post.Images} />}
             actions={[
                 <Icon type="retweet" key="retweet" onClick={onRetweet} />,
-                <Icon type="heart" key="heart" theme={liked ? 'twoTone' : 'outlined'} twoToneColor={"#eb2f96"} onClick={onToggleLike} />,
+                <Icon type="heart" key="heart" theme={liked !== undefined ? 'twoTone' : 'outlined'} twoToneColor={"#eb2f96"} onClick={onToggleLike} />,
                 <Icon type="message" key="message" onClick={onToggleComment}/>,
                 <Popover
                     key='ellipsis'

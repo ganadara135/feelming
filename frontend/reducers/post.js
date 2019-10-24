@@ -267,9 +267,12 @@ const reducer = (state = initialState, action) => {
             //console.log(" in Reducuer ADD_POST_SUCCESS : ", action)
             const postIndex = state.mainPosts.findIndex( v => v.id === action.data.postId);
             const post = state.mainPosts[postIndex];
-            const Likers = [{ id: action.data.userId }, ...post.Likers];
+            
+            const Liker = [{ id: action.data.userId }, ...post.Likers];
+            console.log(" Like post : ", post);
+            console.log(" Like Liker : ", Liker);
             const mainPosts = [...state.mainPosts];
-            mainPosts[postIndex] = { ...post, Likers};
+            mainPosts[postIndex] = { ...post, Liker};
 
             return {
                 ...state,
@@ -291,9 +294,12 @@ const reducer = (state = initialState, action) => {
             //console.log(" in Reducuer ADD_POST_SUCCESS : ", action)
             const postIndex = state.mainPosts.findIndex( v => v.id === action.data.postId);
             const post = state.mainPosts[postIndex];
-            const Likers = post.Likers.filter(v => v.id !== action.data.userId);
+            
+            const Liker = post.Liker.filter(v => v.id !== action.data.userId);
+            console.log(" UNLike post : ", post);
+            console.log(" UNLike Liker : ", Liker);
             const mainPosts = [...state.mainPosts];
-            mainPosts[postIndex] = { ...post, Likers};
+            mainPosts[postIndex] = { ...post, Liker};
             return {
                 ...state,
                 mainPosts,

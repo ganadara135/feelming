@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon",
-    "build": "ANALYZE=false next build",
+    "build": "ANALYZE=true next build",
     "prestart": "npm run build",
     "startDev": "NODE_ENV=production PORT=3060 node server.js",
     "start": "NODE_ENV=production PORT=80 pm2 start server.js",
