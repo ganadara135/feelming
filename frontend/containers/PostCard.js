@@ -14,7 +14,7 @@ import { UNFOLLOW_USER_REQUEST, FOLLOW_USER_REQUEST } from '../reducers/user';
 import { ADD_COMMENT_REQUEST, LOAD_COMMENTS_REQUEST, UNLIKE_POST_REQUEST, LIKE_POST_REQUEST, RETWEET_REQUEST, 
     REMOVE_POST_REQUEST } from '../reducers/post';
 
-import { backUrl } from '../config/config';
+//import { backUrl } from '../config/config';
 //const backUrl = 'http://api.feelming.org';
 moment.locale('ko');
 
@@ -184,7 +184,7 @@ const PostCard = ({ post }) => {
             <p>{'생성날짜 : '}{moment(post.createdAt).format('YYYY.MM.DD:HH.mm.ss')}</p>
             <p>{'파일형식 : '}{post.UserAssets[0].dataType}</p>
             <p>{'파일위치 : '}{post.UserAssets[0].src}</p>
-            <img src={`${backUrl}/${post.UserAssets[0].src }` } style={{ width: '200px' }} />
+            <img src={`${post.UserAssets[0].src }` } style={{ width: '200px' }} />
             
         </Card>
         { commentFormOpened && (

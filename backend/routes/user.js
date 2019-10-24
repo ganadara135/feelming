@@ -3,6 +3,10 @@ const db = require('../models');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const multer = require('multer');
+const multerS3 = require('multer-s3');
+const AWS = require('aws-sdk');
+
+
 const path = require('path');
 const { isLoggedIn } = require('./middleware');
 
@@ -270,42 +274,41 @@ router.patch('/nickname', async (req, res, next ) => {
 
 
 //  사용자가 업로드하는 파일 저장하는 부분
-var upload = multer( {
-    storage: multer.diskStorage( {
-        destination(req, file, done) {      // 파일 저장 위치
-            done(null, 'uploads');  // uplaods 는 파일을 저장할 서버측 폴더명, 
+AWS.config.update({
+    region: 'ap-northeast-2',
+    accessKeyId: process.env.AWSAccessKeyId,
+    secretAccessKey: process.env.AWSSecretKey,
+});
+
+const uploadProfile = multer({
+    storage: multerS3({
+        s3: new AWS.S3(),
+        bucket: 'feelming',
+        key(req, file, cb) {
+        cb(null, `original/${+new Date()}${path.basename(file.originalname)}`);
         },
-        filename(req, file, done) {           // 파일명
-            const ext = path.extname(file.originalname);
-            const basename = path.basename(file.originalname, ext); //제로초.png  ext===.png,  basename===제로초
-            done(null, basename + new Date().valueOf() + ext );
-        },
-        // onError : function(err, next) {
-        //     console.log("file upload err : ", err);
-        //     next(err);
-        // }
     }),
     limits: { fileSize: 20 * 1024 * 1024 },
 });
 
 //  사용자의 프로필 파일 저장하는 부분
-var uploadProfile = multer( {
-    storage: multer.diskStorage( {
-        destination(req, file, done) {      // 파일 저장 위치
-            done(null, 'uploads/profile/');  // uplaods 는 파일을 저장할 서버측 폴더명, 
-        },
-        filename(req, file, done) {           // 파일명
-            const ext = path.extname(file.originalname);
-            const basename = path.basename(file.originalname, ext); //제로초.png  ext===.png,  basename===제로초
-            done(null, basename + new Date().valueOf() + ext );
-        },
-        // onError : function(err, next) {
-        //     console.log("file upload err : ", err);
-        //     next(err);
-        // }
-    }),
-    limits: { fileSize: 20 * 1024 * 1024 },
-});
+// var uploadProfile = multer( {
+//     storage: multer.diskStorage( {
+//         destination(req, file, done) {      // 파일 저장 위치
+//             done(null, 'uploads/profile/');  // uplaods 는 파일을 저장할 서버측 폴더명, 
+//         },
+//         filename(req, file, done) {           // 파일명
+//             const ext = path.extname(file.originalname);
+//             const basename = path.basename(file.originalname, ext); //제로초.png  ext===.png,  basename===제로초
+//             done(null, basename + new Date().valueOf() + ext );
+//         },
+//         // onError : function(err, next) {
+//         //     console.log("file upload err : ", err);
+//         //     next(err);
+//         // }
+//     }),
+//     limits: { fileSize: 20 * 1024 * 1024 },
+// });
 
 // uplaod.array() 는 미들웨어, image 는 전달해 주는 곳의 명칭과 같게
 // router.put('/profileImg', upload.array('image'), (req, res) => {
@@ -457,9 +460,11 @@ router.patch('/selfIntroduction', async (req, res, next ) => {
 
 
 // uplaod.array() 는 미들웨어, image 는 전달해 주는 곳의 명칭과 같게
-router.post('/uploadWorkplaceUpfile', upload.array('upFiles'), (req, res) => {
+router.post('/uploadWorkplaceUpfile', uploadProfile.array('upFiles'), (req, res) => {
 //    console.log("req.files : ", req.files);
-    res.json(req.files.map( v => v.filename));
+
+    res.json(req.files.map( v => v.location));
+    //res.json(req.files.map( v => v.filename));
 });
 
 router.put('/uploadWorkplace', async (req, res, next) => {  // put /api/user
@@ -467,11 +472,13 @@ router.put('/uploadWorkplace', async (req, res, next) => {  // put /api/user
     var regex = /[\[\]]/g;
 
      console.log("파일 업로드 결과 확인")
-//     console.log("req.user.id : ", req.user.id);
-    // //console.log("req.body.upFiles : ", req.body.upFiles);
-    // //console.log("req.body.upFiles.file.originFileObj : ", req.body.upFiles.file);
+     console.log("req.user.id : ", req.user.id);
+    // console.log("req.body : ", req.body);
+    console.log("req.body.upFiles : ", req.body.upFiles);
+    //console.log("req.body.files.location : ", req.body.files.location);
+     console.log("req.body.upFiles.file : ", req.body.upFiles.file);
      console.log("req.body.upFiles.file.response : ", req.body.upFiles.file.response);
-     //console.log("req.body : ", req.body)
+     console.log("req.files : ", req.files)
     
     // //const convertCategory = req.body.category
     // console.log("category stringify() : ", JSON.stringify(req.body.keywords));

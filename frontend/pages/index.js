@@ -96,6 +96,7 @@ export default Home;
 
 
  Nodejs 서버 + mysql 연결하여  실행 
+ docker run -it -p 3060:3060 -p 3065:3065 --volume=$(pwd):/app/  --name web -d node
  docker run -it -p 3060:3060 -p 3065:3065 --volume=$(pwd):/app/  --name web --link mysql-db  -d node  
 
  NodeJs 컨테이너에 접속하기 

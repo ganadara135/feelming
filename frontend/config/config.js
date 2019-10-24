@@ -1,5 +1,6 @@
 
 //const backUrl = process.env.NODE_ENV === 'production' ? 'http://api.feelming.org' : 'http://localhost:3065';
 const backUrl = process.env.NODE_ENV === 'production' ? 'http://localhost:3065' : 'http://localhost:3065';
+//const backUrl = '';         // S3 bucket 이
 
 export { backUrl };

@@ -1,55 +1,32 @@
 {
-  "devFiles": [],
+  "devFiles": [
+    "static/development/dll/dll_9e2a3f9838424feeb96c.js",
+    "static/development/dll/dll_9e2a3f9838424feeb96c.js.map"
+  ],
   "pages": {
     "/": [
-      "static/runtime/webpack-a79426b5e11f0ba5879d.js",
-      "static/chunks/commons.33a9f11eed8e2950f1c0.js",
-      "static/runtime/main-392dfd8484b0334d80d3.js"
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
     ],
     "/_app": [
-      "static/runtime/webpack-a79426b5e11f0ba5879d.js",
-      "static/chunks/commons.33a9f11eed8e2950f1c0.js",
-      "static/runtime/main-392dfd8484b0334d80d3.js"
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
     ],
     "/_error": [
-      "static/runtime/webpack-a79426b5e11f0ba5879d.js",
-      "static/chunks/commons.33a9f11eed8e2950f1c0.js",
-      "static/runtime/main-392dfd8484b0334d80d3.js"
-    ],
-    "/hashtag": [
-      "static/runtime/webpack-a79426b5e11f0ba5879d.js",
-      "static/chunks/commons.33a9f11eed8e2950f1c0.js",
-      "static/runtime/main-392dfd8484b0334d80d3.js"
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
     ],
     "/index": [
-      "static/runtime/webpack-a79426b5e11f0ba5879d.js",
-      "static/chunks/commons.33a9f11eed8e2950f1c0.js",
-      "static/runtime/main-392dfd8484b0334d80d3.js"
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
     ],
     "/profile": [
-      "static/runtime/webpack-a79426b5e11f0ba5879d.js",
-      "static/chunks/commons.33a9f11eed8e2950f1c0.js",
-      "static/runtime/main-392dfd8484b0334d80d3.js"
-    ],
-    "/signup": [
-      "static/runtime/webpack-a79426b5e11f0ba5879d.js",
-      "static/chunks/commons.33a9f11eed8e2950f1c0.js",
-      "static/runtime/main-392dfd8484b0334d80d3.js"
-    ],
-    "/singlePost": [
-      "static/runtime/webpack-a79426b5e11f0ba5879d.js",
-      "static/chunks/commons.33a9f11eed8e2950f1c0.js",
-      "static/runtime/main-392dfd8484b0334d80d3.js"
-    ],
-    "/user": [
-      "static/runtime/webpack-a79426b5e11f0ba5879d.js",
-      "static/chunks/commons.33a9f11eed8e2950f1c0.js",
-      "static/runtime/main-392dfd8484b0334d80d3.js"
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
     ],
     "/workplace": [
-      "static/runtime/webpack-a79426b5e11f0ba5879d.js",
-      "static/chunks/commons.33a9f11eed8e2950f1c0.js",
-      "static/runtime/main-392dfd8484b0334d80d3.js"
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
     ]
   }
 }

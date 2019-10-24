@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect, useRef} from 'react';
 import { Form, Input, Button, Card, Carousel, Upload, message, Icon, Avatar} from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { UPLOAD_PROFILE_IMAGES_REQUEST, REMOVE_PROFILE_IMAGE } from '../reducers/user';
-import { backUrl } from '../config/config';
+//import { backUrl } from '../config/config';
 
 
 const ProfileImg = () => {
@@ -50,7 +50,7 @@ const ProfileImg = () => {
                     <div>
                         <Button onClick={onRemoveImage(i)}>제거</Button>
                     </div>
-                    <img src={`${backUrl}/profile/${v}` } style={{ width: '200px' }} alt={v} />
+                    <img src={`${v}` } style={{ width: '200px' }} alt={v} />
                 </div> 
             ))}
         <Carousel afterChange={onChangeCarousel}  style={{ width: 240, height: 73, padding: 20 }} >      

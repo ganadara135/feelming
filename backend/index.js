@@ -28,7 +28,8 @@ if (prod) {
     app.use(helmet());
     app.use(morgan('combined'));
     app.use(cors( {
-        origin: 'http://feelming.org',
+        //origin: 'http://feelming.org',
+        origin: true,
         credentials: true,
     }));
 } else {
