@@ -22,11 +22,9 @@ router.get('/', async (req, res, next) => {
                 model: db.UserAsset
             }, {
                 model: db.User,
-                through: {
-                    attributes: ['id'],
-                    as: 'Likers',
-                   // where: {UserId: User.id, PostId: Post.id}
-                },
+                through: 'Like',
+                as: 'Liker',
+                attributes: ['id'],
             }
             ],
             //order: [['createdAt', 'DESC'], ['updateAt', 'ASC']]
@@ -34,18 +32,7 @@ router.get('/', async (req, res, next) => {
             limit: parseInt(req.query.limit, 10),
         });
 
-
-// Executing (default): SELECT `Post`.*, `Users`.`id`, `Users`.`nickname`, `Users->Likers`.`createdAt`, `Users->Likers`.`updatedAt`, `Users->Likers`.`PostId`,`Users->Likers`.`UserId`,
-// `UserAssets`.`id`, `UserAssets`.`src`, `UserAssets`.`dataType`, `UserAssets`.`createdAt`, `UserAssets`.`updatedAt`,`UserAssets`.`PostId`, `UserAssets`.`UserId`,
-// `Comments`.`id`, `Comments`.`content`, `Comments`.`createdAt`, `Comments`.`updatedAt`, `Comments`.`UserId`, `Comments`.`PostId` 
-// FROM (SELECT `Post`.`id`, `Post`.`description`, `Post`.`category`, `Post`.`publicScope`, `Post`.`copyright`, `Post`.`createdAt`, `Post`.`updatedAt`, `Post`.`RetweetId`, `Post`.`UserId` 
-//       FROM `Post` ORDER BY `Post`.`createdAt` DESC LIMIT 10) 
-//       LEFT OUTER JOIN ( `Like` AS `Users->Likers` INNER JOIN `User` AS `Users` ON `Users`.`id` = `Users->Likers`.`UserId`) 
-// ON `Post`.`id` = `Users->Likers`.`PostId` 
-// LEFT OUTER JOIN `UserAsset` ON `Post`.`id` = `UserAssets`.`PostId` 
-// LEFT OUTER JOIN `Comment`  ON `Post`.`id` = `Comments`.`PostId` 
-// ORDER BY `Post`.`createdAt` DESC
-
+     //   console.log("table posts[0].Liker : ", posts[0].Liker)
         res.json(posts);
     } catch (e) {
         console.error(e);

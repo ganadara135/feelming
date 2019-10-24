@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "nodemon",
     "dbSetting": "sequelize create:db",
-    "start": "NODE_ENV=production PORT=3065 node index.js",
-    "startAws": "NODE_ENV=production PORT=80 pm2 start index.js"
+    "startDev": "NODE_ENV=production PORT=3065 node index.js",
+    "start": "NODE_ENV=production PORT=80 pm2 start index.js"
   },
   "author": "kcod",
   "license": "ISC",
