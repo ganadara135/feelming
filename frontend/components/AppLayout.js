@@ -29,8 +29,8 @@ const AppLayout = ({ children }) => {
     return (
         <div>
             <Menu mode="horizontal">
-                <Menu.Item key='home'><Link href="/"><a>Feelming</a></Link></Menu.Item>
-                <Menu.Item key='profile'><Link href="/profile"  prefetch  ><a>프로필</a></Link></Menu.Item>
+                <Menu.Item key='home'><Link href="/" prefetch={true}><a>Feelming</a></Link></Menu.Item>
+                <Menu.Item key='profile'><Link href="/profile"  prefetch={true} ><a>프로필</a></Link></Menu.Item>
                 <Menu.Item key='search'>
                     <Input.Search 
                         enterButton 
@@ -38,20 +38,20 @@ const AppLayout = ({ children }) => {
                         onSearch={onSearch} 
                     />
                 </Menu.Item>
-                <Menu.Item key='workplace'><Link href="/workplace"  ><a>내작업장</a></Link></Menu.Item>
+                <Menu.Item key='workplace'><Link href="/workplace"  prefetch={true}><a>내작업장</a></Link></Menu.Item>
             </Menu>
             <Row gutter={8} >
-                <Col xs={24} md={6}>
+                <Col xs={15} md={6}>
                     
                     {me   // isLoggedIn 
                         ? <UserProfile />
                         : <LoginForm />
                     }
                 </Col>
-                <Col xs={24} md={12}> 
+                <Col xs={15} md={6}> 
                     {children}            
                 </Col>
-                <Col xs={24} md={6}>
+                <Col xs={15} md={6}>
                     <a target="_blank">Made by kcod</a>
                 </Col>
             </Row>

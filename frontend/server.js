@@ -53,7 +53,7 @@ app.prepare().then( () => {
         console.log(`next+express running on port ${process.env.PORT}`);
     });
 })
-.catch((ex) => {
-    console.error(ex.stack);
-    process.exit(1);
-})
+// .catch((ex) => {
+//     console.error(ex.stack);
+//     process.exit(1);
+// })
