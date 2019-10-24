@@ -113,7 +113,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"backUrl\", function() { return backUrl; });\n//const backUrl = process.env.NODE_ENV === 'production' ? 'http://api.feelming.org' : 'http://localhost:3065';\nconst backUrl =  false ? undefined : 'http://localhost:3065'; //const backUrl = '';         // S3 bucket 이\n\n\n\n//# sourceURL=webpack:///./config/config.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"backUrl\", function() { return backUrl; });\nconst backUrl =  false ? undefined : 'http://localhost:3065'; //const backUrl = process.env.NODE_ENV === 'production' ? 'http://localhost:3065' : 'http://localhost:3065';\n\n\n\n//# sourceURL=webpack:///./config/config.js?");
 
 /***/ }),
 
