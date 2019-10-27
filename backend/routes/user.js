@@ -471,14 +471,14 @@ router.put('/uploadWorkplace', async (req, res, next) => {  // put /api/user
 
     var regex = /[\[\]]/g;
 
-     console.log("파일 업로드 결과 확인")
-     console.log("req.user.id : ", req.user.id);
-    // console.log("req.body : ", req.body);
-    console.log("req.body.upFiles : ", req.body.upFiles);
-    //console.log("req.body.files.location : ", req.body.files.location);
-     console.log("req.body.upFiles.file : ", req.body.upFiles.file);
-     console.log("req.body.upFiles.file.response : ", req.body.upFiles.file.response);
-     console.log("req.files : ", req.files)
+    //  console.log("파일 업로드 결과 확인")
+    //  console.log("req.user.id : ", req.user.id);
+    // // console.log("req.body : ", req.body);
+    // console.log("req.body.upFiles : ", req.body.upFiles);
+    // //console.log("req.body.files.location : ", req.body.files.location);
+      console.log("req.body.upFiles.fileList : ", req.body.upFiles.fileList);
+     //console.log("req.body.upFiles.fileList.response : ", req.body.upFiles.fileList.response);
+    //  console.log("req.files : ", req.files)
     
     // //const convertCategory = req.body.category
     // console.log("category stringify() : ", JSON.stringify(req.body.keywords));
@@ -505,7 +505,7 @@ router.put('/uploadWorkplace', async (req, res, next) => {  // put /api/user
                 arrKeywordTag.push(tag[0]['dataValues'].id)
         });
         
-        console.log("arrKeywordTag : ", arrKeywordTag)
+     //   console.log("arrKeywordTag : ", arrKeywordTag)
         const resultPost = await db.Post.create({
             category: JSON.stringify(req.body.category).replace(regex,""),
             publicScope: req.body.publicScope,
@@ -515,14 +515,24 @@ router.put('/uploadWorkplace', async (req, res, next) => {  // put /api/user
 
         await resultPost.addKeywordTag(arrKeywordTag.map( r => r),{transaction: t}); // 다대다 관계 테이블에 값 입력 방식, transaction 처리 방식도 잊지 말자, api 매뉴얼에도 안나옴
 
-        console.log("포스트id : ", resultPost.dataValues.id)
-        await db.UserAsset.create({
+
+
+        if (Array.isArray(req.body.upFiles.fileList)) {
+            await Promise.all(req.body.upFiles.fileList.map((list) => {
+                return db.UserAsset.create({ 
+                    src: list.response[0],
+                    dataType: req.body.dataType,
+                    PostId: resultPost.dataValues.id,
+                    UserId: req.user.id, }, {transaction: t});
+            }));
+        } else { // 이미지를 하나만 올리면 image: 주소1
+            await db.UserAsset.create({ 
             src: req.body.upFiles.file.response[0],
             dataType: req.body.dataType,
             PostId: resultPost.dataValues.id,
-            UserId: req.user.id,
-        }, {transaction: t});
-       // await resultPost.addUserAsset()
+            UserId: req.user.id, }, {transaction: t});
+        }
+    
         
         t.commit();
             

@@ -114,6 +114,7 @@ export const UPLOAD_WORKPLACE_REQUEST = 'UPLOAD_WORKPLACE_REQUEST';
 export const UPLOAD_WORKPLACE_SUCCESS = 'UPLOAD_WORKPLACE_SUCCESS';
 export const UPLOAD_WORKPLACE_FAILURE = 'UPLOAD_WORKPLACE_FAILURE';
 
+export const CLEAR_SERVER_REACTION_DATA = 'CLEAR_SERVER_REACTION_DATA';
 
 // export const signupAction = (data) => ({
 //     type: SIGN_UP_REQUEST,
@@ -565,7 +566,7 @@ const reducer = (state = initialState, action ) => {
             };
         }
         case UPLOAD_WORKPLACE_SUCCESS: {
-            console.log("serverReactionData : ", action.data); 
+            //console.log("serverReactionData : ", action.data); 
             return {
                 ...state,
                 serverReactionData: action.data,
@@ -577,6 +578,12 @@ const reducer = (state = initialState, action ) => {
                 ...state,
                 serverReactionData: action.data,
             };
+        }
+        case CLEAR_SERVER_REACTION_DATA: {
+            return {
+                ...state,
+                serverReactionData: "",
+            }
         }
         default: {
             break;

@@ -269,8 +269,8 @@ const reducer = (state = initialState, action) => {
             const post = state.mainPosts[postIndex];
             
             const Liker = [{ id: action.data.userId }, ...post.Liker];
-            console.log(" Like post : ", post);
-            console.log(" Like Liker : ", Liker);
+ //           console.log(" Like post : ", post);
+   //         console.log(" Like Liker : ", Liker);
             const mainPosts = [...state.mainPosts];
             mainPosts[postIndex] = { ...post, Liker};
 
@@ -296,8 +296,8 @@ const reducer = (state = initialState, action) => {
             const post = state.mainPosts[postIndex];
             
             const Liker = post.Liker.filter(v => v.id !== action.data.userId);
-            console.log(" UNLike post : ", post);
-            console.log(" UNLike Liker : ", Liker);
+    //        console.log(" UNLike post : ", post);
+      //      console.log(" UNLike Liker : ", Liker);
             const mainPosts = [...state.mainPosts];
             mainPosts[postIndex] = { ...post, Liker};
             return {

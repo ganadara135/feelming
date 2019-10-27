@@ -3,7 +3,7 @@ import { Form, Select, Upload, Icon, Button, Cascader, Input, message } from 'an
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import Router from 'next/router';
-import { UPLOAD_WORKPLACE_REQUEST } from '../reducers/user';
+import { UPLOAD_WORKPLACE_REQUEST, CLEAR_SERVER_REACTION_DATA } from '../reducers/user';
 
 import { backUrl } from '../config/config';
 
@@ -51,7 +51,7 @@ class Workplace extends React.Component {
     //    let id = 0;
         this.state = {
             keyCount : 0,         // 키워드 카운트 하는 변수 값
-            serverMsgCheck: '',
+            //serverMsgCheck: '',
         }
     }
     
@@ -112,6 +112,9 @@ class Workplace extends React.Component {
           if (!err) {
             console.log('Received values of form: ', values);
             //console.log()
+            if(values.keywordKey.length === 0)
+                return alert("키워드를 1개 이상 입력하세요")
+
             this.props.upload(values);
           }
         });
@@ -120,15 +123,17 @@ class Workplace extends React.Component {
     // ************   이 부분이 props 와 state 의 전반적인 관계를 다 보여줌
     componentWillUpdate(nextProps, nextState) {
         console.log("this.props.serverReactionData : ", this.props.serverReactionData)
-        console.log("this.state.serverMsgCheck : ", this.state.serverMsgCheck);
+        //console.log("this.state.serverMsgCheck : ", this.state.serverMsgCheck);
         // console.log("nextState : ", nextState)
         console.log("nextProps : ", nextProps)
        
-        if(nextProps.serverReactionData !== undefined && nextProps.serverReactionData !== '' && this.state.serverMsgCheck === ''){
+        //if(nextProps.serverReactionData !== undefined && nextProps.serverReactionData !== '' && this.state.serverMsgCheck === ''){
+        if(nextProps.serverReactionData === "등록완료"){
             //message.success(`${this.props.serverReactionData}  successfully.`);
-            this.state.serverMsgCheck = nextProps.serverReactionData;
+            //this.state.serverMsgCheck = nextProps.serverReactionData;
+            this.props.clearServerReactionData();
             alert(`${this.state.serverMsgCheck}  successfully.`);
-            Router.push('/');   
+            Router.push('/');
         }
     }    
 
@@ -203,26 +208,19 @@ class Workplace extends React.Component {
 
               const { status } = info.file;
               if (status !== 'uploading') {
-                console.log(info.file, info.fileList);
+                console.log();
               }
               if (status === 'done') {
                 console.log("info : ", info)
-                console.log("info.file.response[0] : ", info.file.response[0])
+                console.log("info.fileList : ", info.fileList)
+                //console.log("info.file.response[1] : ", info.file.response[1])
+                //console.log("info.file.response : ", info.file.response)
                 message.success(`${info.file.name} file uploaded successfully.`);
               } else if (status === 'error') {
                 message.error(`${info.file.name} file upload failed.`);
               }
             },
         }
-
-        //const { form } = this.props;
-        //console.log("this.props.serverReactionData : ", this.props.serverReactionData)
-        //if(this.props.serverReactionData !== undefined){
-        // if(this.props.serverReactionData) {
-        //     //message.success(`${this.props.serverReactionData}  successfully.`);
-        //     console.log("눈물 뚝뚝")
-        //     alert(`${this.props.serverReactionData}  successfully.`);
-        // }
 
         return (
             
@@ -337,7 +335,8 @@ const mapStateToProps = state => console.log("state in mapStateToProps : ", stat
 const mapDispatchToProps = (dispatch, ownProps) => {
     console.log("ownProps in mapDispatchToProps : ", ownProps);
     return {
-        upload: formData => dispatch({type: UPLOAD_WORKPLACE_REQUEST, data: formData })
+        upload: formData => dispatch({type: UPLOAD_WORKPLACE_REQUEST, data: formData }),
+        clearServerReactionData: () => dispatch({type: CLEAR_SERVER_REACTION_DATA}),
     }
 }
 
