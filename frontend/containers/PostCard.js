@@ -120,7 +120,7 @@ const PostCard = ({ post }) => {
         <Card
             //key={+post.createdAt}
             //cover={post.Images[0] && <img alt="example" src={`http://localhost:3065/${post.Images[0].src}`} />}
-            cover={post.Images && post.Images[0] && <PostImages images={post.Images} />}
+            cover={post.UserAssets && post.UserAssets[0] && <PostImages images={post.UserAssets} />}
             actions={[
                 <Icon type="retweet" key="retweet" onClick={onRetweet} />,
                 <Icon type="heart" key="heart" theme={liked !== undefined ? 'twoTone' : 'outlined'} twoToneColor={"#eb2f96"} onClick={onToggleLike} />,
@@ -186,8 +186,8 @@ const PostCard = ({ post }) => {
             <p>{'Copyright : '}{post.copyright}</p>
             <p>{'생성날짜 : '}{moment(post.createdAt).format('YYYY.MM.DD:HH.mm.ss')}</p>
             <p>{'파일형식 : '}{post.UserAssets[0].dataType}</p>
-            <p>{'파일위치 : '}{post.UserAssets[0].src}</p>
-            <img src={`${post.UserAssets[0].src }` } style={{ width: '200px' }} />
+            {/* <p>{'파일위치 : '}{post.UserAssets[0].src}</p> */}
+            {/* <img src={`${post.UserAssets[0].src }` } style={{ width: '200px' }} /> */}
             
         </Card>
         { commentFormOpened && (
