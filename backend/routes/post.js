@@ -47,6 +47,7 @@ router.post('/images', upload.array('image'), (req, res) => {
     res.json(req.files.map( v => v.location));
 });
 
+/*
 router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {  // POST /api/post
    // console.log("router.post_/_", req.body )
     try {
@@ -100,7 +101,7 @@ router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {  // POST
         next(e);
     }
 })
-
+*/
 
 
             
@@ -230,7 +231,8 @@ router.post('/:id/retweet', isLoggedIn, async (req, res, next) => {
                     model: db.User,
                     attributes: ['id', 'nickname'],     // 비밀번호 빼고 가져오기
                 }, {
-                    model: db.Image,
+                    //model: db.Image,
+                    model: db.UserAsset,
                 }],
             }],
         });
@@ -267,7 +269,8 @@ router.get('/:id', async (req, res, next) => {
                 model: db.User,
                 attributes: ['id', 'nickname'],
             }, {
-                model: db.Image,
+               // model: db.Image,
+                model: db.UserAsset,
             }],
         });
         res.json(post);
