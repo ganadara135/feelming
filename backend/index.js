@@ -28,7 +28,7 @@ if (prod) {
     app.use(helmet());
     app.use(morgan('combined'));
     app.use(cors( {
-        //origin: 'http://feelming.org',
+        //origin: /feelming\.org$/,
         origin: true,
         credentials: true,
     }));
@@ -38,7 +38,9 @@ if (prod) {
         origin: true,    // 쿠키 교환 설정 with frontend
         credentials: true,
     }));
+    
 }
+
 
 
 app.use('/', express.static('uploads'));    // uploads 폴더를 루트폴더에 접근하는 것처럼 처리해주는 미들웨어
@@ -46,6 +48,7 @@ app.use('/', express.static('uploads'));    // uploads 폴더를 루트폴더에
 app.use(express.json());
 // form 형식에 데이터 처리
 app.use(express.urlencoded({ extended: true }));    // req.body 처리 부분
+
 
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(expressSesion( {
@@ -65,10 +68,15 @@ app.use(passport.initialize());     // 위 app.use(expressSesion( 이후 수행
 app.use(passport.session());
 
 
+
+
+
+
 app.get('/', (req, res) => {
     res.send('react nodebird 백엔드 정상 동작!');
 });
 
+// API 창구
 app.use('/api/user', userAPIRouter);
 app.use('/api/post', postAPIRouter);
 app.use('/api/posts', postsAPIRouter); 
@@ -77,7 +85,7 @@ app.use('/api/hashtag', hashtagAPIRouter);
 
 
 
-app.listen(process.env.NODE_ENV === 'production' ? process.env.PORT : 3065, () => {
+// app.listen(process.env.NODE_ENV === 'production' ? process.env.PORT : 3065, () => {
+app.listen( prod ? process.env.PORT : 3065, () => {
     console.log(`server is running on ${process.env.PORT}`);
 })
-

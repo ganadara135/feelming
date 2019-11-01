@@ -8,7 +8,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(100),
             allowNull: true,
         },
-
+        fileType: {
+            type: DataTypes.STRING(50),
+            allowNull: true,
+        }
     }, {
         charset: 'utf8',             // 한글 
         collate: 'utf8_general_ci',    // 한글이 저장됨

@@ -289,7 +289,7 @@ const uploadProfile = multer({
         cb(null, `original/${+new Date()}${path.basename(file.originalname)}`);
         },
     }),
-    limits: { fileSize: 20 * 1024 * 1024 },
+    limits: { fileSize: 60 * 1024 * 1024 },         // 60 MB
 });
 
 //  사용자의 프로필 파일 저장하는 부분
@@ -477,9 +477,9 @@ router.put('/uploadWorkplace', async (req, res, next) => {  // put /api/user
     // // console.log("req.body : ", req.body);
     // console.log("req.body.upFiles : ", req.body.upFiles);
     // //console.log("req.body.files.location : ", req.body.files.location);
-      console.log("req.body.upFiles.fileList : ", req.body.upFiles.fileList);
-     //console.log("req.body.upFiles.fileList.response : ", req.body.upFiles.fileList.response);
-    //  console.log("req.files : ", req.files)
+      console.log("req.body.upFiles.file : ", req.body.upFiles.file);
+   //  console.log("req.body.upFiles.fileList.response : ", req.body.upFiles.fileList.response);
+    //console.log("req.files : ", req.files)
     
     // //const convertCategory = req.body.category
     // console.log("category stringify() : ", JSON.stringify(req.body.keywords));
@@ -520,16 +520,19 @@ router.put('/uploadWorkplace', async (req, res, next) => {  // put /api/user
 
         if (Array.isArray(req.body.upFiles.fileList)) {
             await Promise.all(req.body.upFiles.fileList.map((list) => {
-                return db.UserAsset.create({ 
+                console.log('list : ', list)
+                return db.UserAsset.create({
                     src: list.response[0],
                     dataType: req.body.dataType,
+                    fileType: list.type,
                     PostId: resultPost.dataValues.id,
                     UserId: req.user.id, }, {transaction: t});
             }));
-        } else { // 이미지를 하나만 올리면 image: 주소1
+        } else { // 이미지를 하나만 올리면 image: 주소1             // 현재 하나짜리는 전혀 실행 안됨, 위 배열에서 다 처리됨
             await db.UserAsset.create({ 
             src: req.body.upFiles.file.response[0],
             dataType: req.body.dataType,
+            fileType: req.body.upFiles.file.type,
             PostId: resultPost.dataValues.id,
             UserId: req.user.id, }, {transaction: t});
         }
