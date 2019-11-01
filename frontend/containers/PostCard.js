@@ -168,7 +168,8 @@ const PostCard = ({ post }) => {
             <p>{'생성날짜 : '}{moment(post.createdAt).format('YYYY.MM.DD:HH.mm.ss')}</p>
             <div>{  
                 post.UserAssets && post.UserAssets[0] && //  &&  console.log(`post.UserAssets : `, post.UserAssets[0])
-                (checkImageFileType(post.UserAssets[0].fileType)  ? <ReactPlayer url={post.UserAssets[0].src} playing /> : [] )   
+                (checkImageFileType(post.UserAssets[0].fileType)  
+                ? <ReactPlayer url={post.UserAssets[0].src} playing={true} controls={true} loop={true} /> : [] )   
                 //&& <ReactPlayer url='https://www.youtube.com/watch?v=3ymwOvzhwHs&list=PLknCtClYPF1p13kO5NCrxYHccXLlHvwOQ' playing />
 
                 //<ReactPlayer url='http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4' playing />
