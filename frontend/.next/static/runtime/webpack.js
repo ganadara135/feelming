@@ -113,7 +113,7 @@
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "f151de2833aba3167654";
+/******/ 	var hotCurrentHash = "7c98235c41c901361dd0";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -767,7 +767,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "static/chunks/" + ({}[chunkId]||chunkId) + ".js"
+/******/ 		return __webpack_require__.p + "static/chunks/" + ({"pdfjsWorker":"pdfjsWorker"}[chunkId]||chunkId) + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function

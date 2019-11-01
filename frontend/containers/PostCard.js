@@ -12,7 +12,8 @@ import moment from 'moment';
 
 //const LazyFileViewer = lazy(() => import('../components/LazyFileViewer')  )         
 import ReactPlayer from 'react-player';
-import checkImageFileType from '../config/utils';
+import { Document, Page } from 'react-pdf';
+import {checkImageFileType, checkPDFFileType, checkVideoFileType } from '../config/utils';
 
 import CommnetForm from './CommentForm';
 import FollowButton from '../components/FollowButton';
@@ -135,7 +136,7 @@ const PostCard = ({ post }) => {
             //cover={post.Images[0] && <img alt="example" src={`http://localhost:3065/${post.Images[0].src}`} />}
 
             cover={post.UserAssets && post.UserAssets[0]  && 
-                (!checkImageFileType(post.UserAssets[0].fileType)  ? <PostImages images={post.UserAssets}/> : []) }
+                (checkImageFileType(post.UserAssets[0].fileType)  ? <PostImages images={post.UserAssets}/> : []) }
             actions={[
                 <Icon type="retweet" key="retweet" onClick={onRetweet} />,
                 <Icon type="heart" key="heart" theme={liked !== undefined ? 'twoTone' : 'outlined'} twoToneColor={"#eb2f96"} onClick={onToggleLike} />,
@@ -167,34 +168,25 @@ const PostCard = ({ post }) => {
             <p>{'Copyright : '}{post.copyright}</p>
             <p>{'생성날짜 : '}{moment(post.createdAt).format('YYYY.MM.DD:HH.mm.ss')}</p>
             <div>{  
-                post.UserAssets && post.UserAssets[0] && //  &&  console.log(`post.UserAssets : `, post.UserAssets[0])
-                (checkImageFileType(post.UserAssets[0].fileType)  
-                ? <ReactPlayer url={post.UserAssets[0].src} playing={true} controls={true} loop={true} /> : [] )   
-                //&& <ReactPlayer url='https://www.youtube.com/watch?v=3ymwOvzhwHs&list=PLknCtClYPF1p13kO5NCrxYHccXLlHvwOQ' playing />
-
-                //<ReactPlayer url='http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4' playing />
-                   
-                    // post.UserAssets && post.UserAssets[0]   //  &&  console.log(`post.UserAssets : `, post.UserAssets[0] )
-                    // && <FileViewer
-                    // fileType={'mp4'}
-                    // filePath={'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'}
-                    // //filePath={file}
-                    // // errorComponent={CustomErrorComponent}
-                    // // onError={ e => console.log("fileViewer Error : ", e)}
-                    // errorComponent={<div>{"에러 발생"}</div>}
-                    // onError={onErrorMsg}
-                    // />
-          
+                post.UserAssets && post.UserAssets[0]  //&& post.UserAssets[0].fileType !== undefined  
+                &&  // <p>{'파일타입 : '}{post.UserAssets[0].fileType}</p> &&
+                (checkVideoFileType(post.UserAssets[0].fileType)  
+                ? <ReactPlayer url={post.UserAssets[0].src} playing={true} controls={true} loop={true} /> 
+                : (checkPDFFileType(post.UserAssets[0].fileType)
+                ?     
+                <div>
+                    <Document
+                        file={post.UserAssets[0].src}
+                        //file="https://feelming.s3.ap-northeast-2.amazonaws.com/original/15726212473704_jpark_ZKP+and+Plasma.pdf"
+                        onLoadSuccess={() => console.log("PDF upload success!!")}
+                    >
+                    <Page pageNumber={1} />
+                    </Document>
+                    <p>Page {1} of {1}</p>
+                </div>
+                : [] ))                // 마지막은 이미지, 기타 파일
             }</div>
-            {/* <p>{'파일형식 : '}{post.UserAssets[0].dataType}</p> */}
-            {/* <p>{'파일위치 : '}{post.UserAssets[0].src}</p> */}
-            {/* <img src={`${post.UserAssets[0].src }` } style={{ width: '200px' }} /> */}
-            {/* <p>{ post.UserAssets[0].src }</p> */}
-           
-  
-            
-
-
+       
             
         </Card>
         { commentFormOpened && (
@@ -216,13 +208,6 @@ const PostCard = ({ post }) => {
                                 )}
                                 content={item.content}
                             />
-                            {/* <Comment
-                                author={item.User.nickname}
-                                // 아래 링크는 SPA 처리 안되는 방식임
-                                avatar={<Link href={`/user/${item.User.id}`} ><a><Avatar>{item.User.nickname[0]}</Avatar></a></Link>}
-                                content={item.content}
-                                //datatime={item.createdAt}
-                            /> */}
                         </li>
                     )}
                 />

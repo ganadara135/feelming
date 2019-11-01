@@ -18,10 +18,37 @@ function checkImageFileType(fileType) {
     console.log("이미지 체크 : ", fileType)
     var re = new RegExp("jpg|jpeg|gif|png","gi"); 
     if (re.test( fileType )) {
-        return true;
+        console.log("이미지 맞아 true")
+        return true;        // re.test() 가 조건에 맞으면  이것을 넘겨준다.
     } else {
-        return false;       // re.test() 가 조건에 맞으면  이것을 넘겨준다.
+        console.log("이미지 아니야 false")
+        return false;       
     }
 }
 
-export { checkImageFileType, supportingFileTypeCheck};
+//  이미지 파일인지 체크
+function checkVideoFileType(fileType) {
+
+    console.log("비디오 오디오 체크 : ", fileType)
+    var re = new RegExp("mp4|mp3","gi"); 
+    if (re.test( fileType )) {
+        return true;        // re.test() 가 조건에 맞으면  이것을 넘겨준다.
+    } else {
+        return false;       
+    }
+}
+
+//  이미지 파일인지 체크
+function checkPDFFileType(fileType) {
+
+    console.log("PDF 체크 : ", fileType)
+    var re = new RegExp("pdf","gi"); 
+    if (re.test( fileType )) {
+        console.log(" PDF return true")
+        return true;                // re.test() 가 조건에 맞으면  이것을 넘겨준다.
+    } else {
+        console.log(" PDF return false")
+        return false;       
+    }
+}
+export { checkVideoFileType, checkPDFFileType, checkImageFileType, supportingFileTypeCheck};
