@@ -13,6 +13,9 @@ const app = next( { dev });
 const handle = app.getRequestHandler();
 dotevn.config()
 
+
+
+
 app.prepare().then( () => {
     const server = express();
 
@@ -30,6 +33,8 @@ app.prepare().then( () => {
             secure: false,
         },
     }));
+
+  
 
     // 동적 페이지 요청 처리 부분 / 동적 라우터 처리
     server.get('/post/:id', (req, res) => {

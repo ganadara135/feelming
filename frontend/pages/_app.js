@@ -26,7 +26,7 @@ import { LOAD_USER_REQUEST } from '../reducers/user';
 
 const Feelming = ({ Component, store, pageProps }) => {
     return (
-        <Container>
+        // <Container>
         <Provider store={store} >
             <Helmet
                 title="Feelming"
@@ -63,7 +63,7 @@ const Feelming = ({ Component, store, pageProps }) => {
                 <Component {...pageProps} />
             </AppLayout>
         </Provider>
-        </Container>
+        // </Container>
     );
 };
 

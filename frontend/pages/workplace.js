@@ -7,6 +7,11 @@ import { UPLOAD_WORKPLACE_REQUEST, CLEAR_SERVER_REACTION_DATA } from '../reducer
 
 import { backUrl } from '../config/config';
 
+
+import fileType from 'file-type';
+import axios from 'axios';
+import { supportingFileTypeCheck } from '../config/utils.js';
+
 //const Workplace = () => {
 const  category = [
     {
@@ -42,6 +47,58 @@ const  category = [
         ],
     },
 ];
+
+
+// 브라우저 쪽에선 작동하지 않는 코드들 , require() 등
+function remoteFileTypeCheckTest () {
+    // var FetchStream = require("fetch").FetchStream;
+
+    // var fetch = new FetchStream("http://google.com");
+
+    // fetch.on("data", function(chunk){
+    //     console.log(chunk);
+    // });
+    // const readChunk = require('read-chunk');
+    // const fileType = require('file-type');
+    // const buffer = readChunk.sync('unicorn.png', 0, fileType.minimumBytes);
+ 
+    // fileType(buffer);
+
+    // var fetchUrl = require("fetch").fetchUrl;
+
+    // // source file is iso-8859-15 but it is converted to utf-8 automatically
+    // fetchUrl("http://google.com", function(error, meta, body){
+    //     console.log(body.toString());
+    // });
+
+    // var request = require('request');
+    // request('http://www.google.com', function (error, response, body) {
+    //     console.log('error:', error); // Print the error if one occurred
+    //     console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+    //     console.log('body:', body); // Print the HTML for the Google homepage.
+    // });
+
+
+    // const xhr = new XMLHttpRequest();
+    // xhr.open('GET', 'unicorn.png');
+    // xhr.responseType = 'arraybuffer';
+
+
+    axios({
+        method: 'get',
+        //url: 'http://bit.ly/2mTM3nY',
+        //url: 'https://feelming.s3.ap-northeast-2.amazonaws.com/original/1572164696578%EC%9D%B8%EB%AC%BC01.jpg',
+        url: 'https://blog.yena.io/assets/post-img/171123-nachoi-300.jpg',
+        //responseType: 'stream',
+        responseType: 'arraybuffer',
+    })
+    .then(function (response) {
+        //response.data.pipe(fs.createWriteStream('ada_lovelace.jpg'))
+        console.log('response : ', response);
+        console.log('fileType : ', fileType(new Uint8Array(response.data)));
+    });
+    
+}
 
 class Workplace extends React.Component {
 
@@ -104,6 +161,9 @@ class Workplace extends React.Component {
         form.setFieldsValue({
             keywordKey: nextKeys,
         });
+
+
+        //remoteFileTypeCheckTest();
     };
 
     onSubmitForm = (e) => {
@@ -132,7 +192,7 @@ class Workplace extends React.Component {
             //message.success(`${this.props.serverReactionData}  successfully.`);
             //this.state.serverMsgCheck = nextProps.serverReactionData;
             this.props.clearServerReactionData();
-            alert(`${this.state.serverMsgCheck}  successfully.`);
+            message.success(`${this.state.serverMsgCheck}  successfully.`);
             Router.push('/');
         }
     }    
@@ -204,12 +264,22 @@ class Workplace extends React.Component {
             multiple: false,        // 1개의 파일 입력만 허용
             //action: 'http://localhost:3065/api/user/uploadWorkplaceUpfile/',
             action: `${backUrl}/api/user/uploadWorkplaceUpfile/`,
+            beforeUpload(file) {
+                console.log("file.type : ", file.type)
+                if (!supportingFileTypeCheck(file.type)) {
+                    message.error("지원하지 않는 파일 형식입니다.");
+                    return false;
+                }
+                const isLt20M = file.size / 1024 / 1024 / 10 < 6;
+                if (!isLt20M) {
+                    message.error('File size must smaller than 60MB!');
+                    return false;
+                }
+            },
             onChange(info) {
 
               const { status } = info.file;
-              if (status !== 'uploading') {
-                console.log();
-              }
+
               if (status === 'done') {
                 console.log("info : ", info)
                 console.log("info.fileList : ", info.fileList)
@@ -221,6 +291,7 @@ class Workplace extends React.Component {
               }
             },
         }
+
 
         return (
             

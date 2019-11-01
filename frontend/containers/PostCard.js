@@ -8,6 +8,12 @@ import PostImages from '../components/PostImages'
 import styled from 'styled-components';
 import moment from 'moment';
 
+//import FileViewer from 'react-file-viewer';      
+
+//const LazyFileViewer = lazy(() => import('../components/LazyFileViewer')  )         
+import ReactPlayer from 'react-player';
+import checkImageFileType from '../config/utils';
+
 import CommnetForm from './CommentForm';
 import FollowButton from '../components/FollowButton';
 import { UNFOLLOW_USER_REQUEST, FOLLOW_USER_REQUEST } from '../reducers/user';
@@ -22,6 +28,7 @@ const CardWrapper = styled.div`
     margin-bottom: 20px;
 `;
 
+
 const PostCard = ({ post }) => {
     const [commentFormOpened, setCommentFormOpened ] = useState(false);
     const id = useSelector(state => state.user.me && state.user.me.id);
@@ -30,9 +37,12 @@ const PostCard = ({ post }) => {
     const dispatch = useDispatch();
 
     const liked = id && post.Liker && post.Liker.find(v =>  v.id === id);
-    console.log("liked : ", liked);
-    console.log("post.Liker[0] : ", post.Liker[0]);
+   // console.log("liked : ", liked);
+   // console.log("post.Liker[0] : ", post.Liker[0]);
 
+    
+
+    // Similar to componentDidMount and componentDidUpdate, componentWillUnmount:
     // 리렌더링 되는 에러 잡는 방법  ////////////////////////   에러 잡는 방법/////////////////
     // const postMemory = useRef(post);
     // console.log("post : ", post)
@@ -115,12 +125,17 @@ const PostCard = ({ post }) => {
     },[]);
 
 
+    
+
+
     return (
         <CardWrapper>
         <Card
             //key={+post.createdAt}
             //cover={post.Images[0] && <img alt="example" src={`http://localhost:3065/${post.Images[0].src}`} />}
-            cover={post.UserAssets && post.UserAssets[0] && <PostImages images={post.UserAssets} />}
+
+            cover={post.UserAssets && post.UserAssets[0]  && 
+                (!checkImageFileType(post.UserAssets[0].fileType)  ? <PostImages images={post.UserAssets}/> : []) }
             actions={[
                 <Icon type="retweet" key="retweet" onClick={onRetweet} />,
                 <Icon type="heart" key="heart" theme={liked !== undefined ? 'twoTone' : 'outlined'} twoToneColor={"#eb2f96"} onClick={onToggleLike} />,
@@ -145,49 +160,40 @@ const PostCard = ({ post }) => {
             ]}
             title={post.RetweetId ? `${post.User.nickname}님이 리트윗했습니다` : null}
             extra={<FollowButton post={post} onUnfollow={onUnfollow} onFollow={onFollow} />}
-
-            // extra={!me || post.User.id === me.id
-            //     ? null
-            //     : me.Followings && me.Followings.find(v => v.id === post.User.id)
-            //       ? <Button onClick={onUnfollow(post.User.id)} type='primary'>언팔로우</Button>
-            //       : <Button onClick={onFollow(post.User.id)} >팔로우</Button>
-            //   }
         >
-            {/* {post.RetweetId && post.Retweet ?
-                (
-                <Card
-                    cover={post.Retweet.Images[0] && <PostImages images={post.Retweet.Images} /> }
-                >
-                <Card.Meta
-                    avatar={(
-                    <Link href={{ pathname: '/user', query: { id: post.User.id }}}  as={`/user/${post.User.id}`}>
-                    <a><Avatar>{post.User.nickname[0]}</Avatar></a>
-                    </Link>
-                    )}
-                    title={post.User.nickname}
-                // description={<PostCardContent postData={post.Retweet.content} />}
-                />
-                </Card>
-                )
-            : (
-            <Card.Meta
-                avatar={( 
-                <Link href={{ pathname: '/user', query: { id: post.User.id }}}  as={`/user/${post.User.id}`}>
-                <a><Avatar>{post.User.nickname[0]}</Avatar></a>
-                </Link>
-              )}
-           title={post.User.nickname}
-        //   description={<PostCardContent postData={post.content} />}
-
-            /> )} */}
 
             <p>{'공개범위 : '}{post.publicScope}</p>
             <p>{'Category : '}{post.category}</p>
             <p>{'Copyright : '}{post.copyright}</p>
             <p>{'생성날짜 : '}{moment(post.createdAt).format('YYYY.MM.DD:HH.mm.ss')}</p>
-            <p>{'파일형식 : '}{post.UserAssets[0].dataType}</p>
+            <div>{  
+                post.UserAssets && post.UserAssets[0] && //  &&  console.log(`post.UserAssets : `, post.UserAssets[0])
+                (checkImageFileType(post.UserAssets[0].fileType)  ? <ReactPlayer url={post.UserAssets[0].src} playing /> : [] )   
+                //&& <ReactPlayer url='https://www.youtube.com/watch?v=3ymwOvzhwHs&list=PLknCtClYPF1p13kO5NCrxYHccXLlHvwOQ' playing />
+
+                //<ReactPlayer url='http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4' playing />
+                   
+                    // post.UserAssets && post.UserAssets[0]   //  &&  console.log(`post.UserAssets : `, post.UserAssets[0] )
+                    // && <FileViewer
+                    // fileType={'mp4'}
+                    // filePath={'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'}
+                    // //filePath={file}
+                    // // errorComponent={CustomErrorComponent}
+                    // // onError={ e => console.log("fileViewer Error : ", e)}
+                    // errorComponent={<div>{"에러 발생"}</div>}
+                    // onError={onErrorMsg}
+                    // />
+          
+            }</div>
+            {/* <p>{'파일형식 : '}{post.UserAssets[0].dataType}</p> */}
             {/* <p>{'파일위치 : '}{post.UserAssets[0].src}</p> */}
             {/* <img src={`${post.UserAssets[0].src }` } style={{ width: '200px' }} /> */}
+            {/* <p>{ post.UserAssets[0].src }</p> */}
+           
+  
+            
+
+
             
         </Card>
         { commentFormOpened && (
@@ -233,5 +239,18 @@ PostCard.propTypes = {
         createdAt: PropTypes.string,
     })
 }
+
+// PostCard.getInitialProps = async (context) => {
+//     //const tag = context.query.tag;
+//     //console.log('hashtag getInitialProps', context.query.tag);
+//     // context.store.dispatch({
+//     //     type: LOAD_HASHTAG_POSTS_REQUEST,
+//     //     data: tag,
+//     // })
+//    // return { tag };
+
+//    console.log('context PostCard : ', context)
+//    return 
+// }
 
 export default PostCard;
