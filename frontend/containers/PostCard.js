@@ -171,11 +171,18 @@ const PostCard = ({ post }) => {
                 post.UserAssets && post.UserAssets[0]  //&& post.UserAssets[0].fileType !== undefined  
                 &&  // <p>{'파일타입 : '}{post.UserAssets[0].fileType}</p> &&
                 (checkVideoFileType(post.UserAssets[0].fileType)  
-                ? <ReactPlayer url={post.UserAssets[0].src} playing={true} controls={true} loop={true} /> 
+                ? <ReactPlayer  
+                // config={{ file: {
+                //     attributes: {
+                //         crossOrigin: 'true',            // CORS  설정
+                //     }}}}  
+                    crossOrigin='anonymous' 
+                    url={post.UserAssets[0].src} playing={true} controls={true} loop={true} /> 
                 : (checkPDFFileType(post.UserAssets[0].fileType)
                 ?     
                 <div>
                     <Document
+                        crossOrigin='anonymous' 
                         file={post.UserAssets[0].src}
                         //file="https://feelming.s3.ap-northeast-2.amazonaws.com/original/15726212473704_jpark_ZKP+and+Plasma.pdf"
                         onLoadSuccess={() => console.log("PDF upload success!!")}

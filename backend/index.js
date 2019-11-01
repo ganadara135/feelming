@@ -37,8 +37,10 @@ if (prod) {
     app.use(cors( {
         origin: true,    // 쿠키 교환 설정 with frontend
         credentials: true,
+        // methods: 'GET,PUT,POST',
+        // allowedHeaders: 'Range',
+        // exposedHeaders: 'Content-Range,Accept-Ranges,Content-Encoding,Content-Length',
     }));
-    
 }
 
 
