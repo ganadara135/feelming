@@ -1,4 +1,4 @@
-import React,{useState, useCallback, useEffect, useRef } from 'react';
+import React,{useState, useCallback, useEffect, useRef, useLayoutEffect } from 'react';
 import { Card, Icon, Button, Avatar, Form, Input, List, Comment, Popover} from 'antd';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,7 +12,7 @@ import moment from 'moment';
 
 //const LazyFileViewer = lazy(() => import('../components/LazyFileViewer')  )         
 import ReactPlayer from 'react-player';
-import { Document, Page } from 'react-pdf';
+import { Document, Page, Outline } from 'react-pdf';
 import {checkImageFileType, checkPDFFileType, checkVideoFileType } from '../config/utils';
 
 import CommnetForm from './CommentForm';
@@ -32,6 +32,10 @@ const CardWrapper = styled.div`
 
 const PostCard = ({ post }) => {
     const [commentFormOpened, setCommentFormOpened ] = useState(false);
+    const [pdfTotalPages, setPdfTotalPages ] = useState(null);
+    const [pdfPageNumber, setPdfPageNumber ] = useState(1);
+    const [dimensionsPdf, setDimensionsPdf ] = useState({width:0, height: 0 });
+    const targetRef = useRef();
     const id = useSelector(state => state.user.me && state.user.me.id);
     //console.log("check.state.me : ", useSelector(state => state.user.me));
 
@@ -126,8 +130,28 @@ const PostCard = ({ post }) => {
     },[]);
 
 
+    const onPDFDocumentLoadSuccess = useCallback( (pdf)  => {
+        //this.setState({ numPages });
+        setPdfTotalPages(pdf._pdfInfo.numPages);
+        console.log('_pdfInfo.numPages : ', pdf._pdfInfo.numPages);
+    },[]);
     
+    const changePdfPage = offset => setPdfPageNumber(
+        pdfPageNumber + offset
+    );
 
+    const previousPage = () => changePdfPage(-1);
+
+    const nextPage = () => changePdfPage(1);
+
+    useLayoutEffect(() => {
+        if (targetRef.current) {
+            setDimensionsPdf({
+                width: targetRef.current.offsetWidth,
+                height: targetRef.current.offsetWidth
+            });
+        }
+    },[]);
 
     return (
         <CardWrapper>
@@ -167,7 +191,7 @@ const PostCard = ({ post }) => {
             <p>{'Category : '}{post.category}</p>
             <p>{'Copyright : '}{post.copyright}</p>
             <p>{'생성날짜 : '}{moment(post.createdAt).format('YYYY.MM.DD:HH.mm.ss')}</p>
-            <div>{  
+            <div ref={targetRef}>  {  
                 post.UserAssets && post.UserAssets[0]  //&& post.UserAssets[0].fileType !== undefined  
                 &&  // <p>{'파일타입 : '}{post.UserAssets[0].fileType}</p> &&
                 (checkVideoFileType(post.UserAssets[0].fileType)  
@@ -176,20 +200,28 @@ const PostCard = ({ post }) => {
                 //     attributes: {
                 //         crossOrigin: 'true',            // CORS  설정
                 //     }}}}  
-                    crossOrigin='anonymous' 
+                //  crossOrigin='anonymous' 
+                    width={dimensionsPdf.width}
                     url={post.UserAssets[0].src} playing={true} controls={true} loop={true} /> 
                 : (checkPDFFileType(post.UserAssets[0].fileType)
                 ?     
-                <div>
+                <div> 
                     <Document
-                        crossOrigin='anonymous' 
+                        // crossOrigin='anonymous'  this is for CORS,
                         file={post.UserAssets[0].src}
-                        //file="https://feelming.s3.ap-northeast-2.amazonaws.com/original/15726212473704_jpark_ZKP+and+Plasma.pdf"
-                        onLoadSuccess={() => console.log("PDF upload success!!")}
+                        onLoadSuccess={onPDFDocumentLoadSuccess}
                     >
-                    <Page pageNumber={1} />
+                    <Page 
+                        pageNumber={pdfPageNumber || 1} 
+                        width={dimensionsPdf.width} /> 
                     </Document>
-                    <p>Page {1} of {1}</p>
+
+                    <Button type="default" disabled={pdfPageNumber <= 1} onClick={previousPage} >Previous</Button>
+                    <Button type="default" disabled={pdfPageNumber >= pdfTotalPages} onClick={nextPage} >Next</Button>
+
+                    <span >{" _ _ _ _ _ __ _ __ _   "} Page {pdfPageNumber} of {pdfTotalPages} </span>
+                    <p>{"width: " + dimensionsPdf.width}</p>
+                    <p>{"height: " + dimensionsPdf.height}</p>
                 </div>
                 : [] ))                // 마지막은 이미지, 기타 파일
             }</div>
