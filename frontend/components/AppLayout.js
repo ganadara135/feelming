@@ -30,7 +30,6 @@ const AppLayout = ({ children }) => {
         <div>
             <Menu mode="horizontal">
                 <Menu.Item key='home'><Link href="/" prefetch={true}><a>Feelming</a></Link></Menu.Item>
-                <Menu.Item key='profile'><Link href="/profile"  prefetch={true} ><a>프로필</a></Link></Menu.Item>
                 <Menu.Item key='search'>
                     <Input.Search 
                         enterButton 
@@ -38,7 +37,9 @@ const AppLayout = ({ children }) => {
                         onSearch={onSearch} 
                     />
                 </Menu.Item>
-                <Menu.Item key='workplace'><Link href="/workplace"  prefetch={true}><a>내작업장</a></Link></Menu.Item>
+                {me ? <Menu.Item key='profile'><Link href="/profile"  prefetch={true} ><a>프로필</a></Link></Menu.Item> : [] }
+                {me ? <Menu.Item key='workplace'><Link href="/workplace"  prefetch={true}><a>내작업장</a></Link></Menu.Item> : [] }
+                <Menu.Item key='gallery'><Link href="/gallery" prefetch={true} ><a>갤러리</a></Link></Menu.Item>
             </Menu>
             <Row gutter={8} >
                 <Col xs={24} md={6}>

@@ -27,7 +27,7 @@ function checkImageFileType(fileType) {
 }
 
 //  이미지 파일인지 체크
-function checkVideoFileType(fileType) {
+function checkVideoAudioFileType(fileType) {
 
     console.log("비디오 오디오 체크 : ", fileType)
     var re = new RegExp("mp4|mp3","gi"); 
@@ -51,4 +51,5 @@ function checkPDFFileType(fileType) {
         return false;       
     }
 }
-export { checkVideoFileType, checkPDFFileType, checkImageFileType, supportingFileTypeCheck};
+
+export { checkVideoAudioFileType, checkPDFFileType, checkImageFileType, supportingFileTypeCheck};

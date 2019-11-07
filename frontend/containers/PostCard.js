@@ -13,7 +13,7 @@ import moment from 'moment';
 //const LazyFileViewer = lazy(() => import('../components/LazyFileViewer')  )         
 import ReactPlayer from 'react-player';
 import { Document, Page, Outline } from 'react-pdf';
-import {checkImageFileType, checkPDFFileType, checkVideoFileType } from '../config/utils';
+import {checkImageFileType, checkPDFFileType, checkVideoAudioFileType } from '../config/utils';
 
 import CommnetForm from './CommentForm';
 import FollowButton from '../components/FollowButton';
@@ -34,7 +34,7 @@ const PostCard = ({ post }) => {
     const [commentFormOpened, setCommentFormOpened ] = useState(false);
     const [pdfTotalPages, setPdfTotalPages ] = useState(null);
     const [pdfPageNumber, setPdfPageNumber ] = useState(1);
-    const [dimensionsPdf, setDimensionsPdf ] = useState({width:0, height: 0 });
+    const [dimensions, setDimensions ] = useState({width:0, height: 0 });
     const targetRef = useRef();
     const id = useSelector(state => state.user.me && state.user.me.id);
     //console.log("check.state.me : ", useSelector(state => state.user.me));
@@ -131,22 +131,19 @@ const PostCard = ({ post }) => {
 
 
     const onPDFDocumentLoadSuccess = useCallback( (pdf)  => {
-        //this.setState({ numPages });
         setPdfTotalPages(pdf._pdfInfo.numPages);
-        console.log('_pdfInfo.numPages : ', pdf._pdfInfo.numPages);
     },[]);
-    
-    const changePdfPage = offset => setPdfPageNumber(
+
+    const changePdfPage =  (offset) => setPdfPageNumber(
         pdfPageNumber + offset
     );
-
     const previousPage = () => changePdfPage(-1);
-
     const nextPage = () => changePdfPage(1);
 
-    useLayoutEffect(() => {
+    //useLayoutEffect(() => {           // 이거로 하면 화면 깨짐, 
+    useEffect(() => {
         if (targetRef.current) {
-            setDimensionsPdf({
+            setDimensions({
                 width: targetRef.current.offsetWidth,
                 height: targetRef.current.offsetWidth
             });
@@ -194,15 +191,15 @@ const PostCard = ({ post }) => {
             <div ref={targetRef}>  {  
                 post.UserAssets && post.UserAssets[0]  //&& post.UserAssets[0].fileType !== undefined  
                 &&  // <p>{'파일타입 : '}{post.UserAssets[0].fileType}</p> &&
-                (checkVideoFileType(post.UserAssets[0].fileType)  
-                ? <ReactPlayer  
+                (checkVideoAudioFileType(post.UserAssets[0].fileType)  
+                ? <ReactPlayer
                 // config={{ file: {
                 //     attributes: {
                 //         crossOrigin: 'true',            // CORS  설정
                 //     }}}}  
                 //  crossOrigin='anonymous' 
-                    width={dimensionsPdf.width}
-                    url={post.UserAssets[0].src} playing={true} controls={true} loop={true} /> 
+                    width={dimensions.width}
+                    url={post.UserAssets[0].src} playing={false} controls={true} loop={true} /> 
                 : (checkPDFFileType(post.UserAssets[0].fileType)
                 ?     
                 <div> 
@@ -213,15 +210,14 @@ const PostCard = ({ post }) => {
                     >
                     <Page 
                         pageNumber={pdfPageNumber || 1} 
-                        width={dimensionsPdf.width} /> 
+                        width={dimensions.width} /> 
                     </Document>
 
                     <Button type="default" disabled={pdfPageNumber <= 1} onClick={previousPage} >Previous</Button>
                     <Button type="default" disabled={pdfPageNumber >= pdfTotalPages} onClick={nextPage} >Next</Button>
 
-                    <span >{" _ _ _ _ _ __ _ __ _   "} Page {pdfPageNumber} of {pdfTotalPages} </span>
-                    <p>{"width: " + dimensionsPdf.width}</p>
-                    <p>{"height: " + dimensionsPdf.height}</p>
+                    <span >{" \t   "} Page {pdfPageNumber} of {pdfTotalPages} </span>
+        
                 </div>
                 : [] ))                // 마지막은 이미지, 기타 파일
             }</div>
