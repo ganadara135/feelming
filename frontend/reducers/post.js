@@ -49,8 +49,10 @@ export const initialState = {
     addCommentErrorReason: '',
     commentAdded: false,
 
+    bestLikesPosts: [],  // 갤러리 창에 보여줄 내역, 좋아요 숫자가 많은 내역순으로 정렬하여 보여줌
+
     singlePost: null,
-  };
+};
 
 export const LOAD_MAIN_POSTS_REQUEST = 'LOAD_MAIN_POSTS_REQUEST';
 export const LOAD_MAIN_POSTS_SUCCESS = 'LOAD_MAIN_POSTS_SUCCESS';
@@ -98,12 +100,20 @@ export const REMOVE_POST_REQUEST = 'REMOVE_POST_REQUEST';
 export const REMOVE_POST_SUCCESS = 'REMOVE_POST_SUCCESS';
 export const REMOVE_POST_FAILURE = 'REMOVE_POST_FAILURE';
 
-
-
-
 export const LOAD_POST_REQUEST = 'LOAD_POST_REQUEST';
 export const LOAD_POST_SUCCESS = 'LOAD_POST_SUCCESS';
 export const LOAD_POST_FAILURE = 'LOAD_POST_FAILURE';
+
+export const LOAD_BEST_LIKES_REQUEST = 'LOAD_BEST_LIKES_REQUEST';
+export const LOAD_BEST_LIKES_SUCCESS = 'LOAD_BEST_LIKES_SUCCESS';
+export const LOAD_BEST_LIKES_FAILURE = 'LOAD_BEST_LIKES_FAILURE';
+
+export const COOPERATE_REQUEST = 'COOPERATE_REQUEST';
+export const COOPERATE_SUCCESS = 'COOPERATE_SUCCESS';
+export const COOPERATE_FAILURE = 'COOPERATE_FAILURE';
+export const UNCOOPERATE_REQUEST = 'UNCOOPERATE_REQUEST';
+export const UNCOOPERATE_SUCCESS = 'UNCOOPERATE_SUCCESS';
+export const UNCOOPERATE_FAILURE = 'UNCOOPERATE_FAILURE';
 
 
 const reducer = (state = initialState, action) => {
@@ -174,10 +184,6 @@ const reducer = (state = initialState, action) => {
             };
         }
         case ADD_COMMENT_SUCCESS: {
-            // console.log(" in Reducuer ADD_COMMENT_SUCCESS :  ", action)
-            // console.log(" chk state : ", state)
-            // console.log(" state.mainPosts[0] : ", state.mainPosts[0]);
-
            // try {   
                 const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
                 //console.log("postIndex : ", postIndex);
@@ -310,19 +316,58 @@ const reducer = (state = initialState, action) => {
                 ...state,
             };
         }
-        case RETWEET_REQUEST: {
+        case COOPERATE_REQUEST: {
             return {
                 ...state,
             };
         }
-        case RETWEET_SUCCESS: {
-            console.log('RETWEET_SUCCESS in reducers ', action.data)
+        case COOPERATE_SUCCESS: {
+            //console.log("state is array : ", state);
+            
+            const postIndex = state.mainPosts.findIndex( v => v.id === action.data.postId);
+            
+            const post = state.mainPosts[postIndex];
+            
+            const Cooperates = post.Cooperates ? [{ UserId: action.data.userId, PostId: action.data.postId, Cooperate: false }, ...post.Cooperates] 
+                              : [{ UserId: action.data.userId, PostId: action.data.postId, Cooperate: false }];
+            
+            const mainPosts = [...state.mainPosts];
+            
+            mainPosts[postIndex] = { ...post, Cooperates};
+          //  console.log("mainPosts[postIndex]  : ", mainPosts[postIndex])
+
             return {
                 ...state,
-                mainPosts: [action.data, ...state.mainPosts],
+                mainPosts,
             };
         }
-        case RETWEET_FAILURE: {
+        case COOPERATE_FAILURE: {
+            return {
+                ...state,
+            };
+        }
+        case UNCOOPERATE_REQUEST: {
+            return {
+                ...state,
+            };
+        }
+        case UNCOOPERATE_SUCCESS: {
+            console.log("action.data : ", action.data);
+            const postIndex = state.mainPosts.findIndex( v => v.id === action.data.postId);
+            console.log("postIndex : ", postIndex)
+            const post = state.mainPosts[postIndex];
+            console.log("post : ", post)
+            const Cooperates = post.Cooperates.filter(v => v.Userid !== action.data.userId && v.PostId !== action.data.postId);
+            console.log("Cooperates  : ", Cooperates)
+            const mainPosts = [...state.mainPosts];
+            console.log("mainPosts  : ", mainPosts)
+            mainPosts[postIndex] = { ...post, Cooperates};
+            return {
+                ...state,
+                mainPosts,
+            };
+        }
+        case UNCOOPERATE_FAILURE: {
             return {
                 ...state,
             };
@@ -344,6 +389,26 @@ const reducer = (state = initialState, action) => {
                 ...state,
             };
         }
+        case LOAD_BEST_LIKES_REQUEST: {
+            return {
+                ...state,
+                bestLikesPosts: !action.lastId ? [] : state.bestLikesPosts,
+                hasMorePost: action.lastId ? state.hasMorePost : true,
+            };
+        }
+        case LOAD_BEST_LIKES_SUCCESS: {
+            return {
+                ...state,     
+                bestLikesPosts: state.bestLikesPosts.concat(action.data),
+                hasMorePost: action.data.length === 10,
+            };
+        }
+        case LOAD_BEST_LIKES_FAILURE: {
+            return {
+                ...state,
+            };
+        }
+
 
         case LOAD_POST_SUCCESS: {
             return {

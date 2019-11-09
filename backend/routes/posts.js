@@ -16,8 +16,14 @@ router.get('/', async (req, res, next) => {
         const posts = await db.Post.findAll({
             where,
             include: [{
+                model: db.Cooperate,                // LEFT OUTER JOIN,  ForeinKey 로 묶임
+            },{
                 model: db.User,
                 attributes: ['id', 'nickname'],     // 비밀번호 가져오지 않기
+                // include: [{                         // LEFT OUTER JOIN
+                //     model: db.Cooperate,
+                //     //where: { UserId: req.params.id },
+                // }]
             }, {
                 model: db.UserAsset
             }, {
@@ -25,14 +31,19 @@ router.get('/', async (req, res, next) => {
                 through: 'Like',
                 as: 'Liker',
                 attributes: ['id'],
-            }
-            ],
+                
+            },],
             //order: [['createdAt', 'DESC'], ['updateAt', 'ASC']]
             order: [['createdAt', 'DESC'], ],
             limit: parseInt(req.query.limit, 10),
         });
 
+        
+
      //   console.log("table posts[0].Liker : ", posts[0].Liker)
+
+        console.log("posts in routes : ", posts)
+
         res.json(posts);
     } catch (e) {
         console.error(e);

@@ -18,7 +18,7 @@ import {checkImageFileType, checkPDFFileType, checkVideoAudioFileType } from '..
 import CommnetForm from './CommentForm';
 import FollowButton from '../components/FollowButton';
 import { UNFOLLOW_USER_REQUEST, FOLLOW_USER_REQUEST } from '../reducers/user';
-import { ADD_COMMENT_REQUEST, LOAD_COMMENTS_REQUEST, UNLIKE_POST_REQUEST, LIKE_POST_REQUEST, RETWEET_REQUEST, 
+import { ADD_COMMENT_REQUEST, LOAD_COMMENTS_REQUEST, UNLIKE_POST_REQUEST, LIKE_POST_REQUEST, COOPERATE_REQUEST, UNCOOPERATE_REQUEST,
     REMOVE_POST_REQUEST } from '../reducers/post';
 
 //import { backUrl } from '../config/config';
@@ -34,18 +34,28 @@ const PostCard = ({ post }) => {
     const [commentFormOpened, setCommentFormOpened ] = useState(false);
     const [pdfTotalPages, setPdfTotalPages ] = useState(null);
     const [pdfPageNumber, setPdfPageNumber ] = useState(1);
-    const [dimensions, setDimensions ] = useState({width:0, height: 0 });
+    const [dimensions, setDimensions ] = useState({ width:0, height: 0 });
     const targetRef = useRef();
     const id = useSelector(state => state.user.me && state.user.me.id);
-    //console.log("check.state.me : ", useSelector(state => state.user.me));
 
     const dispatch = useDispatch();
 
     const liked = id && post.Liker && post.Liker.find(v =>  v.id === id);
-   // console.log("liked : ", liked);
-   // console.log("post.Liker[0] : ", post.Liker[0]);
+    const cooper = id && post.Cooperates && post.Cooperates.find(v =>  v.UserId === id);
 
-    
+
+
+    console.log("cooper : ", cooper)
+    //console.log("post.Cooperates.length : ", post.Cooperates.length)
+    if((post.Cooperates.length > 0)){
+        console.log("5555")
+        console.log("id : ", id)
+        post.Cooperates.find( v => console.log(v.UserId))
+    }
+        
+
+    console.log("post.Cooperates : ", post.Cooperates);
+
 
     // Similar to componentDidMount and componentDidUpdate, componentWillUnmount:
     // 리렌더링 되는 에러 잡는 방법  ////////////////////////   에러 잡는 방법/////////////////
@@ -97,15 +107,25 @@ const PostCard = ({ post }) => {
         }
     }, [id, post && post.id, liked && liked.id])
 
-    const onRetweet = useCallback( () => {
+    const onCooperate = useCallback( () => {
+        console.log("onCooperate() ")
         if (!id) {
             return alert('로그인이 필요합니다');
         }
-        return dispatch({
-            type: RETWEET_REQUEST,
-            data: post.id,
-        });
-    }, [id, post && post.id]);
+        console.log("onCooperate cooper : ", cooper)
+        if ( cooper && cooper.UserId === id){     // 좋아요 누른 상태
+            dispatch( {
+                type: UNCOOPERATE_REQUEST,
+                data: post.id,
+            });
+        } 
+        if(cooper === undefined) {                                                        // 좋아요 안 누른 상태
+            dispatch( {
+                type: COOPERATE_REQUEST,
+                data: post.id,
+            });
+        }
+    }, [id, post && post.id, cooper && cooper.UserId]);
 
     const onFollow = useCallback( userId => () => {
         dispatch({
@@ -119,7 +139,7 @@ const PostCard = ({ post }) => {
             type: UNFOLLOW_USER_REQUEST,
             data: userId,
         });
-    }, []);
+    }, [ post && post.Followings]);
 
     const onRemovePost = useCallback( userId => () => {
         console.log("call onRemovePost() ")
@@ -154,12 +174,11 @@ const PostCard = ({ post }) => {
         <CardWrapper>
         <Card
             //key={+post.createdAt}
-            //cover={post.Images[0] && <img alt="example" src={`http://localhost:3065/${post.Images[0].src}`} />}
 
             cover={post.UserAssets && post.UserAssets[0]  && 
                 (checkImageFileType(post.UserAssets[0].fileType)  ? <PostImages images={post.UserAssets}/> : []) }
             actions={[
-                <Icon type="retweet" key="retweet" onClick={onRetweet} />,
+                id && <Icon type="usergroup-add" key="usergroup-add"  style={cooper === null || cooper === undefined ? { color: ''} : { color: '#eb2f96'}}  onClick={onCooperate} />,
                 <Icon type="heart" key="heart" theme={liked !== undefined ? 'twoTone' : 'outlined'} twoToneColor={"#eb2f96"} onClick={onToggleLike} />,
                 <Icon type="message" key="message" onClick={onToggleComment}/>,
                 <Popover

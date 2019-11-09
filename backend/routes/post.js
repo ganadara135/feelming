@@ -280,4 +280,82 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
+router.post('/:id/cooperate', isLoggedIn, async ( req, res, next ) => {
+    try {
+        const post = await db.Post.findOne({ where: { id: req.params.id }});
+        if (!post) {
+            return res.status(404).send('포스트가 존재하지 않습니다.');
+        }
+        const newCooperate = await db.Cooperate.create({
+            PostId: post.id,
+            UserId: req.user.id,
+            // content: req.body.content,
+        });
+        await post.addCooperate(newCooperate.id);
+        const commentnewCooperate = await db.Cooperate.findOne({
+            where: {
+                id: newCooperate.id,
+            },
+            include: [{
+                model: db.User,
+                attributes: ['id', 'nickname'],
+            }],
+        });
+        return res.json(commentnewCooperate);
+    } catch(e) {
+        console.error(e);
+        next(e);
+    }
+});
+
+router.delete('/:id/uncooperate', isLoggedIn, async ( req, res, next ) => {
+    try {
+        const post = await db.Post.findOne({ where: { id: req.params.id }});
+        if (!post) {
+            return res.status(404).send('포스트가 존재하지 않습니다.');
+        }
+       // console.log("chk post result : ", post);
+       // await post.removeCooperate({"UserId": req.user.id});        // PostId 와 UserId 가 같은 걸 삭제
+        await db.Cooperate.destroy({ where : { UserId: req.user.id, PostId: req.params.id }});
+        res.json({userId: req.user.id });
+    } catch(e) {
+        console.error(e);
+        next(e);
+    }
+})
+
+
+
+
+// router.post('/:id/comment', isLoggedIn, async (req, res, next) => {
+//     try {
+//         // if (!req.user) {
+//         //     return res.status(401).send('로그인이 필요합니다');
+//         // }
+//         const post = await db.Post.findOne({ where: { id: req.params.id }});
+//         if (!post) {
+//             return res.status(404).send('포스트가 존재하지 않습니다');
+//         }
+//         const newComment = await db.Comment.create({
+//             PostId: post.id,
+//             UserId: req.user.id,
+//             content: req.body.content,
+//         });
+//         await post.addComment(newComment.id);
+//         const comment = await db.Comment.findOne({
+//             where: {
+//                 id: newComment.id,
+//             },
+//             include: [{
+//                 model: db.User,
+//                 attributes: ['id', 'nickname'],
+//             }],
+//         });
+//         return res.json(comment);
+//     } catch (e) {
+//         console.error(e)
+//         next(e);
+//     }
+// })
+
 module.exports = router;

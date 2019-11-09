@@ -26,6 +26,8 @@ module.exports = (sequelize, DataTypes) => {
     User.associate = (db) => {
         
         db.User.hasMany(db.Comment);
+        db.User.hasMany(db.Cooperate);
+
         db.User.belongsToMany(db.Post, { through: 'Like', as: 'Liked' });
 
         // 자가 호출 M : M 관계는 아래와 같이 2번에 걸쳐서 적는다.

@@ -10,13 +10,15 @@ import { ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE,
     UNLIKE_POST_REQUEST, UNLIKE_POST_SUCCESS, UNLIKE_POST_FAILURE,
     RETWEET_REQUEST, RETWEET_SUCCESS, RETWEET_FAILURE,
     REMOVE_POST_REQUEST, REMOVE_POST_SUCCESS, REMOVE_POST_FAILURE,
-    LOAD_POST_REQUEST, LOAD_POST_SUCCESS, LOAD_POST_FAILURE
+    LOAD_POST_REQUEST, LOAD_POST_SUCCESS, LOAD_POST_FAILURE,
+    LOAD_BEST_LIKES_REQUEST, LOAD_BEST_LIKES_SUCCESS, LOAD_BEST_LIKES_FAILURE,
+    COOPERATE_REQUEST, COOPERATE_SUCCESS, COOPERATE_FAILURE,
+    UNCOOPERATE_REQUEST, UNCOOPERATE_SUCCESS, UNCOOPERATE_FAILURE,
  } from '../reducers/post';
 
 import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from '../reducers/user';
 
 import axios from 'axios';
-
 
 
 
@@ -60,6 +62,8 @@ function* loadMainPosts(action) {
     //console.log('in loadMainPosts Saga ');
     try{
         const result = yield call(loadMainPostsAPI, action.lastId);
+        console.log("result.data : ", result.data);
+
         yield put({
             type: LOAD_MAIN_POSTS_SUCCESS,
             data: result.data,
@@ -211,12 +215,12 @@ function* watchUploadImages() {
     yield takeLatest(UPLOAD_IMAGES_REQUEST, uploadImages);
 }
 
+
 function likePostAPI(postId) {
     return axios.post( `/post/${postId}/like`, {}, {
         withCredentials: true,
     });
 }
-
 function* likePost(action) {
     try{
         const result = yield call(likePostAPI, action.data);
@@ -235,17 +239,14 @@ function* likePost(action) {
         })
     }
 }
-
 function* watchLikePost() {
     yield takeLatest(LIKE_POST_REQUEST, likePost);
 }
-
 function unlikePostAPI(postId) {
     return axios.delete( `/post/${postId}/like`, {
         withCredentials: true,
     });
 }
-
 function* unlikePost(action) {
     try{
         const result = yield call(unlikePostAPI, action.data);
@@ -264,44 +265,76 @@ function* unlikePost(action) {
         })
     }
 }
-
 function* watchUnlikePost() {
     yield takeLatest(UNLIKE_POST_REQUEST, unlikePost);
 }
 
-function retweetAPI(postId) {
-    return axios.post( `/post/${postId}/retweet`, {}, {
+
+
+
+function cooperateAPI(postId) {
+    return axios.post( `/post/${postId}/cooperate`, {}, {
         withCredentials: true,
     });
 }
-
-function* retweet(action) {
+function* cooperate(action) {
     try{
-        const result = yield call(retweetAPI, action.data);
+        const result = yield call(cooperateAPI, action.data);
+        console.log("result cooperate in saga", result)
         yield put({
-            type: RETWEET_SUCCESS,
-            data: result.data,
+            type: COOPERATE_SUCCESS,
+            data: {
+                postId: action.data,
+                userId: result.data.UserId
+            }
+        });
+    }catch (e) {
+        console.log(" catch(e) in")
+        console.error(e);
+        yield put({
+            type: COOPERATE_FAILURE,
+            error: e,
+        })
+    }
+}
+function* watchCooperate() {
+    yield takeLatest(COOPERATE_REQUEST, cooperate);
+}
+function uncooperateAPI(postId) {
+    return axios.delete( `/post/${postId}/uncooperate`, {
+        withCredentials: true,
+    });
+}
+function* uncooperate(action) {
+    try{
+        const result = yield call(uncooperateAPI, action.data);
+        console.log("result Uncooperate in saga", result)
+        yield put({
+            type: UNCOOPERATE_SUCCESS,
+            data: {
+                postId: action.data,
+                userId: result.data.userId
+            }
         });
     }catch (e) {
         console.error(e);
         yield put({
-            type: RETWEET_FAILURE,
+            type: UNCOOPERATE_FAILURE,
             error: e,
-        });
-        alert(e.response && e.response.data);     // 자신의 글은 리트윗할 수 없습니다.
+        })
     }
 }
-
-function* watchRetweet() {
-    yield takeLatest(RETWEET_REQUEST, retweet);
+function* watchUncooperate() {
+    yield takeLatest(UNCOOPERATE_REQUEST, uncooperate);
 }
+
+
 
 function removePostAPI(postId) {
     return axios.delete( `/post/${postId}`, {
         withCredentials: true,
     });
 }
-
 function* removePost(action) {
     try{
         const result = yield call(removePostAPI, action.data);
@@ -321,7 +354,6 @@ function* removePost(action) {
         });
     }
 }
-
 function* watchRemovePost() {
     yield takeLatest(REMOVE_POST_REQUEST, removePost);
 }
@@ -332,7 +364,6 @@ function loadSinglePostAPI(postId) {
     console.log(" loadSinglePostAPI postId : ", postId);
     return axios.get( `/post/${postId}`);
 }
-
 function* loadSinglePost(action) {
     try{
         const result = yield call(loadSinglePostAPI, action.data);
@@ -349,9 +380,31 @@ function* loadSinglePost(action) {
         });
     }
 }
-
 function* watchLoadSinglePost() {
     yield takeLatest(LOAD_POST_REQUEST, loadSinglePost);
+}
+
+
+function loadBestLikesAPI(tag, lastId) {
+    //return axios.get(`/hashtag/${encodeURIComponent(tag)}?lastId=${lastId}&limit=10`);
+    return axios.get(`/hashtag/?lastId=${lastId}&limit=10`);
+}
+function* loadBestLikes(action) {
+    try{
+        const result = yield call(loadBestLikesAPI, action.data, action.lastId);
+        yield put({
+            type: LOAD_BEST_LIKES_SUCCESS,
+            data: result.data,
+        });
+    }catch (e) {
+        yield put({
+            type: LOAD_BEST_LIKES_FAILURE,
+            error: e,
+        })
+    }
+}
+function* watchLoadBestLikes() {
+    yield throttle(2000, LOAD_BEST_LIKES_REQUEST, loadBestLikes);
 }
 
 export default function* postSaga() {
@@ -365,8 +418,11 @@ export default function* postSaga() {
         fork(watchUploadImages),
         fork(watchLikePost),
         fork(watchUnlikePost),
-        fork(watchRetweet),
+        //fork(watchRetweet),
         fork(watchRemovePost),
         fork(watchLoadSinglePost),
+        fork(watchLoadBestLikes),
+        fork(watchCooperate),
+        fork(watchUncooperate),
     ]);
 }
