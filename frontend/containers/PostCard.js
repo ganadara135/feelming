@@ -15,7 +15,7 @@ import ReactPlayer from 'react-player';
 import { Document, Page, Outline } from 'react-pdf';
 import {checkImageFileType, checkPDFFileType, checkVideoAudioFileType } from '../config/utils';
 
-import CommnetForm from './CommentForm';
+import CommentForm from './CommentForm';
 import FollowButton from '../components/FollowButton';
 import { UNFOLLOW_USER_REQUEST, FOLLOW_USER_REQUEST } from '../reducers/user';
 import { ADD_COMMENT_REQUEST, LOAD_COMMENTS_REQUEST, UNLIKE_POST_REQUEST, LIKE_POST_REQUEST, COOPERATE_REQUEST, UNCOOPERATE_REQUEST,
@@ -245,7 +245,7 @@ const PostCard = ({ post }) => {
         </Card>
         { commentFormOpened && (
             <>
-                <CommnetForm post={post} />
+                <CommentForm post={post} />
                 <List
                     header={`${post.Comments ? post.Comments.length : 0} 댓글`}
                     itemLayout="horizontal"
