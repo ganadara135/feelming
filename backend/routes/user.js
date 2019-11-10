@@ -9,7 +9,6 @@ const AWS = require('aws-sdk');
 
 const path = require('path');
 const { isLoggedIn } = require('./middleware');
-
 const router = express.Router();
 
 router.get('/',isLoggedIn,  (req, res) => {    //  '/api/user'

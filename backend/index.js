@@ -10,6 +10,13 @@ const hpp = require('hpp');
 const helmet = require('helmet');
 
 const compression = require('compression');
+// const Cache = require('lru-cache');
+// const ssrCache = new Cache({
+//     max: 20, // not more than 20 results will be cached
+//     maxAge: 1000 * 60 * 5, // 5 mins
+// });
+   
+
 
 const passportConfig = require('./passport');
 const db = require('./models');

@@ -1,44 +1,40 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import PostCard from '../containers/PostCard';
+import PostImages from '../components/PostImages';
+import { Pagination, Carousel } from 'antd';
 import {useDispatch, useSelector } from 'react-redux';
 import {LOAD_MY_MEDIA_REQUEST} from '../reducers/post';
-
-import { Carousel } from 'antd';
+import {checkImageFileType, checkPDFFileType, checkVideoAudioFileType } from '../config/utils';
 import styled from 'styled-components';
  
 const Gallery = ({ tag }) => {
-   // console.log("tag : ", tag);
+    const [currentPage, setCurrentPage ] = useState(1);
     const dispatch = useDispatch();
     const {myMedia, hasMorePost } = useSelector( state => state.post );
 
-    function onChange(a, b, c, d) {
-        console.log(a, b, c, d);
+    function onChange(selected) {
+        console.log(selected);
+        setCurrentPage(selected);
+        console.log("chk currentPage : ", currentPage);
+    }
+
+    function onChangePagination(tmp) {
+        console.log("onChangePagination : ", tmp)
     }
    
     console.log("myMedia : ", myMedia);
+    console.log("myMedia.length : ", myMedia.length);
+
     
     return (
-        // <div>
-        //     {mainPosts.map(c => (
-        //         <PostCard key={c.id} post={c} />
-        //     ))}
-        // </div>
         <StyleCarousel>
-            <Carousel afterChange={onChange}>
-                <StyleDiv>
-                <h3>1</h3>
-                </StyleDiv>
-                <StyleDiv>
-                <h3>2</h3>
-                </StyleDiv>
-                <StyleDiv>
-                <h3>3</h3>
-                </StyleDiv>
-                <StyleDiv>
-                <h3>4</h3>
-                </StyleDiv>
+            <Carousel afterChange={onChange} dots={true}>
+                { myMedia.map( c => <StyleDiv key={c.id}>
+                <h3>{ (checkImageFileType(c.fileType)  ? <span><img src={`${c.src}`} /></span> : c.fileType) }
+                </h3></StyleDiv> ) }
             </Carousel>
+            {/* <Pagination defaultCurrent={1} total={myMedia.length} onChange={onChangePagination} pageSize={5} /> */}
         </StyleCarousel>
     );
 };
