@@ -49,7 +49,7 @@ export const initialState = {
     addCommentErrorReason: '',
     commentAdded: false,
 
-    bestLikesPosts: [],  // 갤러리 창에 보여줄 내역, 좋아요 숫자가 많은 내역순으로 정렬하여 보여줌
+    // bestLikesPosts: [],  // 갤러리 창에 보여줄 내역, 좋아요 숫자가 많은 내역순으로 정렬하여 보여줌
 
     singlePost: null,
 };
@@ -104,9 +104,9 @@ export const LOAD_POST_REQUEST = 'LOAD_POST_REQUEST';
 export const LOAD_POST_SUCCESS = 'LOAD_POST_SUCCESS';
 export const LOAD_POST_FAILURE = 'LOAD_POST_FAILURE';
 
-export const LOAD_BEST_LIKES_REQUEST = 'LOAD_BEST_LIKES_REQUEST';
-export const LOAD_BEST_LIKES_SUCCESS = 'LOAD_BEST_LIKES_SUCCESS';
-export const LOAD_BEST_LIKES_FAILURE = 'LOAD_BEST_LIKES_FAILURE';
+// export const LOAD_BEST_LIKES_REQUEST = 'LOAD_BEST_LIKES_REQUEST';
+// export const LOAD_BEST_LIKES_SUCCESS = 'LOAD_BEST_LIKES_SUCCESS';
+// export const LOAD_BEST_LIKES_FAILURE = 'LOAD_BEST_LIKES_FAILURE';
 
 export const COOPERATE_REQUEST = 'COOPERATE_REQUEST';
 export const COOPERATE_SUCCESS = 'COOPERATE_SUCCESS';
@@ -114,6 +114,10 @@ export const COOPERATE_FAILURE = 'COOPERATE_FAILURE';
 export const UNCOOPERATE_REQUEST = 'UNCOOPERATE_REQUEST';
 export const UNCOOPERATE_SUCCESS = 'UNCOOPERATE_SUCCESS';
 export const UNCOOPERATE_FAILURE = 'UNCOOPERATE_FAILURE';
+
+export const LOAD_MY_MEDIA_REQUEST = 'LOAD_MY_MEDIA_REQUEST';
+export const LOAD_MY_MEDIA_SUCCESS = 'LOAD_MY_MEDIA_SUCCESS';
+export const LOAD_MY_MEDIA_FAILURE = 'LOAD_MY_MEDIA_FAILURE';
 
 
 const reducer = (state = initialState, action) => {
@@ -184,23 +188,11 @@ const reducer = (state = initialState, action) => {
             };
         }
         case ADD_COMMENT_SUCCESS: {
-           // try {   
                 const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
-                //console.log("postIndex : ", postIndex);
                 const post = state.mainPosts[postIndex];
-                // console.log("post : ", post);
-                // console.log("post.Comments : ", post.Comments)
-                // console.log("action.data.comment : ", action.data.comment)
                 const Comments = [...post.Comments, action.data.comment];
-                //console.log("Comments : ", Comments);
                 const mainPosts = [...state.mainPosts];
-                //console.log("mainPosts : ", mainPosts);
                 mainPosts[postIndex] = {...post, Comments };
-                //console.log("mainPosts[postIndex] : ", mainPosts[postIndex]);
-            // } catch (e) {
-            //     console.log("reducer error : ", e);
-            // }
-            
             return {
                 ...state,
                 isAddingComment: false,
@@ -210,7 +202,6 @@ const reducer = (state = initialState, action) => {
             };
         }
         case ADD_COMMENT_FAILURE: {
-            console.log(" in Reducuer ADD_COMMENT_FAILURE :  ", action)
             return {
                 ...state,
                 isAddingComment: false,
@@ -218,9 +209,6 @@ const reducer = (state = initialState, action) => {
             };
         }
         case LOAD_COMMENTS_SUCCESS: {
-
-            console.log('LOAD_COMMENTS_SUCCESS action : ', action.data)
-            console.log('LOAD_COMMENTS_SUCCESS state : ', state)
 
             if (action.data.postId !== undefined ) {
                 const postIndex = state.mainPosts.findIndex( v=> v.id === action.data.postId);
@@ -238,8 +226,7 @@ const reducer = (state = initialState, action) => {
                 return {
                     ...state,
                 }
-            }
-            
+            }          
         }
         case UPLOAD_IMAGES_REQUEST: {
             return {
@@ -321,20 +308,14 @@ const reducer = (state = initialState, action) => {
                 ...state,
             };
         }
-        case COOPERATE_SUCCESS: {
-            //console.log("state is array : ", state);
-            
+        case COOPERATE_SUCCESS: {  
             const postIndex = state.mainPosts.findIndex( v => v.id === action.data.postId);
-            
             const post = state.mainPosts[postIndex];
-            
             const Cooperates = post.Cooperates ? [{ UserId: action.data.userId, PostId: action.data.postId, Cooperate: false }, ...post.Cooperates] 
                               : [{ UserId: action.data.userId, PostId: action.data.postId, Cooperate: false }];
             
             const mainPosts = [...state.mainPosts];
-            
             mainPosts[postIndex] = { ...post, Cooperates};
-          //  console.log("mainPosts[postIndex]  : ", mainPosts[postIndex])
 
             return {
                 ...state,
@@ -352,15 +333,15 @@ const reducer = (state = initialState, action) => {
             };
         }
         case UNCOOPERATE_SUCCESS: {
-            console.log("action.data : ", action.data);
+            //console.log("action.data : ", action.data);
             const postIndex = state.mainPosts.findIndex( v => v.id === action.data.postId);
-            console.log("postIndex : ", postIndex)
+            //console.log("postIndex : ", postIndex)
             const post = state.mainPosts[postIndex];
-            console.log("post : ", post)
+            //console.log("post : ", post)
             const Cooperates = post.Cooperates.filter(v => v.Userid !== action.data.userId && v.PostId !== action.data.postId);
-            console.log("Cooperates  : ", Cooperates)
+            //console.log("Cooperates  : ", Cooperates)
             const mainPosts = [...state.mainPosts];
-            console.log("mainPosts  : ", mainPosts)
+            //console.log("mainPosts  : ", mainPosts)
             mainPosts[postIndex] = { ...post, Cooperates};
             return {
                 ...state,
@@ -389,21 +370,45 @@ const reducer = (state = initialState, action) => {
                 ...state,
             };
         }
-        case LOAD_BEST_LIKES_REQUEST: {
+        // case LOAD_BEST_LIKES_REQUEST: {
+        //     return {
+        //         ...state,
+        //         bestLikesPosts: !action.lastId ? [] : state.bestLikesPosts,
+        //         hasMorePost: action.lastId ? state.hasMorePost : true,
+        //     };
+        // }
+        // case LOAD_BEST_LIKES_SUCCESS: {
+        //     return {
+        //         ...state,     
+        //         bestLikesPosts: state.bestLikesPosts.concat(action.data),
+        //         hasMorePost: action.data.length === 10,
+        //     };
+        // }
+        // case LOAD_BEST_LIKES_FAILURE: {
+        //     return {
+        //         ...state,
+        //     };
+        // }
+        case LOAD_MY_MEDIA_REQUEST: {
             return {
                 ...state,
-                bestLikesPosts: !action.lastId ? [] : state.bestLikesPosts,
+                myMedia: !action.lastId ? [] : state.myMedia,
                 hasMorePost: action.lastId ? state.hasMorePost : true,
+                // bestLikesPosts: !action.lastId ? [] : state.bestLikesPosts,
+                // hasMorePost: action.lastId ? state.hasMorePost : true,
+
             };
         }
-        case LOAD_BEST_LIKES_SUCCESS: {
+        case LOAD_MY_MEDIA_SUCCESS: {
             return {
-                ...state,     
-                bestLikesPosts: state.bestLikesPosts.concat(action.data),
+                ...state,
+                myMedia: state.myMedia.concat(action.data),
                 hasMorePost: action.data.length === 10,
+                // bestLikesPosts: state.bestLikesPosts.concat(action.data),
+                // hasMorePost: action.data.length === 10,
             };
         }
-        case LOAD_BEST_LIKES_FAILURE: {
+        case LOAD_MY_MEDIA_FAILURE: {
             return {
                 ...state,
             };

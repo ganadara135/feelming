@@ -9,6 +9,8 @@ const passport = require('passport');       // 세션(백엔드)과 쿠키(프�
 const hpp = require('hpp');
 const helmet = require('helmet');
 
+const compression = require('compression');
+
 const passportConfig = require('./passport');
 const db = require('./models');
 const userAPIRouter = require('./routes/user');
@@ -16,11 +18,15 @@ const postAPIRouter = require('./routes/post');
 const postsAPIRouter = require('./routes/posts');
 const hashtagAPIRouter = require('./routes/hashtag');
 
+
 const prod = process.env.NODE_ENV === 'production';
 dotenv.config();
 const app = express();
 db.sequelize.sync();
 passportConfig();
+
+// compress all responses  미들웨어
+app.use(compression());
 
 
 if (prod) {

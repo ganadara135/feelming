@@ -6,6 +6,8 @@ const expressSession = require('express-session');
 const dotevn = require('dotenv');
 const path = require('path');
 
+const compression = require('compression');
+
 const dev = process.env.NODE_ENV !== 'production';
 const prod = process.env.NODE_ENV === 'production';
 
@@ -18,6 +20,9 @@ dotevn.config()
 
 app.prepare().then( () => {
     const server = express();
+
+    // compress all responses  미들웨어
+    server.use(compression());
 
     server.use(morgan( 'dev'));
     server.use('/', express.static(path.join(__dirname, 'public')));
