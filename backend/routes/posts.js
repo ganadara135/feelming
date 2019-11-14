@@ -87,7 +87,7 @@ router.get('/', async (req, res, next) => {
 });
 
 
-// 요청자 등록한 모든 메디아 자료 전달해줌
+// 요청자 등록한 모든 미디어 자료 전달해줌
 router.get('/myMedia', async (req, res, next) => {
     try {
         let where = {};
@@ -105,6 +105,31 @@ router.get('/myMedia', async (req, res, next) => {
         });
 
         res.json(myMediaAll);
+    } catch (e) {
+        console.error(e);
+        next(e);
+    }
+});
+
+
+// 요청자가 관심 표현했던(좋아요, 팔로우, 협력요청했던) 모든 미디어 자료 전달해줌
+router.get('/myRelatedMedia', async (req, res, next) => {
+    try {
+        let where = {};
+        if (parseInt(req.query.lastId, 10)) {
+            where = {
+                id: {
+                    [db.Sequelize.Op.lt]: parseInt(req.query.lastId, 10), //less than
+                },
+            };
+        }
+        const myRelatedMediaAll = await db.UserAsset.findAll({
+            where,
+            order: [['createdAt', 'DESC'], ],
+            limit: parseInt(req.query.limit, 10),
+        });
+
+        res.json(myRelatedMediaAll);
     } catch (e) {
         console.error(e);
         next(e);

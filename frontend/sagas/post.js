@@ -15,6 +15,7 @@ import { ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE,
     COOPERATE_REQUEST, COOPERATE_SUCCESS, COOPERATE_FAILURE,
     UNCOOPERATE_REQUEST, UNCOOPERATE_SUCCESS, UNCOOPERATE_FAILURE,
     LOAD_MY_MEDIA_REQUEST, LOAD_MY_MEDIA_SUCCESS, LOAD_MY_MEDIA_FAILURE,
+    LOAD_MY_RELATED_MEDIA_REQUEST, LOAD_MY_RELATED_MEDIA_SUCCESS, LOAD_MY_RELATED_MEDIA_FAILURE
  } from '../reducers/post';
 
 import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from '../reducers/user';
@@ -421,6 +422,32 @@ function* watchMyMedia() {
 }
 
 
+function loadMyRelatedMediaAPI(lastId = 0, limit = 10) {
+    //return axios.get( `/post/${postId}`);
+    return axios.get(`/posts/myRelatedMedia?lastId=${lastId}&limit=${limit}`);
+}
+function* loadMyRealtedMedia(action) {
+    //console.log('in loadMainPosts Saga ');
+    try{
+        const result = yield call(loadMyRelatedMediaAPI, action.lastId);
+        console.log("result.data : ", result.data);
+
+        yield put({
+            type: LOAD_MY_RELATED_MEDIA_SUCCESS,
+            data: result.data,
+        });
+    }catch (e) {
+        yield put({
+            type: LOAD_MY_RELATED_MEDIA_FAILURE,
+            error: e,
+        })
+    }
+}
+function* watchMyRelatedMedia() {
+    yield throttle(2000, LOAD_MY_RELATED_MEDIA_REQUEST, loadMyRealtedMedia);
+}
+
+
 export default function* postSaga() {
     yield all([
         fork(watchLoadMainPosts),
@@ -439,5 +466,6 @@ export default function* postSaga() {
         fork(watchCooperate),
         fork(watchUncooperate),
         fork(watchMyMedia),
+        fork(watchMyRelatedMedia)
     ]);
 }

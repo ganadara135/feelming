@@ -119,6 +119,10 @@ export const LOAD_MY_MEDIA_REQUEST = 'LOAD_MY_MEDIA_REQUEST';
 export const LOAD_MY_MEDIA_SUCCESS = 'LOAD_MY_MEDIA_SUCCESS';
 export const LOAD_MY_MEDIA_FAILURE = 'LOAD_MY_MEDIA_FAILURE';
 
+export const LOAD_MY_RELATED_MEDIA_REQUEST = 'LOAD_MY_RELATED_MEDIA_REQUEST';
+export const LOAD_MY_RELATED_MEDIA_SUCCESS = 'LOAD_MY_RELATED_MEDIA_SUCCESS';
+export const LOAD_MY_RELATED_MEDIA_FAILURE = 'LOAD_MY_RELATED_MEDIA_FAILURE';
+
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -413,6 +417,26 @@ const reducer = (state = initialState, action) => {
                 ...state,
             };
         }
+        case LOAD_MY_RELATED_MEDIA_REQUEST: {
+            return {
+                ...state,
+                myRelatedMedia: !action.lastId ? [] : state.myRelatedMedia,
+                //hasMorePost: action.lastId ? state.hasMorePost : true,
+            };
+        }
+        case LOAD_MY_RELATED_MEDIA_SUCCESS: {
+            return {
+                ...state,
+                myRelatedMedia: state.myRelatedMedia.concat(action.data),
+                //hasMorePost: action.data.length === 10,
+            };
+        }
+        case LOAD_MY_RELATED_MEDIA_FAILURE: {
+            return {
+                ...state,
+            };
+        }
+    
 
 
         case LOAD_POST_SUCCESS: {
