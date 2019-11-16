@@ -13,12 +13,14 @@ import Slick from 'react-slick';
 const Gallery = ({ tag }) => {
     //const [currentPage, setCurrentPage ] = useState(1);
     const dispatch = useDispatch();
-    const {myMedia, hasMorePost, myRelatedMedia } = useSelector( state => state.post );
+    const [fixedMyMedia, setFixedMyMedia] = useState([]);
+    const {myMedia, hasMoreMyMedia, myRelatedMedia } = useSelector( state => state.post );
+    const countRef = useRef( []);
     const targetRef = useRef();
     const [pdfTotalPages, setPdfTotalPages ] = useState(null);
     const [pdfPageNumber, setPdfPageNumber ] = useState(1);
     const [dimensions, setDimensions ] = useState({ width:0, height: 0 });
-
+ 
     // function next() {
     //     targetRef.current.next();
     // }
@@ -34,9 +36,9 @@ const Gallery = ({ tag }) => {
     // }
    
      console.log("myMedia : ", myMedia);
-     console.log("myRelatedMedia : ", myRelatedMedia);
+     console.log("fixedMyMedia : ", fixedMyMedia);
+     console.log("countRef.current : ", countRef.current);
 
-   
     const onPDFDocumentLoadSuccess = useCallback( (pdf)  => {
         setPdfTotalPages(pdf._pdfInfo.numPages);
     },[]);
@@ -46,7 +48,6 @@ const Gallery = ({ tag }) => {
     );
     const previousPage = () => changePdfPage(-1);
     const nextPage = () => changePdfPage(1);
-
 
     const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -58,10 +59,6 @@ const Gallery = ({ tag }) => {
             });
         }
     },[myMedia]);
-
-    console.log("dimensions : ", dimensions)
-    console.log("targetRef.current : ", targetRef.current)
-    console.log("targetRef.current.offsetWidth : ", targetRef.current && targetRef.current.offsetWidth)
 
     function PrevArrow(props) {
         const { className, style, onClick } = props;
@@ -85,17 +82,72 @@ const Gallery = ({ tag }) => {
         );
     }
 
+    const onChangeSlide = useCallback( (current, next) => {
+        // 현재 이 룰대로 안짜여 있음
+        // 1. fixedMyMedia 가 비여 있는 경우
+        //   1.1. myMedia 를 그대로 복제
+        // 2. fixedMyMedia 를 새로 채워야 하는 경우(슬라이드 경계 체크)
+        //   2.1. myMedia 도 새로 채워야 하는 경우
+        //      2.1.1 dispatch 해서 myMedia 및 fixedMyMedia 를 채움
+        //   2.2. myMedia 가 이미 자료를 가진 경우
+        //      2.2.1 슬라이드 번호가 증가하는 경우
+        //      2.2.2 슬라이드 번호가 감소하는 경우
+        if( myMedia.length < myMedia[0].total) {
+            console.log(" 디스패치 실행")
+            dispatch({
+                type: LOAD_MY_MEDIA_REQUEST,
+                lastId: myMedia[myMedia.length-1].id,
+            });
+        }
+
+        if( fixedMyMedia.length === 0 ){
+            setFixedMyMedia( myMedia.slice(0, 5).map( v => {        // slice 테스트 완료, 10 으로 해도 문제 없음
+                console.log("초기 v ==> ", v.id);
+                if (!countRef.current.includes(v.id)){
+                    countRef.current.push(v.id);
+                }
+                return v;
+            }));
+      //  }else if( next === 0 && current === fixedMyMedia.length-1){ // 경계 체크
+        }else if(next === 0  && current !== 1
+            && fixedMyMedia[current].id < myMedia[current+1].id) { 
+            console.log(" 2 번째 조건")
+            setFixedMyMedia( myMedia.slice(fixedMyMedia[current].RNUM, fixedMyMedia[current].RNUM+5).map( v => {
+                console.log("v ==> ", v.id);
+                if (!countRef.current.includes(v.id)){
+                    countRef.current.push(v.id);
+                }
+                return v;
+            }));
+       // }else if(next === 0 && current === 1 && fixedMyMedia[next].id !== myMedia[next].id) {  // 최소 경계
+        }else if(next === 0 && fixedMyMedia[next].id !== 1
+            && countRef.current.indexOf(fixedMyMedia[next].id) >= 5) {
+            console.log("3 번째 조건 실행")
+            setFixedMyMedia( myMedia.slice(countRef.current.indexOf(fixedMyMedia[next].id)-5,
+                countRef.current.indexOf(fixedMyMedia[next].id)).map( v => {
+                console.log("v ==> ", v.id);
+                if (!countRef.current.includes(v.id)){
+                    countRef.current.push(v.id);
+                }
+                return v;
+            }));
+        }
+    },);
+
     return (
         <div>
-            <StyleH2>내작품만</StyleH2>
-            <StyleDiv>
+            <StyleH2>내작품만 {" 총: "} {myMedia && myMedia[0] && myMedia[0].total}</StyleH2>
+        <StyleDiv>
         <Slick
-            initialSlide={4}
-            afterChange={slide => setCurrentSlide(slide)  || setDimensions({
+            initialSlide={0}
+            afterChange={slide =>  setDimensions({
                width: targetRef.current && targetRef.current.offsetWidth,
                height: targetRef.current &&  targetRef.current.offsetHeight
             }) }
-            infinite={true}
+            // 초기 로딩시 자동 호출됨
+            beforeChange={ (current, next) => setCurrentSlide(next) || onChangeSlide(current, next)}
+            //|| fixedMyMedia[fixedMyMedia.length-1] && setLastIdOfmyMedia(fixedMyMedia[fixedMyMedia.length-1].id)}
+            //infinite={true}
             slidesToShow={1}
             slidesToScroll={1}
             dots={true}
@@ -112,12 +164,14 @@ const Gallery = ({ tag }) => {
                     border: "1px blue solid"
                   }}
                 >
-                  {i + 1}
+                  {/* {i + 1} */}
+                  {fixedMyMedia[i].id}
                 </div>
               )}
+            onLazyLoad={ () => <div>{"Loading Data..."}</div>}
           >
-            {myMedia.map((v) => {
-              return (
+            {fixedMyMedia[0] !== undefined && fixedMyMedia.map((v) => {
+              return ( 
                 checkImageFileType(v.fileType) ? <img src={v.src} /> : 
                 (checkVideoAudioFileType(v.fileType) ? <ReactPlayer width={"100%"} url={v.src} playing={false} controls={true} loop={true} /> : 
                 (checkPDFFileType(v.fileType) ? 
@@ -137,7 +191,7 @@ const Gallery = ({ tag }) => {
 
                         <span >{" \t   "} Page {pdfPageNumber} of {pdfTotalPages} </span>
             
-                    </div> : []  ))
+                    </div> : <div><h1>{"파일타입이 null 입니다"}</h1></div>  ))
                      ) } )}
         </Slick>
         </StyleDiv>
@@ -150,14 +204,15 @@ const Gallery = ({ tag }) => {
                height: targetRef.current &&  targetRef.current.offsetHeight
             }) }
             infinite={true}
-            slidesToShow={2}
+            //slidesToShow={2}
             slidesToScroll={1}
             accessibility
             arrows
             lazyLoad={true}
             prevArrow={<PrevArrow />}
             nextArrow={<NextArrow />}
-           // cssEase={"linear"}
+            rows={2}
+            slidesPerRow={2}
           >
             {myRelatedMedia.map((v) => {
               return (
@@ -180,7 +235,7 @@ const Gallery = ({ tag }) => {
 
                         <span >{" \t   "} Page {pdfPageNumber} of {pdfTotalPages} </span>
             
-                    </div> : []  ))
+                    </div> : <div><h1>{"파일타입이 null 입니다"}</h1></div>  ))
                      ) } )}
             </Slick>
         </div>
@@ -196,8 +251,7 @@ Gallery.propTypes = {
 
 Gallery.getInitialProps = async (context) => {
     const tag = context.query.tag;
-
-    console.log("context.query.tag : ", tag)
+  // console.log("context.query.tag : ", tag)
     context.store.dispatch({
         type: LOAD_MY_MEDIA_REQUEST,
         data: tag,

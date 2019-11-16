@@ -397,7 +397,7 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 myMedia: !action.lastId ? [] : state.myMedia,
-                hasMorePost: action.lastId ? state.hasMorePost : true,
+                hasMoreMyMedia: action.lastId ? state.hasMoreMyMedia : true,
                 // bestLikesPosts: !action.lastId ? [] : state.bestLikesPosts,
                 // hasMorePost: action.lastId ? state.hasMorePost : true,
 
@@ -407,9 +407,8 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 myMedia: state.myMedia.concat(action.data),
-                hasMorePost: action.data.length === 10,
-                // bestLikesPosts: state.bestLikesPosts.concat(action.data),
-                // hasMorePost: action.data.length === 10,
+                //myMedia: action.data,
+                hasMoreMyMedia: action.data.length === 5,
             };
         }
         case LOAD_MY_MEDIA_FAILURE: {

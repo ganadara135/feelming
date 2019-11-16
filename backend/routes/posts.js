@@ -72,9 +72,6 @@ router.get('/', async (req, res, next) => {
             order: [['createdAt', 'DESC'], ],
             limit: parseInt(req.query.limit, 10),
         });
-
-        
-
      //   console.log("table posts[0].Liker : ", posts[0].Liker)
 
         console.log("posts in routes : ", posts)
@@ -89,22 +86,70 @@ router.get('/', async (req, res, next) => {
 
 // 요청자 등록한 모든 미디어 자료 전달해줌
 router.get('/myMedia', async (req, res, next) => {
+    console.log("req.query : ", req.query)
     try {
-        let where = {};
-        if (parseInt(req.query.lastId, 10)) {
-            where = {
-                id: {
-                    [db.Sequelize.Op.lt]: parseInt(req.query.lastId, 10), //less than
-                },
-            };
-        }
-        const myMediaAll = await db.UserAsset.findAll({
-            where,
-            order: [['createdAt', 'DESC'], ],
-            limit: parseInt(req.query.limit, 10),
-        });
 
-        res.json(myMediaAll);
+        // if (parseInt(req.query.lastId, 10)) {
+        //     where = {
+        //         id: {
+        //             [db.Sequelize.Op.lt]: parseInt(req.query.lastId, 10), //less than
+        //         },
+        //     };
+        // }
+        const query = `Select *, @rownum := @rownum+1 AS RNUM, 
+                            (SELECT COUNT(UserId) FROM UserAsset) as total 
+                       FROM UserAsset, (SELECT @rownum := 0) AS R 
+                       WHERE id > ${parseInt(req.query.lastId, 10)} 
+                       ORDER BY createdAt ASC
+                       LIMIT ${parseInt(req.query.limit, 10)}`;
+
+        console.log("query  : ", query);
+
+        await db.sequelize.query(query)
+            .then(function(result){
+                console.log("result[0] : ", result[0])
+                res.json(result[0])
+            });
+        
+            // sequelize.query('SELECT * FROM projects WHERE status = ?',
+            // { type: sequelize.QueryTypes.SELECT }
+            // ).then(function(projects) {
+            // console.log(projects)
+            // })
+
+
+        // let where = {};
+        // if (parseInt(req.query.lastId, 10)) {
+        //     where = {
+        //         id: {
+        //             [db.Sequelize.Op.lt]: parseInt(req.query.lastId, 10), //less than
+        //         },
+        //     };
+        // }
+        // const myMediaAll = await db.UserAsset.findAll({
+        //     attributes: {
+        //         include: [
+        //             [db.sequelize.literal('(SELECT COUNT(*) FROM UserAsset)'), 'total']
+        //         ],
+        //     },
+        //     where,
+        //     order: [['createdAt', 'DESC'], ],
+        //     limit: parseInt(req.query.limit, 10),
+        // });
+
+// SELECT `id`, `src`, `dataType`, `fileType`, `createdAt`, `updatedAt`, `PostId`, `UserId`, 
+// (SELECT COUNT(*) FROM UserAsset) AS `total` FROM `UserAsset` AS `UserAsset` ORDER BY `UserAsset`.`createdAt` DESC LIMIT 5;
+
+// Select *, 
+//        (SELECT COUNT(UserId) FROM UserAsset) as total
+// FROM UserAsset;
+
+// 행번호 넣은 쿼리 
+// Select *, @rownum := @rownum+1 AS RNUM,
+//         (SELECT COUNT(UserId) FROM UserAsset) as total
+// FROM UserAsset, (SELECT @rownum := 0) AS R;
+
+  //      res.json(myMediaAll);
     } catch (e) {
         console.error(e);
         next(e);

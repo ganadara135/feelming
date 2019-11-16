@@ -7,7 +7,7 @@ import { LOAD_MAIN_POSTS_REQUEST } from '../reducers/post';
 
 const Home = () => {
     const dispatch = useDispatch();
-    const { me } = useSelector( state => state.user );
+    //const { me } = useSelector( state => state.user );
     const { mainPosts, hasMorePost } = useSelector( state => state.post );
     const countRef = useRef( []);
 

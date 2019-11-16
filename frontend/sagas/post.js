@@ -58,10 +58,8 @@ function loadMainPostsAPI(lastId = 0, limit = 10) {
     return axios.get(`/posts?lastId=${lastId}&limit=${limit}`);
 }
 function* loadMainPosts(action) {
-    //console.log('in loadMainPosts Saga ');
     try{
         const result = yield call(loadMainPostsAPI, action.lastId);
-        console.log("result.data : ", result.data);
 
         yield put({
             type: LOAD_MAIN_POSTS_SUCCESS,
@@ -396,7 +394,7 @@ function* watchLoadSinglePost() {
 // }
 
 
-function loadMyMediaAPI(lastId = 0, limit = 10) {
+function loadMyMediaAPI(lastId = 0, limit = 5) {
     //console.log('in loadMainPosts Saga ');
     return axios.get(`/posts/myMedia?lastId=${lastId}&limit=${limit}`);
 }
