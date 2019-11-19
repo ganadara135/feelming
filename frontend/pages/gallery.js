@@ -10,7 +10,7 @@ import ReactPlayer from 'react-player';
 import { Document, Page, Outline } from 'react-pdf';
 import Slick from 'react-slick';
 
-const Gallery = ({ tag }) => {
+const Gallery = ({ tag }, props) => {
     //const [currentPage, setCurrentPage ] = useState(1);
     const dispatch = useDispatch();
     const [fixedMyMedia, setFixedMyMedia] = useState([]);
@@ -38,6 +38,7 @@ const Gallery = ({ tag }) => {
      console.log("myMedia : ", myMedia);
      console.log("fixedMyMedia : ", fixedMyMedia);
      console.log("countRef.current : ", countRef.current);
+     console.log("myRelatedMedia : ", myRelatedMedia);
 
     const onPDFDocumentLoadSuccess = useCallback( (pdf)  => {
         setPdfTotalPages(pdf._pdfInfo.numPages);
@@ -196,15 +197,15 @@ const Gallery = ({ tag }) => {
                      ) } )}
         </Slick>
         </StyleDiv>
-        <div>
+        <StyleDiv>
             <StyleH2>관심 작품들</StyleH2>
             <Slick
-            initialSlide={4}
+            //initialSlide={4}
             afterChange={slide => setCurrentSlide(slide)  || setDimensions({
                width: targetRef.current && targetRef.current.offsetWidth,
                height: targetRef.current &&  targetRef.current.offsetHeight
             }) }
-            infinite={true}
+            //infinite={true}
             //slidesToShow={2}
             slidesToScroll={1}
             accessibility
@@ -214,13 +215,24 @@ const Gallery = ({ tag }) => {
             nextArrow={<NextArrow />}
             rows={2}
             slidesPerRow={2}
+            dots={true}
+            //focusOnSelect={true}
+            // dotsClass={"slick"}
+            //centerPadding={"60px"}
           >
+              
             {myRelatedMedia.map((v) => {
               return (
-                checkImageFileType(v.fileType) ? <img src={v.src} /> : 
+                <CustomSlide index={v.id}>
+                 {/* <div style={{
+                //     //display: "block",
+                //     border: "2px solid green",
+                //     //visibility: "hidden",
+                //   }} > */}
+                {checkImageFileType(v.fileType) ? <img src={v.src} width={"100%"} /> : 
                 (checkVideoAudioFileType(v.fileType) ? <ReactPlayer width={"100%"} url={v.src} playing={false} controls={true} loop={true} /> : 
                 (checkPDFFileType(v.fileType) ? 
-                    <div ref={targetRef}>
+                    <div ref={targetRef} width={"100%"}>
                         <Document
                             file={v.src}
                             onLoadSuccess={onPDFDocumentLoadSuccess}
@@ -237,13 +249,30 @@ const Gallery = ({ tag }) => {
                         <span >{" \t   "} Page {pdfPageNumber} of {pdfTotalPages} </span>
             
                     </div> : <div><h1>{"파일타입이 null 입니다"}</h1></div>  ))
+                } </CustomSlide>
                      ) } )}
             </Slick>
-        </div>
+        </StyleDiv>
         </div>
     )
 
 };
+
+class CustomSlide extends React.Component {
+//const CustomSlide = ( index) => {
+    render() {
+    const {index, ...props } = this.props;
+        return (
+            <div {...props} style={{
+                    display: "inline-block",
+                    border: "1px solid green",
+                    width: "200px",
+                    margin: "1px"
+                  }} >
+            </div>
+        )
+    }
+}
 
 Gallery.propTypes = {
     //tag: PropTypes.string.isRequired,
@@ -272,6 +301,7 @@ const StyleH2 = styled.h2`
 const StyleDiv = styled.div`
     display: block;
     width: 420px;
+    border: 1px solid palevioletred;
 `;
 
 export default Gallery;

@@ -395,14 +395,12 @@ function* watchLoadSinglePost() {
 
 
 function loadMyMediaAPI(lastId = 0, limit = 5) {
-    //console.log('in loadMainPosts Saga ');
     return axios.get(`/posts/myMedia?lastId=${lastId}&limit=${limit}`);
 }
 function* loadMyMedia(action) {
     //console.log('in loadMainPosts Saga ');
     try{
         const result = yield call(loadMyMediaAPI, action.lastId);
-        console.log("result.data : ", result.data);
 
         yield put({
             type: LOAD_MY_MEDIA_SUCCESS,
@@ -421,11 +419,10 @@ function* watchMyMedia() {
 
 
 function loadMyRelatedMediaAPI(lastId = 0, limit = 10) {
-    //return axios.get( `/post/${postId}`);
     return axios.get(`/posts/myRelatedMedia?lastId=${lastId}&limit=${limit}`);
 }
-function* loadMyRealtedMedia(action) {
-    //console.log('in loadMainPosts Saga ');
+function* loadMyRelatedMedia(action) {
+    console.log("check action in SAGA : ", action)
     try{
         const result = yield call(loadMyRelatedMediaAPI, action.lastId);
         console.log("result.data : ", result.data);
@@ -442,7 +439,7 @@ function* loadMyRealtedMedia(action) {
     }
 }
 function* watchMyRelatedMedia() {
-    yield throttle(2000, LOAD_MY_RELATED_MEDIA_REQUEST, loadMyRealtedMedia);
+    yield throttle(2000, LOAD_MY_RELATED_MEDIA_REQUEST, loadMyRelatedMedia);
 }
 
 

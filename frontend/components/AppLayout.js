@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { Menu, Button, Row, Col, Icon, Affix } from 'antd';
@@ -9,9 +9,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { LOAD_USER_REQUEST } from '../reducers/user';
 import styled from 'styled-components';
 
-const AppLayout = ({ children }) => {
+const AppLayout = ({ children, firstInit}, ) => {
+    console.log("children.type.name : ", children.type.name)
+    //console.log("children : ", children)
+    console.log("firstInit : ", firstInit );
     const { isLoggedIn, me } = useSelector( state => state.user );
-    const dispatch = useDispatch();
+    const [searchCondition, setSearchCondition] = useState(firstInit); 
+    console.log("searchCondition : ", searchCondition);
+ //   const dispatch = useDispatch();
 
     // useEffect( () => {
     //     if (!me) {
@@ -57,46 +62,48 @@ const AppLayout = ({ children }) => {
                     {children}            
                 </Col>
                 <Col xs={24} md={6}>
-                    <a target="_blank">Made by kcod</a>
+                    <a target="_blank">사용 안하는 공간</a>
                 </Col>
             </Row>
             <Affix offsetBottom={10}>
                 <Button
-                    type="link"
+                    type={searchCondition==="all" || searchCondition==="file-pdf" ? "primary" : "link"}
                     icon="file-pdf"
+                    //loading={true}
                     onClick={() => {
+                        setSearchCondition("file-pdf") || console.log("searchCondition : ", searchCondition)
                     }}
                 >
                     글
                 </Button>
                 <Button
-                    type="link"
+                    type={searchCondition==="all" || searchCondition==="sound" ? "primary" : "link"}
                     icon="sound"
-                    onClick={() => {
+                    onClick={() => {setSearchCondition("sound") || console.log("searchCondition : ", searchCondition)
                     }}
                 >
                     사운드
                 </Button>
                 <Button
-                    type="link"
+                    type={searchCondition==="all" || searchCondition==="video-camera" ? "primary" : "link"}
                     icon="video-camera"
-                    onClick={() => {
+                    onClick={() => {setSearchCondition("video-camera") || console.log("searchCondition : ", searchCondition)
                     }}
                 >
                     영상
                 </Button>
                 <Button
-                    type="link"
+                    type={searchCondition==="all" || searchCondition==="picture" ? "primary" : "link"}
                     icon="picture"
-                    onClick={() => {
+                    onClick={() => {setSearchCondition("picture") || console.log("searchCondition : ", searchCondition)
                     }}
                 >
                     사진
                 </Button>
                 <Button
-                    type="link"
+                    type={searchCondition==="all" || searchCondition==="file-image" ? "primary" : "link"}
                     icon="file-image"
-                    onClick={() => {
+                    onClick={() => {setSearchCondition("file-image") || console.log("searchCondition : ", searchCondition)
                     }}
                 >
                     그림

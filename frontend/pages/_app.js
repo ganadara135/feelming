@@ -59,7 +59,7 @@ const Feelming = ({ Component, store, pageProps }) => {
                         rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css',
                 }]}
             />
-            <AppLayout>
+            <AppLayout firstInit={'all'}>
                 <Component {...pageProps} />
             </AppLayout>
         </Provider>
