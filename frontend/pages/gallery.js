@@ -123,8 +123,8 @@ const Gallery = ({ tag }) => {
         }else if(next === 0 && fixedMyMedia[next].id !== 1
             && countRef.current.indexOf(fixedMyMedia[next].id) >= 5) {
             console.log("3 번째 조건 실행")
-            setFixedMyMedia( myMedia.slice(countRef.current.indexOf(fixedMyMedia[next].id)-5,
-                countRef.current.indexOf(fixedMyMedia[next].id)).map( v => {
+            setFixedMyMedia( myMedia.slice(countRef.current.indexOf(fixedMyMedia[next].RNUM)-5,
+                countRef.current.indexOf(fixedMyMedia[next].RNUM)).map( v => {
                 console.log("v ==> ", v.id);
                 if (!countRef.current.includes(v.id)){
                     countRef.current.push(v.id);
@@ -165,7 +165,8 @@ const Gallery = ({ tag }) => {
                   }}
                 >
                   {/* {i + 1} */}
-                  {fixedMyMedia[i].id}
+                  {/* {fixedMyMedia[i].id} */}
+                  {fixedMyMedia[i].RNUM}
                 </div>
               )}
             onLazyLoad={ () => <div>{"Loading Data..."}</div>}
@@ -270,6 +271,7 @@ const StyleH2 = styled.h2`
 `;
 const StyleDiv = styled.div`
     display: block;
+    width: 420px;
 `;
 
 export default Gallery;

@@ -89,19 +89,19 @@ router.get('/myMedia', async (req, res, next) => {
     console.log("req.query : ", req.query)
     try {
 
-        // if (parseInt(req.query.lastId, 10)) {
-        //     where = {
-        //         id: {
-        //             [db.Sequelize.Op.lt]: parseInt(req.query.lastId, 10), //less than
-        //         },
-        //     };
-        // }
         const query = `Select *, @rownum := @rownum+1 AS RNUM, 
                             (SELECT COUNT(UserId) FROM UserAsset) as total 
-                       FROM UserAsset, (SELECT @rownum := 0) AS R 
+                       FROM UserAsset, (SELECT @rownum := ${parseInt(req.query.lastId, 10)}) AS R 
                        WHERE id > ${parseInt(req.query.lastId, 10)} 
-                       ORDER BY createdAt ASC
+                       ORDER BY createdAt ASC 
                        LIMIT ${parseInt(req.query.limit, 10)}`;
+
+        // const query = `Select *, @rownum := @rownum+1 AS RNUM, 
+        //                     (SELECT COUNT(UserId) FROM UserAsset) as total 
+        //                FROM UserAsset, (SELECT @rownum := 0) AS R 
+        //                WHERE id > ${parseInt(req.query.lastId, 10)} 
+        //                ORDER BY createdAt ASC
+        //                LIMIT ${parseInt(req.query.limit, 10)}`;
 
         console.log("query  : ", query);
 
