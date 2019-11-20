@@ -11,11 +11,15 @@ import styled from 'styled-components';
 
 const AppLayout = ({ children, firstInit}, ) => {
     console.log("children.type.name : ", children.type.name)
-    //console.log("children : ", children)
+    console.log("children : ", children)
     console.log("firstInit : ", firstInit );
     const { isLoggedIn, me } = useSelector( state => state.user );
-    const [searchCondition, setSearchCondition] = useState(firstInit); 
+    //const [searchCondition, setSearchCondition] = useState(firstInit); 
+    const [searchCondition, setSearchCondition] = useState([]); 
+   
+    
     console.log("searchCondition : ", searchCondition);
+    
  //   const dispatch = useDispatch();
 
     // useEffect( () => {
@@ -59,52 +63,62 @@ const AppLayout = ({ children, firstInit}, ) => {
                     }
                 </Col>
                 <Col xs={24} md={12}>
-                    {children}            
+                    {/* {children}  */}
+                    {/* {withHOC({searchCondition: searchCondition})(children)} */}
+                    <div>{React.cloneElement(children, {searchCondition : searchCondition})} </div>
+                   
                 </Col>
                 <Col xs={24} md={6}>
                     <a target="_blank">사용 안하는 공간</a>
                 </Col>
             </Row>
             <Affix offsetBottom={10}>
-                <Button
-                    type={searchCondition==="all" || searchCondition==="file-pdf" ? "primary" : "link"}
+            
+                <Button     //state.mainPosts.findIndex(v => v.id === action.data.postId);
+                    type={ (searchCondition.findIndex( v => v === "file-pdf")) ? "primary" : "link" }
                     icon="file-pdf"
-                    //loading={true}
-                    onClick={() => {
-                        setSearchCondition("file-pdf") || console.log("searchCondition : ", searchCondition)
-                    }}
+                    onClick={() => { setSearchCondition(!searchCondition.includes("file-pdf") ?
+                     [...searchCondition, "file-pdf" ] : searchCondition.filter(v => 
+                        v.toString() !== "file-pdf"
+                    ))}}
                 >
                     글
+
+                    {/* setFixedMyMedia( myMedia.slice(0, 5).map( v => {        // slice 테스트 완료, 10 으로 해도 문제 없음
+                        console.log("초기 v ==> ", v.id);
+                        if (!countRef.current.includes(v.id)){
+                            countRef.current.push(v.id);
+                        }
+                        return v;
+                    })); */}
+
+
                 </Button>
                 <Button
-                    type={searchCondition==="all" || searchCondition==="sound" ? "primary" : "link"}
+                    type={searchCondition==="sound" ?  "link" : "primary"}
                     icon="sound"
-                    onClick={() => {setSearchCondition("sound") || console.log("searchCondition : ", searchCondition)
-                    }}
+                    onClick={() => {setSearchCondition("sound") }}
                 >
                     사운드
                 </Button>
                 <Button
-                    type={searchCondition==="all" || searchCondition==="video-camera" ? "primary" : "link"}
+                    type={searchCondition==="video-camera" ? "link" : "primary" }
                     icon="video-camera"
-                    onClick={() => {setSearchCondition("video-camera") || console.log("searchCondition : ", searchCondition)
-                    }}
+                    onClick={() => setSearchCondition("video-camera") }
                 >
                     영상
                 </Button>
                 <Button
-                    type={searchCondition==="all" || searchCondition==="picture" ? "primary" : "link"}
+                    type={searchCondition==="picture" ? "link" : "primary" }
                     icon="picture"
-                    onClick={() => {setSearchCondition("picture") || console.log("searchCondition : ", searchCondition)
-                    }}
+                    onClick={() => {setSearchCondition("picture") }}
                 >
                     사진
                 </Button>
                 <Button
-                    type={searchCondition==="all" || searchCondition==="file-image" ? "primary" : "link"}
+                    type={searchCondition==="file-image" ? "link" : "primary" }
                     icon="file-image"
-                    onClick={() => {setSearchCondition("file-image") || console.log("searchCondition : ", searchCondition)
-                    }}
+                    onClick={() => {setSearchCondition("file-image") }}
                 >
                     그림
                 </Button>
@@ -112,6 +126,7 @@ const AppLayout = ({ children, firstInit}, ) => {
         </div>
     )
 }
+
 
 AppLayout.protTypes = {
     children: PropTypes.node,

@@ -10,7 +10,7 @@ import ReactPlayer from 'react-player';
 import { Document, Page, Outline } from 'react-pdf';
 import Slick from 'react-slick';
 
-const Gallery = ({ tag }, props) => {
+const Gallery = ({ tag, searchCondition, firstInit }) => {
     //const [currentPage, setCurrentPage ] = useState(1);
     const dispatch = useDispatch();
     const [fixedMyMedia, setFixedMyMedia] = useState([]);
@@ -21,6 +21,9 @@ const Gallery = ({ tag }, props) => {
     const [pdfPageNumber, setPdfPageNumber ] = useState(1);
     const [dimensions, setDimensions ] = useState({ width:0, height: 0 });
  
+    console.log("tag in Gallery : ", tag)
+    console.log("searchCondition in Gallery : ", searchCondition)
+    console.log("firstInit in Gallery : ", firstInit)
     // function next() {
     //     targetRef.current.next();
     // }
@@ -93,7 +96,7 @@ const Gallery = ({ tag }, props) => {
         //   2.2. myMedia 가 이미 자료를 가진 경우
         //      2.2.1 슬라이드 번호가 증가하는 경우
         //      2.2.2 슬라이드 번호가 감소하는 경우
-        if( myMedia.length < myMedia[0].total) {
+        if(myMedia[0] &&  (myMedia.length < myMedia[0].total)) {
             console.log(" 디스패치 실행")
             dispatch({
                 type: LOAD_MY_MEDIA_REQUEST,
@@ -220,15 +223,10 @@ const Gallery = ({ tag }, props) => {
             // dotsClass={"slick"}
             //centerPadding={"60px"}
           >
-              
-            {myRelatedMedia.map((v) => {
+              {myRelatedMedia.map((v) => {
               return (
+searchCondition === 'all' ? 
                 <CustomSlide index={v.id}>
-                 {/* <div style={{
-                //     //display: "block",
-                //     border: "2px solid green",
-                //     //visibility: "hidden",
-                //   }} > */}
                 {checkImageFileType(v.fileType) ? <img src={v.src} width={"100%"} /> : 
                 (checkVideoAudioFileType(v.fileType) ? <ReactPlayer width={"100%"} url={v.src} playing={false} controls={true} loop={true} /> : 
                 (checkPDFFileType(v.fileType) ? 
@@ -249,8 +247,12 @@ const Gallery = ({ tag }, props) => {
                         <span >{" \t   "} Page {pdfPageNumber} of {pdfTotalPages} </span>
             
                     </div> : <div><h1>{"파일타입이 null 입니다"}</h1></div>  ))
-                } </CustomSlide>
+                } </CustomSlide> 
+            : searchCondition === "picture" && v.fileType === "image/jpeg" ?
+            <CustomSlide index={v.id}> <img src={v.src} width={"100%"} /> </CustomSlide> : []
+                
                      ) } )}
+                
             </Slick>
         </StyleDiv>
         </div>
@@ -281,7 +283,7 @@ Gallery.propTypes = {
 
 Gallery.getInitialProps = async (context) => {
     const tag = context.query.tag;
-  // console.log("context.query.tag : ", tag)
+    console.log("context.query : ", context.query)
     context.store.dispatch({
         type: LOAD_MY_MEDIA_REQUEST,
         data: tag,
