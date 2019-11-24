@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { Menu, Button, Row, Col, Icon, Affix } from 'antd';
@@ -10,25 +10,17 @@ import { LOAD_USER_REQUEST } from '../reducers/user';
 import styled from 'styled-components';
 
 const AppLayout = ({ children, firstInit}, ) => {
-    console.log("children.type.name : ", children.type.name)
-    console.log("children : ", children)
-    console.log("firstInit : ", firstInit );
+    
     const { isLoggedIn, me } = useSelector( state => state.user );
-    //const [searchCondition, setSearchCondition] = useState(firstInit); 
     const [searchCondition, setSearchCondition] = useState([]); 
+    const refButton_file_pdf = useRef();
+    const refButton_sound = useRef();
+    const refButton_video_camera = useRef();
+    const refButton_picture = useRef();
+    const refButton_file_image = useRef();
    
     
     console.log("searchCondition : ", searchCondition);
-    
- //   const dispatch = useDispatch();
-
-    // useEffect( () => {
-    //     if (!me) {
-    //         dispatch({
-    //             type: LOAD_USER_REQUEST,
-    //         });
-    //     }
-    // }, [me]);
 
     // const onSearch = (value) => {
     //                    // 내부 주소                                      // 외부  주소
@@ -36,7 +28,15 @@ const AppLayout = ({ children, firstInit}, ) => {
     //    alert("It is under construction")
     // }
 
-    //console.log("me : ", me)
+
+    const changeStyleButtonPressed = (buttonRefVal) => {
+        if ( buttonRefVal.current.buttonNode.style.backgroundColor === 'red' ){
+            buttonRefVal.current.buttonNode.style.backgroundColor = 'white';
+        }else {
+            buttonRefVal.current.buttonNode.style.backgroundColor = 'red'
+        }
+    }
+
     return (
         <div>
             <Menu mode="horizontal">
@@ -73,55 +73,73 @@ const AppLayout = ({ children, firstInit}, ) => {
                 </Col>
             </Row>
             <Affix offsetBottom={10}>
-            
-                <Button     //state.mainPosts.findIndex(v => v.id === action.data.postId);
-                    type={ (searchCondition.findIndex( v => v === "file-pdf")) ? "primary" : "link" }
+             
+                <Button
+                    ref={refButton_file_pdf}
+                    type={"link"}
+                    style={{"backgroundColor": searchCondition.findIndex( v => v === "file-pdf") ? "red" : "white" }}
                     icon="file-pdf"
-                    onClick={() => { setSearchCondition(!searchCondition.includes("file-pdf") ?
-                     [...searchCondition, "file-pdf" ] : searchCondition.filter(v => 
+                    onClick={() => {  changeStyleButtonPressed(refButton_file_pdf) || 
+                     setSearchCondition(!searchCondition.includes("file-pdf") ?
+                     [...searchCondition, "file-pdf" ] : (searchCondition.filter(v => 
                         v.toString() !== "file-pdf"
-                    ))}}
+                    )))  }}
                 >
                     글
-
-                    {/* setFixedMyMedia( myMedia.slice(0, 5).map( v => {        // slice 테스트 완료, 10 으로 해도 문제 없음
-                        console.log("초기 v ==> ", v.id);
-                        if (!countRef.current.includes(v.id)){
-                            countRef.current.push(v.id);
-                        }
-                        return v;
-                    })); */}
-
-
                 </Button>
                 <Button
-                    type={searchCondition==="sound" ?  "link" : "primary"}
+                    ref={refButton_sound}
+                    type={"link"}
+                    style={{"backgroundColor": searchCondition.findIndex( v => v === "sound") ? "red" : "white" }}
                     icon="sound"
-                    onClick={() => {setSearchCondition("sound") }}
+                    onClick={() => { changeStyleButtonPressed(refButton_sound) || 
+                        setSearchCondition(!searchCondition.includes("sound") ?
+                        [...searchCondition, "sound" ] : searchCondition.filter(v => 
+                       v.toString() !== "sound"
+                    ))}}
                 >
                     사운드
                 </Button>
                 <Button
-                    type={searchCondition==="video-camera" ? "link" : "primary" }
+                    ref={refButton_video_camera}
+                    type={"link"}
+                    style={{"backgroundColor": searchCondition.findIndex( v => v ==="video-camera") ? "red" : "white" }}
                     icon="video-camera"
-                    onClick={() => setSearchCondition("video-camera") }
+                    onClick={() => { changeStyleButtonPressed(refButton_video_camera) || 
+                        setSearchCondition(!searchCondition.includes("video-camera") ?
+                        [...searchCondition, "video-camera" ] : searchCondition.filter(v => 
+                       v.toString() !== "video-camera"
+                    ))}}
                 >
                     영상
                 </Button>
                 <Button
-                    type={searchCondition==="picture" ? "link" : "primary" }
+                    ref={refButton_picture}
+                    type={"link"}
+                    style={{"backgroundColor": searchCondition.findIndex( v => v ==="picture") ? "red" : "white" }}
                     icon="picture"
-                    onClick={() => {setSearchCondition("picture") }}
+                    onClick={() => { changeStyleButtonPressed(refButton_picture) || 
+                        setSearchCondition(!searchCondition.includes("picture") ?
+                        [...searchCondition, "picture" ] : searchCondition.filter(v => 
+                       v.toString() !== "picture"
+                    ))}}
                 >
                     사진
                 </Button>
                 <Button
-                    type={searchCondition==="file-image" ? "link" : "primary" }
+                    ref={refButton_file_image}
+                    type={"link"}
+                    style={{"backgroundColor": searchCondition.findIndex( v => v ==="file-image") ? "red" : "white" }}
                     icon="file-image"
-                    onClick={() => {setSearchCondition("file-image") }}
+                    onClick={() => { changeStyleButtonPressed(refButton_file_image) || 
+                        setSearchCondition(!searchCondition.includes("file-image") ?
+                        [...searchCondition, "file-image" ] : searchCondition.filter(v => 
+                       v.toString() !== "file-image"
+                    ))}}
                 >
                     그림
                 </Button>
+                
             </Affix>
         </div>
     )

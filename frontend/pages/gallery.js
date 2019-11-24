@@ -21,9 +21,9 @@ const Gallery = ({ tag, searchCondition, firstInit }) => {
     const [pdfPageNumber, setPdfPageNumber ] = useState(1);
     const [dimensions, setDimensions ] = useState({ width:0, height: 0 });
  
-    console.log("tag in Gallery : ", tag)
+    // console.log("tag in Gallery : ", tag)
     console.log("searchCondition in Gallery : ", searchCondition)
-    console.log("firstInit in Gallery : ", firstInit)
+    // console.log("firstInit in Gallery : ", firstInit)
     // function next() {
     //     targetRef.current.next();
     // }
@@ -38,10 +38,10 @@ const Gallery = ({ tag, searchCondition, firstInit }) => {
     //     console.log("chk currentPage : ", currentPage);
     // }
    
-     console.log("myMedia : ", myMedia);
-     console.log("fixedMyMedia : ", fixedMyMedia);
-     console.log("countRef.current : ", countRef.current);
-     console.log("myRelatedMedia : ", myRelatedMedia);
+    //  console.log("myMedia : ", myMedia);
+    //  console.log("fixedMyMedia : ", fixedMyMedia);
+    //  console.log("countRef.current : ", countRef.current);
+    //  console.log("myRelatedMedia : ", myRelatedMedia);
 
     const onPDFDocumentLoadSuccess = useCallback( (pdf)  => {
         setPdfTotalPages(pdf._pdfInfo.numPages);
@@ -225,11 +225,35 @@ const Gallery = ({ tag, searchCondition, firstInit }) => {
           >
               {myRelatedMedia.map((v) => {
               return (
-searchCondition === 'all' ? 
-                <CustomSlide index={v.id}>
-                {checkImageFileType(v.fileType) ? <img src={v.src} width={"100%"} /> : 
-                (checkVideoAudioFileType(v.fileType) ? <ReactPlayer width={"100%"} url={v.src} playing={false} controls={true} loop={true} /> : 
-                (checkPDFFileType(v.fileType) ? 
+                searchCondition.length === 0 ? 
+                    <CustomSlide index={v.id}>
+                    {checkImageFileType(v.fileType) ? <img src={v.src} width={"100%"} /> : 
+                    (checkVideoAudioFileType(v.fileType) ? <ReactPlayer width={"100%"} url={v.src} playing={false} controls={true} loop={true} /> : 
+                    (checkPDFFileType(v.fileType) ? 
+                        <div ref={targetRef} width={"100%"}>
+                            <Document
+                                file={v.src}
+                                onLoadSuccess={onPDFDocumentLoadSuccess}
+                            >
+                                <Page 
+                                pageNumber={pdfPageNumber || 1} 
+                                width={dimensions.width}
+                                /> 
+                            </Document>
+
+                            <Button type="default" disabled={pdfPageNumber <= 1} onClick={previousPage} >Previous</Button>
+                            <Button type="default" disabled={pdfPageNumber >= pdfTotalPages} onClick={nextPage} >Next</Button>
+
+                            <span >{" \t   "} Page {pdfPageNumber} of {pdfTotalPages} </span>
+                
+                        </div> : <div><h1>{"파일타입이 null 입니다"}</h1></div>  ))
+                    } </CustomSlide> 
+                : searchCondition.includes("picture") && checkImageFileType(v.fileType) ?
+                    <CustomSlide index={v.id}> <img src={v.src} width={"100%"} /> </CustomSlide> 
+                : searchCondition.includes("file-image") && checkImageFileType(v.fileType) ?
+                    <CustomSlide index={v.id}> <img src={v.src} width={"100%"} /> </CustomSlide> 
+                : searchCondition.includes("file-pdf") && checkPDFFileType(v.fileType) ? 
+                    <CustomSlide index={v.id}>
                     <div ref={targetRef} width={"100%"}>
                         <Document
                             file={v.src}
@@ -246,10 +270,15 @@ searchCondition === 'all' ?
 
                         <span >{" \t   "} Page {pdfPageNumber} of {pdfTotalPages} </span>
             
-                    </div> : <div><h1>{"파일타입이 null 입니다"}</h1></div>  ))
-                } </CustomSlide> 
-            : searchCondition === "picture" && v.fileType === "image/jpeg" ?
-            <CustomSlide index={v.id}> <img src={v.src} width={"100%"} /> </CustomSlide> : []
+                    </div> </CustomSlide>
+                : searchCondition.includes("sound") && checkVideoAudioFileType(v.fileType) ? 
+                    <CustomSlide index={v.id}>
+                        <ReactPlayer width={"100%"} url={v.src} playing={false} controls={true} loop={true} /> 
+                    </CustomSlide>
+                : searchCondition.includes("video-camera") && checkVideoAudioFileType(v.fileType) ? 
+                    <CustomSlide index={v.id}>
+                        <ReactPlayer width={"100%"} url={v.src} playing={false} controls={true} loop={true} /> 
+                    </CustomSlide> : []
                 
                      ) } )}
                 
