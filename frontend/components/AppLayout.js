@@ -77,12 +77,12 @@ const AppLayout = ({ children, firstInit}, ) => {
                 <Button
                     ref={refButton_file_pdf}
                     type={"link"}
-                    style={{"backgroundColor": searchCondition.findIndex( v => v === "file-pdf") ? "red" : "white" }}
+                    style={{"backgroundColor": searchCondition.findIndex( v => v === "text") ? "red" : "white" }}
                     icon="file-pdf"
                     onClick={() => {  changeStyleButtonPressed(refButton_file_pdf) || 
-                     setSearchCondition(!searchCondition.includes("file-pdf") ?
-                     [...searchCondition, "file-pdf" ] : (searchCondition.filter(v => 
-                        v.toString() !== "file-pdf"
+                     setSearchCondition(!searchCondition.includes("text") ?
+                     [...searchCondition, "text" ] : (searchCondition.filter(v => 
+                        v.toString() !== "text"
                     )))  }}
                 >
                     글
@@ -98,17 +98,17 @@ const AppLayout = ({ children, firstInit}, ) => {
                        v.toString() !== "sound"
                     ))}}
                 >
-                    사운드
+                    소리
                 </Button>
                 <Button
                     ref={refButton_video_camera}
                     type={"link"}
-                    style={{"backgroundColor": searchCondition.findIndex( v => v ==="video-camera") ? "red" : "white" }}
+                    style={{"backgroundColor": searchCondition.findIndex( v => v ==="movie") ? "red" : "white" }}
                     icon="video-camera"
                     onClick={() => { changeStyleButtonPressed(refButton_video_camera) || 
-                        setSearchCondition(!searchCondition.includes("video-camera") ?
-                        [...searchCondition, "video-camera" ] : searchCondition.filter(v => 
-                       v.toString() !== "video-camera"
+                        setSearchCondition(!searchCondition.includes("movie") ?
+                        [...searchCondition, "movie" ] : searchCondition.filter(v => 
+                       v.toString() !== "movie"
                     ))}}
                 >
                     영상
@@ -116,12 +116,12 @@ const AppLayout = ({ children, firstInit}, ) => {
                 <Button
                     ref={refButton_picture}
                     type={"link"}
-                    style={{"backgroundColor": searchCondition.findIndex( v => v ==="picture") ? "red" : "white" }}
+                    style={{"backgroundColor": searchCondition.findIndex( v => v ==="photo") ? "red" : "white" }}
                     icon="picture"
                     onClick={() => { changeStyleButtonPressed(refButton_picture) || 
-                        setSearchCondition(!searchCondition.includes("picture") ?
-                        [...searchCondition, "picture" ] : searchCondition.filter(v => 
-                       v.toString() !== "picture"
+                        setSearchCondition(!searchCondition.includes("photo") ?
+                        [...searchCondition, "photo" ] : searchCondition.filter(v => 
+                       v.toString() !== "photo"
                     ))}}
                 >
                     사진
@@ -129,12 +129,12 @@ const AppLayout = ({ children, firstInit}, ) => {
                 <Button
                     ref={refButton_file_image}
                     type={"link"}
-                    style={{"backgroundColor": searchCondition.findIndex( v => v ==="file-image") ? "red" : "white" }}
+                    style={{"backgroundColor": searchCondition.findIndex( v => v ==="picture") ? "red" : "white" }}
                     icon="file-image"
                     onClick={() => { changeStyleButtonPressed(refButton_file_image) || 
-                        setSearchCondition(!searchCondition.includes("file-image") ?
-                        [...searchCondition, "file-image" ] : searchCondition.filter(v => 
-                       v.toString() !== "file-image"
+                        setSearchCondition(!searchCondition.includes("picture") ?
+                        [...searchCondition, "picture" ] : searchCondition.filter(v => 
+                       v.toString() !== "picture"
                     ))}}
                 >
                     그림

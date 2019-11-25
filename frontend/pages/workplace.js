@@ -12,11 +12,10 @@ import fileType from 'file-type';
 import axios from 'axios';
 import { supportingFileTypeCheck } from '../config/utils.js';
 
-//const Workplace = () => {
 const  category = [
     {
-        value: '인디밴드',
-        label: '인디밴드',
+        value: 'song',
+        label: '노래',
         children: [
         {
             value: 'Rock',
@@ -31,8 +30,56 @@ const  category = [
         ],
     },
     {
-        value: 'jiangsu',
-        label: 'Jiangsu',
+        value: 'dance',
+        label: '춤',
+        children: [
+        {
+            value: 'nanjing',
+            label: 'Nanjing',
+            children: [
+            {
+                value: 'zhonghuamen',
+                label: 'Zhong Hua Men',
+            },
+            ],
+        },
+        ],
+    },
+    {
+        value: 'acting',
+        label: '연기',
+        children: [
+        {
+            value: 'nanjing',
+            label: 'Nanjing',
+            children: [
+            {
+                value: 'zhonghuamen',
+                label: 'Zhong Hua Men',
+            },
+            ],
+        },
+        ],
+    },
+    {
+        value: 'hosting',
+        label: '진행',
+        children: [
+        {
+            value: 'nanjing',
+            label: 'Nanjing',
+            children: [
+            {
+                value: 'zhonghuamen',
+                label: 'Zhong Hua Men',
+            },
+            ],
+        },
+        ],
+    },
+    {
+        value: 'etc',
+        label: '미분류',
         children: [
         {
             value: 'nanjing',
@@ -182,6 +229,7 @@ class Workplace extends React.Component {
 
     // ************   이 부분이 props 와 state 의 전반적인 관계를 다 보여줌
     componentWillUpdate(nextProps, nextState) {
+    //componentDidUpdate(nextProps, nextState) {  
         console.log("this.props.serverReactionData : ", this.props.serverReactionData)
         //console.log("this.state.serverMsgCheck : ", this.state.serverMsgCheck);
         // console.log("nextState : ", nextState)

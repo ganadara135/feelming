@@ -96,7 +96,7 @@ router.get('/myMedia', async (req, res, next) => {
                        ORDER BY createdAt ASC 
                        LIMIT ${parseInt(req.query.limit, 10)}`;
 
-     //   console.log("query  : ", query);
+        console.log("query  : ", query);
 
         await db.sequelize.query(query)
             .then(function(result){
