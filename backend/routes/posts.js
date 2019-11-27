@@ -74,7 +74,7 @@ router.get('/', async (req, res, next) => {
         });
      //   console.log("table posts[0].Liker : ", posts[0].Liker)
 
-        console.log("posts in routes : ", posts)
+       // console.log("posts in routes : ", posts)
 
         res.json(posts);
     } catch (e) {
@@ -96,7 +96,7 @@ router.get('/myMedia', async (req, res, next) => {
                        ORDER BY createdAt ASC 
                        LIMIT ${parseInt(req.query.limit, 10)}`;
 
-        console.log("query  : ", query);
+      //  console.log("query  : ", query);
 
         await db.sequelize.query(query)
             .then(function(result){
@@ -129,20 +129,6 @@ router.get('/myMedia', async (req, res, next) => {
 router.get('/myRelatedMedia', async (req, res, next) => {
     console.log("req.query in myRelatedMedia  : ", req.query)
     try {
-        // let where = {};
-        // if (parseInt(req.query.lastId, 10)) {
-        //     where = {
-        //         id: {
-        //             [db.Sequelize.Op.lt]: parseInt(req.query.lastId, 10), //less than
-        //         },
-        //     };
-        // }
-        // const myRelatedMediaAll = await db.UserAsset.findAll({
-        //     where,
-        //     order: [['createdAt', 'DESC'], ],
-        //     limit: parseInt(req.query.limit, 10),
-        // });
-
         const query = `Select *, @rownum := @rownum+1 AS RNUM, 
                             (SELECT COUNT(UserId) FROM UserAsset) as total 
                        FROM UserAsset, (SELECT @rownum := ${parseInt(req.query.lastId, 10)}) AS R 
@@ -153,6 +139,47 @@ router.get('/myRelatedMedia', async (req, res, next) => {
         await db.sequelize.query(query)
         .then(function(result){
             console.log("result[0] : ", result[0])
+            res.json(result[0])
+        });
+
+        //res.json(myRelatedMediaAll);
+    } catch (e) {
+        console.error(e);
+        next(e);
+    }
+});
+
+// 카테고리 분류에 따른 데이터 보내줌
+router.get('/categoryData/:tag', async (req, res, next) => {
+    //console.log("req.query in myRelatedMedia  : ", req.query)
+    console.log(" 검색 태크 분석 : ", req.query)
+    console.log( " 검색 파람 분석 : ", req.params)
+    const totalCheck = decodeURIComponent(req.params.tag);
+    let query;
+    try {
+        if(totalCheck !== 'total') {
+            query = `Select *, @rownum := @rownum+1 AS RNUM, 
+            (SELECT COUNT(UserId) FROM UserAsset) as total 
+            FROM UserAsset, (SELECT @rownum := ${parseInt(req.query.lastId, 10)}) AS R, Post 
+            WHERE Post.id > ${parseInt(req.query.lastId, 10)} AND UserAsset.PostId = Post.id 
+                    AND Post.category LIKE '%${decodeURIComponent(req.params.tag)}%' 
+            ORDER BY Post.createdAt ASC 
+            LIMIT ${parseInt(req.query.limit, 10)}`;
+        } else {
+            query = `Select *, @rownum := @rownum+1 AS RNUM, 
+            (SELECT COUNT(UserId) FROM UserAsset) as total 
+            FROM UserAsset, (SELECT @rownum := ${parseInt(req.query.lastId, 10)}) AS R, Post 
+            WHERE Post.id > ${parseInt(req.query.lastId, 10)} AND UserAsset.PostId = Post.id 
+            ORDER BY Post.createdAt ASC 
+            LIMIT ${parseInt(req.query.limit, 10)}`;
+        }
+        
+
+        console.log("query  : ", query);
+
+        await db.sequelize.query(query)
+        .then(function(result){
+       //     console.log("result[0] : ", result[0])
             res.json(result[0])
         });
 

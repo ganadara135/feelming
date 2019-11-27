@@ -1,41 +1,24 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import {Button} from 'antd';
+//import {Button} from 'antd';
 import {useDispatch, useSelector } from 'react-redux';
 import {LOAD_MY_MEDIA_REQUEST, LOAD_MY_RELATED_MEDIA_REQUEST} from '../reducers/post';
-import {checkImageFileType, checkPDFFileType, checkVideoAudioFileType } from '../config/utils';
+// import {checkImageFileType, checkPDFFileType, checkVideoAudioFileType } from '../config/utils';
 import styled from 'styled-components';
-import ReactPlayer from 'react-player';
-import { Document, Page, Outline } from 'react-pdf';
+// import ReactPlayer from 'react-player';
+// import { Document, Page, Outline } from 'react-pdf';
 import Slick from 'react-slick';
 import RenderMultiMedia from '../components/RenderMultiMedia'; 
 
-const Gallery = ({ tag, searchCondition, firstInit }) => {
+const Gallery = ({ tag, searchCondition }) => {
     //const [currentPage, setCurrentPage ] = useState(1);
     const dispatch = useDispatch();
     const [fixedMyMedia, setFixedMyMedia] = useState([]);
     const [fixedMyRelatedMedia, setFixedMyRelatedMedia] = useState([]);
     const {myMedia, hasMoreMyMedia, myRelatedMedia } = useSelector( state => state.post );
-    // const countRef = useRef( []);
-    const targetRef = useRef();
-    // const [pdfTotalPages, setPdfTotalPages ] = useState(null);
-    // const [pdfPageNumber, setPdfPageNumber ] = useState(1);
-    const [dimensions, setDimensions ] = useState({ width:0, height: 0 });
- 
-  
-    // const onPDFDocumentLoadSuccess = useCallback( (pdf)  => {
-    //     setPdfTotalPages(pdf._pdfInfo.numPages);
-    // },[]);
-
-    // const changePdfPage =  (offset) => setPdfPageNumber(
-    //     pdfPageNumber + offset
-    // );
-    // const previousPage = () => changePdfPage(-1);
-    // const nextPage = () => changePdfPage(1);
-
     
 
-    const [currentSlide, setCurrentSlide] = useState(0);
+    //const [currentSlide, setCurrentSlide] = useState(0);
 
     // useEffect(() => {
     //     if (targetRef.current) {
@@ -116,8 +99,8 @@ const Gallery = ({ tag, searchCondition, firstInit }) => {
       //onChangeSlide()
       console.log(" 오직 한번만 호출 해야함")
       setFixedMyMedia( myMedia.slice(0, 5).map( v => v))
-      setFixedMyRelatedMedia(myRelatedMedia.filter( v => !searchCondition.includes(v.dataType)))
-    },[ ]);     // 초기 로딩시에 무조건 호출을 위해서 사용
+      setFixedMyRelatedMedia(myRelatedMedia.map( v => v))
+    },[myRelatedMedia.length === 0]);     // 초기 로딩시에 무조건 호출을 위해서 사용
 
 
     useEffect( () => {
@@ -170,29 +153,6 @@ const Gallery = ({ tag, searchCondition, firstInit }) => {
 
                 <RenderMultiMedia key={v.id} fileInfo={v} />
                 
-                // checkImageFileType(v.fileType) ? <img src={v.src} /> : 
-                // (checkVideoAudioFileType(v.fileType) ? <ReactPlayer width={"100%"} url={v.src} playing={false} controls={true} loop={true} /> : 
-                // (checkPDFFileType(v.fileType) ? 
-                //     <div ref={targetRef}>
-                //         <Document
-                //             file={v.src}
-                //             onLoadSuccess={onPDFDocumentLoadSuccess}
-                //         >
-                //             <Page 
-                //             pageNumber={pdfPageNumber || 1} 
-                //             width={dimensions.width}
-                //             /> 
-                //         </Document>
-
-                //         <Button type="default" disabled={pdfPageNumber <= 1} onClick={previousPage} >Previous</Button>
-                //         <Button type="default" disabled={pdfPageNumber >= pdfTotalPages} onClick={nextPage} >Next</Button>
-
-                //         <span >{" \t   "} Page {pdfPageNumber} of {pdfTotalPages} </span>
-            
-                //     </div> : <div><h1>{"파일타입이 null 입니다"}</h1></div>  ))
-                
-                //     )}) 
-                
             )})}
         </Slick>
         </StyleDiv>
@@ -213,7 +173,7 @@ const Gallery = ({ tag, searchCondition, firstInit }) => {
               {/* {myRelatedMedia.map((v) => { */}
             {fixedMyRelatedMedia.map( v => {
               return (
-                <CustomSlide index={v.id}> <RenderMultiMedia key={v.id} fileInfo={v} /> </CustomSlide>
+                <CustomSlide index={v.id} key={v.id}> <RenderMultiMedia key={v.id} fileInfo={v} /> </CustomSlide>
                 ) } )}
                 
             </Slick>
@@ -245,7 +205,7 @@ Gallery.propTypes = {
 
 Gallery.getInitialProps = async (context) => {
     const tag = context.query.tag;
-    console.log("context.query : ", context.query)
+    //console.log("context.query : ", context.query)
     context.store.dispatch({
         type: LOAD_MY_MEDIA_REQUEST,
         data: tag,

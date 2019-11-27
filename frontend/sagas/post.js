@@ -8,14 +8,15 @@ import { ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE,
     UPLOAD_IMAGES_REQUEST, UPLOAD_IMAGES_SUCCESS, UPLOAD_IMAGES_FAILURE,
     LIKE_POST_REQUEST, LIKE_POST_SUCCESS, LIKE_POST_FAILURE,
     UNLIKE_POST_REQUEST, UNLIKE_POST_SUCCESS, UNLIKE_POST_FAILURE,
-    RETWEET_REQUEST, RETWEET_SUCCESS, RETWEET_FAILURE,
+    //RETWEET_REQUEST, RETWEET_SUCCESS, RETWEET_FAILURE,
     REMOVE_POST_REQUEST, REMOVE_POST_SUCCESS, REMOVE_POST_FAILURE,
     LOAD_POST_REQUEST, LOAD_POST_SUCCESS, LOAD_POST_FAILURE,
-    LOAD_BEST_LIKES_REQUEST, LOAD_BEST_LIKES_SUCCESS, LOAD_BEST_LIKES_FAILURE,
+    //LOAD_BEST_LIKES_REQUEST, LOAD_BEST_LIKES_SUCCESS, LOAD_BEST_LIKES_FAILURE,
     COOPERATE_REQUEST, COOPERATE_SUCCESS, COOPERATE_FAILURE,
     UNCOOPERATE_REQUEST, UNCOOPERATE_SUCCESS, UNCOOPERATE_FAILURE,
     LOAD_MY_MEDIA_REQUEST, LOAD_MY_MEDIA_SUCCESS, LOAD_MY_MEDIA_FAILURE,
-    LOAD_MY_RELATED_MEDIA_REQUEST, LOAD_MY_RELATED_MEDIA_SUCCESS, LOAD_MY_RELATED_MEDIA_FAILURE
+    LOAD_MY_RELATED_MEDIA_REQUEST, LOAD_MY_RELATED_MEDIA_SUCCESS, LOAD_MY_RELATED_MEDIA_FAILURE,
+    LOAD_CATEGORY_REQUEST, LOAD_CATEGORY_SUCCESS, LOAD_CATEGORY_FAILURE,
  } from '../reducers/post';
 
 import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from '../reducers/user';
@@ -418,7 +419,7 @@ function* watchMyMedia() {
 }
 
 
-function loadMyRelatedMediaAPI(lastId = 0, limit = 10) {
+function loadMyRelatedMediaAPI(lastId = 0, limit = 50) {
     return axios.get(`/posts/myRelatedMedia?lastId=${lastId}&limit=${limit}`);
 }
 function* loadMyRelatedMedia(action) {
@@ -443,6 +444,31 @@ function* watchMyRelatedMedia() {
 }
 
 
+
+function loadCategoryAPI(tag, lastId = 0, limit = 3) {
+    return axios.get(`/posts/categoryData/${encodeURIComponent(tag)}?lastId=${lastId}&limit=${limit}`);
+}
+function* loadCategoryData(action) {
+   console.log("check action in SAGA : ", action)
+    try{
+        const result = yield call(loadCategoryAPI, action.data, action.lastId, action.limit);
+     //   console.log("result.data : ", result.data);
+
+        yield put({
+            type: LOAD_CATEGORY_SUCCESS,
+            data: result.data,
+        });
+    }catch (e) {
+        yield put({
+            type: LOAD_CATEGORY_FAILURE,
+            error: e,
+        })
+    }
+}
+function* watchCategoryData() {
+    yield throttle(2000, LOAD_CATEGORY_REQUEST, loadCategoryData);
+}
+
 export default function* postSaga() {
     yield all([
         fork(watchLoadMainPosts),
@@ -461,6 +487,7 @@ export default function* postSaga() {
         fork(watchCooperate),
         fork(watchUncooperate),
         fork(watchMyMedia),
-        fork(watchMyRelatedMedia)
+        fork(watchMyRelatedMedia),
+        fork(watchCategoryData)
     ]);
 }

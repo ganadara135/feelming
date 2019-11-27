@@ -15,7 +15,7 @@ const Home = () => {
         // console.log(window.scrollY, document.documentElement.clientHeight,document.documentElement.scrollHeight);
         if (window.scrollY + document.documentElement.clientHeight 
             > document.documentElement.scrollHeight - 300 ) {
-                if (hasMorePost) {
+            //    if (hasMorePost) {
                     const lastId = mainPosts[mainPosts.length - 1 ].id;
                     if (!countRef.current.includes(lastId)) {
                         dispatch({
@@ -24,7 +24,7 @@ const Home = () => {
                         });
                     }
                     countRef.current.push(lastId);
-                }
+          //      }
             };
     }, [hasMorePost, mainPosts.length]);
 
