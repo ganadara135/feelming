@@ -46,7 +46,7 @@ const Category = ({ tag }) => {
     const onChangeSong = e => {
         console.log(" radio 1 checked ", e.target)
         setTagValue("song");
-        setTagValue("인디");
+        //setTagValue("인디");
         dispatch({
             type: LOAD_CATEGORY_REQUEST,
             lastId: 0,
@@ -58,7 +58,7 @@ const Category = ({ tag }) => {
     const onChangeDance = e => {
         console.log(" radio 2 checked ", e.target)
         setTagValue("dance");
-        setTagValue("밴드");
+        //setTagValue("밴드");
         dispatch({
             type: LOAD_CATEGORY_REQUEST,
             lastId: 0,
@@ -69,7 +69,7 @@ const Category = ({ tag }) => {
     const onChangeMovie = e => {
         console.log(" radio 3 checked ", e)
         setTagValue("movie");
-        setTagValue("Rock");
+        //setTagValue("Rock");
         dispatch({
             type: LOAD_CATEGORY_REQUEST,
             lastId: 0,
@@ -80,7 +80,7 @@ const Category = ({ tag }) => {
     const onChangeHosting = e => {
         console.log(" radio 4 checked ", e)
         setTagValue("hosting");
-        setTagValue("funk");
+        //setTagValue("funk");
         dispatch({
             type: LOAD_CATEGORY_REQUEST,
             lastId: 0,
