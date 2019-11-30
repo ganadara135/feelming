@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-//import {Button} from 'antd';
+import {Empty} from 'antd';
 import {useDispatch, useSelector } from 'react-redux';
 import {LOAD_MY_MEDIA_REQUEST, LOAD_MY_RELATED_MEDIA_REQUEST} from '../reducers/post';
 // import {checkImageFileType, checkPDFFileType, checkVideoAudioFileType } from '../config/utils';
@@ -148,11 +148,17 @@ const Gallery = ({ tag, searchCondition }) => {
               )}
             onLazyLoad={ () => <div>{"Loading Data..."}</div>}
           >
-            { fixedMyMedia.map( v => {
+            { //fixedMyMedia.map( v => {
+            fixedMyMedia.length === 0 ? <Empty /> : 
+            fixedMyMedia.map( v => {
               return ( 
-
-                <RenderMultiMedia key={v.id} fileInfo={v} />
+                <div>
+                    <h1 style={{ textAlign: 'center'}}> {"Title : " + v.title}</h1>
+               
+                    <RenderMultiMedia key={v.id} fileInfo={v} />
                 
+                    <h1 style={{ textAlign: 'center'}}>{"dataType : " + v.dataType}</h1>
+                </div>
             )})}
         </Slick>
         </StyleDiv>
@@ -171,7 +177,9 @@ const Gallery = ({ tag, searchCondition }) => {
             dots={true}
         >
               {/* {myRelatedMedia.map((v) => { */}
-            {fixedMyRelatedMedia.map( v => {
+            {//fixedMyRelatedMedia.map( v => {
+            fixedMyRelatedMedia.length === 0 ? <Empty /> : 
+            fixedMyRelatedMedia.map( v => {
               return (
                 <CustomSlide index={v.id} key={v.id}> <RenderMultiMedia key={v.id} fileInfo={v} /> </CustomSlide>
                 ) } )}
