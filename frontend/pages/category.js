@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import PostCard from '../containers/PostCard'
 import {useDispatch, useSelector } from 'react-redux';
 import {LOAD_CATEGORY_REQUEST } from '../reducers/post';
-import { Card, Icon, Radio, Avatar, Form, Input, List, Comment, Popover, Row, Col} from 'antd';
+import { Card, Icon, Radio, Empty, Form, Input, List, Comment, Popover, Row, Col} from 'antd';
 import RenderMultiMedia from '../components/RenderMultiMedia';
 
 const Category = ({ tag, searchCondition }) => {
@@ -48,7 +48,7 @@ const Category = ({ tag, searchCondition }) => {
         dispatch({
             type: LOAD_CATEGORY_REQUEST,
             lastId: 0,
-            data: tagValue,
+            data: "total",
             limit: 10
         })
     };
@@ -59,7 +59,7 @@ const Category = ({ tag, searchCondition }) => {
         dispatch({
             type: LOAD_CATEGORY_REQUEST,
             lastId: 0,
-            data: tagValue,
+            data: "song",
             limit: 10
         })
     }
@@ -71,7 +71,7 @@ const Category = ({ tag, searchCondition }) => {
         dispatch({
             type: LOAD_CATEGORY_REQUEST,
             lastId: 0,
-            data: tagValue,
+            data: "dance",
             limit: 10
         })
     }
@@ -82,7 +82,7 @@ const Category = ({ tag, searchCondition }) => {
         dispatch({
             type: LOAD_CATEGORY_REQUEST,
             lastId: 0,
-            data: tagValue,
+            data: "movie",
             limit: 10
         })
     }
@@ -93,7 +93,7 @@ const Category = ({ tag, searchCondition }) => {
         dispatch({
             type: LOAD_CATEGORY_REQUEST,
             lastId: 0,
-            data: tagValue,
+            data: "hosting",
             limit: 10
         })
     }
@@ -103,7 +103,7 @@ const Category = ({ tag, searchCondition }) => {
         dispatch({
             type: LOAD_CATEGORY_REQUEST,
             lastId: 0,
-            data: tagValue,
+            data: "etc",
             limit: 10
         })
     }
@@ -126,23 +126,28 @@ const Category = ({ tag, searchCondition }) => {
                 </Radio.Group>
             </Card>
             {// myCategoryData.map( c => (
+                fixedMyCategoryData.length === 0 ? <Empty/> : 
                 fixedMyCategoryData.map( c => (
                 <Row type={"flex"} gutter={8} align={"top"} key={c.id}>
-                    <Col >
-                        <Card key={c.id} style={{width: 300, height: 500}}
+                    <Col span={16}>
+                        <Card key={c.id}
                             cover={
                                 <RenderMultiMedia fileInfo={c}  />
                             }
                         >
-                            {c.category}
+                            {"category: " + c.category +" / dataType: "+ c.dataType + " / fileType: "+ c.fileType }
                             <Card.Meta 
                                 description={c.description}
                             />
                         </Card>
                     </Col>
-                    <Col >
+                    <Col span={8} >
                         <Card key={c.id}> 
                             { "여기에 흥덕메시지" }
+                            <Card.Meta 
+                                description={"dataType : " + c.dataType + "  /  " +
+                                             "tagValue(카테고리) : " + tagValue}
+                            />
                         </Card>
                     </Col>
                 </Row>

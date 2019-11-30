@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import PostCard from '../containers/PostCard'
-import { Card, Icon, Tag, Tabs, Form, Input, List, Comment, Popover, Row, Col, Button, Radio} from 'antd';
+import { Card, Form, Input, List, Comment, Popover, Row, Col, Button, Radio, Empty} from 'antd';
 import {useDispatch, useSelector } from 'react-redux';
 import {LOAD_HASHTAG_POSTS_REQUEST, LOAD_MY_KEYWORD_REQUEST} from '../reducers/post';
 import RenderMultiMedia from '../components/RenderMultiMedia';
@@ -60,7 +60,8 @@ const Keyword = ({ tag }) => {
                 </Radio.Button>
             ))}
             </Radio.Group>
-            {mainPosts.map( c => (
+            {mainPosts.length === 0 ? <Empty /> : 
+            mainPosts.map( c => (
                 // <p>{console.log("c => ", c) }</p>
                 <Row type={"flex"} gutter={8} align={"top"}>
                     <Col span={16}>

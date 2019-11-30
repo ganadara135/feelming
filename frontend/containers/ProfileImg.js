@@ -11,15 +11,18 @@ const ProfileImg = () => {
     const [ which, setWhich ] = useState(0);
     const imageInput = useRef();
     const { profileImg, me, profileImgErrorReason } = useSelector( state => state.user );
-
+    const [ fixedProfileImg, setFixedProfileImg ] = useState(profileImg);
+    
+    useEffect( () => {
+        console.log("profileimage : " , profileImg)
+       setFixedProfileImg(profileImg);
+    },[profileImg])
     
     function onChangeCarousel(which) {
-       // console.log('which : ', which);
         setWhich(which);
     }
 
     const onChangeImages = useCallback( (e) => {
-    
          const imageFormData = new FormData();
          [].forEach.call(e.target.files, (f) => {
            // console.log(" in forEach() f : ", f);
@@ -42,34 +45,36 @@ const ProfileImg = () => {
             index,
         });
     }, []);
+
+    
       
     return (   
         <div>
-            {profileImg.filter((v,i) => i === which).map( (v, i) => (
+            {fixedProfileImg.filter((v,i) => i === which).map( (v, i) => (
                 <div key={v} style={{ display: 'inline-block'}}>
                     <div>
                         <Button onClick={onRemoveImage(i)}>제거</Button>
                     </div>
-                    <img src={`${v}` } style={{ width: '200px' }} alt={v} />
+                    <img src={`${v}` } style={{ width: '220px' }} alt={v} />
                 </div> 
             ))}
         <Carousel afterChange={onChangeCarousel}  style={{ width: 240, height: 73, padding: 20 }} >      
             <div>
                 <input type="file" multiple hidden ref={imageInput} onChange={onChangeImages} />
                 <Button onClick={onClickImageUpload}> 
-                { profileImg && profileImg.length >= which+1 ? '이미지 바꾸기' : '이미지 업로드' }
+                { fixedProfileImg && fixedProfileImg.length >= which+1 ? '이미지 바꾸기' : '이미지 업로드' }
                 </Button>
             </div>
             <div>
                 <input type="file" multiple hidden ref={imageInput} onChange={onChangeImages} />
                 <Button onClick={onClickImageUpload}> 
-                { profileImg && profileImg.length >= which+1 ? '이미지 바꾸기' : '이미지 업로드' }
+                { fixedProfileImg && fixedProfileImg.length >= which+1 ? '이미지 바꾸기' : '이미지 업로드' }
                 </Button>
             </div>
             <div>
                 <input type="file" multiple hidden ref={imageInput} onChange={onChangeImages} />
                 <Button onClick={onClickImageUpload}> 
-                { profileImg && profileImg.length >= which+1 ? '이미지 바꾸기' : '이미지 업로드' }
+                { fixedProfileImg && fixedProfileImg.length >= which+1 ? '이미지 바꾸기' : '이미지 업로드' }
                 </Button>
             </div>
         </Carousel>

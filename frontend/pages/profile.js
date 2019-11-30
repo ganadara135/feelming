@@ -1,5 +1,4 @@
 import React, { useEffect, useCallback, useState } from 'react';
-// import { Form, Button, List, Card, Icon, Input } from 'antd';
 import PostCard from '../containers/PostCard';
 import { useDispatch, useSelector } from 'react-redux';
 import NicknameEditForm from '../containers/NicknameEditForm';
@@ -14,41 +13,41 @@ import { LOAD_USER_POSTS_REQUEST } from '../reducers/post';
 
 
 const Profile = () => {
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
     const { me, followerList, followingList, hasMoreFollower, hasMoreFollowing } = useSelector( state => state.user );
-    const { mainPosts,  } = useSelector ( state => state.post );
-    // useEffect ( () => {
-    //     if (me) {
-    //     }
-    // }, [me && me.id ]);
+    // const { mainPosts,  } = useSelector ( state => state.post );
+    // // useEffect ( () => {
+    // //     if (me) {
+    // //     }
+    // // }, [me && me.id ]);
 
-    const onUnfollow = useCallback(userId => () => {
-        dispatch({
-            type: UNFOLLOW_USER_REQUEST,
-            data: userId,
-        });
-    }, []);
+    // const onUnfollow = useCallback(userId => () => {
+    //     dispatch({
+    //         type: UNFOLLOW_USER_REQUEST,
+    //         data: userId,
+    //     });
+    // }, []);
 
-    const onRemoveFollower = useCallback( userId => () => {
-        dispatch({
-            type: REMOVE_FOLLOWER_REQUEST,
-            data: userId,
-        });
-    }, []);
+    // const onRemoveFollower = useCallback( userId => () => {
+    //     dispatch({
+    //         type: REMOVE_FOLLOWER_REQUEST,
+    //         data: userId,
+    //     });
+    // }, []);
 
-    const loadMoreFollowings = useCallback( () => {
-        dispatch({
-            type: LOAD_FOLLOWINGS_REQUEST,
-            offset: followingList.length,
-        });
-    }, [followingList.length])
+    // const loadMoreFollowings = useCallback( () => {
+    //     dispatch({
+    //         type: LOAD_FOLLOWINGS_REQUEST,
+    //         offset: followingList.length,
+    //     });
+    // }, [followingList.length])
 
-    const loadMoreFollowers = useCallback( () => {
-        dispatch({
-            type: LOAD_FOLLOWERS_REQUEST,
-            offset: followerList.length,
-        });
-    }, [followerList.length]);
+    // const loadMoreFollowers = useCallback( () => {
+    //     dispatch({
+    //         type: LOAD_FOLLOWERS_REQUEST,
+    //         offset: followerList.length,
+    //     });
+    // }, [followerList.length]);
 
     return (
     <div>

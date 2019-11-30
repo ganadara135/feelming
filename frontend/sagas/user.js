@@ -310,14 +310,16 @@ function* watchEditNickname() {
 
 // function uploadProfileImageAPI(formData, whatType, description) {
 function uploadProfileImageAPI(userId, formData) {
-    // console.log("uploadProfileImageAPI userId : ", userId)
     return axios.put( `/user/${userId}/profileImg`, formData);    // body 폼으로 데이터 전달, withCredentials 로 젼달하지 말라
 }
-
 function* uploadProfileImage(action) {
-    //console.log("action : ", action)
+
+    console.log("uploadProfileImage() action.data ", action.data)
+
     try{
         const result = yield call(uploadProfileImageAPI, action.userId, action.data);
+        console.log(" saga result.data : ", result.data)
+        
         yield put({
             type: UPLOAD_PROFILE_IMAGES_SUCCESS,
             data: result.data,
@@ -329,7 +331,6 @@ function* uploadProfileImage(action) {
         })
     }
 }
-
 function* watchUploadProfileImage() {
     yield takeLatest(UPLOAD_PROFILE_IMAGES_REQUEST, uploadProfileImage);
 }

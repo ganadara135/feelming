@@ -412,8 +412,10 @@ const reducer = (state = initialState, action ) => {
         case UPLOAD_PROFILE_IMAGES_SUCCESS: {
             return {
                 ...state,
+                profileImg: action.data,
                 //imagePaths: [...state.imagePaths, ...action.data],
-                profileImg: [...state.profileImg, ...action.data],
+                //profileImg: [...state.profileImg, ...action.data],
+                //profileImg: state.profileImg.concat(action.data),
             };
         }
         case UPLOAD_PROFILE_IMAGES_FAILURE: {

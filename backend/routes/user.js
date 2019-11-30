@@ -318,18 +318,33 @@ const uploadProfile = multer({
 
 router.put('/:id/profileImg', uploadProfile.array('image',1), async (req, res, next) => {  // POST /api/user
 
+    console.log("req.files : ",req.files)
+    console.log("req.body : ",req.body)
+    console.log("req.params : ",req.params)
+
     try {
          await db.UserAsset.create({
             UserId: req.params.id,            // foreinKey 는 앞글자가 대문자임 
-            src: req.files[0].filename,
-            dataType: req.files[0].mimetype,
+            //src: req.files[0].filename,
+            src : req.files[0].location,
+            //dataType: req.files[0].mimetype,
+            dataType: "profileImg",             // 프로필 이미지 구분 신호
+            fileType: req.files[0].mimetype,
             // description: req.files[0].originalname,
          });
 
-        //  console.log("req.body : ",req.body)
+        //console.log("res.json  : ", req.files.map( v => v.location))
         //  console.log("newUserAsset : ", newUserAsset)
+        const userAssetResult = await db.UserAsset.findAll({
+            //req.params.id  가  0 이면 req.user.id 로 처리
+            where: { UserId: parseInt(req.params.id, 10),
+                     dataType: "ProfileImg"  },
+            order: [['createdAt', 'DESC'], ],
+            limit: 3,
+        })
  
-         res.json(req.files.map( v => v.filename));
+        res.json(userAssetResult.map( v => v.src));
+        // res.json(req.files.map( v => v.location));
     } catch (e) {
         console.error(e)
         next(e);
@@ -341,10 +356,16 @@ router.get('/:id/profileImg', isLoggedIn, async (req, res, next) => {  // GET /a
     try {
         const userAssetResult = await db.UserAsset.findAll({
             //req.params.id  가  0 이면 req.user.id 로 처리
-            where: { UserId: parseInt(req.params.id, 10) },
+            where: { UserId: parseInt(req.params.id, 10),
+                     dataType: "ProfileImg"  },
             order: [['createdAt', 'DESC'], ],
             limit: 3,
         })
+
+        // where: {
+        //     UserId: parseInt(req.params.id, 10) || (req.user && req.user.id) || 0,
+        //     RetweetId: null,
+        // },
 
         // console.log(" userAssetResult : ", userAssetResult);
         // console.log(" userAssetResult : ", userAssetResult.map( v => v.src))

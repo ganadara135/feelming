@@ -472,14 +472,14 @@ function* watchMyRelatedMedia() {
 
 
 
-function loadCategoryAPI(tag, lastId = 0, limit = 3) {
+function loadCategoryAPI(tag, lastId = 0, limit = 10) {
     return axios.get(`/posts/categoryData/${encodeURIComponent(tag)}?lastId=${lastId}&limit=${limit}`);
 }
 function* loadCategoryData(action) {
    console.log("check action in SAGA : ", action)
     try{
         const result = yield call(loadCategoryAPI, action.data, action.lastId, action.limit);
-     //   console.log("result.data : ", result.data);
+        console.log("result.data : ", result.data);
 
         yield put({
             type: LOAD_CATEGORY_SUCCESS,
