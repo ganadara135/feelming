@@ -1,6 +1,7 @@
 const express = require('express');
 const db = require('../models');
 const router = express.Router();
+const { isLoggedIn } = require('./middleware');
 
 
 router.get('/:tag', async (req, res, next ) => {
@@ -15,87 +16,128 @@ router.get('/:tag', async (req, res, next ) => {
         }
         console.log("hashtag limit : ", req.query.limit);
         console.log("hashtag query : ", req.query);
+        console.log("req.params.tag : ", req.params.tag);
+        console.log("decodeURIComponent(req.params.tag) : ", decodeURIComponent(req.params.tag));
+        let whereKeywordTag = {};
+        if(req.params.tag !== 'undefined' ){
+            whereKeywordTag = {
+                keyword: {
+                    [db.Sequelize.Op.like]: "%"+ decodeURIComponent(req.params.tag)+"%"
+                }
+            }
+        }
+        // console.log(" whereKeywordTag.where : ", whereKeywordTag.where)
+        // console.log(" whereKeywordTag : ", whereKeywordTag)
+        // //let test = whereKeywordTag.where;
 
+        //console.log(" test : ", test)
         const posts = await db.Post.findAll( {
             where,
+            
             include: [{
-                model: db.Hashtag,
-                where: { name: decodeURIComponent(req.params.tag) },
-            },{
-            model: db.User,
-            attributes: ['id', 'nickname'],
-        }, {
-            model: db.Image
-        }, {
-            model: db.User,
-            through: 'Like',
-            as: 'Likers',
-            attributes: ['id'],
-        }, {
-            model: db.Post,
-            as: 'Retweet',
-            include: [{
+                model: db.KeywordTag,
+                where: whereKeywordTag
+                // where: { keyword: {
+                //     [db.Sequelize.Op.like]: "%"+ decodeURIComponent(req.params.tag)+"%"
+                // }},
+            },
+            //db.UserAsset,
+            {        // 나중에 해제
                 model: db.User,
                 attributes: ['id', 'nickname'],
-            }, {
-                model: db.Image,
-            }],
-        }],
-        order: [['createdAt', 'DESC']],
-        limit: parseInt(req.query.limit, 10),
-        
+                //where: { id: 'Post.UserId'},
+            },
+            {
+                model: db.UserAsset,
+                //where: {PostId: 'Post.id'}
+            }
+            ],
+            order: [['createdAt', 'DESC']],
+            limit: parseInt(req.query.limit, 10),
         });
         res.json(posts);
     } catch (e) {
         console.error(e);
         next(e);
     }
-})
+});
 
-router.get('/', async (req, res, next ) => {
+// router.get('/', async (req, res, next ) => {
+//     try {
+//         // let where = {};
+//         // if (parseInt(req.query.lastId, 10)) {
+//         //     where = {
+//         //         id: {
+//         //             [db.Sequelize.Op.lt]: parseInt(req.query.lastId, 10),
+//         //         },
+//         //     };
+//         // }
+//         // //console.log("req.query.limit : ", req.query.limit);
+//         // console.log("req.query : ", req.query);
+
+//         // const posts = await db.Post.findAll( {
+//         //     where,
+//         //     include: [{
+//         //         model: db.User,
+//         //         through: 'Like',
+//         //         attributes: ['id', 'nickname'],
+//         //     },{
+//         //     model: db.UserAsset,
+//         // },],
+//         // order: [['createdAt', 'DESC']],
+//         // limit: parseInt(req.query.limit, 10),
+//         // });
+//         var query = 'SELECT * from fixunit.Like;';
+//         var values = {
+//         name: 'chris'
+//         };
+
+//         db.sequelize.query(query, {replacements: values})
+//         .spread(function (results, metadata) {
+//         // 쿼리 실행 성공
+//             console.log("실행 성공 : ", results)
+//             console.log("metadata : ", metadata)
+
+//         }, function (err) {
+//         // 쿼리 실행 에러
+//             console.log("실패 : ", err)
+//         });
+
+//         //console.log("posts : ", posts);
+
+//         res.json("posts");
+//     } catch (e) {
+//         console.error(e);
+//         next(e);
+//     }
+// })
+
+
+router.post('/MyKeyword', isLoggedIn, async (req, res, next ) => {
+    console.log("++++++++++++++++++++++++++++++++++++++++")
     try {
-        // let where = {};
-        // if (parseInt(req.query.lastId, 10)) {
-        //     where = {
-        //         id: {
-        //             [db.Sequelize.Op.lt]: parseInt(req.query.lastId, 10),
-        //         },
-        //     };
-        // }
-        // //console.log("req.query.limit : ", req.query.limit);
-        // console.log("req.query : ", req.query);
+        console.log("-------------req.user : ", req.user.id); 
+        const query = `SELECT *,  COUNT(KeywordTagId) AS aKeywordTotal 
+        from Post LEFT OUTER JOIN ( PostKeywordTag INNER JOIN KeywordTag ON KeywordTag.id = PostKeywordTag.KeywordTagId) 
+        ON Post.id = PostKeywordTag.PostId WHERE Post.UserId = 2  GROUP BY PostKeywordTag.PostId;` 
 
-        // const posts = await db.Post.findAll( {
-        //     where,
+        // const result = await db.Post.findAll( {
+        //     where: { UserId: parseInt(req.user.id, 10) },
         //     include: [{
-        //         model: db.User,
-        //         through: 'Like',
-        //         attributes: ['id', 'nickname'],
-        //     },{
-        //     model: db.UserAsset,
-        // },],
-        // order: [['createdAt', 'DESC']],
-        // limit: parseInt(req.query.limit, 10),
+        //         model: db.KeywordTag,
+        //         attributes: ['keyword'],
+        //     },
+        //     ],
+        //     group: ['keyword'],
         // });
-        var query = 'SELECT * from fixunit.Like;';
-        var values = {
-        name: 'chris'
-        };
 
-        db.sequelize.query(query, {replacements: values})
-        .spread(function (results, metadata) {
-        // 쿼리 실행 성공
-            console.log("실행 성공 : ", results)
-            console.log("metadata : ", metadata)
+        await db.sequelize.query(query)
+            .then(function(result){
+                console.log("result[0] : ", result[0])
+                res.json(result[0])
+            });
 
-        }, function (err) {
-        // 쿼리 실행 에러
-            console.log("실패 : ", err)
-        });
-
-        //console.log("posts : ", posts);
-
-        res.json("posts");
+        //res.json(result);
     } catch (e) {
         console.error(e);
         next(e);
@@ -103,6 +145,15 @@ router.get('/', async (req, res, next ) => {
 })
 
 module.exports = router;
+
+// SELECT `Post`.`id`, DISTINCT(`KeywordTag`.`keyword`) AS `keyword`, `KeywordTags`.`id` AS `KeywordTags.id`, 
+// `KeywordTags`.`keyword` AS `KeywordTags.keyword`, `KeywordTags`.`createdAt` AS `KeywordTags.createdAt`, 
+// `KeywordTags`.`updatedAt` AS `KeywordTags.updatedAt`, `KeywordTags->PostKeywordTag`.`createdAt` AS `KeywordTags.PostKeywordTag.createdAt`, 
+// `KeywordTags->PostKeywordTag`.`updatedAt` AS `KeywordTags.PostKeywordTag.updatedAt`, `KeywordTags->PostKeywordTag`.`KeywordTagId` AS `KeywordTags.PostKeywordTag.KeywordTagId`,
+//  `KeywordTags->PostKeywordTag`.`PostId` AS `KeywordTags.PostKeywordTag.PostId` FROM `Post` AS `Post` 
+//  LEFT OUTER JOIN ( `PostKeywordTag` AS `KeywordTags->PostKeywordTag` INNER JOIN `KeywordTag` AS `KeywordTags` 
+//  ON `KeywordTags`.`id` = `KeywordTags->PostKeywordTag`.`KeywordTagId`) 
+//  ON `Post`.`id` = `KeywordTags->PostKeywordTag`.`PostId` WHERE `Post`.`UserId` = 2;
 
 /*
 Query Result

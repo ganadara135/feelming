@@ -6,11 +6,12 @@ import {LOAD_CATEGORY_REQUEST } from '../reducers/post';
 import { Card, Icon, Radio, Avatar, Form, Input, List, Comment, Popover, Row, Col} from 'antd';
 import RenderMultiMedia from '../components/RenderMultiMedia';
 
-const Category = ({ tag }) => {
+const Category = ({ tag, searchCondition }) => {
 
     const dispatch = useDispatch();
     const [tagValue, setTagValue] = useState(tag);
     const {myCategoryData, hasMorePost } = useSelector( state => state.post );
+    const [fixedMyCategoryData, setFixedMyCategoryData] = useState([]);
     
     const onScroll = useCallback( () => {
         if (window.scrollY + document.documentElement.clientHeight 
@@ -32,6 +33,14 @@ const Category = ({ tag }) => {
             window.removeEventListener('scroll', onScroll);
         }
     }, [myCategoryData.length]); //  빈 deps [], 는 처음 로딩될때 한 번만 호출됨
+
+    useEffect( () => {
+        setFixedMyCategoryData(myCategoryData.filter( v => !searchCondition.includes(v.dataType)))
+    }, [searchCondition]);
+
+    useEffect( () => {
+        setFixedMyCategoryData(myCategoryData);
+    }, [myCategoryData])
 
     const onChangeTotal = e => {
         console.log('radio 0 checked', e.target.value);
@@ -100,10 +109,10 @@ const Category = ({ tag }) => {
     }
   
     
-    
-
     console.log("myCategoryData : ", myCategoryData)
     console.log("hasMorePost : ", hasMorePost)
+    console.log("fixedMyCategoryData : ", fixedMyCategoryData)
+
     return (
         <div>
             <Card>
@@ -116,12 +125,13 @@ const Category = ({ tag }) => {
                     <Radio.Button value="f" onChange={onChangeETC}>미분류</Radio.Button>
                 </Radio.Group>
             </Card>
-            {myCategoryData.map( c => (
+            {// myCategoryData.map( c => (
+                fixedMyCategoryData.map( c => (
                 <Row type={"flex"} gutter={8} align={"top"} key={c.id}>
                     <Col >
                         <Card key={c.id} style={{width: 300, height: 500}}
                             cover={
-                                <RenderMultiMedia fileInfo={c} key={c.id} />
+                                <RenderMultiMedia fileInfo={c}  />
                             }
                         >
                             {c.category}

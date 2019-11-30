@@ -507,6 +507,8 @@ router.put('/uploadWorkplace', async (req, res, next) => {  // put /api/user
         
      //   console.log("arrKeywordTag : ", arrKeywordTag)
         const resultPost = await db.Post.create({
+            title: req.body.title,
+            description: req.body.description,
             category: JSON.stringify(req.body.category).replace(regex,""),
             publicScope: req.body.publicScope,
             copyright: req.body.copyRight,

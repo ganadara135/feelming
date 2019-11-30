@@ -127,6 +127,9 @@ export const LOAD_CATEGORY_REQUEST = 'LOAD_CATEGORY_REQUEST';
 export const LOAD_CATEGORY_SUCCESS = 'LOAD_CATEGORY_SUCCESS';
 export const LOAD_CATEGORY_FAILURE = 'LOAD_CATEGORY_FAILURE';
 
+export const LOAD_MY_KEYWORD_REQUEST = 'LOAD_MY_KEYWORD_REQUEST';
+export const LOAD_MY_KEYWORD_SUCCESS = 'LOAD_MY_KEYWORD_SUCCESS';
+export const LOAD_MY_KEYWORD_FAILURE = 'LOAD_MY_KEYWORD_FAILURE';
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -155,6 +158,22 @@ const reducer = (state = initialState, action) => {
         case LOAD_HASHTAG_POSTS_FAILURE:
         case LOAD_USER_POSTS_FAILURE:
         case LOAD_MAIN_POSTS_FAILURE: {
+            return {
+                ...state,
+            };
+        }
+        case LOAD_MY_KEYWORD_REQUEST: {
+            return {
+                ...state,
+            };
+        }
+        case LOAD_MY_KEYWORD_SUCCESS: {
+            return {
+                ...state,     
+                myKeyword: action.data,
+            };
+        }
+        case LOAD_MY_KEYWORD_FAILURE: {
             return {
                 ...state,
             };
@@ -378,25 +397,7 @@ const reducer = (state = initialState, action) => {
                 ...state,
             };
         }
-        // case LOAD_BEST_LIKES_REQUEST: {
-        //     return {
-        //         ...state,
-        //         bestLikesPosts: !action.lastId ? [] : state.bestLikesPosts,
-        //         hasMorePost: action.lastId ? state.hasMorePost : true,
-        //     };
-        // }
-        // case LOAD_BEST_LIKES_SUCCESS: {
-        //     return {
-        //         ...state,     
-        //         bestLikesPosts: state.bestLikesPosts.concat(action.data),
-        //         hasMorePost: action.data.length === 10,
-        //     };
-        // }
-        // case LOAD_BEST_LIKES_FAILURE: {
-        //     return {
-        //         ...state,
-        //     };
-        // }
+
         case LOAD_MY_MEDIA_REQUEST: {
             return {
                 ...state,

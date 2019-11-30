@@ -4,8 +4,13 @@ module.exports = (sequelize, DataTypes) => {
         //     type: DataTypes.TEXT,       // 매우 긴 글
         //     allowNull: false,
         // },
+        
         description: {
             type: DataTypes.STRING(225),
+            allowNull: true,
+        },
+        title: {
+            type: DataTypes.STRING(100),
             allowNull: true,
         },
         category: {

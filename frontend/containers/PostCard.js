@@ -108,11 +108,11 @@ const PostCard = ({ post }) => {
     }, [id, post && post.id, liked && liked.id])
 
     const onCooperate = useCallback( () => {
-        console.log("onCooperate() ")
+       // console.log("onCooperate() ")
         if (!id) {
             return alert('로그인이 필요합니다');
         }
-        console.log("onCooperate cooper : ", cooper)
+      //  console.log("onCooperate cooper : ", cooper)
         if ( cooper && cooper.UserId === id){     // 좋아요 누른 상태
             dispatch( {
                 type: UNCOOPERATE_REQUEST,
@@ -142,7 +142,7 @@ const PostCard = ({ post }) => {
     }, [ post && post.Followings]);
 
     const onRemovePost = useCallback( userId => () => {
-        console.log("call onRemovePost() ")
+      //  console.log("call onRemovePost() ")
         dispatch({
             type: REMOVE_POST_REQUEST,
             data: userId,
@@ -203,6 +203,7 @@ const PostCard = ({ post }) => {
             extra={<FollowButton post={post} onUnfollow={onUnfollow} onFollow={onFollow} />}
         >
 
+            <p>{'Title : '}{post.title}</p>
             <p>{'공개범위 : '}{post.publicScope}</p>
             <p>{'Category : '}{post.category}</p>
             <p>{'Copyright : '}{post.copyright}</p>

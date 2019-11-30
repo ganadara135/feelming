@@ -28,6 +28,7 @@ const RenderMultiMedia = ( {fileInfo}) => {
             });
         }
     },[fileInfo.id]);
+   // },[fileInfo.id]);
 
     //console.log("except : ", except)
     // console.log("fileInfo : ", fileInfo)

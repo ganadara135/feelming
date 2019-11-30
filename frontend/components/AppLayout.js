@@ -50,9 +50,9 @@ const AppLayout = ({ children, firstInit}, ) => {
                 </Menu.Item> */}
                 {me && me.length !== 0 ? <Menu.Item key='profile'><Link href="/profile"  prefetch={false} ><a>프로필</a></Link></Menu.Item> : [] }
                 {me && me.length !== 0 ? <Menu.Item key='workplace'><Link href="/workplace"  prefetch={false}><a>내작업장</a></Link></Menu.Item> : [] }
-                <Menu.Item key='gallery'><Link href="/gallery" prefetch={false} ><a>갤러리</a></Link></Menu.Item>
-                <Menu.Item key='keyword'><Link href="/keyword" prefetch={false} ><a>키워드</a></Link></Menu.Item>
-                <Menu.Item key='category'><Link href="/category" prefetch={false} ><a>카테고리</a></Link></Menu.Item>
+                {me && me.length !== 0 ? <Menu.Item key='gallery'><Link href="/gallery" prefetch={false} ><a>갤러리</a></Link></Menu.Item> : [] }
+                {me && me.length !== 0 ? <Menu.Item key='keyword'><Link href="/keyword" prefetch={false} ><a>키워드</a></Link></Menu.Item> : [] }
+                {me && me.length !== 0 ? <Menu.Item key='category'><Link href="/category" prefetch={false} ><a>카테고리</a></Link></Menu.Item> : [] }
             </Menu>
             <Row gutter={8} >
                 <Col xs={24} md={6}>

@@ -16,82 +16,34 @@ const  category = [
     {
         value: 'song',
         label: '노래',
-        children: [
-        {
-            value: 'Rock',
-            label: 'Rock',
-            children: [
-            {
-                value: 'Funk',
-                label: 'Funk',
-            },
-            ],
-        },
-        ],
     },
     {
         value: 'dance',
         label: '춤',
-        children: [
-        {
-            value: 'nanjing',
-            label: 'Nanjing',
-            children: [
-            {
-                value: 'zhonghuamen',
-                label: 'Zhong Hua Men',
-            },
-            ],
-        },
-        ],
     },
     {
         value: 'acting',
         label: '연기',
-        children: [
-        {
-            value: 'nanjing',
-            label: 'Nanjing',
-            children: [
-            {
-                value: 'zhonghuamen',
-                label: 'Zhong Hua Men',
-            },
-            ],
-        },
-        ],
     },
     {
         value: 'hosting',
         label: '진행',
-        children: [
-        {
-            value: 'nanjing',
-            label: 'Nanjing',
-            children: [
-            {
-                value: 'zhonghuamen',
-                label: 'Zhong Hua Men',
-            },
-            ],
-        },
-        ],
     },
     {
         value: 'etc',
         label: '미분류',
-        children: [
-        {
-            value: 'nanjing',
-            label: 'Nanjing',
-            children: [
-            {
-                value: 'zhonghuamen',
-                label: 'Zhong Hua Men',
-            },
-            ],
-        },
-        ],
+        // children: [
+        // {
+        //     value: 'nanjing',
+        //     label: 'Nanjing',
+        //     children: [
+        //     {
+        //         value: 'zhonghuamen',
+        //         label: 'Zhong Hua Men',
+        //     },
+        //     ],
+        // },
+        // ],
     },
 ];
 
@@ -248,12 +200,8 @@ class Workplace extends React.Component {
 
     render() {
 
-        //const dispatch = useDispatch();
         const { Option } = Select;
-        //console.log("this.props.form : ", this.props.form)
-        //const { getFieldDecorator, getFieldValue } = this.props;
         const { form } = this.props;
-        //console.log("getFieldValue : ", form.getFieldValue);
 
         const formItemLayout = {
             labelCol: {
@@ -344,6 +292,11 @@ class Workplace extends React.Component {
         return (
             
             <Form lable="자료등록" onSubmit={this.onSubmitForm} >
+                <Form.Item label="제목">
+                    {form.getFieldDecorator('title', {
+                        rules: [{ required: true, message: "Please input title!" }],
+                    })( <Input /> )}
+                </Form.Item>
                 <Form.Item label="형식" >
                     {form.getFieldDecorator('dataType', {
                         rules: [{ required: true, message: 'Please select Data Type!' }],
@@ -390,7 +343,7 @@ class Workplace extends React.Component {
                 </Form.Item>
                 <Form.Item label="카테고리">
                     {form.getFieldDecorator('category', {
-                        initialValue: ['인디밴드',],
+                        initialValue: ['song',],
                         rules: [
                         { type: 'array', required: true, message: 'Please select your preferable category!' },
                         ],
@@ -409,6 +362,11 @@ class Workplace extends React.Component {
                     <Button type="dashed" onClick={this.add} style={{ width: '60%' }}>
                         <Icon type="plus" /> Add keywords
                     </Button>
+                </Form.Item>
+                <Form.Item label="작품설명">
+                    {form.getFieldDecorator('description', {
+                        rules: [{ required: true, message: 'Please input description of this content!' }],
+                    })(<Input.TextArea rows={3} />)}
                 </Form.Item>
                 <Form.Item label="CopyRight">
                     {form.getFieldDecorator('copyRight', {
