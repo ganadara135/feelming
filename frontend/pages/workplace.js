@@ -305,8 +305,8 @@ class Workplace extends React.Component {
                         placeholder="등록하려는 파일의 형식을 선택하세요"
                         >
                         <Option value="movie">동영상</Option>
-                        <Option value="image">그림</Option>
-                        <Option value="picture">사진</Option>
+                        <Option value="picture">그림</Option>  
+                        <Option value="photo">사진</Option>
                         <Option value="sound">사운드</Option>
                         <Option value="text">텍스트</Option>
                         </Select>,

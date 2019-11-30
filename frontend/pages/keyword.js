@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import PostCard from '../containers/PostCard'
 import { Card, Form, Input, List, Comment, Popover, Row, Col, Button, Radio, Empty} from 'antd';
@@ -7,15 +7,15 @@ import {LOAD_HASHTAG_POSTS_REQUEST, LOAD_MY_KEYWORD_REQUEST} from '../reducers/p
 import RenderMultiMedia from '../components/RenderMultiMedia';
 
 
-
- 
-const Keyword = ({ tag }) => {
+const Keyword = ({ tag, searchCondition }) => {
    // console.log("tag : ", tag);
     const dispatch = useDispatch();
     const {mainPosts, hasMorePost, myKeyword } = useSelector( state => state.post );
+    const [fixedMainPosts, setFixedMainPosts ] = useState(mainPosts);
 
     console.log("myKeyword  : ", myKeyword)
     console.log("mainPosts : ", mainPosts);
+    console.log("fixedMainPosts : ", fixedMainPosts)
 
     const onScroll = useCallback( () => {
         if (window.scrollY + document.documentElement.clientHeight 
@@ -37,10 +37,18 @@ const Keyword = ({ tag }) => {
         }
     }, [mainPosts.length]); //  빈 deps [], 는 처음 로딩될때 한 번만 호출됨
 
+    useEffect( () => {
+        setFixedMainPosts(mainPosts.filter( v => !searchCondition.includes(v.UserAssets[0].dataType)))
+    }, [searchCondition]);
+
+    useEffect( () => {
+        setFixedMainPosts(mainPosts);
+    }, [mainPosts])
 
     const onChangeMyKeword = e => {
         console.log(" radio 5 checked ", e)
        // setTagValue("etc");
+        e.preventDefault();
         dispatch({
             type: LOAD_HASHTAG_POSTS_REQUEST,
             data: e.target.value,
@@ -51,17 +59,18 @@ const Keyword = ({ tag }) => {
     return (
         <div>
             <h1 style={{ textAlign: 'center'}}>마이 키워드</h1>
-            <Button type="dashed"  onClick={onChangeMyKeword} value={'undefined'}>전체</Button>
-
-            <Radio.Group onChange={onChangeMyKeword} >
+            
+            <Button type="danger"  onClick={onChangeMyKeword} value={'undefined'} >전체</Button>
+            <Radio.Group onChange={onChangeMyKeword} buttonStyle="solid">
+                 
             {myKeyword && myKeyword.map( c => (
                 <Radio.Button value={c.keyword} >
                     {c.keyword}{"("+c.aKeywordTotal+")"}
                 </Radio.Button>
             ))}
             </Radio.Group>
-            {mainPosts.length === 0 ? <Empty /> : 
-            mainPosts.map( c => (
+            {fixedMainPosts.length === 0 ? <Empty /> : 
+            fixedMainPosts.map( c => (
                 // <p>{console.log("c => ", c) }</p>
                 <Row type={"flex"} gutter={8} align={"top"}>
                     <Col span={16}>
@@ -79,8 +88,9 @@ const Keyword = ({ tag }) => {
                     <Col span={8} >
                         <Card > 
                             <Card.Meta 
-                                description={" 관련키워드: " + c.KeywordTags.map(v => v.keyword + ", ")
-                                            + " 관련설명: " + c.KeywordTags.description
+                                description={"dataType : " + c.UserAssets[0].dataType + " / " + 
+                                            " 관련키워드: " + c.KeywordTags.map(v => v.keyword + ", ")
+                                            + " / 관련설명: " + c.KeywordTags.description
                             }
                             />
                         </Card>
