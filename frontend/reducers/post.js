@@ -408,7 +408,8 @@ const reducer = (state = initialState, action) => {
         case LOAD_MY_MEDIA_SUCCESS: {
             return {
                 ...state,
-                myMedia: state.myMedia.concat(action.data),
+                //myMedia: state.myMedia.concat(action.data),
+                myMedia: action.data,
                 hasMoreMyMedia: action.data.length === 5,
             };
         }

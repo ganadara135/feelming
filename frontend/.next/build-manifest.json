@@ -12,11 +12,11 @@
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
-    "/gallery": [
+    "/category": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
-    "/keyword": [
+    "/gallery": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ]

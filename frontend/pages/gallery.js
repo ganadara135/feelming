@@ -11,26 +11,17 @@ import Slick from 'react-slick';
 import RenderMultiMedia from '../components/RenderMultiMedia'; 
 
 const Gallery = ({ tag, searchCondition }) => {
-    //const [currentPage, setCurrentPage ] = useState(1);
+    const [currentIndexMyMedia, setCurrentIndexMyMedia] = useState(0);
     const dispatch = useDispatch();
-    const [fixedMyMedia, setFixedMyMedia] = useState([]);
+    //const [fixedMyMedia, setFixedMyMedia] = useState([]);
     const [fixedMyRelatedMedia, setFixedMyRelatedMedia] = useState([]);
     const {myMedia, hasMoreMyMedia, myRelatedMedia } = useSelector( state => state.post );
-    
-
-    //const [currentSlide, setCurrentSlide] = useState(0);
-
-    // useEffect(() => {
-    //     if (targetRef.current) {
-    //         setDimensions({
-    //             width: targetRef.current.offsetWidth,
-    //             height: targetRef.current.offsetWidth
-    //         });
-    //     }
-    // },[myMedia]);
+    //const refSlick = useRef();
 
     function PrevArrow(props) {
         const { className, style, onClick } = props;
+         //console.log("PrevArrow currentSlide : ", props.currentSlide)
+        setCurrentIndexMyMedia(props.currentSlide);
         return (
             <div
             className={className}
@@ -40,65 +31,142 @@ const Gallery = ({ tag, searchCondition }) => {
         );
     }
 
-    function NextArrow(props) {
-        const { className, style, onClick } = props;
-        return (
-            <div
-            className={className}
-            style={{ ...style, display: "block", background: "green" }}
-            onClick={onClick}
-            />
-        );
-    }
+    const onChangeSlide = (current, next) => {
 
-    const onChangeSlide = useCallback( async (current, next) => {
-    
-        if(myMedia[0] &&  (myMedia.length < myMedia[0].total)) {
-            console.log(" 디스패치 실행")
+        // const currentSlide = current;
+        const currentSlide = currentIndexMyMedia;
+        const pageSize = 5;  // limit
+        const pageCurrent = myMedia[currentSlide] && myMedia[currentSlide].RNUM;
+        const pagePrev = pageCurrent - 1;
+        const pageNext = pageCurrent + 1;
+        const pageTotal = myMedia[currentSlide] && myMedia[currentSlide].total;
+        const pageTotalBlock = myMedia[currentSlide] && Math.ceil(pageTotal / pageSize);
+        const pageCurrentBlock = myMedia[currentSlide] && Math.ceil(myMedia[currentSlide].RNUM / pageSize);
+
+        console.log("next : ", next)
+        console.log("current : ", current)
+        console.log("currentIndexMyMedia : ", currentIndexMyMedia)
+        console.log("currentSlide : ", currentSlide)
+        console.log("pageSize : ", pageSize)
+        console.log("pagePrev : ", pagePrev)
+        console.log("pageCurrent : ", pageCurrent)
+        console.log("pageNext : ", pageNext)
+        console.log("pageTotalBlock : ", pageTotalBlock)
+        console.log("pageCurrentBlock : ", pageCurrentBlock)
+
+        
+        
+        if(pageCurrent % pageSize === 0 ) { 
+            console.log(" 왼쪽 경계 들어옴")
+            setCurrentIndexMyMedia(0)
             dispatch({
                 type: LOAD_MY_MEDIA_REQUEST,
-                lastId: myMedia[myMedia.length-1].RNUM,     // 여기서는 정렬된 행번호로 넘겨줌, 백엔드에선 변경없이 등록된 행번호로 처리
-            });
+                lastId: pageCurrent,
+                //lastId: myMedia[myMedia.length - 1 ] && myMedia[myMedia.length - 1 ].PostId,
+            })
+        } 
+        else if(pageCurrentBlock > 1 && pagePrev % pageSize === 0 ){
+            console.log(" 오른쪽 경계 들어옴")
+            setCurrentIndexMyMedia(4)
+            dispatch({
+                type: LOAD_MY_MEDIA_REQUEST,
+                lastId: pagePrev-pageSize////myMedia[pagePrev-pageSize] && myMedia[pagePrev-pageSize].PostId,
+            })
         }
+    };
 
-        console.log("current : ", current)
-        console.log("next : ", next)
+    function NextArrow(props) {
+        const { className, style, onClick, index } = props;
+        setCurrentIndexMyMedia(props.currentSlide)
+        return (
+            <div
+            className={className}
+            style={{ ...style, display: "block", background: "green" }}
+            onClick={onClick }
+            />
+        );
+    }
 
-        if( fixedMyMedia.length === 0 ){
-            setFixedMyMedia( myMedia.slice(0, 5).map( v => {        // slice 테스트 완료, 10 으로 해도 문제 없음
-                console.log("초기 v ==> ", v.id);
-                return v;
-            }));
-        }else if(current === 0 && next === 4) {        // 왼쪽 경계 도달
-            console.log(" 2 번째 조건")
-            if(fixedMyMedia[current].RNUM === 1 ) {        // 완전 왼쪽이면 더 이상 움직이지 않음
-                console.log("완전 왼쪽에 도달했음")
-            }else if((fixedMyMedia[current].RNUM-1) % 5 === 0 ){   //  4/4=1+5=6, 3/4=0+5=5, 5/4=1+5=6, 6/4=1+5=6
-                console.log("중간에서 왼쪽 경계 도달")              // 4%4=0, 3%4=3, 5%4=1, 6%4=2, 7%4=3, 8%4=0
-                setFixedMyMedia( myMedia.slice(fixedMyMedia[current].RNUM-5-1, fixedMyMedia[current].RNUM-1).map( v => {
-                    console.log("v ==> ", v.id);
-                    return v;
-                }));
-            }
-        }else if(next === 0 && current === 4) {          // 오른쪽 경계 도달
-            console.log("3 번째 조건 실행")
+    function PrevArrow2(props) {
+        const { className, style, onClick } = props;
+        // console.log("PrevArrow2 current index : ", props)
+       // setCurrentIndexMyMedia(props.currentSlide);
+        return (
+            <div
+            className={className}
+            style={{ ...style, display: "block", background: "green" }}
+            onClick={onClick}
+            />
+        );
+    }
 
-            if(fixedMyMedia[current].RNUM >= myMedia[0].total ){    // 완전 오른쪽 경계 도달
-                console.log("완전 오른쪽 경계 도달했음")
-            }else if(fixedMyMedia[current].RNUM < myMedia[0].total){
-                console.log("중간에서 오른쪽 경계 도달")
-                setFixedMyMedia( myMedia.slice(fixedMyMedia[current].RNUM, fixedMyMedia[current].RNUM+5).map( v => {
-                    console.log("v ==> ", v.id);
-                    return v;
-                }));
-            }
-        }
-    },);
+    function NextArrow2(props) {
+        const { className, style, onClick } = props;
+        console.log("NextArrow2 currentSlide: ", props.currentSlide)
+       // setCurrentIndexMyMedia(props.currentSlide);
+        return (
+            <div
+            className={className}
+            style={{ ...style, display: "block", background: "green" }}
+            onClick={onClick}
+            />
+        );
+    }
+   // useEffect( () => {
+        // window.addEventListener('scroll', onScroll);
+        // return () => {  // 이렇게 해야 호출될때 아래가 실행됨, 본 컴포넌트 나갈때 실행됨
+        //     window.removeEventListener('scroll', onScroll);
+        // }
+  //  }, [myMedia.length]); //  빈 deps [], 는 처음 로딩될때 한 번만 호출됨
+
+    // const onChangeSlide = useCallback( async (current, next) => {
+    
+    //     if(myMedia[0] &&  (myMedia.length < myMedia[0].total)) {
+    //         console.log(" 디스패치 실행")
+    //         dispatch({
+    //             type: LOAD_MY_MEDIA_REQUEST,
+    //             lastId: myMedia[myMedia.length-1].RNUM,     // 여기서는 정렬된 행번호로 넘겨줌, 백엔드에선 변경없이 등록된 행번호로 처리
+    //         });
+    //     }
+
+    //     console.log("current : ", current)
+    //     console.log("next : ", next)
+
+    //     if( fixedMyMedia.length === 0 ){
+    //         setFixedMyMedia( myMedia.slice(0, 5).map( v => {        // slice 테스트 완료, 10 으로 해도 문제 없음
+    //             console.log("초기 v ==> ", v.id);
+    //             return v;
+    //         }));
+    //     }else if(current === 0 && next === 4) {        // 왼쪽 경계 도달
+    //         console.log(" 2 번째 조건")
+    //         if(fixedMyMedia[current].RNUM === 1 ) {        // 완전 왼쪽이면 더 이상 움직이지 않음
+    //             console.log("완전 왼쪽에 도달했음")
+    //         }else if((fixedMyMedia[current].RNUM-1) % 5 === 0 ){   //  4/4=1+5=6, 3/4=0+5=5, 5/4=1+5=6, 6/4=1+5=6
+    //             console.log("중간에서 왼쪽 경계 도달")              // 4%4=0, 3%4=3, 5%4=1, 6%4=2, 7%4=3, 8%4=0
+    //             setFixedMyMedia( myMedia.slice(fixedMyMedia[current].RNUM-5-1, fixedMyMedia[current].RNUM-1).map( v => {
+    //                 console.log("v ==> ", v.id);
+    //                 return v;
+    //             }));
+    //         }
+    //     }else if(next === 0 && current === 4) {          // 오른쪽 경계 도달
+    //         console.log("3 번째 조건 실행")
+
+    //         if(fixedMyMedia[current].RNUM >= myMedia[0].total ){    // 완전 오른쪽 경계 도달
+    //             console.log("완전 오른쪽 경계 도달했음")
+    //         }else if(fixedMyMedia[current].RNUM < myMedia[0].total){
+    //             console.log("중간에서 오른쪽 경계 도달")
+    //             setFixedMyMedia( myMedia.slice(fixedMyMedia[current].RNUM, fixedMyMedia[current].RNUM+5).map( v => {
+    //                 console.log("v ==> ", v.id);
+    //                 return v;
+    //             }));
+    //         }
+    //     }
+    // },);
 
     useEffect(() => {
-      //onChangeSlide()
+      
       console.log(" 오직 한번만 호출 해야함")
-      setFixedMyMedia( myMedia.slice(0, 5).map( v => v))
+      //setFixedMyMedia( myMedia.slice(0, 5).map( v => v))
       setFixedMyRelatedMedia(myRelatedMedia.map( v => v))
     },[myRelatedMedia.length === 0]);     // 초기 로딩시에 무조건 호출을 위해서 사용
 
@@ -109,23 +177,24 @@ const Gallery = ({ tag, searchCondition }) => {
 
 
     console.log("myMedia : ", myMedia)
-    console.log("myRelatedMedia : ", myRelatedMedia)
-    console.log("fixedMyMedia : ", fixedMyMedia);
-    console.log("fixedMyRelatedMedia : ", fixedMyRelatedMedia);
+    //console.log("refSlick : ", refSlick.current)
+    // console.log("myRelatedMedia : ", myRelatedMedia)
+    // //console.log("fixedMyMedia : ", fixedMyMedia);
+    // console.log("fixedMyRelatedMedia : ", fixedMyRelatedMedia);
+
+
 
     return (
         <div>
             <StyleH2>내작품만 {" 총: "} {myMedia && myMedia[0] && myMedia[0].total}</StyleH2>
         <StyleDiv>
         <Slick
+            key={1}
+            //ref={c => (refSlick.current = c)}
+            //ref={refSlick}
             initialSlide={0}
-            // afterChange={slide =>  setDimensions({
-            //    width: targetRef.current && targetRef.current.offsetWidth,
-            //    height: targetRef.current &&  targetRef.current.offsetHeight
-            // }) }
-            // 초기 로딩시 자동 호출됨
-            //beforeChange={ (current, next) => setCurrentSlide(next) || onChangeSlide(current, next)}
-            beforeChange={ (current, next) => onChangeSlide(current, next)}
+            beforeChange={ (current, next) =>  onChangeSlide(current, next)}
+            //afterChange={ current => setCurrentIndexMyMedia(current) }
             infinite={true}
             slidesToShow={1}
             slidesToScroll={1}
@@ -143,35 +212,36 @@ const Gallery = ({ tag, searchCondition }) => {
                     border: "1px blue solid"
                   }}
                 >
-                  {fixedMyMedia[i].RNUM}
+                  {myMedia[i].RNUM}
                 </div>
               )}
             onLazyLoad={ () => <div>{"Loading Data..."}</div>}
           >
             { //fixedMyMedia.map( v => {
-            fixedMyMedia.length === 0 ? <Empty /> : 
-            fixedMyMedia.map( v => {
+            myMedia.length === 0 ? <Empty /> : 
+            myMedia.map( v => {
               return ( 
-                <div>
-                    <h1 style={{ textAlign: 'center'}}> {"Title : " + v.title}</h1>
-               
-                    <RenderMultiMedia key={v.id} fileInfo={v} />
+                <CustomSlide index={v.id} widthVal={"100%"} >
                 
+                    <h1 style={{ textAlign: 'center'}}> {"Title : " + v.title}</h1>
+                    
+                        <RenderMultiMedia key={v.id} fileInfo={v} />
+                   
                     <h1 style={{ textAlign: 'center'}}>{"dataType : " + v.dataType}</h1>
-                </div>
+                </CustomSlide>
             )})}
         </Slick>
         </StyleDiv>
         <StyleDiv>
             <StyleH2>관심 작품들</StyleH2>
             <Slick
-            
+            key={2}
             slidesToScroll={1}
             accessibility
             arrows
             lazyLoad={true}
-            prevArrow={<PrevArrow />}
-            nextArrow={<NextArrow />}
+            prevArrow={<PrevArrow2 />}
+            nextArrow={<NextArrow2 />}
             rows={2}
             slidesPerRow={2}
             dots={true}
@@ -181,7 +251,7 @@ const Gallery = ({ tag, searchCondition }) => {
             fixedMyRelatedMedia.length === 0 ? <Empty /> : 
             fixedMyRelatedMedia.map( v => {
               return (
-                <CustomSlide index={v.id} key={v.id}> <RenderMultiMedia key={v.id} fileInfo={v} /> </CustomSlide>
+                <CustomSlide index={v.id} key={v.id} widthVal={"49%"}> <RenderMultiMedia key={v.id} fileInfo={v} /> </CustomSlide>
                 ) } )}
                 
             </Slick>
@@ -192,15 +262,22 @@ const Gallery = ({ tag, searchCondition }) => {
 
 class CustomSlide extends React.Component {
 //const CustomSlide = ( index) => {
+
+   
+
     render() {
-    const {index, ...props } = this.props;
+    const {index, widthVal, ...props } = this.props;
+    // console.log("CustomSlide index : ", index)
+    // console.log("CustomSlide props : ", this.props)
+    //setCurrentIndexMyMedia(index);
         return (
             <div {...props} style={{
                     display: "inline-block",
                     border: "1px solid green",
-                    width: "200px",
+                    width: widthVal,
                     margin: "1px"
                   }} >
+                  {/* //getIndexByProps={this.onGetCurrentIndex()} > */}
             </div>
         )
     }
@@ -213,7 +290,6 @@ Gallery.propTypes = {
 
 Gallery.getInitialProps = async (context) => {
     const tag = context.query.tag;
-    //console.log("context.query : ", context.query)
     context.store.dispatch({
         type: LOAD_MY_MEDIA_REQUEST,
         data: tag,

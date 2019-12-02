@@ -426,10 +426,8 @@ function loadMyMediaAPI(lastId = 0, limit = 5) {
     return axios.get(`/posts/myMedia?lastId=${lastId}&limit=${limit}`);
 }
 function* loadMyMedia(action) {
-    //console.log('in loadMainPosts Saga ');
     try{
         const result = yield call(loadMyMediaAPI, action.lastId);
-
         yield put({
             type: LOAD_MY_MEDIA_SUCCESS,
             data: result.data,

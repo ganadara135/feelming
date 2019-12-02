@@ -86,23 +86,23 @@ router.get('/', async (req, res, next) => {
 
 // 요청자 등록한 모든 미디어 자료 전달해줌
 router.get('/myMedia', async (req, res, next) => {
-  //  console.log("req.query : ", req.query)
+    console.log("req.query : ", req.query)
     try {
 
         const query = `Select *, @rownum := @rownum+1 AS RNUM, 
-                            (SELECT COUNT(UserId) FROM UserAsset) as total 
+                            (SELECT COUNT(UserId) FROM UserAsset WHERE dataType != 'profileImg') as total 
                        FROM UserAsset, (SELECT @rownum := ${parseInt(req.query.lastId, 10)}) AS R 
-                       WHERE id > ${parseInt(req.query.lastId, 10)} 
+                       WHERE id > ${parseInt(req.query.lastId, 10)} AND dataType != 'profileImg' 
                        ORDER BY createdAt ASC 
                        LIMIT ${parseInt(req.query.limit, 10)}`;
 
       //  console.log("query  : ", query);
 
         await db.sequelize.query(query)
-            .then(function(result){
-                console.log("result[0] : ", result[0])
-                res.json(result[0])
-            });
+        .then(function(result){
+                //console.log("result[0] : ", result[0])
+            res.json(result[0])
+        });
     
 
 // SELECT `id`, `src`, `dataType`, `fileType`, `createdAt`, `updatedAt`, `PostId`, `UserId`, 
@@ -130,9 +130,9 @@ router.get('/myRelatedMedia', async (req, res, next) => {
     console.log("req.query in myRelatedMedia  : ", req.query)
     try {
         const query = `Select *, @rownum := @rownum+1 AS RNUM, 
-                            (SELECT COUNT(UserId) FROM UserAsset) as total 
+                            (SELECT COUNT(UserId) FROM UserAsset WHERE dataType != 'profileImg') as total 
                        FROM UserAsset, (SELECT @rownum := ${parseInt(req.query.lastId, 10)}) AS R 
-                       WHERE id > ${parseInt(req.query.lastId, 10)} 
+                       WHERE id > ${parseInt(req.query.lastId, 10)} AND dataType != 'profileImg' 
                        ORDER BY createdAt ASC 
                        LIMIT ${parseInt(req.query.limit, 10)}`;
 

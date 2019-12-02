@@ -1,7 +1,6 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import PostCard from '../containers/PostCard'
-import { Card, Form, Input, List, Comment, Popover, Row, Col, Button, Radio, Empty} from 'antd';
+import { Card, Row, Col, Button, Radio, Empty} from 'antd';
 import {useDispatch, useSelector } from 'react-redux';
 import {LOAD_HASHTAG_POSTS_REQUEST, LOAD_MY_KEYWORD_REQUEST} from '../reducers/post';
 import RenderMultiMedia from '../components/RenderMultiMedia';
@@ -62,7 +61,7 @@ const Keyword = ({ tag, searchCondition }) => {
             
             <Button type="danger"  onClick={onChangeMyKeword} value={'undefined'} >전체</Button>
             <Radio.Group onChange={onChangeMyKeword} buttonStyle="solid">
-                 
+
             {myKeyword && myKeyword.map( c => (
                 <Radio.Button value={c.keyword} >
                     {c.keyword}{"("+c.aKeywordTotal+")"}
