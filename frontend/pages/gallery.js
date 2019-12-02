@@ -16,25 +16,19 @@ const Gallery = ({ tag, searchCondition }) => {
     //const [fixedMyMedia, setFixedMyMedia] = useState([]);
     const [fixedMyRelatedMedia, setFixedMyRelatedMedia] = useState([]);
     const {myMedia, hasMoreMyMedia, myRelatedMedia } = useSelector( state => state.post );
+
     //const refSlick = useRef();
 
-    function PrevArrow(props) {
-        const { className, style, onClick } = props;
-         //console.log("PrevArrow currentSlide : ", props.currentSlide)
-        setCurrentIndexMyMedia(props.currentSlide);
-        return (
-            <div
-            className={className}
-            style={{ ...style, display: "block", background: "green" }}
-            onClick={onClick}
-            />
-        );
-    }
+    useEffect( () => {
+        console.log("useEffect() currentIndexMyMedia : ", currentIndexMyMedia)
+        setCurrentIndexMyMedia(0)
+    },[myMedia])
+
 
     const onChangeSlide = (current, next) => {
 
-        // const currentSlide = current;
-        const currentSlide = currentIndexMyMedia;
+        const currentSlide = current;
+        //const currentSlide = currentIndexMyMedia;
         const pageSize = 5;  // limit
         const pageCurrent = myMedia[currentSlide] && myMedia[currentSlide].RNUM;
         const pagePrev = pageCurrent - 1;
@@ -42,6 +36,7 @@ const Gallery = ({ tag, searchCondition }) => {
         const pageTotal = myMedia[currentSlide] && myMedia[currentSlide].total;
         const pageTotalBlock = myMedia[currentSlide] && Math.ceil(pageTotal / pageSize);
         const pageCurrentBlock = myMedia[currentSlide] && Math.ceil(myMedia[currentSlide].RNUM / pageSize);
+
 
         console.log("next : ", next)
         console.log("current : ", current)
@@ -56,18 +51,15 @@ const Gallery = ({ tag, searchCondition }) => {
 
         
         
-        if(pageCurrent % pageSize === 0 ) { 
+        if(pageCurrent % pageSize === 0 && pageCurrentBlock !== pageTotalBlock) { 
             console.log(" 왼쪽 경계 들어옴")
-            setCurrentIndexMyMedia(0)
             dispatch({
                 type: LOAD_MY_MEDIA_REQUEST,
                 lastId: pageCurrent,
-                //lastId: myMedia[myMedia.length - 1 ] && myMedia[myMedia.length - 1 ].PostId,
             })
         } 
-        else if(pageCurrentBlock > 1 && pagePrev % pageSize === 0 ){
+        else if(pageCurrentBlock > 1 && pageCurrent % pageSize === 1 ){
             console.log(" 오른쪽 경계 들어옴")
-            setCurrentIndexMyMedia(4)
             dispatch({
                 type: LOAD_MY_MEDIA_REQUEST,
                 lastId: pagePrev-pageSize////myMedia[pagePrev-pageSize] && myMedia[pagePrev-pageSize].PostId,
@@ -75,22 +67,34 @@ const Gallery = ({ tag, searchCondition }) => {
         }
     };
 
-    function NextArrow(props) {
-        const { className, style, onClick, index } = props;
-        setCurrentIndexMyMedia(props.currentSlide)
+    function PrevArrow(props) {
+        const { className, style, onClick } = props;
+         //console.log("PrevArrow currentSlide : ", props.currentSlide)
+        
         return (
             <div
             className={className}
             style={{ ...style, display: "block", background: "green" }}
-            onClick={onClick }
+            onClick={() => onClick() 
+                ||  setCurrentIndexMyMedia( ((currentIndexMyMedia-1) % 4) < 0 ? 0 : (currentIndexMyMedia-1) % 4)}
+            />
+        );
+    }
+
+    function NextArrow(props) {
+        const { className, style, onClick, index } = props;
+        
+        return (
+            <div
+            className={className}
+            style={{ ...style, display: "block", background: "green" }}
+            onClick={() => onClick() || setCurrentIndexMyMedia((currentIndexMyMedia+1) % 4)}
             />
         );
     }
 
     function PrevArrow2(props) {
         const { className, style, onClick } = props;
-        // console.log("PrevArrow2 current index : ", props)
-       // setCurrentIndexMyMedia(props.currentSlide);
         return (
             <div
             className={className}
@@ -102,8 +106,6 @@ const Gallery = ({ tag, searchCondition }) => {
 
     function NextArrow2(props) {
         const { className, style, onClick } = props;
-        console.log("NextArrow2 currentSlide: ", props.currentSlide)
-       // setCurrentIndexMyMedia(props.currentSlide);
         return (
             <div
             className={className}
@@ -112,56 +114,8 @@ const Gallery = ({ tag, searchCondition }) => {
             />
         );
     }
-   // useEffect( () => {
-        // window.addEventListener('scroll', onScroll);
-        // return () => {  // 이렇게 해야 호출될때 아래가 실행됨, 본 컴포넌트 나갈때 실행됨
-        //     window.removeEventListener('scroll', onScroll);
-        // }
-  //  }, [myMedia.length]); //  빈 deps [], 는 처음 로딩될때 한 번만 호출됨
 
-    // const onChangeSlide = useCallback( async (current, next) => {
-    
-    //     if(myMedia[0] &&  (myMedia.length < myMedia[0].total)) {
-    //         console.log(" 디스패치 실행")
-    //         dispatch({
-    //             type: LOAD_MY_MEDIA_REQUEST,
-    //             lastId: myMedia[myMedia.length-1].RNUM,     // 여기서는 정렬된 행번호로 넘겨줌, 백엔드에선 변경없이 등록된 행번호로 처리
-    //         });
-    //     }
-
-    //     console.log("current : ", current)
-    //     console.log("next : ", next)
-
-    //     if( fixedMyMedia.length === 0 ){
-    //         setFixedMyMedia( myMedia.slice(0, 5).map( v => {        // slice 테스트 완료, 10 으로 해도 문제 없음
-    //             console.log("초기 v ==> ", v.id);
-    //             return v;
-    //         }));
-    //     }else if(current === 0 && next === 4) {        // 왼쪽 경계 도달
-    //         console.log(" 2 번째 조건")
-    //         if(fixedMyMedia[current].RNUM === 1 ) {        // 완전 왼쪽이면 더 이상 움직이지 않음
-    //             console.log("완전 왼쪽에 도달했음")
-    //         }else if((fixedMyMedia[current].RNUM-1) % 5 === 0 ){   //  4/4=1+5=6, 3/4=0+5=5, 5/4=1+5=6, 6/4=1+5=6
-    //             console.log("중간에서 왼쪽 경계 도달")              // 4%4=0, 3%4=3, 5%4=1, 6%4=2, 7%4=3, 8%4=0
-    //             setFixedMyMedia( myMedia.slice(fixedMyMedia[current].RNUM-5-1, fixedMyMedia[current].RNUM-1).map( v => {
-    //                 console.log("v ==> ", v.id);
-    //                 return v;
-    //             }));
-    //         }
-    //     }else if(next === 0 && current === 4) {          // 오른쪽 경계 도달
-    //         console.log("3 번째 조건 실행")
-
-    //         if(fixedMyMedia[current].RNUM >= myMedia[0].total ){    // 완전 오른쪽 경계 도달
-    //             console.log("완전 오른쪽 경계 도달했음")
-    //         }else if(fixedMyMedia[current].RNUM < myMedia[0].total){
-    //             console.log("중간에서 오른쪽 경계 도달")
-    //             setFixedMyMedia( myMedia.slice(fixedMyMedia[current].RNUM, fixedMyMedia[current].RNUM+5).map( v => {
-    //                 console.log("v ==> ", v.id);
-    //                 return v;
-    //             }));
-    //         }
-    //     }
-    // },);
+  
 
     useEffect(() => {
       
@@ -175,14 +129,7 @@ const Gallery = ({ tag, searchCondition }) => {
         setFixedMyRelatedMedia(myRelatedMedia.filter( v => !searchCondition.includes(v.dataType)))
     }, [searchCondition]);
 
-
     console.log("myMedia : ", myMedia)
-    //console.log("refSlick : ", refSlick.current)
-    // console.log("myRelatedMedia : ", myRelatedMedia)
-    // //console.log("fixedMyMedia : ", fixedMyMedia);
-    // console.log("fixedMyRelatedMedia : ", fixedMyRelatedMedia);
-
-
 
     return (
         <div>
@@ -194,6 +141,7 @@ const Gallery = ({ tag, searchCondition }) => {
             //ref={refSlick}
             initialSlide={0}
             beforeChange={ (current, next) =>  onChangeSlide(current, next)}
+            //afterChange={ current => onChangeSlide(current)}
             //afterChange={ current => setCurrentIndexMyMedia(current) }
             infinite={true}
             slidesToShow={1}
