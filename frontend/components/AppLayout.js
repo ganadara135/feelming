@@ -65,82 +65,85 @@ const AppLayout = ({ children, firstInit}, ) => {
                 <Col xs={24} md={12}>
                     {/* {children}  */}
                     {/* {withHOC({searchCondition: searchCondition})(children)} */}
-                    <div>{React.cloneElement(children, {searchCondition : searchCondition})} </div>
+                    {/* <div style={{height:'400px'}}> */}
+                    <div>
+                        {React.cloneElement(children, {searchCondition : searchCondition})} 
+                    </div>
                    
                 </Col>
                 <Col xs={24} md={6}>
                     <a target="_blank">사용 안하는 공간</a>
                 </Col>
             </Row>
-            <Affix offsetBottom={10}>
-             
-                <Button
-                    ref={refButton_file_pdf}
-                    type={"link"}
-                    style={{"backgroundColor": searchCondition.findIndex( v => v === "text") ? "red" : "white" }}
-                    icon="file-pdf"
-                    onClick={() => {  changeStyleButtonPressed(refButton_file_pdf) || 
-                     setSearchCondition(!searchCondition.includes("text") ?
-                     [...searchCondition, "text" ] : (searchCondition.filter(v => 
-                        v.toString() !== "text"
-                    )))  }}
-                >
-                    글
-                </Button>
-                <Button
-                    ref={refButton_sound}
-                    type={"link"}
-                    style={{"backgroundColor": searchCondition.findIndex( v => v === "sound") ? "red" : "white" }}
-                    icon="sound"
-                    onClick={() => { changeStyleButtonPressed(refButton_sound) || 
-                        setSearchCondition(!searchCondition.includes("sound") ?
-                        [...searchCondition, "sound" ] : searchCondition.filter(v => 
-                       v.toString() !== "sound"
-                    ))}}
-                >
-                    소리
-                </Button>
-                <Button
-                    ref={refButton_video_camera}
-                    type={"link"}
-                    style={{"backgroundColor": searchCondition.findIndex( v => v ==="movie") ? "red" : "white" }}
-                    icon="video-camera"
-                    onClick={() => { changeStyleButtonPressed(refButton_video_camera) || 
-                        setSearchCondition(!searchCondition.includes("movie") ?
-                        [...searchCondition, "movie" ] : searchCondition.filter(v => 
-                       v.toString() !== "movie"
-                    ))}}
-                >
-                    영상
-                </Button>
-                <Button
-                    ref={refButton_picture}
-                    type={"link"}
-                    style={{"backgroundColor": searchCondition.findIndex( v => v ==="photo") ? "red" : "white" }}
-                    icon="picture"
-                    onClick={() => { changeStyleButtonPressed(refButton_picture) || 
-                        setSearchCondition(!searchCondition.includes("photo") ?
-                        [...searchCondition, "photo" ] : searchCondition.filter(v => 
-                       v.toString() !== "photo"
-                    ))}}
-                >
-                    사진
-                </Button>
-                <Button
-                    ref={refButton_file_image}
-                    type={"link"}
-                    style={{"backgroundColor": searchCondition.findIndex( v => v ==="picture") ? "red" : "white" }}
-                    icon="file-image"
-                    onClick={() => { changeStyleButtonPressed(refButton_file_image) || 
-                        setSearchCondition(!searchCondition.includes("picture") ?
-                        [...searchCondition, "picture" ] : searchCondition.filter(v => 
-                       v.toString() !== "picture"
-                    ))}}
-                >
-                    그림
-                </Button>
-                
-            </Affix>
+            {me && me.length !== 0 ? 
+                <Affix offsetBottom={10} align={"middle"}>
+                    <Button
+                        ref={refButton_file_pdf}
+                        type={"link"}
+                        style={{"backgroundColor": searchCondition.findIndex( v => v === "text") ? "red" : "white" }}
+                        icon="file-pdf"
+                        onClick={() => {  changeStyleButtonPressed(refButton_file_pdf) || 
+                        setSearchCondition(!searchCondition.includes("text") ?
+                        [...searchCondition, "text" ] : (searchCondition.filter(v => 
+                            v.toString() !== "text"
+                        )))  }}
+                    >
+                        글
+                    </Button>
+                    <Button
+                        ref={refButton_sound}
+                        type={"link"}
+                        style={{"backgroundColor": searchCondition.findIndex( v => v === "sound") ? "red" : "white" }}
+                        icon="sound"
+                        onClick={() => { changeStyleButtonPressed(refButton_sound) || 
+                            setSearchCondition(!searchCondition.includes("sound") ?
+                            [...searchCondition, "sound" ] : searchCondition.filter(v => 
+                        v.toString() !== "sound"
+                        ))}}
+                    >
+                        소리
+                    </Button>
+                    <Button
+                        ref={refButton_video_camera}
+                        type={"link"}
+                        style={{"backgroundColor": searchCondition.findIndex( v => v ==="movie") ? "red" : "white" }}
+                        icon="video-camera"
+                        onClick={() => { changeStyleButtonPressed(refButton_video_camera) || 
+                            setSearchCondition(!searchCondition.includes("movie") ?
+                            [...searchCondition, "movie" ] : searchCondition.filter(v => 
+                        v.toString() !== "movie"
+                        ))}}
+                    >
+                        영상
+                    </Button>
+                    <Button
+                        ref={refButton_picture}
+                        type={"link"}
+                        style={{"backgroundColor": searchCondition.findIndex( v => v ==="photo") ? "red" : "white" }}
+                        icon="picture"
+                        onClick={() => { changeStyleButtonPressed(refButton_picture) || 
+                            setSearchCondition(!searchCondition.includes("photo") ?
+                            [...searchCondition, "photo" ] : searchCondition.filter(v => 
+                        v.toString() !== "photo"
+                        ))}}
+                    >
+                        사진
+                    </Button>
+                    <Button
+                        ref={refButton_file_image}
+                        type={"link"}
+                        style={{"backgroundColor": searchCondition.findIndex( v => v ==="picture") ? "red" : "white" }}
+                        icon="file-image"
+                        onClick={() => { changeStyleButtonPressed(refButton_file_image) || 
+                            setSearchCondition(!searchCondition.includes("picture") ?
+                            [...searchCondition, "picture" ] : searchCondition.filter(v => 
+                        v.toString() !== "picture"
+                        ))}}
+                    >
+                        그림
+                    </Button>
+                </Affix>
+            : [] }
         </div>
     )
 }

@@ -9,9 +9,9 @@ import { ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE,
     LIKE_POST_REQUEST, LIKE_POST_SUCCESS, LIKE_POST_FAILURE,
     UNLIKE_POST_REQUEST, UNLIKE_POST_SUCCESS, UNLIKE_POST_FAILURE,
     LOAD_MY_KEYWORD_REQUEST, LOAD_MY_KEYWORD_SUCCESS, LOAD_MY_KEYWORD_FAILURE,
+    LOAD_MY_KEYWORD_SECOND_REQUEST, LOAD_MY_KEYWORD_SECOND_SUCCESS, LOAD_MY_KEYWORD_SECOND_FAILURE,
     REMOVE_POST_REQUEST, REMOVE_POST_SUCCESS, REMOVE_POST_FAILURE,
     LOAD_POST_REQUEST, LOAD_POST_SUCCESS, LOAD_POST_FAILURE,
-    //LOAD_BEST_LIKES_REQUEST, LOAD_BEST_LIKES_SUCCESS, LOAD_BEST_LIKES_FAILURE,
     COOPERATE_REQUEST, COOPERATE_SUCCESS, COOPERATE_FAILURE,
     UNCOOPERATE_REQUEST, UNCOOPERATE_SUCCESS, UNCOOPERATE_FAILURE,
     LOAD_MY_MEDIA_REQUEST, LOAD_MY_MEDIA_SUCCESS, LOAD_MY_MEDIA_FAILURE,
@@ -101,16 +101,21 @@ function* watchLoadHashtagPosts() {
 }
 
 
-function loadMyKeywordAPI() {
-    //return axios.get(`/hashtag/MyKeyword`, {
-    return axios.post(`/hashtag/MyKeyword`,{}, {
+
+function loadMyKeywordAPI(lastId = 0, limit = 5) {
+    console.log("loadMyKeywordAPI() ")
+    return axios.get(`/hashtag/MyKeyword?lastId=${lastId}&limit=${limit}`,{
         withCredentials: true,
     });
+   // return axios.post(`/hashtag/MyKeyword`,{}, {
+    // return axios.post(`/hashtag/MyKeyword?lastId=${lastId}&limit=${limit}`,{},{
+    //     withCredentials: true,
+    // });
 }
 function* loadMyKeyword(action) {
-  //  console.log("loadMyKeyword() : ")
+    console.log("loadMyKeyword() : ")
     try{
-        const result = yield call(loadMyKeywordAPI );
+        const result = yield call(loadMyKeywordAPI, action.lastId );
         console.log(" result Saga : ", result)
         yield put({
             type: LOAD_MY_KEYWORD_SUCCESS,
@@ -125,6 +130,30 @@ function* loadMyKeyword(action) {
 }
 function* watchLoadMyKeyword() {
     yield throttle(2000, LOAD_MY_KEYWORD_REQUEST, loadMyKeyword);
+}
+
+function loadMyKeywordSecondAPI(lastId = 0, limit = 5) {
+    return axios.get(`/hashtag/MyKeywordSecond?lastId=${lastId}&limit=${limit}`,{
+        withCredentials: true,
+    });
+}
+function* loadMyKeywordSecond(action) {
+    try{
+        const result = yield call(loadMyKeywordSecondAPI);
+        console.log(" loadMyKeywordSecondd Saga : ", result)
+        yield put({
+            type: LOAD_MY_KEYWORD_SECOND_SUCCESS,
+            data: result.data,
+        });
+    }catch (e) {
+        yield put({
+            type: LOAD_MY_KEYWORD_SECOND_FAILURE,
+            error: e,
+        })
+    }
+}
+function* watchLoadMyKeywordSecond() {
+    yield throttle(2000, LOAD_MY_KEYWORD_SECOND_REQUEST, loadMyKeywordSecond);
 }
 
 function loadUserPostsAPI(id) {
@@ -399,29 +428,6 @@ function* watchLoadSinglePost() {
 }
 
 
-// function loadBestLikesAPI(tag, lastId) {
-//     //return axios.get(`/hashtag/${encodeURIComponent(tag)}?lastId=${lastId}&limit=10`);
-//     return axios.get(`/hashtag/?lastId=${lastId}&limit=10`);
-// }
-// function* loadBestLikes(action) {
-//     try{
-//         const result = yield call(loadBestLikesAPI, action.data, action.lastId);
-//         yield put({
-//             type: LOAD_BEST_LIKES_SUCCESS,
-//             data: result.data,
-//         });
-//     }catch (e) {
-//         yield put({
-//             type: LOAD_BEST_LIKES_FAILURE,
-//             error: e,
-//         })
-//     }
-// }
-// function* watchLoadBestLikes() {
-//     yield throttle(2000, LOAD_BEST_LIKES_REQUEST, loadBestLikes);
-// }
-
-
 function loadMyMediaAPI(lastId = 0, limit = 5) {
     return axios.get(`/posts/myMedia?lastId=${lastId}&limit=${limit}`);
 }
@@ -506,9 +512,9 @@ export default function* postSaga() {
         fork(watchLikePost),
         fork(watchUnlikePost),
         fork(watchLoadMyKeyword),
+        fork(watchLoadMyKeywordSecond),
         fork(watchRemovePost),
         fork(watchLoadSinglePost),
-        //fork(watchLoadBestLikes),
         fork(watchCooperate),
         fork(watchUncooperate),
         fork(watchMyMedia),

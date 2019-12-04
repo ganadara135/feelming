@@ -104,10 +104,6 @@ export const LOAD_POST_REQUEST = 'LOAD_POST_REQUEST';
 export const LOAD_POST_SUCCESS = 'LOAD_POST_SUCCESS';
 export const LOAD_POST_FAILURE = 'LOAD_POST_FAILURE';
 
-// export const LOAD_BEST_LIKES_REQUEST = 'LOAD_BEST_LIKES_REQUEST';
-// export const LOAD_BEST_LIKES_SUCCESS = 'LOAD_BEST_LIKES_SUCCESS';
-// export const LOAD_BEST_LIKES_FAILURE = 'LOAD_BEST_LIKES_FAILURE';
-
 export const COOPERATE_REQUEST = 'COOPERATE_REQUEST';
 export const COOPERATE_SUCCESS = 'COOPERATE_SUCCESS';
 export const COOPERATE_FAILURE = 'COOPERATE_FAILURE';
@@ -130,6 +126,11 @@ export const LOAD_CATEGORY_FAILURE = 'LOAD_CATEGORY_FAILURE';
 export const LOAD_MY_KEYWORD_REQUEST = 'LOAD_MY_KEYWORD_REQUEST';
 export const LOAD_MY_KEYWORD_SUCCESS = 'LOAD_MY_KEYWORD_SUCCESS';
 export const LOAD_MY_KEYWORD_FAILURE = 'LOAD_MY_KEYWORD_FAILURE';
+
+export const LOAD_MY_KEYWORD_SECOND_REQUEST = 'LOAD_MY_KEYWORD_SECOND_REQUEST';
+export const LOAD_MY_KEYWORD_SECOND_SUCCESS = 'LOAD_MY_KEYWORD_SECOND_SUCCESS';
+export const LOAD_MY_KEYWORD_SECOND_FAILURE = 'LOAD_MY_KEYWORD_SECOND_FAILURE';
+
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -162,18 +163,54 @@ const reducer = (state = initialState, action) => {
                 ...state,
             };
         }
+
+        case LOAD_MY_MEDIA_REQUEST: {
+            return {
+                ...state,
+                myMedia: !action.lastId ? [] : state.myMedia,
+                hasMoreMyMedia: action.lastId ? state.hasMoreMyMedia : true,
+            };
+        }
+        case LOAD_MY_MEDIA_SUCCESS: {
+            return {
+                ...state,
+                //myMedia: state.myMedia.concat(action.data),
+                myMedia: action.data,
+                hasMoreMyMedia: action.data.length === 5,
+            };
+        }
         case LOAD_MY_KEYWORD_REQUEST: {
             return {
                 ...state,
+                myKeyword: !action.lastId ? [] : state.myKeyword,
+                //hasMoreMyMedia: action.lastId ? state.hasMoreMyMedia : true,
             };
         }
         case LOAD_MY_KEYWORD_SUCCESS: {
             return {
                 ...state,     
                 myKeyword: action.data,
+                //hasMoreMyMedia: action.data.length === 5,
             };
         }
         case LOAD_MY_KEYWORD_FAILURE: {
+            return {
+                ...state,
+            };
+        }
+        case LOAD_MY_KEYWORD_SECOND_REQUEST: {
+            return {
+                ...state,
+                myKeywordSecond: !action.lastId ? [] : state.myKeywordSecond,
+            };
+        }
+        case LOAD_MY_KEYWORD_SECOND_SUCCESS: {
+            return {
+                ...state,     
+                myKeywordSecond: action.data,
+            };
+        }
+        case LOAD_MY_KEYWORD_SECOND_FAILURE: {
             return {
                 ...state,
             };

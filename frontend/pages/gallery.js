@@ -51,14 +51,14 @@ const Gallery = ({ tag, searchCondition }) => {
 
         
         
-        if(pageCurrent % pageSize === 0 && pageCurrentBlock !== pageTotalBlock) { 
+        if(pageCurrent % pageSize === 0 && next === 0 && current === 4 && pageCurrentBlock !== pageTotalBlock ) { 
             console.log(" 왼쪽 경계 들어옴")
             dispatch({
                 type: LOAD_MY_MEDIA_REQUEST,
                 lastId: pageCurrent,
             })
         } 
-        else if(pageCurrentBlock > 1 && pageCurrent % pageSize === 1 ){
+        else if(pageCurrentBlock > 1 && pageCurrent % pageSize === 1 && current === 0 && next !== 1){
             console.log(" 오른쪽 경계 들어옴")
             dispatch({
                 type: LOAD_MY_MEDIA_REQUEST,
