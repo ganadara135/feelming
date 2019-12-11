@@ -4,7 +4,7 @@ import PostCard from '../containers/PostCard'
 import {useDispatch, useSelector } from 'react-redux';
 import {LOAD_CATEGORY_REQUEST } from '../reducers/post';
 import { Card, Icon, Radio, Empty, Form, Input, List, Comment, Popover, Row, Col} from 'antd';
-import RenderMultiMedia from '../components/RenderMultiMedia';
+import RenderMultiMedia from '../components/RenderMultiMediaClass';
 
 const Category = ({ tag, searchCondition }) => {
 
@@ -139,6 +139,7 @@ const Category = ({ tag, searchCondition }) => {
                         <Card key={c.id}
                             cover={
                                 <RenderMultiMedia fileInfo={c}  />
+
                             }
                         >
                             {"category: " + c.category +" / dataType: "+ c.dataType + " / fileType: "+ c.fileType }
