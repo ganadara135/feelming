@@ -45,7 +45,7 @@ const PostCard = ({ post }) => {
 
 
 
-    console.log("cooper : ", cooper)
+//    console.log("cooper : ", cooper)
     //console.log("post.Cooperates.length : ", post.Cooperates.length)
     if((post.Cooperates.length > 0)){
         console.log("5555")
@@ -54,7 +54,7 @@ const PostCard = ({ post }) => {
     }
         
 
-    console.log("post.Cooperates : ", post.Cooperates);
+   // console.log("post.Cooperates : ", post.Cooperates);
 
 
     // Similar to componentDidMount and componentDidUpdate, componentWillUnmount:

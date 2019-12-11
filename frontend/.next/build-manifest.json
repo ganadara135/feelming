@@ -12,11 +12,15 @@
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
+    "/category": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
     "/gallery": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
-    "/workplace": [
+    "/keyword": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ]

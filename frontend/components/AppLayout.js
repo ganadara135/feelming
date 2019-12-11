@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
-import { Menu, Button, Row, Col, Icon, Affix } from 'antd';
+import { Menu, Button, Row, Col, Affix } from 'antd';
 import LoginForm from '../containers/LoginForm';
 import UserProfile from '../containers/UserProfile';
 import Router,{ useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
-import { LOAD_USER_REQUEST } from '../reducers/user';
-import styled from 'styled-components';
+// import { LOAD_USER_REQUEST } from '../reducers/user';
+// import styled from 'styled-components';
 
 
 const AppLayout = ({ children, firstInit}, ) => {
@@ -21,10 +21,10 @@ const AppLayout = ({ children, firstInit}, ) => {
     const refButton_file_image = useRef();
 
     const router = useRouter()
-    const styleRouter = {
-        marginRight: 10,
-        //color: router.pathname === href ? 'red' : 'black',
-    }
+    // const styleRouter = {
+    //     marginRight: 10,
+    //     //color: router.pathname === href ? 'orange' : 'black',
+    // }
    
     
     console.log("searchCondition : ", searchCondition);
@@ -37,17 +37,26 @@ const AppLayout = ({ children, firstInit}, ) => {
 
 
     const changeStyleButtonPressed = (buttonRefVal) => {
-        if ( buttonRefVal.current.buttonNode.style.backgroundColor === 'red' ){
+        if ( buttonRefVal.current.buttonNode.style.backgroundColor === 'orange' ){
             buttonRefVal.current.buttonNode.style.backgroundColor = 'white';
         }else {
-            buttonRefVal.current.buttonNode.style.backgroundColor = 'red'
+            buttonRefVal.current.buttonNode.style.backgroundColor = 'orange'
         }
+    }
+
+    const handleClearSearchCondition = () => {
+        setSearchCondition([]);
+        refButton_file_pdf.current.buttonNode.style.backgroundColor = 'orange';
+        refButton_sound.current.buttonNode.style.backgroundColor = 'orange';
+        refButton_video_camera.current.buttonNode.style.backgroundColor = 'orange';
+        refButton_picture.current.buttonNode.style.backgroundColor = 'orange';
+        refButton_file_image.current.buttonNode.style.backgroundColor = 'orange';
     }
 
     return (
         <div>
             <Menu mode="horizontal">
-                <Menu.Item key='home'><Link href="/" ><a style={styleRouter}>Feelming</a></Link></Menu.Item>
+                <Menu.Item key='home'><Link href="/" ><a>Feelming</a></Link></Menu.Item>
                 {/* <Menu.Item key='search'>
                     <Input.Search 
                         enterButton 
@@ -55,11 +64,16 @@ const AppLayout = ({ children, firstInit}, ) => {
                         onSearch={onSearch} 
                     />
                 </Menu.Item> */}
-                {me && me.length !== 0 ? <Menu.Item key='profile'><Link href="/profile"  prefetch={false} ><a style={styleRouter}>프로필</a></Link></Menu.Item> : [] }
-                {me && me.length !== 0 ? <Menu.Item key='workplace'><Link href="/workplace"  prefetch={false}><a style={styleRouter}>내작업장</a></Link></Menu.Item> : [] }
-                {me && me.length !== 0 ? <Menu.Item key='gallery'><Link href="/gallery" prefetch={false} ><a style={styleRouter}>갤러리</a></Link></Menu.Item> : [] }
-                {me && me.length !== 0 ? <Menu.Item key='keyword'><Link href="/keyword" prefetch={false} ><a style={styleRouter}>키워드</a></Link></Menu.Item> : [] }
-                {me && me.length !== 0 ? <Menu.Item key='category'><Link href="/category" prefetch={false} ><a style={styleRouter}>카테고리</a></Link></Menu.Item> : [] }
+                {me && me.length !== 0 ? <Menu.Item key='profile'><Link href="/profile"  prefetch={false} >
+                    <a >프로필</a></Link></Menu.Item> : [] }
+                {me && me.length !== 0 ? <Menu.Item key='workplace'><Link href="/workplace"  prefetch={false}>
+                    <a>내작업장</a></Link></Menu.Item> : [] }
+                {me && me.length !== 0 ? <Menu.Item key='gallery'><Link href="/gallery" prefetch={false} >
+                    <a onClick={() => handleClearSearchCondition()}>갤러리</a></Link></Menu.Item> : [] }
+                {me && me.length !== 0 ? <Menu.Item key='keyword'><Link href="/keyword" prefetch={false} >
+                    <a onClick={()=>handleClearSearchCondition()}>키워드</a></Link></Menu.Item> : [] }
+                {me && me.length !== 0 ? <Menu.Item key='category'><Link href="/category" prefetch={false} >
+                    <a onClick={()=>handleClearSearchCondition()}>카테고리</a></Link></Menu.Item> : [] }
             </Menu>
             <Row gutter={8} >
                 <Col xs={24} md={6}>
@@ -88,7 +102,7 @@ const AppLayout = ({ children, firstInit}, ) => {
                     <Button
                         ref={refButton_file_pdf}
                         type={"link"}
-                        style={{"backgroundColor": searchCondition.findIndex( v => v === "text") ? "red" : "white" }}
+                        style={{"backgroundColor": searchCondition.findIndex( v => v === "text") ? "orange" : "white" }}
                         icon="file-pdf"
                         onClick={() => {  changeStyleButtonPressed(refButton_file_pdf) || 
                         setSearchCondition(!searchCondition.includes("text") ?
@@ -99,7 +113,7 @@ const AppLayout = ({ children, firstInit}, ) => {
                     <Button
                         ref={refButton_sound}
                         type={"link"}
-                        style={{"backgroundColor": searchCondition.findIndex( v => v === "sound") ? "red" : "white" }}
+                        style={{"backgroundColor": searchCondition.findIndex( v => v === "sound") ? "orange" : "white" }}
                         icon="sound"
                         onClick={() => { changeStyleButtonPressed(refButton_sound) || 
                             setSearchCondition(!searchCondition.includes("sound") ?
@@ -110,7 +124,7 @@ const AppLayout = ({ children, firstInit}, ) => {
                     <Button
                         ref={refButton_video_camera}
                         type={"link"}
-                        style={{"backgroundColor": searchCondition.findIndex( v => v ==="movie") ? "red" : "white" }}
+                        style={{"backgroundColor": searchCondition.findIndex( v => v ==="movie") ? "orange" : "white" }}
                         icon="video-camera"
                         onClick={() => { changeStyleButtonPressed(refButton_video_camera) || 
                             setSearchCondition(!searchCondition.includes("movie") ?
@@ -121,7 +135,7 @@ const AppLayout = ({ children, firstInit}, ) => {
                     <Button
                         ref={refButton_picture}
                         type={"link"}
-                        style={{"backgroundColor": searchCondition.findIndex( v => v ==="photo") ? "red" : "white" }}
+                        style={{"backgroundColor": searchCondition.findIndex( v => v ==="photo") ? "orange" : "white" }}
                         icon="picture"
                         onClick={() => { changeStyleButtonPressed(refButton_picture) || 
                             setSearchCondition(!searchCondition.includes("photo") ?
@@ -132,7 +146,7 @@ const AppLayout = ({ children, firstInit}, ) => {
                     <Button
                         ref={refButton_file_image}
                         type={"link"}
-                        style={{"backgroundColor": searchCondition.findIndex( v => v ==="picture") ? "red" : "white" }}
+                        style={{"backgroundColor": searchCondition.findIndex( v => v ==="picture") ? "orange" : "white" }}
                         icon="file-image"
                         onClick={() => { changeStyleButtonPressed(refButton_file_image) || 
                             setSearchCondition(!searchCondition.includes("picture") ?
