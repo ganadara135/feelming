@@ -10,7 +10,7 @@
     "start": "NODE_ENV=production PORT=80 pm2 start index.js"
   },
   "author": "kcod",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "aws-sdk": "^2.555.0",
     "axios": "^0.19.0",

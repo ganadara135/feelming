@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { Menu, Button, Row, Col, Affix } from 'antd';
 import LoginForm from '../containers/LoginForm';
 import UserProfile from '../containers/UserProfile';
-import Router,{ useRouter } from 'next/router';
-import { useSelector, useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
+import { useSelector, } from 'react-redux';
 // import { LOAD_USER_REQUEST } from '../reducers/user';
 // import styled from 'styled-components';
 
@@ -27,7 +27,7 @@ const AppLayout = ({ children, firstInit}, ) => {
     // }
    
     
-    console.log("searchCondition : ", searchCondition);
+//    console.log("searchCondition : ", searchCondition);
 
     // const onSearch = (value) => {
     //                    // 내부 주소                                      // 외부  주소
@@ -44,26 +44,24 @@ const AppLayout = ({ children, firstInit}, ) => {
         }
     }
 
+    console.log("refButton_file_pdf.current : ", refButton_file_pdf.current);
+
     const handleClearSearchCondition = () => {
         setSearchCondition([]);
-        refButton_file_pdf.current.buttonNode.style.backgroundColor = 'orange';
-        refButton_sound.current.buttonNode.style.backgroundColor = 'orange';
-        refButton_video_camera.current.buttonNode.style.backgroundColor = 'orange';
-        refButton_picture.current.buttonNode.style.backgroundColor = 'orange';
-        refButton_file_image.current.buttonNode.style.backgroundColor = 'orange';
+        if(refButton_file_pdf.current){
+            refButton_file_pdf.current.buttonNode.style.backgroundColor = 'orange';
+            refButton_sound.current.buttonNode.style.backgroundColor = 'orange';
+            refButton_video_camera.current.buttonNode.style.backgroundColor = 'orange';
+            refButton_picture.current.buttonNode.style.backgroundColor = 'orange';
+            refButton_file_image.current.buttonNode.style.backgroundColor = 'orange';
+        }
     }
 
     return (
         <div>
             <Menu mode="horizontal">
                 <Menu.Item key='home'><Link href="/" ><a>Feelming</a></Link></Menu.Item>
-                {/* <Menu.Item key='search'>
-                    <Input.Search 
-                        enterButton 
-                        style={{ verticalAlign: 'middle'}}
-                        onSearch={onSearch} 
-                    />
-                </Menu.Item> */}
+ 
                 {me && me.length !== 0 ? <Menu.Item key='profile'><Link href="/profile"  prefetch={false} >
                     <a >프로필</a></Link></Menu.Item> : [] }
                 {me && me.length !== 0 ? <Menu.Item key='workplace'><Link href="/workplace"  prefetch={false}>
