@@ -26,7 +26,7 @@ import { LOAD_USER_REQUEST } from '../reducers/user';
 
 const Feelming = ({ Component, store, pageProps }) => {
     return (
-        <Container>
+        // <Container>
         <Provider store={store} >
             <Helmet
                 title="Feelming"
@@ -47,7 +47,7 @@ const Feelming = ({ Component, store, pageProps }) => {
                 }, {
                     property: 'og:type', content: 'website',
                 }, {
-                    property: 'og:image', content: 'http://localhost:3060/favicon.png',
+                    property: 'og:image', content: 'http://feelming.org/favicon.png',
                 }]}
                 link={[{
                     rel: 'shortcut icon', href: '/favicon.png',
@@ -59,18 +59,19 @@ const Feelming = ({ Component, store, pageProps }) => {
                         rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css',
                 }]}
             />
-            <AppLayout>
+            {/* <AppLayout firstInit={'all'}> */}
+            <AppLayout >
                 <Component {...pageProps} />
             </AppLayout>
         </Provider>
-        </Container>
+        // </Container>
     );
 };
 
 Feelming.propTypes = {
     Component: PropTypes.elementType.isRequired,
     store: PropTypes.object.isRequired,
-    pageProps: PropTypes.object.isRequired,
+    // pageProps: PropTypes.object.isRequired,
 };
 
 Feelming.getInitialProps = async (context) => {
@@ -81,6 +82,7 @@ Feelming.getInitialProps = async (context) => {
 
     // 로그인 정보 호출하는 부분
     const cookie = ctx.isServer ?  ctx.req.headers.cookies : '';
+    axios.defaults.headers.Cookie = '';
     if (ctx.isServer && cookie) {
         axios.defaults.headers.Cookie = cookie;
     }
@@ -99,17 +101,17 @@ Feelming.getInitialProps = async (context) => {
 
 const configureStore = (initialState, options ) => {
     const sagaMiddleware = createSagaMiddleware();
-    //const middlewares = [sagaMiddleware];
-    const middlewares = [sagaMiddleware, (store) => (next) => (action) => {
-        // saga log 파일 보기
-        //    console.log(action);
-        next(action);
-    }];
-    const enhancer = process.env.NODE_DEV === 'production'
+    const middlewares = [sagaMiddleware];
+    // const middlewares = [sagaMiddleware, (store) => (next) => (action) => {
+    //     // saga log 파일 보기
+    //     //    console.log(action);
+    //     next(action);
+    // }];
+    const enhancer = process.env.NODE_ENV === 'production'
         ? compose( applyMiddleware(...middlewares))
         : compose(
           applyMiddleware(...middlewares),   // typeof window !== 'undefined'
-          !options.isServer && window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined' ? window.__REDUX_DEVTOOLS_EXTENSION__() : (f) => f,
+          !options.isServer && window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined' ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,
         );
 
     const store = createStore(reducer, initialState, enhancer);

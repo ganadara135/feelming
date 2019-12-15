@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect, useRef} from 'react';
 import { Form, Input, Button} from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST, REMOVE_IMAGE } from '../reducers/post';
-
+import { backUrl } from '../config/config';
 
 
 const PostForm = () => {
@@ -10,7 +10,8 @@ const PostForm = () => {
     const dispatch = useDispatch();
     const [ text, setText ] = useState('');
     const { imagePaths, isAddingPost, postAdded } = useSelector( state => state.post );
-    const imageInput = useRef();
+    const imageInput = useRef();        // useRef()는 지금처럼, Dom 에 접근 기능 이외에
+                                        // 값을 기억하지만 rendering 이 안되는 기능도 있다. chkVal = useRef(id);
 
     useEffect( () => {
         if (postAdded) {
@@ -77,7 +78,7 @@ const PostForm = () => {
             <div>
                 {imagePaths.map( (v, i) => (
                         <div key={v} style={{ display: 'inline-block'}}>
-                            <img src={`http://localhost:3065/${v}` } style={{ width: '200px' }} alt={v} />
+                            <img src={`${v}` } style={{ width: '200px' }} alt={v} />
                             <div>
                                 <Button onClick={onRemoveImage(i)}>제거</Button>
                             </div>

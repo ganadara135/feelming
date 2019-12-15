@@ -13,14 +13,14 @@ const CommentForm = ({ post }) => {
     const onSubmitComment = useCallback((e) => {
         e.preventDefault();
         if (!me) {
-        return alert('로그인이 필요합니다.');
+            return alert('로그인이 필요합니다.');
         }
         return dispatch({
-        type: ADD_COMMENT_REQUEST,
-        data: {
-            postId: post.id,
-            content: commentText,
-        },
+            type: ADD_COMMENT_REQUEST,
+            data: {
+                postId: post.id,
+                content: commentText,
+            },
         });
     }, [me && me.id, commentText]);
 
@@ -37,7 +37,7 @@ const CommentForm = ({ post }) => {
         <Form.Item>
             <Input.TextArea rows={4} value={commentText} onChange={onChangeCommentText} />
         </Form.Item>
-            <Button type="primary" htmlType="submit" loading={isAddingComment}>삐약</Button>
+            <Button type="primary" htmlType="submit" loading={isAddingComment}>추가</Button>
         </Form>
     );
 };

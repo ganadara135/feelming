@@ -39,7 +39,7 @@ const Signup = () => {
     const [passwordError, setPasswordError] = useState(false);
     const [termError, setTermError] = useState(false);
     const dispatch = useDispatch();
-    const { isSigningUp, me } = useSelector( state => state.user );
+    const { isSigningUp, me, signUpErrorReason } = useSelector( state => state.user );
 
     useEffect( () => {
         if(me){
@@ -93,7 +93,7 @@ const Signup = () => {
     return (
     <>
         <Form onSubmit={onSubmit} style={{ padding: 10 }}>
-            <TextInput value="123" />
+            {/* <TextInput value="123" /> */}
             <div>
                 <label htmlFor="user-id">아이디</label>
                 <br />
@@ -120,6 +120,7 @@ const Signup = () => {
                 {termError && <SignupError>약관에 동의하셔야 합니다.</SignupError>}
             </div>
             <div style={{ marginTop: 10 }} >
+                {signUpErrorReason.length >=2  && <SignupError> {signUpErrorReason}</SignupError>}
                 <Button type="primary" htmlType="submit" loading={isSigningUp}>가압하기</Button>
             </div>
 

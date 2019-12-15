@@ -49,8 +49,10 @@ export const initialState = {
     addCommentErrorReason: '',
     commentAdded: false,
 
+    // bestLikesPosts: [],  // 갤러리 창에 보여줄 내역, 좋아요 숫자가 많은 내역순으로 정렬하여 보여줌
+
     singlePost: null,
-  };
+};
 
 export const LOAD_MAIN_POSTS_REQUEST = 'LOAD_MAIN_POSTS_REQUEST';
 export const LOAD_MAIN_POSTS_SUCCESS = 'LOAD_MAIN_POSTS_SUCCESS';
@@ -98,12 +100,36 @@ export const REMOVE_POST_REQUEST = 'REMOVE_POST_REQUEST';
 export const REMOVE_POST_SUCCESS = 'REMOVE_POST_SUCCESS';
 export const REMOVE_POST_FAILURE = 'REMOVE_POST_FAILURE';
 
-
-
-
 export const LOAD_POST_REQUEST = 'LOAD_POST_REQUEST';
 export const LOAD_POST_SUCCESS = 'LOAD_POST_SUCCESS';
 export const LOAD_POST_FAILURE = 'LOAD_POST_FAILURE';
+
+export const COOPERATE_REQUEST = 'COOPERATE_REQUEST';
+export const COOPERATE_SUCCESS = 'COOPERATE_SUCCESS';
+export const COOPERATE_FAILURE = 'COOPERATE_FAILURE';
+export const UNCOOPERATE_REQUEST = 'UNCOOPERATE_REQUEST';
+export const UNCOOPERATE_SUCCESS = 'UNCOOPERATE_SUCCESS';
+export const UNCOOPERATE_FAILURE = 'UNCOOPERATE_FAILURE';
+
+export const LOAD_MY_MEDIA_REQUEST = 'LOAD_MY_MEDIA_REQUEST';
+export const LOAD_MY_MEDIA_SUCCESS = 'LOAD_MY_MEDIA_SUCCESS';
+export const LOAD_MY_MEDIA_FAILURE = 'LOAD_MY_MEDIA_FAILURE';
+
+export const LOAD_MY_RELATED_MEDIA_REQUEST = 'LOAD_MY_RELATED_MEDIA_REQUEST';
+export const LOAD_MY_RELATED_MEDIA_SUCCESS = 'LOAD_MY_RELATED_MEDIA_SUCCESS';
+export const LOAD_MY_RELATED_MEDIA_FAILURE = 'LOAD_MY_RELATED_MEDIA_FAILURE';
+
+export const LOAD_CATEGORY_REQUEST = 'LOAD_CATEGORY_REQUEST';
+export const LOAD_CATEGORY_SUCCESS = 'LOAD_CATEGORY_SUCCESS';
+export const LOAD_CATEGORY_FAILURE = 'LOAD_CATEGORY_FAILURE';
+
+export const LOAD_MY_KEYWORD_REQUEST = 'LOAD_MY_KEYWORD_REQUEST';
+export const LOAD_MY_KEYWORD_SUCCESS = 'LOAD_MY_KEYWORD_SUCCESS';
+export const LOAD_MY_KEYWORD_FAILURE = 'LOAD_MY_KEYWORD_FAILURE';
+
+export const LOAD_MY_KEYWORD_SECOND_REQUEST = 'LOAD_MY_KEYWORD_SECOND_REQUEST';
+export const LOAD_MY_KEYWORD_SECOND_SUCCESS = 'LOAD_MY_KEYWORD_SECOND_SUCCESS';
+export const LOAD_MY_KEYWORD_SECOND_FAILURE = 'LOAD_MY_KEYWORD_SECOND_FAILURE';
 
 
 const reducer = (state = initialState, action) => {
@@ -122,12 +148,10 @@ const reducer = (state = initialState, action) => {
         case LOAD_HASHTAG_POSTS_SUCCESS:
         case LOAD_MAIN_POSTS_SUCCESS: {
             // mainPosts : ", state.mainPosts)
+            console.log("mainPosts in reducer : ", action.data)
             return {
                 ...state,     
                 mainPosts: state.mainPosts.concat(action.data),
-                // mainPosts: action.data.forEach(element => {
-                //    mainPosts.push(element); 
-                // }),
                 hasMorePost: action.data.length === 10,
             };
         }
@@ -135,6 +159,58 @@ const reducer = (state = initialState, action) => {
         case LOAD_HASHTAG_POSTS_FAILURE:
         case LOAD_USER_POSTS_FAILURE:
         case LOAD_MAIN_POSTS_FAILURE: {
+            return {
+                ...state,
+            };
+        }
+
+        case LOAD_MY_MEDIA_REQUEST: {
+            return {
+                ...state,
+                myMedia: !action.lastId ? [] : state.myMedia,
+                hasMoreMyMedia: action.lastId ? state.hasMoreMyMedia : true,
+            };
+        }
+        case LOAD_MY_MEDIA_SUCCESS: {
+            return {
+                ...state,
+                //myMedia: state.myMedia.concat(action.data),
+                myMedia: action.data,
+                hasMoreMyMedia: action.data.length === 5,
+            };
+        }
+        case LOAD_MY_KEYWORD_REQUEST: {
+            return {
+                ...state,
+                myKeyword: !action.lastId ? [] : state.myKeyword,
+                //hasMoreMyMedia: action.lastId ? state.hasMoreMyMedia : true,
+            };
+        }
+        case LOAD_MY_KEYWORD_SUCCESS: {
+            return {
+                ...state,     
+                myKeyword: action.data,
+                //hasMoreMyMedia: action.data.length === 5,
+            };
+        }
+        case LOAD_MY_KEYWORD_FAILURE: {
+            return {
+                ...state,
+            };
+        }
+        case LOAD_MY_KEYWORD_SECOND_REQUEST: {
+            return {
+                ...state,
+                myKeywordSecond: !action.lastId ? [] : state.myKeywordSecond,
+            };
+        }
+        case LOAD_MY_KEYWORD_SECOND_SUCCESS: {
+            return {
+                ...state,     
+                myKeywordSecond: action.data,
+            };
+        }
+        case LOAD_MY_KEYWORD_SECOND_FAILURE: {
             return {
                 ...state,
             };
@@ -176,27 +252,11 @@ const reducer = (state = initialState, action) => {
             };
         }
         case ADD_COMMENT_SUCCESS: {
-            // console.log(" in Reducuer ADD_COMMENT_SUCCESS :  ", action)
-            // console.log(" chk state : ", state)
-            // console.log(" state.mainPosts[0] : ", state.mainPosts[0]);
-
-           // try {   
                 const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
-                //console.log("postIndex : ", postIndex);
                 const post = state.mainPosts[postIndex];
-                // console.log("post : ", post);
-                // console.log("post.Comments : ", post.Comments)
-                // console.log("action.data.comment : ", action.data.comment)
                 const Comments = [...post.Comments, action.data.comment];
-                //console.log("Comments : ", Comments);
                 const mainPosts = [...state.mainPosts];
-                //console.log("mainPosts : ", mainPosts);
                 mainPosts[postIndex] = {...post, Comments };
-                //console.log("mainPosts[postIndex] : ", mainPosts[postIndex]);
-            // } catch (e) {
-            //     console.log("reducer error : ", e);
-            // }
-            
             return {
                 ...state,
                 isAddingComment: false,
@@ -206,7 +266,6 @@ const reducer = (state = initialState, action) => {
             };
         }
         case ADD_COMMENT_FAILURE: {
-            console.log(" in Reducuer ADD_COMMENT_FAILURE :  ", action)
             return {
                 ...state,
                 isAddingComment: false,
@@ -214,9 +273,6 @@ const reducer = (state = initialState, action) => {
             };
         }
         case LOAD_COMMENTS_SUCCESS: {
-
-            console.log('LOAD_COMMENTS_SUCCESS action : ', action.data)
-            console.log('LOAD_COMMENTS_SUCCESS state : ', state)
 
             if (action.data.postId !== undefined ) {
                 const postIndex = state.mainPosts.findIndex( v=> v.id === action.data.postId);
@@ -234,8 +290,7 @@ const reducer = (state = initialState, action) => {
                 return {
                     ...state,
                 }
-            }
-            
+            }          
         }
         case UPLOAD_IMAGES_REQUEST: {
             return {
@@ -269,9 +324,12 @@ const reducer = (state = initialState, action) => {
             //console.log(" in Reducuer ADD_POST_SUCCESS : ", action)
             const postIndex = state.mainPosts.findIndex( v => v.id === action.data.postId);
             const post = state.mainPosts[postIndex];
-            const Likers = [{ id: action.data.userId }, ...post.Likers];
+            
+            const Liker = [{ id: action.data.userId }, ...post.Liker];
+ //           console.log(" Like post : ", post);
+   //         console.log(" Like Liker : ", Liker);
             const mainPosts = [...state.mainPosts];
-            mainPosts[postIndex] = { ...post, Likers};
+            mainPosts[postIndex] = { ...post, Liker};
 
             return {
                 ...state,
@@ -293,9 +351,12 @@ const reducer = (state = initialState, action) => {
             //console.log(" in Reducuer ADD_POST_SUCCESS : ", action)
             const postIndex = state.mainPosts.findIndex( v => v.id === action.data.postId);
             const post = state.mainPosts[postIndex];
-            const Likers = post.Likers.filter(v => v.id !== action.data.userId);
+            
+            const Liker = post.Liker.filter(v => v.id !== action.data.userId);
+    //        console.log(" UNLike post : ", post);
+      //      console.log(" UNLike Liker : ", Liker);
             const mainPosts = [...state.mainPosts];
-            mainPosts[postIndex] = { ...post, Likers};
+            mainPosts[postIndex] = { ...post, Liker};
             return {
                 ...state,
                 mainPosts,
@@ -306,19 +367,52 @@ const reducer = (state = initialState, action) => {
                 ...state,
             };
         }
-        case RETWEET_REQUEST: {
+        case COOPERATE_REQUEST: {
             return {
                 ...state,
             };
         }
-        case RETWEET_SUCCESS: {
-            console.log('RETWEET_SUCCESS in reducers ', action.data)
+        case COOPERATE_SUCCESS: {  
+            const postIndex = state.mainPosts.findIndex( v => v.id === action.data.postId);
+            const post = state.mainPosts[postIndex];
+            const Cooperates = post.Cooperates ? [{ UserId: action.data.userId, PostId: action.data.postId, Cooperate: false }, ...post.Cooperates] 
+                              : [{ UserId: action.data.userId, PostId: action.data.postId, Cooperate: false }];
+            
+            const mainPosts = [...state.mainPosts];
+            mainPosts[postIndex] = { ...post, Cooperates};
+
             return {
                 ...state,
-                mainPosts: [action.data, ...state.mainPosts],
+                mainPosts,
             };
         }
-        case RETWEET_FAILURE: {
+        case COOPERATE_FAILURE: {
+            return {
+                ...state,
+            };
+        }
+        case UNCOOPERATE_REQUEST: {
+            return {
+                ...state,
+            };
+        }
+        case UNCOOPERATE_SUCCESS: {
+            //console.log("action.data : ", action.data);
+            const postIndex = state.mainPosts.findIndex( v => v.id === action.data.postId);
+            //console.log("postIndex : ", postIndex)
+            const post = state.mainPosts[postIndex];
+            //console.log("post : ", post)
+            const Cooperates = post.Cooperates.filter(v => v.Userid !== action.data.userId && v.PostId !== action.data.postId);
+            //console.log("Cooperates  : ", Cooperates)
+            const mainPosts = [...state.mainPosts];
+            //console.log("mainPosts  : ", mainPosts)
+            mainPosts[postIndex] = { ...post, Cooperates};
+            return {
+                ...state,
+                mainPosts,
+            };
+        }
+        case UNCOOPERATE_FAILURE: {
             return {
                 ...state,
             };
@@ -340,6 +434,66 @@ const reducer = (state = initialState, action) => {
                 ...state,
             };
         }
+
+        case LOAD_MY_MEDIA_REQUEST: {
+            return {
+                ...state,
+                myMedia: !action.lastId ? [] : state.myMedia,
+                hasMoreMyMedia: action.lastId ? state.hasMoreMyMedia : true,
+            };
+        }
+        case LOAD_MY_MEDIA_SUCCESS: {
+            return {
+                ...state,
+                //myMedia: state.myMedia.concat(action.data),
+                myMedia: action.data,
+                hasMoreMyMedia: action.data.length === 5,
+            };
+        }
+        case LOAD_MY_MEDIA_FAILURE: {
+            return {
+                ...state,
+            };
+        }
+        case LOAD_MY_RELATED_MEDIA_REQUEST: {
+            return {
+                ...state,
+                myRelatedMedia: !action.lastId ? [] : state.myRelatedMedia,
+            };
+        }
+        case LOAD_MY_RELATED_MEDIA_SUCCESS: {
+            return {
+                ...state,
+                myRelatedMedia: state.myRelatedMedia.concat(action.data),
+                //hasMorePost: action.data.length === 10,
+            };
+        }
+        case LOAD_MY_RELATED_MEDIA_FAILURE: {
+            return {
+                ...state,
+            };
+        }
+        case LOAD_CATEGORY_REQUEST: {
+            return {
+                ...state,
+                myCategoryData: !action.lastId ? [] : state.myCategoryData,
+                hasMorePost: action.lastId ? state.hasMorePost : true,
+            };
+        }
+        case LOAD_CATEGORY_SUCCESS: {
+            return {
+                ...state,
+                myCategoryData: state.myCategoryData.concat(action.data),
+                hasMorePost: action.data.length === 3,
+            };
+        }
+        case LOAD_CATEGORY_FAILURE: {
+            return {
+                ...state,
+            };
+        }
+    
+
 
         case LOAD_POST_SUCCESS: {
             return {

@@ -36,14 +36,15 @@ function* logIn(action) {
         // yield fork(logger);    // 로그 기록하는 기능 예제
         // yield call(loginAPI);       // call 동기 호출
         //yield delay( 2000);
-        console.log("before logInAPI() in Saga")
         const result = yield call(logInAPI, action.data);
+  //      console.log("logIn result.data : ", result.data);
         yield put( {            // put 은 dispatch 와 동일
             type: LOG_IN_SUCCESS,
             data: result.data,
         });
     } catch (e) {
         console.error(e);
+
         yield put( {
             type: LOG_IN_FAILURE,
             reason: e.response && e.response.data,
@@ -73,15 +74,17 @@ function* signUp(action) {
         //yield delay(2000);
         const result = yield call(signUpAPI, action.data);
         //throw new Error('에러 발생');
-        console.log("result : ", result);
+        console.log("result.data : ", result.data);
         yield put( {            // put 은 dispatch 와 동일
             type: SIGN_UP_SUCCESS,
             data: result.data,
         });
     } catch (e) {
         console.error(e);
+        console.log("my e : ", e.response)
         yield put( {
             type: SIGN_UP_FAILURE,
+            error: e.response && e.response.data,
         });
     }
 }
@@ -307,14 +310,16 @@ function* watchEditNickname() {
 
 // function uploadProfileImageAPI(formData, whatType, description) {
 function uploadProfileImageAPI(userId, formData) {
-    // console.log("uploadProfileImageAPI userId : ", userId)
     return axios.put( `/user/${userId}/profileImg`, formData);    // body 폼으로 데이터 전달, withCredentials 로 젼달하지 말라
 }
-
 function* uploadProfileImage(action) {
-    //console.log("action : ", action)
+
+    console.log("uploadProfileImage() action.data ", action.data)
+
     try{
         const result = yield call(uploadProfileImageAPI, action.userId, action.data);
+        console.log(" saga result.data : ", result.data)
+        
         yield put({
             type: UPLOAD_PROFILE_IMAGES_SUCCESS,
             data: result.data,
@@ -326,7 +331,6 @@ function* uploadProfileImage(action) {
         })
     }
 }
-
 function* watchUploadProfileImage() {
     yield takeLatest(UPLOAD_PROFILE_IMAGES_REQUEST, uploadProfileImage);
 }

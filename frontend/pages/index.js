@@ -7,7 +7,7 @@ import { LOAD_MAIN_POSTS_REQUEST } from '../reducers/post';
 
 const Home = () => {
     const dispatch = useDispatch();
-    const { me } = useSelector( state => state.user );
+    //const { me } = useSelector( state => state.user );
     const { mainPosts, hasMorePost } = useSelector( state => state.post );
     const countRef = useRef( []);
 
@@ -15,7 +15,7 @@ const Home = () => {
         // console.log(window.scrollY, document.documentElement.clientHeight,document.documentElement.scrollHeight);
         if (window.scrollY + document.documentElement.clientHeight 
             > document.documentElement.scrollHeight - 300 ) {
-                if (hasMorePost) {
+            //    if (hasMorePost) {
                     const lastId = mainPosts[mainPosts.length - 1 ].id;
                     if (!countRef.current.includes(lastId)) {
                         dispatch({
@@ -24,7 +24,7 @@ const Home = () => {
                         });
                     }
                     countRef.current.push(lastId);
-                }
+          //      }
             };
     }, [hasMorePost, mainPosts.length]);
 
@@ -37,8 +37,9 @@ const Home = () => {
 
     return (
         <div>
-            {me && <PostForm /> }
+            {/* {me && <PostForm /> } */}
             {mainPosts.map( (c) => {
+              //  console.log("c : ", c)
                 return (
                     <PostCard key={c.id} post={c} />
                 );
@@ -48,6 +49,7 @@ const Home = () => {
 };
 
 Home.getInitialProps = async (context) => {
+    
     context.store.dispatch({
         type: LOAD_MAIN_POSTS_REQUEST,
     })
@@ -95,6 +97,7 @@ export default Home;
 
 
  Nodejs 서버 + mysql 연결하여  실행 
+ docker run -it -p 3060:3060 -p 3065:3065 --volume=$(pwd):/app/  --name web -d node
  docker run -it -p 3060:3060 -p 3065:3065 --volume=$(pwd):/app/  --name web --link mysql-db  -d node  
 
  NodeJs 컨테이너에 접속하기 

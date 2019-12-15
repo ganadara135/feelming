@@ -1,5 +1,4 @@
 import React, { useEffect, useCallback, useState } from 'react';
-import { Form, Button, List, Card, Icon, Input } from 'antd';
 import PostCard from '../containers/PostCard';
 import { useDispatch, useSelector } from 'react-redux';
 import NicknameEditForm from '../containers/NicknameEditForm';
@@ -11,44 +10,44 @@ import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST, UNFOLLOW_USER_REQUEST,
     REMOVE_FOLLOWER_REQUEST, LOAD_PROFILE_IMAGE_REQUEST, LOAD_PROFILE_CAREER_REQUEST,
     LOAD_SELFINTRODUCTION_REQUEST } from '../reducers/user';
 import { LOAD_USER_POSTS_REQUEST } from '../reducers/post';
- 
+
 
 const Profile = () => {
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
     const { me, followerList, followingList, hasMoreFollower, hasMoreFollowing } = useSelector( state => state.user );
-    const { mainPosts,  } = useSelector ( state => state.post );
-    // useEffect ( () => {
-    //     if (me) {
-    //     }
-    // }, [me && me.id ]);
+    // const { mainPosts,  } = useSelector ( state => state.post );
+    // // useEffect ( () => {
+    // //     if (me) {
+    // //     }
+    // // }, [me && me.id ]);
 
-    const onUnfollow = useCallback(userId => () => {
-        dispatch({
-            type: UNFOLLOW_USER_REQUEST,
-            data: userId,
-        });
-    }, []);
+    // const onUnfollow = useCallback(userId => () => {
+    //     dispatch({
+    //         type: UNFOLLOW_USER_REQUEST,
+    //         data: userId,
+    //     });
+    // }, []);
 
-    const onRemoveFollower = useCallback( userId => () => {
-        dispatch({
-            type: REMOVE_FOLLOWER_REQUEST,
-            data: userId,
-        });
-    }, []);
+    // const onRemoveFollower = useCallback( userId => () => {
+    //     dispatch({
+    //         type: REMOVE_FOLLOWER_REQUEST,
+    //         data: userId,
+    //     });
+    // }, []);
 
-    const loadMoreFollowings = useCallback( () => {
-        dispatch({
-            type: LOAD_FOLLOWINGS_REQUEST,
-            offset: followingList.length,
-        });
-    }, [followingList.length])
+    // const loadMoreFollowings = useCallback( () => {
+    //     dispatch({
+    //         type: LOAD_FOLLOWINGS_REQUEST,
+    //         offset: followingList.length,
+    //     });
+    // }, [followingList.length])
 
-    const loadMoreFollowers = useCallback( () => {
-        dispatch({
-            type: LOAD_FOLLOWERS_REQUEST,
-            offset: followerList.length,
-        });
-    }, [followerList.length]);
+    // const loadMoreFollowers = useCallback( () => {
+    //     dispatch({
+    //         type: LOAD_FOLLOWERS_REQUEST,
+    //         offset: followerList.length,
+    //     });
+    // }, [followerList.length]);
 
     return (
     <div>
@@ -56,7 +55,7 @@ const Profile = () => {
         {me && <NicknameEditForm /> }
         {me && <SelfIntroductionEditForm /> }
         
-        <FollowList
+        {/* <FollowList
             header="팔로잉 목록"
             hasMore={hasMoreFollowing}
             onClickMore={loadMoreFollowings}
@@ -74,7 +73,7 @@ const Profile = () => {
             {mainPosts.map(c => (
                 <PostCard key={+c.createdAt} post={c} />
             ))}
-        </div>
+        </div> */}
     </div>
     );
 };
@@ -108,6 +107,6 @@ Profile.getInitialProps = async (context) => {
             type: LOAD_SELFINTRODUCTION_REQUEST,
             data: state.user.me && state.user.me.id,
         });
-    }  
+    }
 }
 export default Profile;

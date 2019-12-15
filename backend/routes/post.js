@@ -2,30 +2,52 @@ const express = require('express');
 const db = require('../models');
 const multer = require('multer');
 const path = require('path');
+const multerS3 = require('multer-s3');
+const AWS = require('aws-sdk');
+
 
 const { isLoggedIn } = require( './middleware');
 const router = express.Router();
 
-const upload = multer( {
-    storage: multer.diskStorage( {
-        destination(req, file, done) {      // 파일 저장 위치
-            done(null, 'uploads');  // uplaods 는 파일을 저장할 서버측 폴더명, 
-        },
-        filename(req, file, done) {           // 파일명
-            const ext = path.extname(file.originalname);
-            const basename = path.basename(file.originalname, ext); //제로초.png  ext===.png,  basename===제로초
-            done(null, basename + new Date().valueOf() + ext );
+AWS.config.update({
+    region: 'ap-northeast-2',
+    accessKeyId: process.env.AWSAccessKeyId,
+    secretAccessKey: process.env.AWSSecretKey,
+});
+
+const upload = multer({
+    storage: multerS3({
+        s3: new AWS.S3(),
+        bucket: 'feelming',
+        key(req, file, cb) {
+        cb(null, `original/${+new Date()}${path.basename(file.originalname)}`);
         },
     }),
     limits: { fileSize: 20 * 1024 * 1024 },
-});  
+});
+  
+// const upload = multer( {
+//     storage: multer.diskStorage( {
+//         destination(req, file, done) {      // 파일 저장 위치
+//             done(null, 'uploads');  // uplaods 는 파일을 저장할 서버측 폴더명, 
+//         },
+//         filename(req, file, done) {           // 파일명
+//             const ext = path.extname(file.originalname);
+//             const basename = path.basename(file.originalname, ext); //제로초.png  ext===.png,  basename===제로초
+//             done(null, basename + new Date().valueOf() + ext );
+//         },
+//     }),
+//     limits: { fileSize: 20 * 1024 * 1024 },
+// });  
 
 // uplaod.array() 는 미들웨어, image 는 전달해 주는 곳의 명칭과 같게
 router.post('/images', upload.array('image'), (req, res) => {
     console.log("req.files : ", req.files);
-    res.json(req.files.map( v => v.filename));
+    //res.json(req.files.map( v => v.filename));
+    res.json(req.files.map( v => v.location));
 });
 
+/*
 router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {  // POST /api/post
    // console.log("router.post_/_", req.body )
     try {
@@ -79,12 +101,10 @@ router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {  // POST
         next(e);
     }
 })
-
+*/
 
 
             
-
-
 router.get('/:id/comments', async (req, res, next) => {
     try {
         const post = await db.Post.findOne({ where: {id: req.params.id }});
@@ -146,6 +166,7 @@ router.post('/:id/like', isLoggedIn, async ( req, res, next ) => {
         if (!post) {
             return res.status(404).send('포스트가 존재하지 않습니다.');
         }
+       // console.log("chk post result : ", post);
         await post.addLiker(req.user.id);
         res.json({userId: req.user.id });
     } catch(e) {
@@ -210,7 +231,8 @@ router.post('/:id/retweet', isLoggedIn, async (req, res, next) => {
                     model: db.User,
                     attributes: ['id', 'nickname'],     // 비밀번호 빼고 가져오기
                 }, {
-                    model: db.Image,
+                    //model: db.Image,
+                    model: db.UserAsset,
                 }],
             }],
         });
@@ -247,7 +269,8 @@ router.get('/:id', async (req, res, next) => {
                 model: db.User,
                 attributes: ['id', 'nickname'],
             }, {
-                model: db.Image,
+               // model: db.Image,
+                model: db.UserAsset,
             }],
         });
         res.json(post);
@@ -256,5 +279,51 @@ router.get('/:id', async (req, res, next) => {
         next(e);
     }
 });
+
+router.post('/:id/cooperate', isLoggedIn, async ( req, res, next ) => {
+    try {
+        const post = await db.Post.findOne({ where: { id: req.params.id }});
+        if (!post) {
+            return res.status(404).send('포스트가 존재하지 않습니다.');
+        }
+        const newCooperate = await db.Cooperate.create({
+            PostId: post.id,
+            UserId: req.user.id,
+            // content: req.body.content,
+        });
+        await post.addCooperate(newCooperate.id);
+        const commentnewCooperate = await db.Cooperate.findOne({
+            where: {
+                id: newCooperate.id,
+            },
+            include: [{
+                model: db.User,
+                attributes: ['id', 'nickname'],
+            }],
+        });
+        return res.json(commentnewCooperate);
+    } catch(e) {
+        console.error(e);
+        next(e);
+    }
+});
+
+router.delete('/:id/uncooperate', isLoggedIn, async ( req, res, next ) => {
+    try {
+        const post = await db.Post.findOne({ where: { id: req.params.id }});
+        if (!post) {
+            return res.status(404).send('포스트가 존재하지 않습니다.');
+        }
+       // console.log("chk post result : ", post);
+       // await post.removeCooperate({"UserId": req.user.id});        // PostId 와 UserId 가 같은 걸 삭제
+        await db.Cooperate.destroy({ where : { UserId: req.user.id, PostId: req.params.id }});
+        res.json({userId: req.user.id });
+    } catch(e) {
+        console.error(e);
+        next(e);
+    }
+})
+
+
 
 module.exports = router;

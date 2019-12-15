@@ -3,12 +3,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 
-const MyError = ( statusCode ) => {
-    //console.log("Error", props);
+const MyError = ( {statusCode} ) => {
+    console.log("Error", statusCode);
     return (
         <div>
             <h1>{statusCode} 에러 발생 </h1>
-            <Error statusCode={statusCode} />
+            {/* <Error statusCode={statusCode} /> */}
         </div>
     );
 };
@@ -24,6 +24,6 @@ MyError.defaultProps = {
 MyError.getInitialProps = async (context) => {
     const statusCode = context.res ? context.res.statusCode : context.err ? context.err.statusCode : null;
     return { statusCode };
-}
+};
 
 export default MyError;

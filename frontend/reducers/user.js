@@ -28,7 +28,7 @@ export const initialState = {
     hasMoreFollowing: false,
     profileImg: [],        // 프로필 이미지 경로
     profileImgErrorReason: '',
-    
+    serverReactionData: '',
 };
 
 
@@ -85,6 +85,7 @@ export const UPLOAD_PROFILE_IMAGES_SUCCESS = 'UPLOAD_PROFILE_IMAGES_SUCCESS';
 export const UPLOAD_PROFILE_IMAGES_FAILURE = 'UPLOAD_PROFILE_IMAGES_FAILURE';
 export const REMOVE_PROFILE_IMAGE = 'REMOVE_PROFILE_IMAGE';
 
+
 export const LOAD_PROFILE_IMAGE_REQUEST = 'LOAD_PROFILE_IMAGE_REQUEST';
 export const LOAD_PROFILE_IMAGE_SUCCESS = 'LOAD_PROFILE_IMAGE_SUCCESS';
 export const LOAD_PROFILE_IMAGE_FAILURE = 'LOAD_PROFILE_IMAGE_FAILURE';
@@ -113,11 +114,12 @@ export const UPLOAD_WORKPLACE_REQUEST = 'UPLOAD_WORKPLACE_REQUEST';
 export const UPLOAD_WORKPLACE_SUCCESS = 'UPLOAD_WORKPLACE_SUCCESS';
 export const UPLOAD_WORKPLACE_FAILURE = 'UPLOAD_WORKPLACE_FAILURE';
 
+export const CLEAR_SERVER_REACTION_DATA = 'CLEAR_SERVER_REACTION_DATA';
 
-export const signupAction = (data) => ({
-    type: SIGN_UP_REQUEST,
-    data: data,
-});
+// export const signupAction = (data) => ({
+//     type: SIGN_UP_REQUEST,
+//     data: data,
+// });
 
 const reducer = (state = initialState, action ) => {
     return produce(state, (draft) => {
@@ -159,9 +161,6 @@ const reducer = (state = initialState, action ) => {
         }
         case LOG_IN_FAILURE: {
 
-            console.log("action.error : ", action.error);
-            console.log("action.reason : ", action.reason);
-
             draft.isLoggingIn =  false;
             draft.logInErrorReason = action.reason ? action.reason : action.error;
             draft.me = null;
@@ -191,22 +190,22 @@ const reducer = (state = initialState, action ) => {
             break;
         }
         case SIGN_UP_SUCCESS: {
-            draft.isSigningUp = false;
-            draft.isSignedUp = true;
-            break;
-            // return {
-            //     ...state,
-            //     isSigningUp: false,
-            //     isSignedUp: true,
-            //     me : {
-            //         nickname: action.nickname,
-            //         // Post: [],
-            //         // Followings: [],
-            //         // Followers: [],
-            //         id: action.id,
-            //         userId: action.userId, 
-            //     }
-            // };
+            // draft.isSigningUp = false;
+            // draft.isSignedUp = true;
+            // break;
+            return {
+                ...state,
+                isSigningUp: false,
+                isSignedUp: true,
+                me : {
+                    nickname: action.nickname,
+                    // Post: [],
+                    // Followings: [],
+                    // Followers: [],
+                    id: action.id,
+                    userId: action.userId, 
+                }
+            };
         }
         case SIGN_UP_FAILURE: {
             draft.isSigningUp = false;
@@ -413,8 +412,10 @@ const reducer = (state = initialState, action ) => {
         case UPLOAD_PROFILE_IMAGES_SUCCESS: {
             return {
                 ...state,
+                profileImg: action.data,
                 //imagePaths: [...state.imagePaths, ...action.data],
-                profileImg: [...state.profileImg, ...action.data],
+                //profileImg: [...state.profileImg, ...action.data],
+                //profileImg: state.profileImg.concat(action.data),
             };
         }
         case UPLOAD_PROFILE_IMAGES_FAILURE: {
@@ -563,21 +564,28 @@ const reducer = (state = initialState, action ) => {
         case UPLOAD_WORKPLACE_REQUEST: {
             return {
                 ...state,
+                serverReactionData: '',
             };
         }
         case UPLOAD_WORKPLACE_SUCCESS: {
+            //console.log("serverReactionData : ", action.data); 
             return {
                 ...state,
-                // me : {
-                //     ...state.me,
-                //     selfIntro : action.data,
-                // }
+                serverReactionData: action.data,
+                
             };
           }
         case UPLOAD_WORKPLACE_FAILURE: {
             return {
                 ...state,
+                serverReactionData: action.data,
             };
+        }
+        case CLEAR_SERVER_REACTION_DATA: {
+            return {
+                ...state,
+                serverReactionData: "",
+            }
         }
         default: {
             break;

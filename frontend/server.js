@@ -6,15 +6,22 @@ const expressSession = require('express-session');
 const dotevn = require('dotenv');
 const path = require('path');
 
+const compression = require('compression');
+
 const dev = process.env.NODE_ENV !== 'production';
 const prod = process.env.NODE_ENV === 'production';
 
 const app = next( { dev });
 const handle = app.getRequestHandler();
 dotevn.config()
+   
+
 
 app.prepare().then( () => {
     const server = express();
+
+    // compress all responses  미들웨어
+    server.use(compression());
 
     server.use(morgan( 'dev'));
     server.use('/', express.static(path.join(__dirname, 'public')));
@@ -31,6 +38,8 @@ app.prepare().then( () => {
         },
     }));
 
+  
+
     // 동적 페이지 요청 처리 부분 / 동적 라우터 처리
     server.get('/post/:id', (req, res) => {
         console.log("check  동적 페이지 요청 부분")
@@ -46,6 +55,7 @@ app.prepare().then( () => {
 
 
     server.get('*', (req, res) => {
+      //  renderAndCache(req, res, '*');
         return handle(req, res);
     })
 
@@ -53,7 +63,7 @@ app.prepare().then( () => {
         console.log(`next+express running on port ${process.env.PORT}`);
     });
 })
-.catch((ex) => {
-    console.error(ex.stack);
-    process.exit(1);
-})
+// .catch((ex) => {
+//     console.error(ex.stack);
+//     process.exit(1);
+// })
