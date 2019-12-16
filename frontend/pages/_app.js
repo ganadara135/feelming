@@ -82,7 +82,7 @@ Feelming.getInitialProps = async (context) => {
 
     // 로그인 정보 호출하는 부분
     const cookie = ctx.isServer ?  ctx.req.headers.cookies : '';
-    axios.defaults.headers.Cookie = '';
+    //axios.defaults.headers.Cookie = '';
     if (ctx.isServer && cookie) {
         axios.defaults.headers.Cookie = cookie;
     }

@@ -34,7 +34,7 @@ const SingePost = ( { id }) => {
 };
 
 SingePost.getInitialProps = async (context) => {
-    console.log(" check InitialProps context.query.id : ", context.query.id);
+    //console.log(" check InitialProps context.query.id : ", context.query.id);
     context.store.dispatch({
         type: LOAD_POST_REQUEST,
         data: context.query.id,

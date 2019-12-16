@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { Menu, Button, Row, Col, Affix } from 'antd';
@@ -10,9 +10,9 @@ import { useSelector, } from 'react-redux';
 // import styled from 'styled-components';
 
 
-const AppLayout = ({ children, firstInit}, ) => {
+const AppLayout = ({ children}, ) => {
     
-    const { isLoggedIn, me } = useSelector( state => state.user );
+    const { me } = useSelector( state => state.user );
     const [searchCondition, setSearchCondition] = useState([]); 
     const refButton_file_pdf = useRef();
     const refButton_sound = useRef();
@@ -37,14 +37,16 @@ const AppLayout = ({ children, firstInit}, ) => {
 
 
     const changeStyleButtonPressed = (buttonRefVal) => {
-        if ( buttonRefVal.current.buttonNode.style.backgroundColor === 'orange' ){
-            buttonRefVal.current.buttonNode.style.backgroundColor = 'white';
-        }else {
-            buttonRefVal.current.buttonNode.style.backgroundColor = 'orange'
+        if(buttonRefVal.current) {      // login 튕귀는 거 막고자 넣음
+            if ( buttonRefVal.current.buttonNode.style.backgroundColor === 'orange' ){
+                buttonRefVal.current.buttonNode.style.backgroundColor = 'white';
+            }else {
+                buttonRefVal.current.buttonNode.style.backgroundColor = 'orange'
+            }
         }
     }
 
-    console.log("refButton_file_pdf.current : ", refButton_file_pdf.current);
+    //console.log("refButton_file_pdf.current : ", refButton_file_pdf.current);
 
     const handleClearSearchCondition = () => {
         setSearchCondition([]);

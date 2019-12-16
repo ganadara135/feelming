@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useState, useRef } from 'react';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 import { Card, Row, Col, Tag, Input, Empty} from 'antd';
 import {useDispatch, useSelector } from 'react-redux';
 import {LOAD_HASHTAG_POSTS_REQUEST, LOAD_MY_KEYWORD_REQUEST, LOAD_MY_KEYWORD_SECOND_REQUEST} from '../reducers/post';
@@ -17,10 +17,10 @@ const Keyword = ({ tag, searchCondition }) => {
     const refSlick2 = useRef();
     
 
-    console.log("myKeyword  : ", myKeyword)
-    console.log("myKeywordSecond  : ", myKeywordSecond)
-    console.log("mainPosts : ", mainPosts);
-    console.log("fixedMainPosts : ", fixedMainPosts)
+    // console.log("myKeyword  : ", myKeyword)
+    // console.log("myKeywordSecond  : ", myKeywordSecond)
+    // console.log("mainPosts : ", mainPosts);
+    // console.log("fixedMainPosts : ", fixedMainPosts)
 
     const onScroll = useCallback( () => {
         if (window.scrollY + document.documentElement.clientHeight 
@@ -84,15 +84,15 @@ const Keyword = ({ tag, searchCondition }) => {
         const pageTotalBlock = myKeyword[currentSlide] && Math.ceil(pageTotal / pageSize);
         const pageCurrentBlock = myKeyword[currentSlide] && Math.ceil(myKeyword[currentSlide].RNUM / pageSize);
 
-        console.log("next : ", next)
-        console.log("current : ", current)
-        console.log("currentSlide : ", currentSlide)
-        console.log("pageSize : ", pageSize)
-        console.log("pagePrev : ", pagePrev)
-        console.log("pageCurrent : ", pageCurrent)
-        console.log("pageNext : ", pageNext)
-        console.log("pageTotalBlock : ", pageTotalBlock)
-        console.log("pageCurrentBlock : ", pageCurrentBlock)
+        // console.log("next : ", next)
+        // console.log("current : ", current)
+        // console.log("currentSlide : ", currentSlide)
+        // console.log("pageSize : ", pageSize)
+        // console.log("pagePrev : ", pagePrev)
+        // console.log("pageCurrent : ", pageCurrent)
+        // console.log("pageNext : ", pageNext)
+        // console.log("pageTotalBlock : ", pageTotalBlock)
+        // console.log("pageCurrentBlock : ", pageCurrentBlock)
 
         if(pageCurrent % pageSize === 0 && next === 0 && current === 4 && pageCurrentBlock !== pageTotalBlock ) { 
             console.log(" 왼쪽 경계 들어옴")
@@ -120,7 +120,7 @@ const Keyword = ({ tag, searchCondition }) => {
 
     const onSearchKeyword = (value) => {
      //  alert("It is under construction")
-       console.log(" onSearchKeyword() ", value)
+     //  console.log(" onSearchKeyword() ", value)
        // setTagValue("etc");
       //  e.preventDefault();
         dispatch({
@@ -238,7 +238,7 @@ Keyword.propTypes = {
 
 Keyword.getInitialProps = async (context) => {
     const tag = context.query.tag;
-    console.log('hashtag getInitialProps', context.query.tag);
+  //  console.log('hashtag getInitialProps', context.query.tag);
     context.store.dispatch({
         type: LOAD_HASHTAG_POSTS_REQUEST,
         data: tag,

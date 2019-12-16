@@ -103,9 +103,17 @@ function* watchLoadHashtagPosts() {
 
 
 function loadMyKeywordAPI(lastId = 0, limit = 5) {
-    console.log("loadMyKeywordAPI() ")
+    //console.log("loadMyKeywordAPI() ")
     return axios.get(`/hashtag/MyKeyword?lastId=${lastId}&limit=${limit}`,{
         withCredentials: true,
+    }).catch(function (error){
+        if (error.response){
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+        } else {
+            console.log("Axios Error : ", error.message)
+        }
     });
    // return axios.post(`/hashtag/MyKeyword`,{}, {
     // return axios.post(`/hashtag/MyKeyword?lastId=${lastId}&limit=${limit}`,{},{
@@ -113,10 +121,10 @@ function loadMyKeywordAPI(lastId = 0, limit = 5) {
     // });
 }
 function* loadMyKeyword(action) {
-    console.log("loadMyKeyword() : ")
+   // console.log("loadMyKeyword() : ")
     try{
         const result = yield call(loadMyKeywordAPI, action.lastId );
-        console.log(" result Saga : ", result)
+        //console.log(" result Saga : ", result)
         yield put({
             type: LOAD_MY_KEYWORD_SUCCESS,
             data: result.data,
@@ -140,7 +148,7 @@ function loadMyKeywordSecondAPI(lastId = 0, limit = 5) {
 function* loadMyKeywordSecond(action) {
     try{
         const result = yield call(loadMyKeywordSecondAPI);
-        console.log(" loadMyKeywordSecondd Saga : ", result)
+    //    console.log(" loadMyKeywordSecondd Saga : ", result)
         yield put({
             type: LOAD_MY_KEYWORD_SECOND_SUCCESS,
             data: result.data,
@@ -323,7 +331,7 @@ function cooperateAPI(postId) {
 function* cooperate(action) {
     try{
         const result = yield call(cooperateAPI, action.data);
-        console.log("result cooperate in saga", result)
+       // console.log("result cooperate in saga", result)
         yield put({
             type: COOPERATE_SUCCESS,
             data: {
@@ -332,7 +340,7 @@ function* cooperate(action) {
             }
         });
     }catch (e) {
-        console.log(" catch(e) in")
+       // console.log(" catch(e) in")
         console.error(e);
         yield put({
             type: COOPERATE_FAILURE,
@@ -404,13 +412,13 @@ function* watchRemovePost() {
 
 
 function loadSinglePostAPI(postId) {
-    console.log(" loadSinglePostAPI postId : ", postId);
+   // console.log(" loadSinglePostAPI postId : ", postId);
     return axios.get( `/post/${postId}`);
 }
 function* loadSinglePost(action) {
     try{
         const result = yield call(loadSinglePostAPI, action.data);
-        console.log("saga result : ", result.data)
+       // console.log("saga result : ", result.data)
         yield put({
             type: LOAD_POST_SUCCESS,
             data: result.data,
@@ -454,10 +462,10 @@ function loadMyRelatedMediaAPI(lastId = 0, limit = 50) {
     return axios.get(`/posts/myRelatedMedia?lastId=${lastId}&limit=${limit}`);
 }
 function* loadMyRelatedMedia(action) {
-    console.log("check action in SAGA : ", action)
+   // console.log("check action in SAGA : ", action)
     try{
         const result = yield call(loadMyRelatedMediaAPI, action.lastId);
-        console.log("result.data : ", result.data);
+       // console.log("result.data : ", result.data);
 
         yield put({
             type: LOAD_MY_RELATED_MEDIA_SUCCESS,
@@ -480,10 +488,10 @@ function loadCategoryAPI(tag, lastId = 0, limit = 10) {
     return axios.get(`/posts/categoryData/${encodeURIComponent(tag)}?lastId=${lastId}&limit=${limit}`);
 }
 function* loadCategoryData(action) {
-   console.log("check action in SAGA : ", action)
+  // console.log("check action in SAGA : ", action)
     try{
         const result = yield call(loadCategoryAPI, action.data, action.lastId, action.limit);
-        console.log("result.data : ", result.data);
+   //     console.log("result.data : ", result.data);
 
         yield put({
             type: LOAD_CATEGORY_SUCCESS,

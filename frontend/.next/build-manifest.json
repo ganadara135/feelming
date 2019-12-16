@@ -11,6 +11,14 @@
     "/_error": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
+    ],
+    "/category": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
+    "/keyword": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
     ]
   }
 }

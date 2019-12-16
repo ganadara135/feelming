@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Form, Select, Upload, Icon, Button, Cascader, Input, message } from 'antd';
-import styled from 'styled-components';
+//import styled from 'styled-components';
 import { connect } from 'react-redux';
 import Router from 'next/router';
 import { UPLOAD_WORKPLACE_REQUEST, CLEAR_SERVER_REACTION_DATA } from '../reducers/user';

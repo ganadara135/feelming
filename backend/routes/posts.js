@@ -138,7 +138,7 @@ router.get('/myRelatedMedia', async (req, res, next) => {
 
         await db.sequelize.query(query)
         .then(function(result){
-            console.log("result[0] : ", result[0])
+            //console.log("result[0] : ", result[0])
             res.json(result[0])
         });
 
@@ -175,7 +175,7 @@ router.get('/categoryData/:tag', async (req, res, next) => {
         }
         
 
-        console.log("query  : ", query);
+        //console.log("query  : ", query);
 
         await db.sequelize.query(query)
         .then(function(result){

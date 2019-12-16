@@ -1,9 +1,9 @@
 import React, { useState, useCallback, useEffect} from 'react';
-import PropTypes from 'prop-types';
-import PostCard from '../containers/PostCard'
+// import PropTypes from 'prop-types';
+// import PostCard from '../containers/PostCard'
 import {useDispatch, useSelector } from 'react-redux';
 import {LOAD_CATEGORY_REQUEST } from '../reducers/post';
-import { Card, Icon, Radio, Empty, Form, Input, List, Comment, Popover, Row, Col} from 'antd';
+import { Card, Radio, Empty, Row, Col} from 'antd';
 import RenderMultiMedia from '../components/RenderMultiMediaClass';
 
 const Category = ({ tag, searchCondition }) => {
@@ -16,7 +16,7 @@ const Category = ({ tag, searchCondition }) => {
     const onScroll = useCallback( () => {
         if (window.scrollY + document.documentElement.clientHeight 
             > document.documentElement.scrollHeight - 300 ) {
-                console.log( "check scrollling  tagValue : ", tagValue)
+                //console.log( "check scrollling  tagValue : ", tagValue)
                 if (hasMorePost) {
                     dispatch({
                         type: LOAD_CATEGORY_REQUEST,
@@ -115,9 +115,9 @@ const Category = ({ tag, searchCondition }) => {
     }
   
     
-    console.log("myCategoryData : ", myCategoryData)
-    console.log("hasMorePost : ", hasMorePost)
-    console.log("fixedMyCategoryData : ", fixedMyCategoryData)
+    // console.log("myCategoryData : ", myCategoryData)
+    // console.log("hasMorePost : ", hasMorePost)
+    // console.log("fixedMyCategoryData : ", fixedMyCategoryData)
 
     return (
         <div>

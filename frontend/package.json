@@ -25,7 +25,8 @@
     "eslint-plugin-react-hooks": "^2.2.0",
     "nodemon": "^1.19.2",
     "remote-redux-devtools": "^0.5.16",
-    "webpack": "^4.40.2"
+    "webpack": "^4.40.2",
+    "webpack-format-messages": "^2.0.6"
   },
   "dependencies": {
     "@babel/runtime": "^7.6.3",

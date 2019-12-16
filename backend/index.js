@@ -88,7 +88,7 @@ app.use(passport.session());
 
 
 app.get('/', (req, res) => {
-    res.send('react nodebird 백엔드 정상 동작!');
+    res.send('백엔드 정상 동작!');
 });
 
 // API 창구

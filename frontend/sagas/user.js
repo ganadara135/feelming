@@ -74,7 +74,7 @@ function* signUp(action) {
         //yield delay(2000);
         const result = yield call(signUpAPI, action.data);
         //throw new Error('에러 발생');
-        console.log("result.data : ", result.data);
+      //  console.log("result.data : ", result.data);
         yield put( {            // put 은 dispatch 와 동일
             type: SIGN_UP_SUCCESS,
             data: result.data,
@@ -314,11 +314,8 @@ function uploadProfileImageAPI(userId, formData) {
 }
 function* uploadProfileImage(action) {
 
-    console.log("uploadProfileImage() action.data ", action.data)
-
     try{
         const result = yield call(uploadProfileImageAPI, action.userId, action.data);
-        console.log(" saga result.data : ", result.data)
         
         yield put({
             type: UPLOAD_PROFILE_IMAGES_SUCCESS,
@@ -345,7 +342,7 @@ function loadProfileImageAPI(userId) {
 function* loadProfileImage(action) {
     try {
         const result = yield call(loadProfileImageAPI, action.data);
-        console.log("loadProfileInfo SAGA result : ", result.data)
+        //console.log("loadProfileInfo SAGA result : ", result.data)
 
         if(result.data.error){
             yield put( {
@@ -382,7 +379,7 @@ function loadProfileCareerAPI(userId) {
 function* loadProfileCareer(action) {
     try {
         const result = yield call(loadProfileCareerAPI, action.data);
-        console.log("loadProfileCareer SAGA result : ", result.data)
+        //console.log("loadProfileCareer SAGA result : ", result.data)
 
         if(result.data.error){
             yield put( {
@@ -420,7 +417,7 @@ function editCurrentCareerAPI(currentCareer) {
 function* editCurrentCareer(action) {
     try {
         const result = yield call(editCurrentCareerAPI, action.data);
-        console.log(" chk result.data in Current : ", result.data)
+        //console.log(" chk result.data in Current : ", result.data)
         yield put( {            // put 은 dispatch 와 동일
             type: EDIT_CURRENT_CAREER_SUCCESS,
             data: result.data,
@@ -449,7 +446,7 @@ function editPastCareerAPI(pastCareer) {
 function* editPastCareer(action) {
     try {
         const result = yield call(editPastCareerAPI, action.data);
-        console.log(" chk result.data in Past : ", result.data)
+        //console.log(" chk result.data in Past : ", result.data)
         yield put( {            // put 은 dispatch 와 동일
             type: EDIT_PAST_CAREER_SUCCESS,
             data: result.data,
@@ -539,9 +536,9 @@ function uploadWorkplaceAPI(formData) {
 
 function* uploadWorkplace(action) {
     try {
-        console.log('action.data : ', action.data)
+       // console.log('action.data : ', action.data)
         const result = yield call(uploadWorkplaceAPI, action.data);
-        console.log(" chk result.data in Past : ", result.data)
+       // console.log(" chk result.data in Past : ", result.data)
         yield put( {            // put 은 dispatch 와 동일
             type: UPLOAD_WORKPLACE_SUCCESS,
             data: result.data,

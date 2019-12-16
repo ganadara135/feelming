@@ -179,6 +179,7 @@ router.delete('/:id/follow', isLoggedIn, async (req, res, next) => {
 
 
 router.get('/:id/posts', async (req, res, next) => {
+    console.log("로그인 튕기는 에러 발생 지점 @@@@@@@@@@@@@ ")
     try {
         const posts = await db.Post.findAll( {
             where: {
@@ -187,9 +188,9 @@ router.get('/:id/posts', async (req, res, next) => {
             },
             include: [{
                 model: db.User,
+                where: { id: req.user.id },             // 로그인 튕귀는 거 막기 위해서 삽입
                 attributes: ['id', 'nickname'],
             }, {
-                //model: db.Image
                 model: db.UserAsset,
             }, {
                 model: db.User,
