@@ -38,16 +38,16 @@ const Gallery = ({ tag, searchCondition }) => {
         const pageCurrentBlock = myMedia[currentSlide] && Math.ceil(myMedia[currentSlide].RNUM / pageSize);
 
 
-        console.log("next : ", next)
-        console.log("current : ", current)
-        console.log("currentIndexMyMedia : ", currentIndexMyMedia)
-        console.log("currentSlide : ", currentSlide)
-        console.log("pageSize : ", pageSize)
-        console.log("pagePrev : ", pagePrev)
-        console.log("pageCurrent : ", pageCurrent)
-        console.log("pageNext : ", pageNext)
-        console.log("pageTotalBlock : ", pageTotalBlock)
-        console.log("pageCurrentBlock : ", pageCurrentBlock)
+        // console.log("next : ", next)
+        // console.log("current : ", current)
+        // console.log("currentIndexMyMedia : ", currentIndexMyMedia)
+        // console.log("currentSlide : ", currentSlide)
+        // console.log("pageSize : ", pageSize)
+        // console.log("pagePrev : ", pagePrev)
+        // console.log("pageCurrent : ", pageCurrent)
+        // console.log("pageNext : ", pageNext)
+        // console.log("pageTotalBlock : ", pageTotalBlock)
+        // console.log("pageCurrentBlock : ", pageCurrentBlock)
 
         
         
@@ -129,7 +129,7 @@ const Gallery = ({ tag, searchCondition }) => {
         setFixedMyRelatedMedia(myRelatedMedia.filter( v => !searchCondition.includes(v.dataType)))
     }, [searchCondition]);
 
-    console.log("myMedia : ", myMedia)
+   // console.log("myMedia : ", myMedia)
 
     return (
         <div>
@@ -168,12 +168,14 @@ const Gallery = ({ tag, searchCondition }) => {
             { //fixedMyMedia.map( v => {
             myMedia.length === 0 ? <Empty /> : 
             myMedia.map( v => {
+                //console.log("v -> ", v)
+
               return ( 
                 <CustomSlide index={v.id} widthVal={"100%"} >
                 
-                    <h1 style={{ textAlign: 'center'}}> {"Title : " + v.title}</h1>
+                    {/* <h1 style={{ textAlign: 'center'}}> {"Title : " + v.title}</h1> */}
                     
-                        <RenderMultiMedia key={v.id} fileInfo={v} />
+                        <RenderMultiMedia key={v.id} fileInfo={v} heightOfdisplay={420}/>
                    
                     <h1 style={{ textAlign: 'center'}}>{"dataType : " + v.dataType}</h1>
                 </CustomSlide>
@@ -199,7 +201,9 @@ const Gallery = ({ tag, searchCondition }) => {
             fixedMyRelatedMedia.length === 0 ? <Empty /> : 
             fixedMyRelatedMedia.map( v => {
               return (
-                <CustomSlide index={v.id} key={v.id} widthVal={"49%"}> <RenderMultiMedia key={v.id} fileInfo={v} /> </CustomSlide>
+                <CustomSlide index={v.id} key={v.id} widthVal={"49%"}> 
+                <RenderMultiMedia key={v.id} fileInfo={v} heightOfdisplay={300} /> 
+                </CustomSlide>
                 ) } )}
                 
             </Slick>
@@ -256,7 +260,7 @@ const StyleH2 = styled.h2`
 `;
 const StyleDiv = styled.div`
     display: block;
-    width: 420px;
+    width: 100%;
     border: 1px solid palevioletred;
 `;
 

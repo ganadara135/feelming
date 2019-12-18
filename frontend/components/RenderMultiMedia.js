@@ -2,10 +2,17 @@ import React, { useState, useEffect, useCallback, useRef} from 'react';
 import PropTypes from 'prop-types';
 import {checkImageFileType, checkPDFFileType, checkVideoAudioFileType } from '../config/utils';
 import ReactPlayer from 'react-player';
-import { Document, Page, Outline } from 'react-pdf';
-import {Button} from 'antd';
 
-const RenderMultiMedia = ( {fileInfo}) => {
+//import { Document, Page, Outline } from 'react-pdf/dist/entry.webpack';//'react-pdf';
+import { Document, Page, Outline } from 'react-pdf';
+
+//import { pdfjs } from 'react-pdf';
+//console.log("pdfjs.version : ", pdfjs.version)
+//pdfjs.GlobalWorkerOptions.workerSrc = require('pdfjs-dist/build/pdf.worker');
+//`//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
+
+const RenderMultiMedia = ( {fileInfo, heightOfdisplay}) => {
 
     const [pdfTotalPages, setPdfTotalPages ] = useState(null);
     const [pdfPageNumber, setPdfPageNumber ] = useState(1);
@@ -38,24 +45,36 @@ const RenderMultiMedia = ( {fileInfo}) => {
     return (
         <>
         { 
-        checkImageFileType(fileInfo.fileType) ? <img src={fileInfo.src} width={"100%"} /> : 
-        (checkVideoAudioFileType(fileInfo.fileType) ? <ReactPlayer width={"100%"} url={fileInfo.src} playing={false} controls={true} loop={true} /> : 
+        checkImageFileType(fileInfo.fileType) ? <img src={fileInfo.src} width={"100%"} height={heightOfdisplay}/> : 
+        (checkVideoAudioFileType(fileInfo.fileType) ? <ReactPlayer height={heightOfdisplay} width={"100%"} url={fileInfo.src} playing={false} controls={true} loop={true} /> : 
         (checkPDFFileType(fileInfo.fileType) ? 
-            <div ref={targetRef} width={"100%"}>
+            <div ref={targetRef} width={"100%"} >
+                <button type="default" 
+                        disabled={pdfPageNumber <= 1}
+                        onClick={previousPage}
+                        style={{color:"green", border:"1px green solid", marginBottom:"3px"}}
+                >
+                    Previous
+                </button>
+                <button type="default" 
+                    disabled={pdfPageNumber >= pdfTotalPages}
+                    onClick={nextPage}
+                    style={{color:"green", border:"1px green solid",  marginBottom:"3px"}} 
+                >
+                    Next
+                </button>
+                <span> Page {pdfPageNumber} of {pdfTotalPages} </span>
+
                 <Document
                     file={fileInfo.src}
                     onLoadSuccess={onPDFDocumentLoadSuccess}
                 >
                     <Page 
                     pageNumber={pdfPageNumber || 1} 
-                    width={dimensions.width}
+                    //width={dimensions.width}
+                    height={dimensions.height}
                     /> 
                 </Document>
-
-                <Button type="default" disabled={pdfPageNumber <= 1} onClick={previousPage} >Previous</Button>
-                <Button type="default" disabled={pdfPageNumber >= pdfTotalPages} onClick={nextPage} >Next</Button>
-
-                <span >{" \t   "} Page {pdfPageNumber} of {pdfTotalPages} </span>
     
             </div> : [] //<div><h1>{"This is not supporting type"}</h1></div>  
             ))

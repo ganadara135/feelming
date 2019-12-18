@@ -161,12 +161,12 @@ const Keyword = ({ tag, searchCondition }) => {
                     </div>
                 )}
                 onLazyLoad={ () => <div>{"Loading Data..."}</div>}
-                style={{margin: 20, marginBottom:30  }}
+                style={{margin: 20, marginBottom:30, height:400  }}
             >
             {
                 myKeyword.length === 0 ? <Empty /> : 
                     myKeyword.map( v => {
-                    return ( <RenderMultiMedia key={v.id} fileInfo={v}  /> )
+                    return ( <RenderMultiMedia key={v.id} fileInfo={v} heightOfdisplay={300} /> )
                 })
             }
         </Slick>
@@ -196,7 +196,7 @@ const Keyword = ({ tag, searchCondition }) => {
             enterButton 
             style={{ verticalAlign: 'middle', margin: 10}}
             onSearch={onSearchKeyword} 
-            placeholder={"검색할 키워드를 입력해 주세요"}
+            placeholder={"검색할 키워드를 입력하세요"}
         />
         </Row>
 
@@ -207,8 +207,9 @@ const Keyword = ({ tag, searchCondition }) => {
                     <Col span={16}>
                         {/* <Card style={{width: 330}} */}
                         <Card 
+                            style={{height:400}}
                             cover={ //<div> aaaa</div>
-                                <RenderMultiMedia fileInfo={c.UserAssets[0]}  />
+                                <RenderMultiMedia fileInfo={c.UserAssets[0]} heightOfdisplay={300} />
                             }
                         >
                             <Card.Meta 

@@ -179,25 +179,29 @@ router.delete('/:id/follow', isLoggedIn, async (req, res, next) => {
 
 
 router.get('/:id/posts', async (req, res, next) => {
-    console.log("로그인 튕기는 에러 발생 지점 @@@@@@@@@@@@@ ")
+    //console.log("로그인 튕기는 에러 발생 지점 @@@@@@@@@@@@@ ")
+   
+    //console.log("req.params.id : ", req.params.id)
     try {
         const posts = await db.Post.findAll( {
             where: {
                 UserId: parseInt(req.params.id, 10) || (req.user && req.user.id) || 0,
-                RetweetId: null,
+                //RetweetId: null,
             },
-            include: [{
-                model: db.User,
-                where: { id: req.user.id },             // 로그인 튕귀는 거 막기 위해서 삽입
-                attributes: ['id', 'nickname'],
-            }, {
-                model: db.UserAsset,
-            }, {
-                model: db.User,
-                through: 'Like',
-                as: 'Likers',
-                attributes: ['id'],
-            }],
+            // include: [
+            //     {
+            //     model: db.User,
+            //     where: { id: (req.user && req.user.id) || 0 },             // 로그인 튕귀는 거 막기 위해서 삽입
+            //     attributes: ['id', 'nickname'],
+            // }, 
+            // {
+            //     model: db.UserAsset,
+            // }, {
+            //     model: db.User,
+            //     through: 'Like',
+            //     as: 'Likers',
+            //     attributes: ['id'],
+            // }],
         })
         res.json(posts);
     } catch (e) {

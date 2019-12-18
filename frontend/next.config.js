@@ -23,6 +23,11 @@ module.exports = withBundleAnalyzer({
     if (prod) {
       plugins.push(new CompressionPlugin()); // main.js.gz
     }
+
+    // config.resolve.alias = Object.assign({}, config.resolve.alias, {
+    //   "react-pdf": "react-pdf/dist/entry.noworker.js"
+    // });
+
     return {
       ...config,
       mode: prod ? 'production' : 'development',
@@ -36,6 +41,7 @@ module.exports = withBundleAnalyzer({
       //   //   }
       //   // }
       // },
+  
 
       plugins,
     };

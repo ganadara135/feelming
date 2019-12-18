@@ -2,6 +2,8 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
+//console.log("test : ", process.env)
+
 module.exports = {
   "development": {
     "username": "fixunit",

@@ -137,9 +137,9 @@ const Category = ({ tag, searchCondition }) => {
                 <Row type={"flex"} gutter={8} align={"top"} key={c.id}>
                     <Col span={16}>
                         <Card key={c.id}
+                            style={{height:400}}
                             cover={
-                                <RenderMultiMedia fileInfo={c}  />
-
+                                <RenderMultiMedia fileInfo={c} heightOfdisplay={300} />
                             }
                         >
                             {"category: " + c.category +" / dataType: "+ c.dataType + " / fileType: "+ c.fileType }
