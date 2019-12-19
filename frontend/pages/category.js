@@ -81,12 +81,12 @@ const Category = ({ tag, searchCondition }) => {
     const onChangeMovie = e => {
         console.log(" radio 3 checked ", e)
         e.preventDefault();
-        setTagValue("movie");
+        setTagValue("acting");
         //setTagValue("Rock");
         dispatch({
             type: LOAD_CATEGORY_REQUEST,
             lastId: 0,
-            data: "movie",
+            data: "acting",
             limit: 10
         })
     }
@@ -117,7 +117,7 @@ const Category = ({ tag, searchCondition }) => {
     
     // console.log("myCategoryData : ", myCategoryData)
     // console.log("hasMorePost : ", hasMorePost)
-    // console.log("fixedMyCategoryData : ", fixedMyCategoryData)
+   //  console.log("fixedMyCategoryData : ", fixedMyCategoryData)
 
     return (
         <div>
