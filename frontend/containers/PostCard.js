@@ -12,7 +12,14 @@ import moment from 'moment';
 
 //const LazyFileViewer = lazy(() => import('../components/LazyFileViewer')  )         
 import ReactPlayer from 'react-player';
-import { Document, Page, Outline } from 'react-pdf';
+import { Document, Page, pdfjs } from 'react-pdf';
+//pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
+//pdfjs.GlobalWorkerOptions.workerSrc = require('react-pdf/dist/pdf.worker.entry')
+console.log("pdfjs.GlobalWorkerOptions : ",pdfjs.GlobalWorkerOptions)
+//console.log("pdfjs.GlobalWorkerOptions.workerSrc : ",pdfjs.GlobalWorkerOptions.workerSrc)
+
+
 import {checkImageFileType, checkPDFFileType, checkVideoAudioFileType } from '../config/utils';
 
 import CommentForm from './CommentForm';
@@ -48,8 +55,8 @@ const PostCard = ({ post }) => {
 //    console.log("cooper : ", cooper)
     //console.log("post.Cooperates.length : ", post.Cooperates.length)
     if((post.Cooperates.length > 0)){
-        console.log("5555")
-        console.log("id : ", id)
+   //     console.log("5555")
+   //     console.log("id : ", id)
         post.Cooperates.find( v => console.log(v.UserId))
     }
         
@@ -170,6 +177,12 @@ const PostCard = ({ post }) => {
         }
     },[]);
 
+    // console.log("pdfjs.PDFWorker.length : ",pdfjs.PDFWorker.length)
+    // console.log("pdfjs : ",pdfjs)
+    // // console.log("Document : ", Document)
+    // console.log("Page : ", Page)
+
+
     return (
         <CardWrapper>
         <Card
@@ -212,7 +225,8 @@ const PostCard = ({ post }) => {
                 post.UserAssets && post.UserAssets[0]  //&& post.UserAssets[0].fileType !== undefined  
                 &&  // <p>{'파일타입 : '}{post.UserAssets[0].fileType}</p> &&
                 (checkVideoAudioFileType(post.UserAssets[0].fileType)  
-                ? <ReactPlayer
+                ? 
+                <ReactPlayer
                 // config={{ file: {
                 //     attributes: {
                 //         crossOrigin: 'true',            // CORS  설정
@@ -223,10 +237,12 @@ const PostCard = ({ post }) => {
                 : (checkPDFFileType(post.UserAssets[0].fileType)
                 ?     
                 <div> 
-                    <Document
+                    {/* <Document
                         // crossOrigin='anonymous'  this is for CORS,
                         file={post.UserAssets[0].src}
                         onLoadSuccess={onPDFDocumentLoadSuccess}
+                        onLoadError={console.error}
+                        //options={}
                     >
                     <Page 
                         pageNumber={pdfPageNumber || 1} 
@@ -234,7 +250,7 @@ const PostCard = ({ post }) => {
                     </Document>
 
                     <Button type="default" disabled={pdfPageNumber <= 1} onClick={previousPage} >Previous</Button>
-                    <Button type="default" disabled={pdfPageNumber >= pdfTotalPages} onClick={nextPage} >Next</Button>
+                    <Button type="default" disabled={pdfPageNumber >= pdfTotalPages} onClick={nextPage} >Next</Button> */}
 
                     <span >{" \t   "} Page {pdfPageNumber} of {pdfTotalPages} </span>
         

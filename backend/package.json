@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon",
+    "noNodemon": "node index.js",
     "dbSetting": "sequelize create:db",
     "startDev": "NODE_ENV=production PORT=3065 node index.js",
     "start": "NODE_ENV=production PORT=80 pm2 start index.js"

@@ -285,7 +285,7 @@ AWS.config.update({
     secretAccessKey: process.env.AWSSecretKey,
 });
 
-const uploadProfile = multer({
+const uploadProfile = multer(console.log(" in uploadProfile ") || {
     storage: multerS3({
         s3: new AWS.S3(),
         bucket: 'feelming',
@@ -487,7 +487,7 @@ router.patch('/selfIntroduction', async (req, res, next ) => {
 
 // uplaod.array() 는 미들웨어, image 는 전달해 주는 곳의 명칭과 같게
 router.post('/uploadWorkplaceUpfile', uploadProfile.array('upFiles'), (req, res) => {
-//    console.log("req.files : ", req.files);
+   console.log("req.files : ", req.files);
 
     res.json(req.files.map( v => v.location));
     //res.json(req.files.map( v => v.filename));

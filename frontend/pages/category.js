@@ -43,7 +43,7 @@ const Category = ({ tag, searchCondition }) => {
     }, [myCategoryData])
 
     const onChangeTotal = e => {
-        console.log('radio 0 checked', e.target.value);
+      //  console.log('radio 0 checked', e.target.value);
         e.preventDefault();
         setTagValue("total");
         dispatch({
@@ -54,7 +54,7 @@ const Category = ({ tag, searchCondition }) => {
         })
     };
     const onChangeSong = e => {
-        console.log(" radio 1 checked ", e.target)
+     //   console.log(" radio 1 checked ", e.target)
         e.preventDefault();
         setTagValue("song");
         //setTagValue("인디");
@@ -67,7 +67,7 @@ const Category = ({ tag, searchCondition }) => {
     }
 
     const onChangeDance = e => {
-        console.log(" radio 2 checked ", e.target)
+     //   console.log(" radio 2 checked ", e.target)
         e.preventDefault();
         setTagValue("dance");
         //setTagValue("밴드");
@@ -79,7 +79,7 @@ const Category = ({ tag, searchCondition }) => {
         })
     }
     const onChangeMovie = e => {
-        console.log(" radio 3 checked ", e)
+       // console.log(" radio 3 checked ", e)
         e.preventDefault();
         setTagValue("acting");
         //setTagValue("Rock");
@@ -91,7 +91,7 @@ const Category = ({ tag, searchCondition }) => {
         })
     }
     const onChangeHosting = e => {
-        console.log(" radio 4 checked ", e)
+     //   console.log(" radio 4 checked ", e)
         e.preventDefault();
         setTagValue("hosting");
         //setTagValue("funk");
@@ -103,7 +103,7 @@ const Category = ({ tag, searchCondition }) => {
         })
     }
     const onChangeETC = e => {
-        console.log(" radio 5 checked ", e)
+     //   console.log(" radio 5 checked ", e)
         e.preventDefault();
         setTagValue("etc");
         dispatch({

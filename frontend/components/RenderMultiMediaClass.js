@@ -2,12 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {checkImageFileType, checkPDFFileType, checkVideoAudioFileType } from '../config/utils';
 import ReactPlayer from 'react-player';
-//import { Document, Page, Outline } from 'react-pdf/dist/entry.webpack';//'react-pdf';
-import { Document, Page, Outline } from 'react-pdf';
-
-import { pdfjs } from 'react-pdf';
-pdfjs.GlobalWorkerOptions.workerSrc = require('pdfjs-dist/build/pdf.worker');
-//`//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+import { Document, Page, pdfjs } from 'react-pdf';
+//pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+//pdfjs.GlobalWorkerOptions.workerSrc = require('react-pdf/dist/pdf.worker.entry')
 
 class RenderMultiMediaClass  extends React.Component { // }= ( {fileInfo}) => {
 
@@ -47,6 +44,10 @@ class RenderMultiMediaClass  extends React.Component { // }= ( {fileInfo}) => {
         };
     }
 
+    componentWillUnmount(){     // cleanUp() 부분  for blocking memory leak
+        this.props.fileInfo = null;
+    }
+
     render () {
         const { fileInfo, heightOfdisplay }= this.props;
 
@@ -74,6 +75,7 @@ class RenderMultiMediaClass  extends React.Component { // }= ( {fileInfo}) => {
                 <Document
                     file={fileInfo.src}
                     onLoadSuccess={this.onPDFDocumentLoadSuccess}
+                    onLoadError={console.error} 
                 >
                     <Page 
                         pageNumber={this.state.pdfPageNumber || 1} 

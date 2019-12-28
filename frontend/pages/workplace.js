@@ -182,10 +182,10 @@ class Workplace extends React.Component {
     // ************   이 부분이 props 와 state 의 전반적인 관계를 다 보여줌
     componentWillUpdate(nextProps, nextState) {
     //componentDidUpdate(nextProps, nextState) {  
-        console.log("this.props.serverReactionData : ", this.props.serverReactionData)
+       // console.log("this.props.serverReactionData : ", this.props.serverReactionData)
         //console.log("this.state.serverMsgCheck : ", this.state.serverMsgCheck);
         // console.log("nextState : ", nextState)
-        console.log("nextProps : ", nextProps)
+      //  console.log("nextProps : ", nextProps)
        
         //if(nextProps.serverReactionData !== undefined && nextProps.serverReactionData !== '' && this.state.serverMsgCheck === ''){
         if(nextProps.serverReactionData === "등록완료"){
@@ -255,7 +255,7 @@ class Workplace extends React.Component {
                 </Form.Item>
             ));
 
-        const upFilesProps = {
+        const upFilesProps =  {
             name: 'upFiles',
             multiple: false,        // 1개의 파일 입력만 허용
             //action: 'http://localhost:3065/api/user/uploadWorkplaceUpfile/',
@@ -273,9 +273,9 @@ class Workplace extends React.Component {
                 }
             },
             onChange(info) {
-
               const { status } = info.file;
-
+              console.log("info onChange() : ", info)
+              console.log("status : ", status)
               if (status === 'done') {
                 console.log("info : ", info)
                 console.log("info.fileList : ", info.fileList)
@@ -286,7 +286,7 @@ class Workplace extends React.Component {
                 message.error(`${info.file.name} file upload failed.`);
               }
             },
-        }
+        };
 
 
         return (
@@ -332,13 +332,18 @@ class Workplace extends React.Component {
                         valuePropName: 'upFiles',
                         //getValueFromEvent: this.normFile,
                     })(
-                        <Upload.Dragger {...upFilesProps}>
-                        <p className="ant-upload-drag-icon">
-                            <Icon type="inbox" />
-                        </p>
-                        <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                        <p className="ant-upload-hint">Support for a single or bulk upload.</p>
-                        </Upload.Dragger>
+                        <Upload {...upFilesProps}>
+                            <Button>
+                                <Icon type="upload" /> Click to Upload
+                            </Button>
+                        </Upload>
+                        // <Upload.Dragger {...upFilesProps}>
+                        // <p className="ant-upload-drag-icon">
+                        //     <Icon type="inbox" />
+                        // </p>
+                        // <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                        // <p className="ant-upload-hint">Support for a single or bulk upload.</p>
+                        // </Upload.Dragger>
                     )}
                 </Form.Item>
                 <Form.Item label="카테고리">

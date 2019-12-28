@@ -3,13 +3,9 @@ import PropTypes from 'prop-types';
 import {checkImageFileType, checkPDFFileType, checkVideoAudioFileType } from '../config/utils';
 import ReactPlayer from 'react-player';
 
-//import { Document, Page, Outline } from 'react-pdf/dist/entry.webpack';//'react-pdf';
-import { Document, Page, Outline } from 'react-pdf';
-
-//import { pdfjs } from 'react-pdf';
-//console.log("pdfjs.version : ", pdfjs.version)
-//pdfjs.GlobalWorkerOptions.workerSrc = require('pdfjs-dist/build/pdf.worker');
-//`//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+import { Document, Page, pdfjs } from 'react-pdf';
+//pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+//pdfjs.GlobalWorkerOptions.workerSrc = require('react-pdf/dist/pdf.worker.entry')
 
 
 const RenderMultiMedia = ( {fileInfo, heightOfdisplay}) => {
@@ -21,7 +17,7 @@ const RenderMultiMedia = ( {fileInfo, heightOfdisplay}) => {
 
     const onPDFDocumentLoadSuccess = useCallback( (pdf)  => {
         setPdfTotalPages(pdf._pdfInfo.numPages);
-    },[]);
+    },[fileInfo]);
 
     const changePdfPage =  (offset) => setPdfPageNumber(pdfPageNumber + offset);
     const previousPage = () => changePdfPage(-1);
@@ -34,7 +30,10 @@ const RenderMultiMedia = ( {fileInfo, heightOfdisplay}) => {
                 height: targetRef.current.offsetWidth
             });
         }
-    },[fileInfo.id]);
+        return () => {          // cleanUp() 부분  for blocking memory leak
+            fileInfo = null;
+        };
+    },[]);
    // },[fileInfo.id]);
 
     //console.log("except : ", except)
@@ -68,6 +67,7 @@ const RenderMultiMedia = ( {fileInfo, heightOfdisplay}) => {
                 <Document
                     file={fileInfo.src}
                     onLoadSuccess={onPDFDocumentLoadSuccess}
+                    onLoadError={console.error} 
                 >
                     <Page 
                     pageNumber={pdfPageNumber || 1} 

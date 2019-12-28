@@ -20,7 +20,7 @@ const Gallery = ({ tag, searchCondition }) => {
     //const refSlick = useRef();
 
     useEffect( () => {
-        console.log("useEffect() currentIndexMyMedia : ", currentIndexMyMedia)
+       // console.log("useEffect() currentIndexMyMedia : ", currentIndexMyMedia)
         setCurrentIndexMyMedia(0)
     },[myMedia])
 

@@ -442,6 +442,7 @@ function loadMyMediaAPI(lastId = 0, limit = 5) {
 function* loadMyMedia(action) {
     try{
         const result = yield call(loadMyMediaAPI, action.lastId);
+        //console.log("loadMyMedia SAGA : ", result.data)
         yield put({
             type: LOAD_MY_MEDIA_SUCCESS,
             data: result.data,

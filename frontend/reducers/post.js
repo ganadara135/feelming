@@ -148,7 +148,7 @@ const reducer = (state = initialState, action) => {
         case LOAD_HASHTAG_POSTS_SUCCESS:
         case LOAD_MAIN_POSTS_SUCCESS: {
             // mainPosts : ", state.mainPosts)
-            console.log("mainPosts in reducer : ", action.data)
+            //console.log("mainPosts in reducer : ", action.data)
             return {
                 ...state,     
                 mainPosts: state.mainPosts.concat(action.data),
@@ -164,21 +164,21 @@ const reducer = (state = initialState, action) => {
             };
         }
 
-        case LOAD_MY_MEDIA_REQUEST: {
-            return {
-                ...state,
-                myMedia: !action.lastId ? [] : state.myMedia,
-                hasMoreMyMedia: action.lastId ? state.hasMoreMyMedia : true,
-            };
-        }
-        case LOAD_MY_MEDIA_SUCCESS: {
-            return {
-                ...state,
-                //myMedia: state.myMedia.concat(action.data),
-                myMedia: action.data,
-                hasMoreMyMedia: action.data.length === 5,
-            };
-        }
+        // case LOAD_MY_MEDIA_REQUEST: {
+        //     return {
+        //         ...state,
+        //         myMedia: !action.lastId ? [] : state.myMedia,
+        //         hasMoreMyMedia: action.lastId ? state.hasMoreMyMedia : true,
+        //     };
+        // }
+        // case LOAD_MY_MEDIA_SUCCESS: {
+        //     return {
+        //         ...state,
+        //         //myMedia: state.myMedia.concat(action.data),
+        //         myMedia: action.data,
+        //         hasMoreMyMedia: action.data.length === 5,
+        //     };
+        // }
         case LOAD_MY_KEYWORD_REQUEST: {
             return {
                 ...state,
@@ -193,6 +193,7 @@ const reducer = (state = initialState, action) => {
                 //hasMoreMyMedia: action.data.length === 5,
             };
         }
+        //case LOAD_MY_MEDIA_FAILURE:
         case LOAD_MY_KEYWORD_FAILURE: {
             return {
                 ...state,
@@ -438,7 +439,8 @@ const reducer = (state = initialState, action) => {
         case LOAD_MY_MEDIA_REQUEST: {
             return {
                 ...state,
-                myMedia: !action.lastId ? [] : state.myMedia,
+                //myMedia: !action.lastId ? [] : state.myMedia,
+                myMedia: [],
                 hasMoreMyMedia: action.lastId ? state.hasMoreMyMedia : true,
             };
         }

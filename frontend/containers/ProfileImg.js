@@ -49,7 +49,7 @@ const ProfileImg = () => {
     
       
     return (   
-        <div>
+        <div style={{border:"1px solid #d9d9d9", height:"410px", textAlign: 'center'}}>
             {fixedProfileImg.filter((v,i) => i === which).map( (v, i) => (
                 <div key={v} style={{ display: 'inline-block'}}>
                     <div>
@@ -58,7 +58,7 @@ const ProfileImg = () => {
                     <img src={`${v}` } style={{ width: '220px' }} alt={v} />
                 </div> 
             ))}
-        <Carousel afterChange={onChangeCarousel}  style={{ width: 240, height: 73, padding: 20 }} >      
+        <Carousel afterChange={onChangeCarousel}  style={{ width: 300, height: 100, padding: 20 }} >      
             <div>
                 <input type="file" multiple hidden ref={imageInput} onChange={onChangeImages} />
                 <Button onClick={onClickImageUpload}> 
