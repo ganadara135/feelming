@@ -19,8 +19,8 @@ const Keyword = ({ tag, searchCondition }) => {
 
     // console.log("myKeyword  : ", myKeyword)
     // console.log("myKeywordSecond  : ", myKeywordSecond)
-    // console.log("mainPosts : ", mainPosts);
-    // console.log("fixedMainPosts : ", fixedMainPosts)
+    console.log("mainPosts : ", mainPosts);
+    console.log("fixedMainPosts : ", fixedMainPosts)
 
     const onScroll = useCallback( () => {
         if (window.scrollY + document.documentElement.clientHeight 
@@ -218,7 +218,7 @@ const Keyword = ({ tag, searchCondition }) => {
                         </Card>
                     </Col>
                     <Col span={8} >
-                        <Card > 
+                        <Card> 
                             <Card.Meta 
                                 description={"dataType : " + c.UserAssets[0].dataType + " / " + 
                                             " 관련키워드: " + c.KeywordTags.map(v => v.keyword + ", ")

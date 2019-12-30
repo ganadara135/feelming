@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {checkImageFileType, checkPDFFileType, checkVideoAudioFileType } from '../config/utils';
 import ReactPlayer from 'react-player';
-import { Document, Page, pdfjs } from 'react-pdf';
+//import { Document, Page, pdfjs } from 'react-pdf';
+import { Document, Page } from 'react-pdf';
 //pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 //pdfjs.GlobalWorkerOptions.workerSrc = require('react-pdf/dist/pdf.worker.entry')
 
@@ -44,9 +45,9 @@ class RenderMultiMediaClass  extends React.Component { // }= ( {fileInfo}) => {
         };
     }
 
-    componentWillUnmount(){     // cleanUp() 부분  for blocking memory leak
-        this.props.fileInfo = null;
-    }
+    // componentWillUnmount(){     // cleanUp() 부분  for blocking memory leak
+    //     this.props.fileInfo = null;
+    // }
 
     render () {
         const { fileInfo, heightOfdisplay }= this.props;

@@ -12,11 +12,12 @@ import moment from 'moment';
 
 //const LazyFileViewer = lazy(() => import('../components/LazyFileViewer')  )         
 import ReactPlayer from 'react-player';
-import { Document, Page, pdfjs } from 'react-pdf';
+import { Document, Page } from 'react-pdf';
+//import { Document, Page, pdfjs } from 'react-pdf';
 //pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 //pdfjs.GlobalWorkerOptions.workerSrc = require('react-pdf/dist/pdf.worker.entry')
-console.log("pdfjs.GlobalWorkerOptions : ",pdfjs.GlobalWorkerOptions)
+//console.log("pdfjs.GlobalWorkerOptions : ",pdfjs.GlobalWorkerOptions)
 //console.log("pdfjs.GlobalWorkerOptions.workerSrc : ",pdfjs.GlobalWorkerOptions.workerSrc)
 
 
@@ -237,7 +238,7 @@ const PostCard = ({ post }) => {
                 : (checkPDFFileType(post.UserAssets[0].fileType)
                 ?     
                 <div> 
-                    {/* <Document
+                    <Document
                         // crossOrigin='anonymous'  this is for CORS,
                         file={post.UserAssets[0].src}
                         onLoadSuccess={onPDFDocumentLoadSuccess}
@@ -250,7 +251,7 @@ const PostCard = ({ post }) => {
                     </Document>
 
                     <Button type="default" disabled={pdfPageNumber <= 1} onClick={previousPage} >Previous</Button>
-                    <Button type="default" disabled={pdfPageNumber >= pdfTotalPages} onClick={nextPage} >Next</Button> */}
+                    <Button type="default" disabled={pdfPageNumber >= pdfTotalPages} onClick={nextPage} >Next</Button>
 
                     <span >{" \t   "} Page {pdfPageNumber} of {pdfTotalPages} </span>
         

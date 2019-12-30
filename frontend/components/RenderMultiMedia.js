@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import {checkImageFileType, checkPDFFileType, checkVideoAudioFileType } from '../config/utils';
 import ReactPlayer from 'react-player';
 
-import { Document, Page, pdfjs } from 'react-pdf';
+//import { Document, Page, pdfjs } from 'react-pdf';
+import { Document, Page } from 'react-pdf';
 //pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 //pdfjs.GlobalWorkerOptions.workerSrc = require('react-pdf/dist/pdf.worker.entry')
 
@@ -30,9 +31,9 @@ const RenderMultiMedia = ( {fileInfo, heightOfdisplay}) => {
                 height: targetRef.current.offsetWidth
             });
         }
-        return () => {          // cleanUp() 부분  for blocking memory leak
-            fileInfo = null;
-        };
+        // return () => {          // cleanUp() 부분  for blocking memory leak
+        //     fileInfo = null;
+        // };
     },[]);
    // },[fileInfo.id]);
 
