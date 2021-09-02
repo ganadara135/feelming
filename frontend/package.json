@@ -45,7 +45,7 @@
     "express-session": "^1.16.2",
     "fetch": "^1.1.0",
     "file-type": "^12.3.1",
-    "immer": "^4.0.0",
+    "immer": "^9.0.6",
     "moment": "^2.24.0",
     "morgan": "^1.9.1",
     "next": "^9.1.1",
